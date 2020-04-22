@@ -1,0 +1,94 @@
+PROCESS INFORMATION:
+
+ttbar_onshell_nomerging -
+real	0m53.077s
+user	1m49.487s
+sys	0m8.472s
+Effective Luminosity 234.883761898 pb^-1 
+Cross-section :   51.09 +- 0.1578 pb
+Nb of events :  10000
+
+
+ttbar_onshell_NLO -
+real	3m41.027s
+user	5m39.618s
+sys	0m25.293s
+Number of events generated: 10000
+Total cross section: 6.795e+02 +- 4.2e+00 pb
+
+
+W_multijets -
+# For this one, you set the decay product to W, but I got an error in MadGraph so I set it to W+. Although it shouldn't make a difference whether it's +/-.
+real	1m4.011s
+user	2m31.371s
+sys	0m14.129s
+Effective Luminosity 0.118195861677 pb^-1 
+Cross-section :   1.015e+05 +- 102.8 pb
+Nb of events :  10000
+
+
+WmZ_NLO -
+real	2m56.422s
+user	4m15.820s
+sys	0m19.251s
+Number of events generated: 10000
+Total cross section: 1.730e+01 +- 5.6e-02 pb
+
+
+WmZj -
+real	1m10.692s
+user	2m34.989s
+sys	0m9.360s
+Effective Luminosity 753.584802907 pb^-1 
+Cross-section :   15.92 +- 0.04435 pb
+Nb of events :  10000
+
+
+WpZ_NLO -
+real	3m2.199s
+user	4m36.869s
+sys	0m19.974s
+Number of events generated: 10000
+Total cross section: 2.720e+01 +- 9.3e-02 pb
+
+
+WpZj -
+real	1m10.980s
+user	2m54.885s
+sys	0m10.221s
+Effective Luminosity 456.765612249 pb^-1
+Cross-section :   26.27 +- 0.05938 pb
+Nb of events :  10000
+
+
+Z_simplejetmerging -
+real	1m23.092s
+user	3m12.965s
+sys	0m16.947s
+Effective Luminosity 0.226491235864 pb^-1
+Cross-section :   5.298e+04 +- 53.23 pb
+sNb of events :  10000
+
+Zjets_invisible -
+real	1m26.210s
+user	3m21.659s
+sys	0m16.534s
+Effective Luminosity 1.13524830328 pb^-1 
+Cross-section :   1.057e+04 +- 17.01 pb
+Nb of events :  10000
+
+
+ZZ_NLO -
+real	3m27.405s
+user	6m47.834s
+sys	0m27.019s
+Number of events generated: 10000
+Total cross section: 1.359e+01 +- 4.7e-02 pb
+
+ZZjets -
+real	1m2.725s
+user	2m12.709s
+sys	0m8.286s
+Effective Luminosity 908.754256946 pb^-1 
+Cross-section :   13.2 +- 0.03977 pb
+Nb of events :  10000

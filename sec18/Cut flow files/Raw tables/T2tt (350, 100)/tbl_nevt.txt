@@ -1,0 +1,2 @@
+                                component    nevt nevt_sumw
+ SMS-T2tt_mStop-300to375_mLSP-1to300_25ns 8315910   8315910

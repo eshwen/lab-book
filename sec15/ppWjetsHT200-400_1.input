@@ -1,0 +1,21 @@
+import model sm
+
+# Define multiparticle labels
+define p = g u c d s u~ c~ d~ s~
+define j = g u c d s u~ c~ d~ s~
+define l+ = e+ mu+
+define l- = e- mu-
+define vl = ve vm vt
+define vl~ = ve~ vm~ vt~
+
+# Specify process(es) to run
+generate p p > W+ j
+
+# Output processes to MadEvent directory
+output ppWjetsHT200-400_1
+launch
+pythia=ON
+pgs=OFF
+set htjmin 200
+set htjmax 400
+set nevents 50000

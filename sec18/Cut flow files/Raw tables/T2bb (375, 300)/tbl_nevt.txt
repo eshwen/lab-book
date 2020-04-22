@@ -1,0 +1,2 @@
+                              component    nevt nevt_sumw
+ SMS-T2bb_mSbottom-300to400_0to375_25ns 8951192   8951192

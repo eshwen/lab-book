@@ -1,0 +1,2 @@
+                             component                                                                                                                                               dataset
+ SMS-T2qq_mSq600to900_mLSP-0to850_25ns /SMS-T2qq_mSq600to900_mLSP-0to850_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-FastAsympt25ns_74X_mcRun2_asymptotic_v2-v1/MINIAODSIM

@@ -1,0 +1,2 @@
+                                    component                                                                                                                          dataset
+ SMS-T1tttt_mGluino-800to825_mLSP-1to575_25ns /SMS-T1tttt_mGluino-800to825_mLSP-1to575_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15FSPremix-MCRUN2_74_V9-v1/MINIAODSIM

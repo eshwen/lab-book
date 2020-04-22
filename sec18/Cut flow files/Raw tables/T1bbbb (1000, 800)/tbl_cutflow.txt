@@ -1,0 +1,54 @@
+                                          component depth                  class                                   name    pass   total
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     1 EventSelectionAllCount                                    All     374 1852400
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     2              LambdaStr    "ev : ev.GenSusyMGluino[0] == 1000" 1709304 1852400
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     2              LambdaStr "ev : ev.GenSusyMNeutralino[0] == 800"  142253 1709304
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     2 EventSelectionAllCount                                    All     374  142253
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     3 EventSelectionAllCount                                    All  138898  142253
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     4              LambdaStr       "ev : ev.nElectronsVeto[0] == 0"  141266  142253
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     4              LambdaStr           "ev : ev.nMuonsVeto[0] == 0"  138898  141266
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     3              LambdaStr       "ev : ev.nIsoTracksVeto[0] <= 0"  129576  138898
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     3              LambdaStr         "ev : ev.nPhotonsVeto[0] == 0"  128863  129576
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     3              LambdaStr            "ev : ev.nJet40Fwd[0] == 0"  112429  128863
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     3              LambdaStr               "ev : ev.nJet40[0] >= 2"  110666  112429
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     3              LambdaStr              "ev : ev.jet_pt[0] > 100"   97982  110666
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     3              LambdaStr      "ev : -2.5 < ev.jet_eta[0] < 2.5"   96486   97982
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     3              LambdaStr                "ev : ev.ht40[0] > 200"   94338   96486
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     3              LambdaStr            "ev : ev.mht40_pt[0] > 130"   68600   94338
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     3              LambdaStr         "ev : ev.MhtOverMet[0] < 1.25"   61109   68600
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     3 EventSelectionAnyCount                                    Any   40693   61109
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     4 EventSelectionAllCount                                    All    1556   61109
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr                              htbin_200    2812   61109
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr                                 alphaT    1556    2812
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     4 EventSelectionAllCount                                    All    2462   59553
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr                              htbin_250    4980   59553
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr                                 alphaT    2462    4980
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     4 EventSelectionAllCount                                    All    3574   57091
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr                              htbin_300    6146   57091
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr                                 alphaT    3574    6146
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     4 EventSelectionAllCount                                    All    3836   53517
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr                              htbin_350    6059   53517
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr                                 alphaT    3836    6059
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     4 EventSelectionAllCount                                    All   11005   49681
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr                              htbin_400   18154   49681
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr                                 alphaT   11005   18154
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     4 EventSelectionAllCount                                    All    5402   38676
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr                              htbin_600   10100   38676
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr                                 alphaT    5402   10100
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     4 EventSelectionAllCount                                    All   12858   33274
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr                              htbin_800   12858   33274
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     3              LambdaStr          "ev : ev.biasedDPhi[0] > 0.5"   24649   40693
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     3 EventSelectionAnyCount                                    Any   16394   24649
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     4 EventSelectionAllCount                                    All    7280   24649
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr              "ev : ev.nJet100[0] >= 2"   15816   24649
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr               "ev : ev.nJet40[0] >= 5"    7280   15816
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     4 EventSelectionAllCount                                    All    4443   17369
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr              "ev : ev.nJet100[0] >= 2"    8536   17369
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr               "ev : ev.nJet40[0] == 4"    4443    8536
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     4 EventSelectionAllCount                                    All    2029   12926
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr              "ev : ev.nJet100[0] == 1"    8833   12926
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr               "ev : ev.nJet40[0] >= 5"    2029    8833
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     4 EventSelectionAllCount                                    All    2642   10897
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr              "ev : ev.nJet100[0] == 1"    6804   10897
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     5              LambdaStr               "ev : ev.nJet40[0] == 4"    2642    6804
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     3              LambdaStr                "ev : ev.ht40[0] > 800"    3330   16394
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns     3              LambdaStr            "ev : ev.mht40_pt[0] > 800"     374    3330

@@ -1,0 +1,42 @@
+                            component depth                  class                                                    name          pass         total
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     1 EventSelectionAllCount                                                     All             0 9997.50417176
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     2 EventSelectionAllCount                                                     All 9955.00733563 9997.50417176
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     3              LambdaStr                        "ev : ev.nElectronsVeto[0] == 0" 9988.26829067 9997.50417176
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     3              LambdaStr                            "ev : ev.nMuonsVeto[0] == 0" 9955.00733563 9988.26829067
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     2              LambdaStr                        "ev : ev.nIsoTracksVeto[0] <= 0" 9665.59283108 9955.00733563
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     2              LambdaStr                          "ev : ev.nPhotonsVeto[0] == 0" 9614.19486511 9665.59283108
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     2              LambdaStr                              "ev : ev.jetNewID[0] != 0" 9597.66000095 9614.19486511
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     2              LambdaStr                                "ev : ev.nJet40[0] >= 2" 9520.96316931 9597.66000095
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     2              LambdaStr                     "ev : 0.1 < ev.jet_chHEF[0] < 0.95" 9079.11834577 9520.96316931
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     2              LambdaStr                               "ev : ev.jet_pt[0] > 100" 9077.26276264 9079.11834577
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     2              LambdaStr                                 "ev : ev.ht40[0] > 200" 9073.91033599 9077.26276264
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     2              LambdaStr                             "ev : ev.mht40_pt[0] > 200" 8204.43237764 9073.91033599
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     2              LambdaStr                             "ev : ev.nJet40Fwd[0] == 0" 7023.14527109 8204.43237764
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     2              LambdaStr                          "ev : ev.MhtOverMet[0] < 1.25" 6950.17612001 7023.14527109
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     2 EventSelectionAnyCount                                                     Any 6164.77031359 6950.17612001
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     3 EventSelectionAllCount                                                     All 1.44409430027 6950.17612001
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     4              LambdaStr                                               htbin_200 1.44409430027 6950.17612001
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     4              LambdaStr                                                  alphaT 1.44409430027 1.44409430027
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     3 EventSelectionAllCount                                                     All 2.17654174566 6948.73202571
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     4              LambdaStr                                               htbin_250 3.35598951578 6948.73202571
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     4              LambdaStr                                                  alphaT 2.17654174566 3.35598951578
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     3 EventSelectionAllCount                                                     All  11.019118309 6946.55548397
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     4              LambdaStr                                               htbin_300 18.1500763297 6946.55548397
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     4              LambdaStr                                                  alphaT  11.019118309 18.1500763297
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     3 EventSelectionAllCount                                                     All 15.3130149245 6935.53636566
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     4              LambdaStr                                               htbin_350 26.4898663163 6935.53636566
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     4              LambdaStr                                                  alphaT 15.3130149245 26.4898663163
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     3 EventSelectionAllCount                                                     All 288.504097521 6920.22335073
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     4              LambdaStr                                               htbin_400 427.540051997 6920.22335073
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     4              LambdaStr                                                  alphaT 288.504097521 427.540051997
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     3 EventSelectionAllCount                                                     All 1116.94204044 6631.71925321
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     4              LambdaStr                                               htbin_600 1743.82463521 6631.71925321
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     4              LambdaStr                                                  alphaT 1116.94204044 1743.82463521
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     3 EventSelectionAllCount                                                     All 4729.37140635 5514.77721277
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     4              LambdaStr                                               htbin_900 4729.37140635 5514.77721277
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     2              LambdaStr                           "ev : ev.biasedDPhi[0] > 0.5" 3978.14948046 6164.77031359
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     2 EventSelectionAnyCount                                                     Any             0 3978.14948046
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     3              LambdaStr                           "ev : ev.HLT_PFHT800[0] == 1"             0 3978.14948046
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     3              LambdaStr                           "ev : ev.HLT_PFHT900[0] == 1"             0 3978.14948046
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     3              LambdaStr   "ev : ev.HLT_PFMETNoMu90_PFMHTNoMu90_IDTight[0] == 1"             0 3978.14948046
+ SMS-T2bb_mSbottom-1000_mLSP-100_25ns     3              LambdaStr "ev : ev.HLT_PFMETNoMu120_PFMHTNoMu120_IDTight[0] == 1"             0 3978.14948046

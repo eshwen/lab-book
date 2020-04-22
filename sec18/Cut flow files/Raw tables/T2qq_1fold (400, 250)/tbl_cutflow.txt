@@ -1,0 +1,54 @@
+                             component depth                  class                                   name    pass   total
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     1 EventSelectionAllCount                                    All       5 2935640
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     2              LambdaStr     "ev : ev.GenSusyMSquark[0] == 400" 2795870 2935640
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     2              LambdaStr "ev : ev.GenSusyMNeutralino[0] == 250"   26535 2795870
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     2 EventSelectionAllCount                                    All       5   26535
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     3 EventSelectionAllCount                                    All   26467   26535
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     4              LambdaStr       "ev : ev.nElectronsVeto[0] == 0"   26483   26535
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     4              LambdaStr           "ev : ev.nMuonsVeto[0] == 0"   26467   26483
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     3              LambdaStr       "ev : ev.nIsoTracksVeto[0] <= 0"   25245   26467
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     3              LambdaStr         "ev : ev.nPhotonsVeto[0] == 0"   25117   25245
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     3              LambdaStr            "ev : ev.nJet40Fwd[0] == 0"   21332   25117
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     3              LambdaStr               "ev : ev.nJet40[0] >= 2"   19819   21332
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     3              LambdaStr              "ev : ev.jet_pt[0] > 100"   17538   19819
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     3              LambdaStr      "ev : -2.5 < ev.jet_eta[0] < 2.5"   17170   17538
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     3              LambdaStr                "ev : ev.ht40[0] > 200"   16007   17170
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     3              LambdaStr            "ev : ev.mht40_pt[0] > 130"   10685   16007
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     3              LambdaStr         "ev : ev.MhtOverMet[0] < 1.25"    8741   10685
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     3 EventSelectionAnyCount                                    Any    4563    8741
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     4 EventSelectionAllCount                                    All     696    8741
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr                              htbin_200    1162    8741
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr                                 alphaT     696    1162
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     4 EventSelectionAllCount                                    All     602    8045
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr                              htbin_250    1289    8045
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr                                 alphaT     602    1289
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     4 EventSelectionAllCount                                    All     500    7443
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr                              htbin_300    1112    7443
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr                                 alphaT     500    1112
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     4 EventSelectionAllCount                                    All     492    6943
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr                              htbin_350    1014    6943
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr                                 alphaT     492    1014
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     4 EventSelectionAllCount                                    All    1046    6451
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr                              htbin_400    2288    6451
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr                                 alphaT    1046    2288
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     4 EventSelectionAllCount                                    All     357    5405
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr                              htbin_600    1006    5405
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr                                 alphaT     357    1006
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     4 EventSelectionAllCount                                    All     870    5048
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr                              htbin_800     870    5048
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     3              LambdaStr          "ev : ev.biasedDPhi[0] > 0.5"    3474    4563
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     3 EventSelectionAnyCount                                    Any    1608    3474
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     4 EventSelectionAllCount                                    All     382    3474
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr              "ev : ev.nJet100[0] >= 2"    2012    3474
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr               "ev : ev.nJet40[0] >= 5"     382    2012
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     4 EventSelectionAllCount                                    All     499    3092
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr              "ev : ev.nJet100[0] >= 2"    1630    3092
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr               "ev : ev.nJet40[0] == 4"     499    1630
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     4 EventSelectionAllCount                                    All      91    2593
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr              "ev : ev.nJet100[0] == 1"    1462    2593
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr               "ev : ev.nJet40[0] >= 5"      91    1462
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     4 EventSelectionAllCount                                    All     636    2502
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr              "ev : ev.nJet100[0] >= 2"    1131    2502
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     5              LambdaStr               "ev : ev.nJet40[0] == 3"     636    1131
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     3              LambdaStr                "ev : ev.ht40[0] > 800"     210    1608
+ SMS-T2qq_mSq300to400_mLSP-0to350_25ns     3              LambdaStr            "ev : ev.mht40_pt[0] > 800"       5     210

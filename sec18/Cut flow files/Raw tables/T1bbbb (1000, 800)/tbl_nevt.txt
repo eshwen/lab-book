@@ -1,0 +1,2 @@
+                                          component    nevt nevt_sumw
+ SMS-T1bbbb_mGluino-1000-1025_mLSP-1to975-1000_25ns 1852400   1852400

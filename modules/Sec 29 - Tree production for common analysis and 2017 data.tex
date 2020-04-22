@@ -1,0 +1,43 @@
+\newpage
+\section{Tree production for common analysis and 2017 data (19/09/2017)}
+
+In recent months, we have decided to start implementing a "common analysis" with the VBF (and possibly Top) group in CMS. The first step is to produce common flat trees that includes all the information each group needs. This will save processing time (as only one set of trees needs to be made to satisfy all the groups) and storage space. Currently, we are still using Heppy and CMGTools with the RA1 workflow, but accommodating for the selections, variables and triggers, etc. that VBF requires. There has been some debate on the triggers and selections (and their thresholds) because there's a trade-off between inclusivity and size of the trees. If we make minimal selections, there's more potential for different studies and analyses but the trees will be larger. Our code in cmgtools-lite-private also had to be re-based to work with CMSSW\_92X to process 2017 data, which Shane has done (albeit with a few bugs).
+
+We will be using a common development branch (VBF\_test) to test everything. My first job is to modify the "hadd" functionality in Heppy (\textbf{heppy\_hadd.py}). Once the trees have been produced with a batch system, rather than just hadding the trees like we normally do and using up more storage, we should make a root file that consists of TChains that point to the batch output files with xrootd. This way, the output trees only need to be stored at one site, and everyone else can access and analyse them remotely with xrootd. In the near future, we're planning to use CRAB for job submission rather than the batch systems at Bristol or Imperial. This has several benefits. But when the time comes, the hadding functionality will need to be modified further as we need to access other non-ROOT files.
+
+First off, I need to source CMSSW, CMGTools and Heppy releases that are up to date. At, e.g., Imperial, I should initialise my grid certificate, then follow the instructions at \url{https://github.com/CMSRA1/RA1OPS/wiki/2a.-UK-Common-Analysis-Flat-Tree-Production-(92X)-[WIP]}. The main take away is that I need CMSSW\_9\_2\_4, to check out the branch "heppy\_92X\_ra1-0.8.x" in \textbf{src/} and to check out "VBF\_test" after cloning the new CMGTools repo. The full list of commands are
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh]
+cd ~/CMScmg_imperial
+cmsrel CMSSW_9_2_4
+cd CMSSW_9_2_4/src
+cmsenv
+export CMSSW_GIT_REFERENCE=/vols/cms/RA1/cmg-cmssw-bare
+git cms-init
+git remote add ra1-private git@github.com:CMSRA1/cmg-cmssw-private.git
+git fetch ra1-private
+cat >> .git/info/sparse-checkout <<EOF
+.gitignore
+PhysicsTools/Heppy
+PhysicsTools/HeppyCore
+EgammaAnalysis/ElectronTools
+RecoEgamma/ElectronIdentification
+RecoEgamma/PhotonIdentification
+EOF
+git config core.sparsecheckout true
+git checkout heppy_92X_ra1-0.8.x
+echo CMGTools/ >> .git/info/exclude
+git clone https://github.com/professor-calculus/cmgtools-lite-private.git CMGTools
+cd CMGTools
+ls
+git checkout VBF_test
+git submodule init
+git submodule update
+\end{lstlisting}
+
+I could then look at \textbf{heppy\_hadd.py} in \textbf{PhysicsTools/HeppyCore/scripts/}. As this hadding stuff doesn't need to be updated to comply with 92X trees, I can test my changes on 80X trees rather than waste time making 92X trees to use for testing.
+
+\textbf{Update:} instead of \texttt{heppy\_hadd}, we're likely going to switch to using the nanoAOD data format and not use Heppy/CMGTools to make trees.
+
+
+\subsection{nanoAOD}

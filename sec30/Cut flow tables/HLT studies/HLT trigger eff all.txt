@@ -1,0 +1,19 @@
+Model (ctau-mGluino-mLSP) | HLT efficiency (%) | HLT efficiency after full cut flow (%)
+
+0p001-1800-200 unweighted : 99.98              : 100 (2360/2360)
+0p001-1800-200 weighted   : 99.98              : 100 
+
+0p001-1000-900 unweighted : 47.8               : 99.6 (783/786)
+0p001-1000-900 weighted   : 43.6               : 99.6
+
+1-1800-200 unweighted     : 99.99              : 100 (2480/2480)
+1-1800-200 weighted       : 99.99              : 100
+
+1-1000-900 unweighted     : 47.1               : 100 (867/867)
+1-1000-900 weighted       : 37.5               : 100
+
+100k-1000-200 unweighted  : 41.8               : 95.6 (1313/1373)
+100k-1000-200 weighted    : 37.8               : 95.3
+
+100k-1000-900 unweighted  : 38.6               : 99.8 (899/901)
+100k-1000-900 weighted    : 33.6               : 99.8

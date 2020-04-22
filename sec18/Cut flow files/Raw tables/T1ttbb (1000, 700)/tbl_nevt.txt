@@ -1,0 +1,2 @@
+                                   component    nevt nevt_sumw
+ SMS-T1ttbb_mGl-825to1000_mLSP-500to775_25ns 5638904   5638904

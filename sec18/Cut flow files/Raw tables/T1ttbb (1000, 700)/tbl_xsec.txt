@@ -1,0 +1,2 @@
+                                   component xsec
+ SMS-T1ttbb_mGl-825to1000_mLSP-500to775_25ns    1

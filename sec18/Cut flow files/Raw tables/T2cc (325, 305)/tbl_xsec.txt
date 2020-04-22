@@ -1,0 +1,2 @@
+                                  component xsec
+ SMS-T2cc_mStop-325to365_mLSP-245to365_25ns    1

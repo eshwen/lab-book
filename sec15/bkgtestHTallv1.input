@@ -1,0 +1,52 @@
+set main.fastsim.package = delphes
+set main.fastsim.detector = atlas
+# luminosity in fb^-1
+set main.lumi = 12.9
+# set variable to normalize plots by
+set main.normalize = lumi
+
+# import the signal/background files
+import ./Input/ppWjetsHT0-200* as ppWjetsHT0-200
+import ./Input/ppWjetsHT200-400* as ppWjetsHT200-400
+import ./Input/ppWjetsHT400-600* as ppWjetsHT400-600
+import ./Input/ppWjetsHT600-800* as ppWjetsHT600-800
+import ./Input/ppWjetsHT800* as ppWjetsHT800
+
+import ./Input/ppZjetsHT0-200* as ppZjetsHT0-200
+import ./Input/ppZjetsHT200-400* as ppZjetsHT200-400
+import ./Input/ppZjetsHT400-600* as ppZjetsHT400-600
+import ./Input/ppZjetsHT600-800* as ppZjetsHT600-800
+import ./Input/ppZjetsHT800* as ppZjetsHT800 
+
+# declare the imported files as signal/background
+set ppWjetsHT0-200.type = background
+set ppWjetsHT200-400.type = background
+set ppWjetsHT400-600.type = background
+set ppWjetsHT600-800.type = background
+set ppWjetsHT800.type = background
+
+set ppZjetsHT0-200.type = background
+set ppZjetsHT200-400.type = background
+set ppZjetsHT400-600.type = background
+set ppZjetsHT600-800.type = background
+set ppZjetsHT800.type = background
+
+define l = l+ l- #e mu mu_isol
+
+# plot observables before any cuts
+plot MET 30 200 1500 [logY]
+plot THT 30 200 1500 [logY]
+
+# apply cuts
+reject PT(j) < 100
+#reject MET < 200
+reject ETA(j) > 2.5
+reject PT(l) > 0
+reject PT(b) > 0
+
+# plot after cuts
+plot MET 30 200 1500 [logY]
+plot THT 30 200 1500 [logY]
+
+# Output folder
+submit bkgtestHTall

@@ -1,0 +1,42 @@
+                          component depth                  class                                                    name          pass         total
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     1 EventSelectionAllCount                                                     All             0 242541.080896
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     2 EventSelectionAllCount                                                     All 242204.267358 242541.080896
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     3              LambdaStr                        "ev : ev.nElectronsVeto[0] == 0" 242364.385773 242541.080896
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     3              LambdaStr                            "ev : ev.nMuonsVeto[0] == 0" 242204.267358 242364.385773
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     2              LambdaStr                        "ev : ev.nIsoTracksVeto[0] <= 0" 232295.866194 242204.267358
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     2              LambdaStr                          "ev : ev.nPhotonsVeto[0] == 0" 231563.768098 232295.866194
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     2              LambdaStr                              "ev : ev.jetNewID[0] != 0" 231292.454277 231563.768098
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     2              LambdaStr                                "ev : ev.nJet40[0] >= 2" 194078.026716 231292.454277
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     2              LambdaStr                     "ev : 0.1 < ev.jet_chHEF[0] < 0.95"  182338.55309 194078.026716
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     2              LambdaStr                               "ev : ev.jet_pt[0] > 100" 123626.243339  182338.55309
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     2              LambdaStr                                 "ev : ev.ht40[0] > 200" 104722.327771 123626.243339
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     2              LambdaStr                             "ev : ev.mht40_pt[0] > 200" 33374.3757476 104722.327771
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     2              LambdaStr                             "ev : ev.nJet40Fwd[0] == 0" 28654.3768471 33374.3757476
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     2              LambdaStr                          "ev : ev.MhtOverMet[0] < 1.25" 27011.4798107 28654.3768471
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     2 EventSelectionAnyCount                                                     Any 16734.1548882 27011.4798107
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     3 EventSelectionAllCount                                                     All 1106.30553564 27011.4798107
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     4              LambdaStr                                               htbin_200  1299.8250463 27011.4798107
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     4              LambdaStr                                                  alphaT 1106.30553564  1299.8250463
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     3 EventSelectionAllCount                                                     All 1585.93358657  25905.174275
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     4              LambdaStr                                               htbin_250 2244.32571188  25905.174275
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     4              LambdaStr                                                  alphaT 1585.93358657 2244.32571188
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     3 EventSelectionAllCount                                                     All 1751.08161792 24319.2406885
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     4              LambdaStr                                               htbin_300  2666.4515267 24319.2406885
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     4              LambdaStr                                                  alphaT 1751.08161792  2666.4515267
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     3 EventSelectionAllCount                                                     All 1805.66501197 22568.1590706
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     4              LambdaStr                                               htbin_350  2763.3194094 22568.1590706
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     4              LambdaStr                                                  alphaT 1805.66501197  2763.3194094
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     3 EventSelectionAllCount                                                     All 4961.75297117 20762.4940586
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     4              LambdaStr                                               htbin_400 8968.41046473 20762.4940586
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     4              LambdaStr                                                  alphaT 4961.75297117 8968.41046473
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     3 EventSelectionAllCount                                                     All 2683.56801315 15800.7410874
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     4              LambdaStr                                               htbin_600 6229.29949985 15800.7410874
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     4              LambdaStr                                                  alphaT 2683.56801315 6229.29949985
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     3 EventSelectionAllCount                                                     All 2839.84815182 13117.1730743
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     4              LambdaStr                                               htbin_900 2839.84815182 13117.1730743
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     2              LambdaStr                           "ev : ev.biasedDPhi[0] > 0.5"  11813.329684 16734.1548882
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     2 EventSelectionAnyCount                                                     Any             0  11813.329684
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     3              LambdaStr                           "ev : ev.HLT_PFHT800[0] == 1"             0  11813.329684
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     3              LambdaStr                           "ev : ev.HLT_PFHT900[0] == 1"             0  11813.329684
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     3              LambdaStr   "ev : ev.HLT_PFMETNoMu90_PFMHTNoMu90_IDTight[0] == 1"             0  11813.329684
+ SMS-T2qq_mSquark-400_mLSP-300_25ns     3              LambdaStr "ev : ev.HLT_PFMETNoMu120_PFMHTNoMu120_IDTight[0] == 1"             0  11813.329684

@@ -1,0 +1,2 @@
+                               component    nevt nevt_sumw
+ SMS-T2qq_mSq950to1250_mLSP-0to1050_25ns 7121978   7121978

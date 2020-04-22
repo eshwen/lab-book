@@ -1,0 +1,40 @@
+\newpage
+\section{Using SSHFS to mount remote servers (01/03/2017)}
+
+SSHFS (SSH File System) is a client that allows you to mount folders from remote servers onto a computer as if they were a disk. This allows you to edit your files located on the sever using software on your computer. So I can use Visual Studio Code instead of emacs, and other GUI programs. It's immensely helpful and makes everything about working on a remote server much easier, and it also isn't too hard to set up. I can mount specific folders or directories, make changes, and it is instantly synced to the server (because mounting the directory only links you to it, it isn't copied over and then synced when changes are made like with iCloud Drive). So to use SSHFS, I need to open my terminal and install the following packages with Homebrew:
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+brew install automake
+brew install libtool
+brew install autoconf
+brew install pkg-config
+brew install glib
+brew install Caskroom/cask/osxfuse
+# restart computer, then log back into terminal
+brew tap homebrew/homebrew-fuse
+brew install sshfs
+\end{lstlisting}
+
+Then, locally, I should make the directory \textbf{$\sim$/sshfs/soolin} (because at the moment I'll just be using SSHFS with Soolin). As normal, I would have to either be on the university's network or connected via a VPN to access Soolin. To connect to and mount the directory that's located on the remote server, type
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+sshfs <username>@<hostname>:<remote path> <local path to mount point> -o reconnect,allow_recursion,local,allow_other,follow_symlinks,volname=<local volume name>
+\end{lstlisting}
+
+A shortcut to the mount will also be displayed on my Desktop like when normal drives are connected. As an example, If I want to mount my \textbf{/storage/eb16003/} directory, I can type
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+sshfs soolin:/storage/eb16003/ ~/sshfs/soolin/ -o reconnect,allow_recursion,local,allow_other,follow_symlinks,volname=storage.eb16003
+\end{lstlisting}
+
+I can use the alias I have for the host, as shown above. So I can type \texttt{sshfs soolin} rather than \texttt{sshfs eb16003@soolin.dice.priv}. Using the alias also allows me to circumvent the password prompt. In some cases when trying to mount or unmount, the \emph{absolute} local path is needed. If I get weird errors, try using it.
+
+When I want to unmount the directory, type
+
+\texttt{umount -f <local path to mount point>}
+
+So in the example above, I would type \texttt{umount -f $\sim$/sshfs/soolin} to unmount my \textbf{/storage/eb16003/} directory. I've included the mounting and unmounting commands in shell scripts (\textbf{soolin\_mount.sh} and \textbf{soolin\_unmount.sh}, respectively) located in \textbf{$\sim$/.sshfs/}, so \underline{I can just source them to mount and unmount directories}. And I would only need to edit the remote path in \textbf{soolin\_mount.sh} if I wanted to mount a different directory.
+
+I will likely only need to edit files located on \textbf{/storage} or \textbf{/users}. But if I'm jumping back and forth to different directories on Soolin, it would be simpler to just use the terminal like normal. I could have the file system mounted to edit files, and also have the terminal open to navigate between the directories that aren't mounted.
+
+I've also added scripts to mount and unmount my home directory on Imperial's remote server, as well as CERN's lxplus. These are in the same folder as the Soolin scripts, are named \textbf{imperial\_mount.sh} and \textbf{imperial\_unmount.sh} for Imperial, and \textbf{lxplus\_mount.sh} and \textbf{lxplus\_unmount.sh} for lxplus.

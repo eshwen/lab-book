@@ -1,0 +1,263 @@
+\section{Introduction}
+\label{sec:introduction}
+
+This is an electronic copy of my lab book that I will use for the duration of my PhD. It contains all notes, information and ideas pertaining to my PhD. Although it was originally designed to be both as a backup in case something happens to my physical lab book, and as a searchable document if I want to find a reference, etc., quickly, it has become my primary lab book because it is much easier to edit, include figures/files, and is easily accessible (as long as I can access my iCloud Drive). I start each new topic as a separate section, on a new page, and keep the document as closely-resembling as possible to my physical lab book (up to the point that I decided that this electronic version would be my primary lab book). The date, next to the title of each topic, is the date I \emph{started} writing that section in my lab book. Any subsections which contain a date stamp in the title indicate that it was written well after the previous entries, but made sense to include it in that section. Most plots will probably be produced using ROOT, but for figures in presentations and publishable material (including my thesis) I may use some external software such as GraphPad Prism (as for my masters project) or Veusz.
+
+\subsection{Semantics and clarifications}
+
+To reference High Energy Physics (HEP) programs, I will use the \verb!\textsc{}! command to display it in the "small caps" style, whereas normal GUI programs will be represented with the normal font. In-line code and commands with the Command Line Interface (CLI) will use the \verb!\verb! command enclosed by the "!" symbol, so they are displayed in the "typewriter" font. If the command is too long for one line and runs into the margin of the page, use the \verb!\texttt{}! command instead or enclose the code in an "lstlisting". If done within an "easylist", the command will be broken over two lines and leave less vertical space compared to the spacing between each entry in the list. This way I can tell if the command is supposed to be entered as a single line or whether they are multiple commands. If the same applies for a URL, use \verb!\sloppy\url{}!. To enclose something in quotes, I will just use " for both opening and closing quotations. To add an underscore in text, use \verb!\_!, which is an alias I've created for the command \verb!\texttt{\char`_}!. When including more than one command in a row, I combine them into an easylist or lstlisting rather than writing one command and then leaving a big line break between the next command. Combining them into a list tightens it up and distinguishes it. If I make my own command using \verb!\newcommand!, when using it in text I must include a "\textbackslash" afterward to force a space. For example, I have the command \verb!\newcommand{\madgraph}{\textsc{MadGraph}}!. So I must write \verb!\madgraph\! in the text to force a space. I've created aliases for other commands and variables to make the typing more efficient. Some paragraphs are enclosed in a red-coloured box. These are potentially important things that apply to areas wider than the scope of the section/subsection it is written in. Another thing to note is the use of special characters of variables in section/subsection titles. These display correctly in the pdf, but in the bookmarks (list of contents when viewing in Adobe Reader, etc.) can't render them properly. But I can use the \verb!\texorpdfstring{}{}! command to fix it. The first argument contains the special characters and the second is the plain text to display instead.
+
+When including code, I also include the name of the file (with the version number in brackets) within the caption so that it's already declared if I reference it within the text. These files are stored in \textbf{./secX/}, the \textbf{X} referring to the section number in the lab book. The source code files that are included are exactly the same as the versions used to run their respective tasks, the only exception being comments. In some of these files, I've changed multi-line comments (which would otherwise exceed the 80-character guideline) to single-lined so that, when printed in the PDF, it looks better. When I include file names or directories in text (excluding captions), I will usually write them in bold font so that they look distinguished. An extra distinguishing feature is the use of colour boxes in conjunction with mini-pages. I normally use them to highlight text that is applicable to more general cases than the section it is included in, so I can find it more easily later on. For some reason, that environment doesn't like the \verb!\verb! command, so I need to use \verb!\texttt{}! instead.
+
+For obvious reasons, I do not include work that I have crossed-out or erased in this electronic copy, but I will keep conceptual mistakes (e.g. if I refer to something that I later found to be incorrect) such that this work is representative of what I have done and reads as if I have been writing this as I progress with my PhD (which I shall, more-or-less, be doing). When referencing previous stuff in my physical lab book, I normally use "see page X". However, one page in my physical lab book wouldn't necessarily correspond to one page in this document, so, in this work, I'll give the appropriate object a label and then reference it with \verb!\ref{}!.
+
+Each section is given a number that matches its order in my lab book. Generally this would be sloppy practice but because this is an ongoing piece of work, I will not change the order of any of these sections because it wouldn't be representative of what a lab book is supposed to symbolise. Each of these sections is written in its own .tex file, with the file name including the section number as well as its title, and stored in \textbf{./modules/}. Then the path to each file is added to \textbf{labbook.tex} -- which also handles the typesetting, packages, title and contents pages, and references -- so it is included in the compilation. This way I can add and remove files during compilation for testing.
+
+\subsection{Terminal/bash shell commands}
+
+This list contains commands applicable to bash shells in UNIX systems. Unless stated otherwise, these commands are applicable to both macOS and Linux. This list will be updated regularly when I learn new terminal commands that I may otherwise forget.
+
+\begin{easylist}[itemize]
+\ListProperties(Style*=$\bullet$ , FinalMark={)}) % FinalMark indicates the end of the list properties and must always be used
+& \texttt{cd <path>} -- change directory relative to the current working directory. Can also use the absolute path.
+& \texttt{ls} -- list the files/folders in the current directory.
+& \texttt{pwd} -- print the working directory.
+& \texttt{./} -- point to the current directory.
+& \texttt{../} -- point to the directory above you.
+& $\sim$ -- point to the home directory.
+& \texttt{<common path>*} -- encompass objects that contain the path before the \verb!*! character (also known as the "wildcard" character).
+& \texttt{*<common ending>} -- encompass all objects that end with $<$common ending$>$.
+& Tab -- auto-complete until an ambiguity arises.
+& Tab $\rightarrow$ Tab -- displays contents of directory/path before the command.
+& \texttt{cp <file path> <destination path>} -- copy and paste a file. Use \verb!cp -r! (the \verb!-r! stands for "recursive") to copy folders.
+& \texttt{scp <local file path> <user>@<hostname>:<destination path>} -- copy and paste a file to a remote server. Use \verb!scp -r! to copy folders. Note that I must \emph{not} be logged in to the server to copy the file. I can also copy a file from a remote server to my local machine, and between two remote servers. 
+& \texttt{ssh <user>@<hostname>} -- to log in to a remote server. Note that I must be on the same network as the server, or be able to access it via a VPN.
+& \texttt{mv <file/folder path> <destination path/new name>} -- move a file/folder. It can also be used to rename a file/folder.
+& \texttt{rm <file path>} -- delete a file. Use \verb!rm -rf! to delete a folder.
+& \texttt{grep <expression> <file>} -- search a plain text (includes code) file for an expression. Stands for \emph{\textbf{g}lobally search a \textbf{re}gular expression and \textbf{p}rint}. Including \verb!-i! ignores case, and \verb!-r! searches recursively.
+& \texttt{wget <URL>} -- download a file from the Internet. Installed by default on Linux, can be used on macOS if Homebrew (and its \verb!wget! package) is installed.
+& \texttt{du -hs} -- check the disk usage of the current directory and list the components.
+& \texttt{find <directory> -name <file name>} -- find the path to a file. Searches recursively by default, usually easier to set \texttt{<directory>} to ".". The exact file name must be given, otherwise use the \texttt{*} character to fill in the blanks.
+& \texttt{<any command> --help} -- get information on the use of a specific command, as well as the arguments that can be included.
+& \texttt{\{<element1>,<element2>,<etc>\}} -- brace expansion. % FINISH
+& Ctrl+A -- go to the start of the current line.
+& Ctrl+K -- delete everything in the line after the cursor.
+& Ctrl+R -- reverse search for a command.
+& Ctrl+Z -- kill a currently-running process (if Ctrl+C doesn't work).
+& $\leftarrow/\rightarrow$-Ctrl -- move left/right quicker (hold the arrow key first to begin moving, then press Ctrl).
+& Ctrl+L -- clear window.
+& Ctrl-Tab or Cmd-Shift-\{ or Cmd-$<$tab no.$>$ -- switch between currently open tabs.
+& Cmd-\texttt{`} -- switch between currently open windows.
+& \texttt{say "<quote>"} -- voice output from the terminal.
+& \texttt{while true; do <command>; sleep <time interval>; done} -- run a command periodically (e.g, checking on jobs/tasks at regular intervals).
+& \texttt{\$(<command>)} -- output of command, i.e., command substitution. For example, I can set a variable to the output of a command.
+& \texttt{\$\{<variable>\}} -- use a variable in an expression (the braces are delimiters and only required when resolving ambiguities), i.e., variable substitution.
+\end{easylist}
+
+Emacs commands (for more, see reference card at \url{https://www.gnu.org/software/emacs/refcards/pdf/refcard.pdf}):
+
+\begin{easylist}[itemize]
+\ListProperties(Style*=$\bullet$ , FinalMark={)}) 
+& \texttt{emacs -nw <file>} -- disable the X11/awful GUI version of emacs when in an \texttt{ssh -X}/\texttt{-Y} session, and use the standard version.
+& Ctrl-X+Ctrl-C+Y -- save the file and exit.
+& Ctr-A -- go to the start of the current line.
+& Ctrl-E -- go the end of the current line.
+& Ctrl-K -- delete/cut everything in the line after the cursor.
+& Ctrl-Y -- paste (can be combined with Ctrl-K to cut and paste).
+& Ctrl-U 0 Ctrl-K -- delete/cut everything in the line \emph{before} the cursor.
+& Ctrl-S -- search in the file.
+& \texttt{if [[ ! -z "\$DISPLAY" ]]; then alias emacs="emacs -nw"; fi} -- add this to $\sim$/.bash\_profile or $\sim$/.bashrc to disable the GUI version of emacs by default for the session if using X11 forwarding. Replaces the \texttt{emacs} command with \texttt{emacs -nw}.
+\end{easylist}
+
+Screen commands (for attaching and detaching ssh sessions):
+
+\begin{easylist}[itemize]
+\ListProperties(Style*=$\bullet$ , FinalMark={)})
+& \texttt{screen} -- start a screen session. Can be done within an ssh session.
+& Ctrl-A+D -- "detach" a screen session. So if I'm running a process that could take a while but need to leave (which would otherwise disconnect me and quit the process), I can type that command.
+& \texttt{screen -r} -- "re-attach" a screen session. So if I disconnect from a screen session above, then want to reconnect to check how a process is doing, I can type that command.
+& \texttt{exit} or Ctrl-A+K or Ctrl-A $\rightarrow$ \texttt{:quit} -- quit a screen session.
+& Ctrl-A+[ -- enable scrolling.
+& Adding \texttt{hardstatus alwayslastline '\%{= 9g}[ \%{G}\%H \%{g}][\%= \%{= 9w}\%?\%-Lw\%?\%{=b 9R}(\%{W}\%n*\%f \%t\%?(\%u)\%?\%{=b 9R})\%{= 9w}\%?\%+Lw\%?\%?\%= \%{g}][\%{Y}\%l\%{g}]\%{=b C}[ \%d \%M \%c ]\%{W}'} to \textbf{$\sim$/.screenrc} lists extra stuff at the bottom of the window.
+\end{easylist}
+
+Note that when starting a \texttt{screen}, any environments that were set up (e.g., CMSSW) are not carried over, so they need to be re-initialised.
+
+Git commands:
+\begin{easylist}[itemize]
+\ListProperties(Style*=$\bullet$ , FinalMark={)})
+& \texttt{git remote add <remote name> <url>} -- add a remote with a link to the repository.
+& \texttt{git fetch <remote>} -- fetch updates from the remote.
+& \texttt{git fetch <remote> --prune} -- remove branches that have been deleted remotely, i.e., after a pull/merge request has been approved.
+& \texttt{git pull <remote> <branch>} -- add remote changes into branch.
+\end{easylist}
+
+
+\subsection{Methods of communication and miscellaneous details}
+
+\begin{easylist}[itemize]
+\ListProperties(Style*=-- , FinalMark={)})
+
+& University of Bristol details:
+
+\quad Username -- eb16003
+
+\quad Student number -- 1651526
+
+
+& Email:
+
+\quad Email address (Bristol) -- eb16003@bristol.ac.uk $|$ eshwen.bhal@bristol.ac.uk
+
+\quad Email address (CERN) -- eshwen.bhal@cern.ch
+
+
+& CERN:
+
+\quad See Sec. \ref{sec:cernaccount}
+
+
+& Skype (correspondence with academics and groups):
+
+\quad Skype Name -- eshwen.bhal
+
+
+& Slack (correspondence with RA1):
+
+\quad Email address -- eshwen.bhal@bristol.ac.uk
+
+\quad Team -- alphatteam.slack.com
+
+
+& Mattermost (Slack alternative, correspondence with FAST and Common Analysis):
+
+\quad Login -- $<$same as CERN login$>$
+
+\quad Server URL -- \url{https://mattermost.web.cern.ch/}
+
+
+& GitHub (code and repositories):
+
+\quad Username -- eshwen
+
+\quad Email address -- eshwen.bhal@bristol.ac.uk
+
+
+& GitLab (code and repositories, CERN's version of GitHub):
+
+\quad Username -- ebhal
+
+\quad Email address -- eshwen.bhal@cern.ch
+
+
+& Dropbox (sharing lab book and other files with Bjoern):
+
+\quad Email address -- eshwen.bhal@bristol.ac.uk
+
+
+& Evernote (to-do list for PhD work and uploading plots for L1 Jet Energy Corrections):
+
+\quad Email address -- eb16003@bristol.ac.uk
+
+
+& Indico (hub for CERN-related meetings and conferences):
+
+\quad Login details -- $<$CERN login$>$
+
+
+& Vidyo (CERN-related video meetings):
+
+\quad VidyoPortal: \url{https://vidyoportal.cern.ch}
+
+\quad Username: ebhal
+
+
+& Mendeley (organise papers and articles I've downloaded):
+
+\quad Email address: eshwen.bhal@bristol.ac.uk
+
+
+& P5/cmsusr/.CMS account (for Trigger monitoring and maintenance):
+
+\quad $<$username$>$@$<$hostname$>$: ebhal@cmsusr.cern.ch
+
+
+
+& Ian Allan Travel (travel booking):
+
+\quad Member ID/email address -- eshwen.bhal@bristol.ac.uk
+
+\quad Grant/budget code -- SK1606 (legacy), S112751-102 (new, for ERP), S113321-101 (LTA)
+
+
+& Claiming expenses:
+
+\quad See \url{https://www.bris.ac.uk/my-erp-support/how-to-guides/expenses/}
+
+
+& UK PP Travel Notices (for submitting travel notices for any foreign travel and long-distance UK travel):
+
+\quad Website -- \url{https://pprc.qmul.ac.uk/~lloyd/travel/?page=home}
+
+\quad Email address -- eshwen.bhal@cern.ch
+
+
+& Library PIN:
+
+\quad 6649
+
+
+& ORCID (Open Researcher and Contributer ID):
+
+\quad ID -- \url{orcid.org/0000-0003-4494-628X}
+
+\quad Email address -- eb16003@bristol.ac.uk
+
+
+& CERN car sharing (with Mobility, see \url{https://my.mobility.ch/login} to reserve a car):
+
+\quad Mobility number -- 1004470
+
+\quad PIN code -- 548169
+
+
+& UCU (University and College Union):
+
+\quad Email address -- eshwen.bhal@bristol.ac.uk
+
+
+& Proceedings of Science:
+
+\quad Username -- bhalesh (or eshwen.bhal@cern.ch)
+
+
+& Researchfish:
+
+\quad Username -- eshwen (or eshwen.bhal@bristol.ac.uk)
+
+
+& Remote servers I have access to:
+
+\quad Soolin (Bristol): eb16003@soolin.dice.priv $\leftarrow$ must be on the University's network to log in (or use proxy, either uses my normal UoB password)
+
+\quad LXPLUS (CERN): ebhal@lxplus.cern.ch $\leftarrow$ uses same password as email
+
+\quad lx00 (Imperial College London): ebhal@lx00.hep.ph.ic.ac.uk
+
+\quad lx01 (Imperial College London): ebhal@lx01.hep.ph.ic.ac.uk
+
+\quad cmsusr (CERN, P5): ebhal@cmsusr.cern.ch
+
+
+& Python package managers I use:
+
+\quad Homebrew (locally). To update packages, use \texttt{brew update}.
+
+\quad PyPI via pip (locally, Soolin). To update all packages, use \texttt{pip list --outdated | cut -d' ' -f1 | xargs pip install --upgrade --user}.
+
+\end{easylist}
+
+
+Unless otherwise stated, my passwords should be locked up with LastPass. And I can refer there if I forget any of them.
+
+\textbf{Update:} I was sent useful link about common pitfalls when thesis writing -- \url{https://www.scribd.com/document/401311835/Common-Gotchas-in-HEP-Thesis-Writing}. This will probably be handy when it comes to writing up, so is worth documenting here. The University also has guidelines for thesis formatting at \url{http://www.bristol.ac.uk/academic-quality/pg/pgrcode/annex4/}. CMS' guidelines for authors is probably also worth a read -- \url{https://twiki.cern.ch/twiki/bin/viewauth/CMS/Internal/PubGuidelines}. While I won't need to strictly adhere to them when writing my thesis, there are some good recommendations regarding spelling, grammar and punctuation.

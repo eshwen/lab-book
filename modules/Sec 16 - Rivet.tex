@@ -1,0 +1,19 @@
+\newpage
+\section{\rivet\ -- another analysis tool (13/12/2016)}
+
+\rivet\ is another analysis tool, similar to \madanalysis\ but more powerful. From the documentation (\url{https://rivet.hepforge.org/}) it seems more difficult to use but it means that I'll know exactly what's going on and it better suits the analyses I'll be doing.
+
+I can download and install it -- either locally or on Soolin -- by following the instructions on the website. The input files required for \rivet\ are of the type .hepmc.gz, which are not produced by the \textsc{Pythia6} module that my version of \madgraph\ contains. So, first I have to update \madgraph. The version I had been using up to this point was v2.4.3. An update was launched on December 10 (v2.5.2) which I need to update to. These are the instructions:
+
+\begin{easylist}[itemize]
+\ListProperties(Style*=-- , FinalMark={)})
+& (If I'm doing it on Soolin, I need to \texttt{source /cvmfs/sft.cern.ch/lcg/views/LCG\_latest/x86\_64-slc6-gcc62-
+opt/setup.sh} first.) 
+& Go to my \madgraph\ directory and type \verb!./bin/mg5!, then \verb!install update!, then latest version will be installed. If there is a newer version that contains bugs, I should be able to find the v2.5.2 tarball on the internet.
+& Once I've downloaded/updated to this version, I need to install \textsc{hepmc} \cite{Dobbs200141}, \textsc{Pythia8} \cite{pythia82}, \textsc{Delphes}, and \textsc{lhapdf6} \cite{lhapdf6}.
+& (If on Soolin, open the file \textbf{input/mg5\_configuration.txt} and type \texttt{lhapdf = /cvmfs/sft.cern.ch/lcg/external/lhapdfsets/current/} after the line "\#! lhapdf-config".)
+& Then once these are done, everything works as before, except in the input files replace \verb!Delphes=ON! with \verb!detector=Delphes!.
+& When I run \madgraph, the files \textbf{tag\_1\_delphes\_events.root} (which can be used to generate the "MakeClass" files with ROOT) and \textbf{tag\_1\_pythia8\_events.hepmc.gz} should be created which can be used with \rivet.
+\end{easylist}
+
+% INCLUDE HOW RIVET WORKS -- WHAT IT DOES, INSTALLATION STEPS, THEN GETTING STARTED WITH MAKING INPUT FILES (C++) AND USING THE PROGRAM.

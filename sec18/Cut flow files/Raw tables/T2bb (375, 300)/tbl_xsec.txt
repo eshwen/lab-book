@@ -1,0 +1,2 @@
+                              component xsec
+ SMS-T2bb_mSbottom-300to400_0to375_25ns    1

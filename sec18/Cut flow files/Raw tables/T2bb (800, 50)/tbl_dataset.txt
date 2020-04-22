@@ -1,0 +1,2 @@
+                               component                                                                                                                     dataset
+ SMS-T2bb_mSbottom-625to1050_0to550_25ns /SMS-T2bb_mSbottom-625to1050_0to550_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15FSPremix-MCRUN2_74_V9-v1/MINIAODSIM

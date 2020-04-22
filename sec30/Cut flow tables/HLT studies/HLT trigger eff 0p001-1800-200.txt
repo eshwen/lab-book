@@ -1,0 +1,96 @@
+Unweighted:
+                                          component depth                  class                                                    name pass total
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     1 EventSelectionAllCount                                                     All 9275  9277
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2 EventSelectionAnyCount                                                     Any 9275  9277
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3              LambdaStr                           "ev : ev.HLT_PFHT900[0] == 1" 9248  9277
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3              LambdaStr "ev : ev.HLT_PFMETNoMu120_PFMHTNoMu120_IDTight[0] == 1"   27    29
+ 
+Weighted:
+
+                                          component depth                  class                                                    name          pass         total
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     1 EventSelectionAllCount                                                     All 12263.0002861 12265.4278522
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2 EventSelectionAnyCount                                                     Any 12263.0002861 12265.4278522
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3              LambdaStr                           "ev : ev.HLT_PFHT900[0] == 1" 12232.2435461 12265.4278522
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3              LambdaStr "ev : ev.HLT_PFMETNoMu120_PFMHTNoMu120_IDTight[0] == 1" 30.7567399895 33.1843061304
+ 
+Full unweighted:
+
+                                          component depth                  class                                                    name pass total
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     1 EventSelectionAllCount                                                     All 2360  9277
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2 EventSelectionAllCount                                                     All 9206  9277
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3              LambdaStr                        "ev : ev.nElectronsVeto[0] == 0" 9227  9277
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3              LambdaStr                            "ev : ev.nMuonsVeto[0] == 0" 9206  9227
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                        "ev : ev.nIsoTracksVeto[0] <= 0" 8506  9206
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                          "ev : ev.nPhotonsVeto[0] == 0" 8418  8506
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                                "ev : ev.nJet40[0] >= 2" 8418  8418
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                               "ev : ev.jet_pt[0] > 100" 8418  8418
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                                 "ev : ev.ht40[0] > 200" 8418  8418
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                             "ev : ev.mht40_pt[0] > 200" 7876  8418
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                             "ev : ev.nJet40Fwd[0] == 0" 7397  7876
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                          "ev : ev.MhtOverMet[0] < 1.25" 7332  7397
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2 EventSelectionAnyCount                                                     Any 7326  7332
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3 EventSelectionAllCount                                                     All    0  7332
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                               htbin_200    0  7332
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                                  alphaT    0     0
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3 EventSelectionAllCount                                                     All    0  7332
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                               htbin_250    0  7332
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                                  alphaT    0     0
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3 EventSelectionAllCount                                                     All    0  7332
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                               htbin_300    0  7332
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                                  alphaT    0     0
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3 EventSelectionAllCount                                                     All    0  7332
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                               htbin_350    0  7332
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                                  alphaT    0     0
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3 EventSelectionAllCount                                                     All    0  7332
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                               htbin_400    0  7332
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                                  alphaT    0     0
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3 EventSelectionAllCount                                                     All   12  7332
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                               htbin_600   18  7332
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                                  alphaT   12    18
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3 EventSelectionAllCount                                                     All 7314  7320
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                               htbin_900 7314  7320
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                           "ev : ev.biasedDPhi[0] > 0.5" 2360  7326
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2 EventSelectionAnyCount                                                     Any 2360  2360
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3              LambdaStr                           "ev : ev.HLT_PFHT900[0] == 1" 2353  2360
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3              LambdaStr "ev : ev.HLT_PFMETNoMu120_PFMHTNoMu120_IDTight[0] == 1"    7     7
+ 
+Full weighted:
+
+                                          component depth                  class                                                    name          pass         total
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     1 EventSelectionAllCount                                                     All 3090.32652614 12265.4278522
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2 EventSelectionAllCount                                                     All 12172.6204814 12265.4278522
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3              LambdaStr                        "ev : ev.nElectronsVeto[0] == 0" 12193.5778636 12265.4278522
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3              LambdaStr                            "ev : ev.nMuonsVeto[0] == 0" 12172.6204814 12193.5778636
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                        "ev : ev.nIsoTracksVeto[0] <= 0" 11141.6080812 12172.6204814
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                          "ev : ev.nPhotonsVeto[0] == 0" 11050.1801698 11141.6080812
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                                "ev : ev.nJet40[0] >= 2" 11050.1801698 11050.1801698
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                               "ev : ev.jet_pt[0] > 100" 11050.1801698 11050.1801698
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                                 "ev : ev.ht40[0] > 200" 11050.1801698 11050.1801698
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                             "ev : ev.mht40_pt[0] > 200" 10392.7254998 11050.1801698
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                             "ev : ev.nJet40Fwd[0] == 0" 9794.59085193 10392.7254998
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                          "ev : ev.MhtOverMet[0] < 1.25" 9722.10746738 9794.59085193
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2 EventSelectionAnyCount                                                     Any 9716.81974732 9722.10746738
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3 EventSelectionAllCount                                                     All             0 9722.10746738
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                               htbin_200             0 9722.10746738
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                                  alphaT             0             0
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3 EventSelectionAllCount                                                     All             0 9722.10746738
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                               htbin_250             0 9722.10746738
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                                  alphaT             0             0
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3 EventSelectionAllCount                                                     All             0 9722.10746738
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                               htbin_300             0 9722.10746738
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                                  alphaT             0             0
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3 EventSelectionAllCount                                                     All             0 9722.10746738
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                               htbin_350             0 9722.10746738
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                                  alphaT             0             0
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3 EventSelectionAllCount                                                     All             0 9722.10746738
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                               htbin_400             0 9722.10746738
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                                  alphaT             0             0
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3 EventSelectionAllCount                                                     All 16.6564876661 9722.10746738
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                               htbin_600 21.9442077285 9722.10746738
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                                  alphaT 16.6564876661 21.9442077285
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3 EventSelectionAllCount                                                     All 9700.16325965 9705.45097971
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     4              LambdaStr                                               htbin_900 9700.16325965 9705.45097971
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2              LambdaStr                           "ev : ev.biasedDPhi[0] > 0.5" 3090.32652614 9716.81974732
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     2 EventSelectionAnyCount                                                     Any 3090.32652614 3090.32652614
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3              LambdaStr                           "ev : ev.HLT_PFHT900[0] == 1" 3084.06856462 3090.32652614
+ SMS-T1qqqqLL_ctau_0p001_mGluino-1800_mLSP-200_25ns     3              LambdaStr "ev : ev.HLT_PFMETNoMu120_PFMHTNoMu120_IDTight[0] == 1" 6.25796152651 6.25796152651

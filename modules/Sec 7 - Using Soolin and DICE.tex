@@ -1,0 +1,115 @@
+\newpage
+\section{Using Soolin and DICE (05/10/2016)}
+\label{sec:usingsoolindice}
+
+Soolin is a computer that can be accessed remotely (via ssh) to, e.g., submit jobs or compile and use ROOT (or other software). A handy link is \url{https://github.com/uobdic/Bristol-PHYS14}. To log in to Soolin, open a terminal (normal terminal on a Mac/Linux machine, Cygwin on Windows), and type
+
+\begin{easylist}
+\ListProperties(Style*=, FinalMark={)})
+& \verb!ssh -Y eb16003@soolin.phy.bris.ac.uk!
+\end{easylist}
+
+then enter my password (normal University of Bristol password) and I can use Soolin. To exit, just type \verb!exit!. Instead of \verb!-Y!, I can use \verb!-X! which opens an X11 connection and allows GUIs to a degree.
+
+You can change directories (and back out of your home directory to go into others'/tmp, etc.), copy files (\verb!cp <path to file to copy> < destination path>!), and everything else you can normally do in a terminal.
+
+ROOT should already be installed on Soolin. To access it, see page 18/later this section.
+
+DICE is the server/cluster that jobs can be submitted to, and is accessed via Soolin (i.e., when you're doing stuff on Soolin, it is using the computing resources of DICE).
+
+To copy files from my local machine to Soolin, type
+
+\begin{easylist}
+\ListProperties(Style*=, FinalMark={)})
+& \verb!scp <path to file> eb16003@soolin.phy.bris.ac.uk:!$\sim$\verb!/.!
+\end{easylist}
+
+and swap the commands to copy Soolin $\rightarrow$ local. To copy a folder, use \verb!scp -r ...!. To \emph{move} a file, folder or directory use \verb!mv <object to move> <destination>!. This command can also be used to rename files/folders by typing \texttt{mv $<$original name$>$ $<$new name$>$}.
+
+\textbf{UPDATE:} there's a new, upgraded version of Soolin. It works like the previous version. I just log on with eb16003@soolin.dice.priv now, and everything else works in the same way.
+
+\subsection{Getting ROOT on Soolin}
+% The stuff in this subsection is (in my physical lab book) in the section "Using Madgraph (first steps)" but it makes more sense to include it here
+
+A way to get ROOT on Soolin: log in to Soolin, then type
+
+\begin{easylist}
+\ListProperties(Style*=, FinalMark={)})
+& \verb!source /cvmfs/cms.cern.ch/cmsset_default.sh!
+& \verb!cmsrel CMSSW_7_1_5! $\leftarrow$ don't need this command after I've done it once
+& \verb!cd CMSSW_7_1_5/src!
+& \verb!cmsenv!
+& \verb!cd !$\sim$
+\end{easylist}
+
+These commands set up a ROOT environment for me on Soolin. Once I've done that I can use \madgraph\ with \verb!pythia=ON! and \verb!pgs=ON! to generate .root files that I can analyse in ROOT. To do this, navigate to the directory (the output directory, in this case \textbf{sm\_test\_ppXll/Events/run\_01}). Then type
+
+\verb!root tag_1_pgs_events.root!
+
+and then I can inspect and modify the output from the command line or with TBrowser. If the command \verb!new TBrowser()! doesn't work or -- when starting ROOT -- I get a warning "DISPLAY not set...", install XQuartz, then log off and log back in. Then boot up my normal terminal and try again.
+
+Also, if I get a "DISPLAY not set..." warning, try logging out of Soolin and then reconnecting using \verb!ssh -Y ...! or \verb!ssh -X ...! rather than just \verb!ssh ...!.
+
+The commands used to initialise ROOT have been added to my bash profile on Soolin so that they automatically execute when I log in to Soolin. To edit my bash profile (to execute different commands upon logging in), I need to edit -- with emacs/vi -- $\sim$\verb!/.bashrc!. (The tilde just points to my home directory.)
+
+I can also preload commands to execute automatically when I start ROOT (by creating and editing \textbf{rootlogon.C}), then creating a .rootrc file and pointing to the \textbf{rootlogon.C} file (see \sloppy\url{https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookSetComputerNode}).
+
+\subsection{Generating an ssh key (30/11/2016)}
+
+I can \verb!ssh! into Soolin without having to enter my password every time. I just need to enter these commands once (and I'm including them in case something happens to my computer and have to do it again):
+
+\begin{easylist}
+\ListProperties(Style*=, FinalMark={)})
+& \verb!ssh-keygen -t rsa!
+& (Keep hitting the "enter" key until it prompts me for my Soolin password, and enter the password.)
+& \verb!ssh-copy-id -i! \ \ $\sim$\verb!/.ssh/id_rsa.pub eb16003@soolin.dice.priv!
+\end{easylist}
+
+I can also shorten the \verb!ssh! procedure even further. If I'm in my local home directory, type:
+
+\verb!emacs !$\sim$\verb!/.ssh/config!
+
+Then type
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+Host soolin
+	HostName soolin.dice.priv
+	User eb16003
+	ForwardX11 yes
+	ForwardX11Trusted yes
+\end{lstlisting}
+
+then Ctrl-X + Ctrl-C to exit. And then I should just need to type \verb!ssh soolin!, and I should be logged in automatically. If I want to store multiple ssh keys, I can rename the \textbf{$\sim$/.ssh/id\_rsa} and \textbf{$\sim$/.ssh/id\_rsa.pub} files to whatever I want (e.g., \textbf{soolin\_rsa} and \textbf{soolin\_rsa.pub}, respectively) and add the following line to the \textbf{$\sim$/.ssh/config} file:
+
+\verb!IdentityFile! \ \ $\sim$\verb!/.ssh/soolin_rsa!
+
+\subsection{Accessing Soolin from outside Eduroam (13/12/2016)}
+
+Normally for \verb!ssh!ing into remote servers you need to be on the same network (in the case of Soolin, you need to be on Eduroam on the University of Bristol network). It is, however, possible to \verb!ssh! into Soolin outside of the UoB network. On my Macbook Air, there is already an app called Junos Pulse (which is a VPN) that has everything configured. I just need to hit "connect" and I'll be on the network. On my Macbook Pro, I can download the later iteration called Pulse Secure (\url{https://www.bris.ac.uk/it-services/advice/homeusers/uobonly/uobvpn/howto/osx/}). Then I just need to follow the instructions on the webpage to set up the connection. As with Junos Pulse, hit "connect" and I'll be on the University of Bristol network. Then I can just \verb!ssh! into Soolin like normal and do everything else that I can normally do on Soolin.
+
+In case I need to install the app again and there are issues with the webpage or some other problem, the steps are outlined below:
+
+\begin{easylist}[enumerate]
+& Download and install the Pulse Secure app. I should be able to find a .dmg file somewhere under the IT services section on the University of Bristol website (\url{https://www.bris.ac.uk/it-services/}). Failing that, ask Winnie.
+& Open the app, then click the "+" icon to add a new connection.
+& Leave Type as "Policy Secure (UAC)" or "Connect Secure (VPN)".
+& In the Name box, type "University of Bristol".
+& In the Server URL box, type "uobnet.bris.ac.uk".
+& Then click "Add" to add the connection.
+& Enter my University of Bristol username and password when prompted.
+& Then just click "connect" and I'm good to go.
+\end{easylist}
+
+I've now replaced Junos Pulse with Pulse Secure on my Macbook Air as it's more recent and still supported.
+
+If I don't want to use the VPN to access Soolin, e.g., if I'm at CERN where using a VPN can block CERN services, I can add the following to my ssh config:
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+Host soolin_proxy
+	HostName soolin.dice.priv
+	ForwardAgent yes
+	ProxyCommand ssh -XY -q eb16003@seis.bris.ac.uk nc %h 22
+	User eb16003
+\end{lstlisting}
+
+and do \texttt{ssh soolin\_proxy}.

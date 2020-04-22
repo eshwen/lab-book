@@ -1,0 +1,2 @@
+                             component xsec
+ SMS-T2qq_mSq600to900_mLSP-0to850_25ns    1

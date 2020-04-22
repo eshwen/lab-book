@@ -1,0 +1,50 @@
+\newpage
+\section{Imperial College account details (01/02/2017)}
+\label{sec:imperialdeets}
+
+My details for my Imperial guest account are as follows:
+
+\begin{easylist}[itemize]
+\ListProperties(Style*=-- , FinalMark={)})
+& Email address: e.bhal@imperial.ac.uk
+& College Identifier (CID): 942250
+& Hostnames: lx00.hep.ph.ic.ac.uk $|$ lx01.hep.ph.ic.ac.uk
+& Aliases for hosts: imperial00 $|$ imperial01
+& Username: ebhal
+& Password: $<$normal password$>$
+\end{easylist}
+
+I can just ssh into the remote server like I do with Soolin -- \texttt{ssh ebhal@lx0<\#>.hep.ph.ic.ac.uk} or \texttt{ssh imperial0<\#>}. These servers are Linux based and run CentOS6. But I can ssh into the Imperial servers from anywhere in the world on any network (check this), so I don't have to be on a specific network like I do for Soolin. More information can be found at \url{https://www.hep.ph.ic.ac.uk/private/computing/}.
+
+
+\subsection{lx00 and lx01 remote server details}
+
+I can ssh into both lx00 and lx01, they both take me to the same place. So I don't need to maintain two setups at IC. They have a grid like Bristol does. However, their batch submission and monitoring software is slightly different. They use Grid Engine (SGE) rather than HTCondor. A rundown of the batch system is located at \url{https://www.hep.ph.ic.ac.uk/private/computing/sge.shtml}. The main takeaways are that the command for job submission is
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+qsub -q hep.q <submission script>
+\end{lstlisting}
+
+I can also specify a maximum time for a job by adding the option \texttt{-l h\_rt=<hours>:<minutes>:<seconds>}. The maximum, and also default, is 48 hours. Typing \verb!man qsub! and \verb!man sge_intro! displays the manual and other commands, respectively. I can check on jobs by typing
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+qstat
+\end{lstlisting}
+
+I can delete jobs by typing
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+qdel <job ID>
+\end{lstlisting}
+
+where \verb!job ID! is the number in the first column of output when typing \verb!qstat!. Or I can type
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+qdel -u ebhal
+\end{lstlisting}
+
+to kill all my jobs. I can also get more information about a job with
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+qstat -j <job ID>
+\end{lstlisting}

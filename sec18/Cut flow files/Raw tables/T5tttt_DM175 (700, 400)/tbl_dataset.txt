@@ -1,0 +1,2 @@
+                                       component                                                                                                                                                         dataset
+ SMS-T5ttttDM175_mGl-600to800_mLSP-275to525_25ns /SMS-T5ttttDM175_mGl-600to800_mLSP-275to525_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-FastAsympt25ns_74X_mcRun2_asymptotic_v2-v1/MINIAODSIM

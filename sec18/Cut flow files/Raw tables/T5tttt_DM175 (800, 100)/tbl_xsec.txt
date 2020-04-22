@@ -1,0 +1,2 @@
+                                     component xsec
+ SMS-T5ttttDM175_mGl-600to800_mLSP-0to450_25ns    1

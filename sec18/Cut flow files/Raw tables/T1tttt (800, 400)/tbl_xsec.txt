@@ -1,0 +1,2 @@
+                                    component xsec
+ SMS-T1tttt_mGluino-800to825_mLSP-1to575_25ns    1

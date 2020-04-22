@@ -1,0 +1,2 @@
+                            component                                                                                                                                              dataset
+ SMS-T2tb_mStop-200to625_50to475_25ns /SMS-T2tb_mStop-200to625_50to475_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15MiniAODv2-FastAsympt25ns_74X_mcRun2_asymptotic_v2-v1/MINIAODSIM
