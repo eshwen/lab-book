@@ -125,7 +125,7 @@ The cut flow tables are listed below.
 
 For $c\tau = 0.001$ mm:
 
-\begin{table}[H]
+\begin{table}[htbp]
 \caption{Cut flow table for \texttt{T1qqqqLL} models with $c\tau = 10^{-3}$ mm.}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcc}
@@ -157,7 +157,7 @@ For $c\tau = 0.001$ mm:
 
 For $c\tau = 1$ mm:
 
-\begin{table}[H]
+\begin{table}[htbp]
 \caption{Cut flow table for \texttt{T1qqqqLL} models with $c\tau = 1$ mm.}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcc}
@@ -189,7 +189,7 @@ For $c\tau = 1$ mm:
 
 For $c\tau = 10^5$ mm:
 
-\begin{table}[H]
+\begin{table}[htbp]
 \caption{Cut flow table for \texttt{T1qqqqLL} models with $c\tau = 10^5$ mm.}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcc}
@@ -226,7 +226,7 @@ I added these to \textbf{136\_LLP.tex} in AN-17-122 in the AlphaTDR2 repo and th
 
 In addition to the cut flow tables, I've been doing some studies with the HLT, i.e., finding its efficiency for different LLP models and lifetimes, and looking at the luminosity collected by each trigger so that the acceptance $\times$ efficiency values we quote account for them. The main triggers of interest are the \HT triggers: \texttt{HLT\_PFHT800} (low threshold), \texttt{HLT\_PFHT900} (high threshold); and monojet triggers: \texttt{HLT\_PFMETNoMu90\_PFMHTNoMu90\_IDTight} (low),  \texttt{HLT\_PFMETNoMu120\_PFMHTNoMu120\_IDTight} (high). In signal selection, an OR (like Tai's \texttt{Any} class in Python) of these triggers are taken. Early in the 2016 run \texttt{HLT\_PFHT900} became the low threshold for the \HT trigger. Below is some information about the luminosity collected by the different triggers.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \caption{The luminosity collected by each HLT, or combination of Triggers, from the entire 2016 run. Over the course of the run, the threshold for the lowest unprescaled trigger in each category rose. The fraction of luminosity collected by each Trigger whilst it was lowest threshold is included.}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lp{0.25\linewidth}p{0.33\linewidth}}
@@ -269,7 +269,7 @@ These trees needed to be remade without any cuts. I'm working on Soolin with CMS
 
 Once the trees were made, I had to transfer them to Imperial so I could split and then reweight them with AlphaTools. I just needed to follow the instructions for the tree splitting, then update the base directory in the config script to point to the split trees, and add them to the script containing the samples. Then I could use cutflowirl to get the cut flow tables.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \caption{Cut flow table for \texttt{T1bbbb} and \texttt{T1qqqq} benchmark models.}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcccc}
@@ -298,7 +298,7 @@ Once the trees were made, I had to transfer them to Imperial so I could split an
 }
 \end{table}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \caption{Cut flow table for \texttt{T1tttt} and \texttt{T2bb} benchmark models.}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcccc}
@@ -327,7 +327,7 @@ Once the trees were made, I had to transfer them to Imperial so I could split an
 }
 \end{table}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \caption{Cut flow table for \texttt{T2tt} and \texttt{T2cc} benchmark models.}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcccc}
@@ -356,7 +356,7 @@ Once the trees were made, I had to transfer them to Imperial so I could split an
 }
 \end{table}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \caption{Cut flow table for \texttt{T2qq\_8fold} and \texttt{T2qq\_1fold} benchmark models.}
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcccc}

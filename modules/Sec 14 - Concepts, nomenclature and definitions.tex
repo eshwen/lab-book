@@ -46,7 +46,7 @@ A value of $\Delta R = 0.4$ is commonly used for lepton (namely muon) isolation.
 
 & Drell-Yan processes: in the LHC, the Drell-Yan (DY) process is when a quark from one proton annihilates with an antiquark from an oncoming proton. This normally produces one of the electroweak bosons, which decays into a lepton-antilepton pair. Looking at invariant mass plots from DY can show clear peaks at the masses of different particles, like the $\phi$. $J/\psi$, $\upsilon$ hadrons and the \PZ boson. However, as protons contain many quarks, antiquarks and gluons, DY is normally messy and the final states can include several jets.
 
-& \biasedDPhi: the variable \biasedDPhi, known as "biased delta phi", is used in making event selections in signal/data, similar to \alphat~\cite{CMS-PAPER-SUS-15-005-arXiv}. It is based on the minimum azimuthal separation between a jet and the negative vector $\vec{p}_{\mathrm{T}}$ sum of all of the other jets in the event. So it is essentially the minimal separation between the jet and the \htmiss\ vector. It is calculated with the formula
+& \biasedDPhi: the variable \biasedDPhi, known as "biased delta phi", is used in making event selections in signal/data, similar to \alphat~\cite{CMS-PAPER-SUS-15-005-arXiv}. It is based on the minimum azimuthal separation between a jet and the negative vector $\vec{p}_{\mathrm{T}}$ sum of all of the other jets in the event. So it is essentially the minimal separation between the jet and the \htmiss vector. It is calculated with the formula
 
 \begin{equation}
   \Delta\phi^*_{\mathrm{min}} = \min_{\,\forall\, \mathrm{j}_k\,\in\, [1,\njet]}
@@ -72,7 +72,7 @@ A value of $\Delta R = 0.4$ is commonly used for lepton (namely muon) isolation.
 
 & AK4 and AK8: the "AK" stands for "anti-$k_{\mathrm{T}}$", which is a jet clustering algorithm widely used in data analysis from hadron-hadron collisions~\cite{Cacciari:2008gp}. The 4 and 8 give the size of the jet ($R = 0.4$ and $R = 0.8$, respectively). In analyses, people sometimes refer to "AK4" or "AK8" jets, which are essentially jets clustered using the anti-$k_{\mathrm{T}}$ algorithm with the respective $R$ value. So a larger $R$ jet would be more inclusive if you have, say, a fat jet, but the isolation would be worse. This algorithm is used to cluster offline jets (Calo/PF/Gen).
 
-& \etmiss\ vs. \htmiss: \etmiss\ (or MET) is the missing transverse energy, i.e., the negative vector sum of the transverse energies of \emph{all} particles in an event. \htmiss\ (or MHT) is the negative vector sum of the transverse energies (or momenta) of \emph{only the jets} in an event. An easy way to distinguish is to think of the "H" in MHT standing for "hadronic".
+& \etmiss vs. \htmiss: \etmiss (or MET) is the missing transverse energy, i.e., the negative vector sum of the transverse energies of \emph{all} particles in an event. \htmiss (or MHT) is the negative vector sum of the transverse energies (or momenta) of \emph{only the jets} in an event. An easy way to distinguish is to think of the "H" in MHT standing for "hadronic".
 
 & Skimmed and slimmed trees: a skimmed tree is one in which events have been removed that, for example, fail certain cuts. A slimmed tree is one where branches or leaves have been removed, i.e., redundant leaves that contain unnecessary information can be stripped to reduce the size of the tree.
 
@@ -84,7 +84,7 @@ This list will be updated whenever I encounter a new definition and so isn't rep
 
 As an aside, below is a cross section of CMS. It's useful for scale and to see the tracks of particles.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{./sec14/Transverse_slice_CMS.png}
 \caption{A transverse slice through CMS, taken from~\cite{CMS-PRF-14-001}.}

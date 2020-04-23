@@ -1,5 +1,5 @@
 
-\chapter{Service Work: Jet and \texorpdfstring{\etmiss\ }{ETmiss} studies (22/11/2017)}
+\chapter{Service Work: Jet and \texorpdfstring{\etmiss }{ETmiss} studies (22/11/2017)}
 
 To become more integrated in the Level-1 Trigger, as well as continuing with the JECs and taking on shifts, I've been asked to take over some of the MET studies Batool has previously done. This should all count towards the EPR I need for authorship, and I can check my progress at \url{https://icms.cern.ch/epr/showMine}.
 
@@ -19,24 +19,24 @@ I initially ran on Soolin as that's where the JEC code was. But if I moved the m
 Using \texttt{h->Fill(quantity, weight)}, I can fill histograms instead of making arrays of different quantities and populating a TGraph. For example, if I wanted to plot the HCAL TP $E_{\mathrm{T}}$ against iPhi, I could do \texttt{h->Fill(hcaliPhi, hcalTPET)} to increment the iPhi bin by the TP $E_{\mathrm{T}}$.
 \end{minipage}}
 
-I made various plots of TP $E_{\mathrm{T}}$ against iEta and iPhi for the ECAL, HCAL, towers (sum) and trigger tower (TT) 28. I've made similar plots with $E_{\mathrm{T}}^{\mathrm{T}}$ and \etmiss, as well as plots for individual events to see if the \etmiss\ came from large spikes or broad PU jets. I included some plots of the "average" TP $E_{\mathrm{T}}$ as well: the total $E_{\mathrm{T}}$ in an iEta/iPhi bin divided by its occupancy, as well as the total $E_{\mathrm{T}}$ divided by the number of events. These could help identify hot towers, inhomogeneous responses or calibrations, etc. Some of the plots are below, the rest are located in \textbf{./sec34/}.
+I made various plots of TP $E_{\mathrm{T}}$ against iEta and iPhi for the ECAL, HCAL, towers (sum) and trigger tower (TT) 28. I've made similar plots with $E_{\mathrm{T}}^{\mathrm{T}}$ and \etmiss, as well as plots for individual events to see if the \etmiss came from large spikes or broad PU jets. I included some plots of the "average" TP $E_{\mathrm{T}}$ as well: the total $E_{\mathrm{T}}$ in an iEta/iPhi bin divided by its occupancy, as well as the total $E_{\mathrm{T}}$ divided by the number of events. These could help identify hot towers, inhomogeneous responses or calibrations, etc. Some of the plots are below, the rest are located in \textbf{./sec34/}.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=110mm]{./sec34/MET_studies_v6/Plots/ECAL/ECALTPETEta.pdf}
 \caption{The average TP $E_{\mathrm{T}}$ (total TP $E_{\mathrm{T}}$ in a bin divided by its occupancy) against iEta in the ECAL.}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=110mm]{./sec34/MET_studies_v6/Plots/HCAL/HCALavgTPETEtaPhi.pdf}
 \caption{The average TP $E_{\mathrm{T}}$ against iEta and iPhi in the HCAL.}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=110mm]{./sec34/MET_studies_v6/Plots/MetScalHcaltotal.pdf}
-\caption{The \etmiss\ scalar in the HCAL vs the tower (sum).}
+\caption{The \etmiss scalar in the HCAL vs the tower (sum).}
 \end{figure}
 
 Some of the plots have been shown in TPG meetings, one of which is here: \url{https://indico.cern.ch/event/698504/contributions/2864568/attachments/1587832/2511546/2018_01_23_L1T_MET_TPs_Esh.pdf}.

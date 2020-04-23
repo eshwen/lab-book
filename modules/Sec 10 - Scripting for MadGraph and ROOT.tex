@@ -21,25 +21,25 @@ Syntax for \PWplus boson: W+, \PWminus boson: W-, \PZzero boson: Z.
 
 Here is the output.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{./sec10/JetPT.png}
 \caption{The number of entries versus the transverse momentum of the leading jet using 50,000 $\Pp\Pp \rightarrow \Ppositron \Pelectron$ events simulated in \madgraph. The left panel shows the raw histogram and the right shows the effect of adding a cut on the mass of the jet $>10\GeV$.}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{./sec10/JetEta.png}
 \caption{The number of entries versus the pseudorapidity of the leading jet using 50,000 $\Pp\Pp \rightarrow \Ppositron \Pelectron$ events simulated in \madgraph. The left panel shows the raw histogram and the right shows the effect of adding a cut on the mass of the jet $>10\GeV$.}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{./sec10/JetMass.png}
 \caption{The number of entries versus the mass of the leading jet using 50,000 $\Pp\Pp \rightarrow \Ppositron \Pelectron$ events simulated in \madgraph. The left panel shows the raw histogram and the right shows the effect of adding a cut on the mass of the jet $>10\GeV$.}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{./sec10/JetPhi.png}
 \caption{The number of entries versus the phi (meaning?) of the leading jet using 50,000 $\Pp\Pp \rightarrow \Ppositron \Pelectron$ events simulated in \madgraph. The left panel shows the raw histogram and the right shows the effect of adding a cut on the mass of the jet $>10\GeV$.}
@@ -49,7 +49,7 @@ It is obvious that even with a small cut on jet mass, the histograms noticeably 
 
 I've also figured out how to plot a histogram, and then overlay the histogram after a cut on the same axes. I've also streamlined my Python script readjets.py by storing the variable names and the cuts as character strings. So if I want to change the cut or change one of the variables I want to look at, I only have to edit part of one line as opposed to multiple entries throughout the script. An example plot and the new script are displayed below.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{./sec10/JetEtalargecut.png}
 \caption{The number of entries versus the pseudorapidity of the leading jet using 50,000 $\Pp\Pp \rightarrow \Ppositron \Pelectron$ events simulated in \madgraph. The blue line shows the raw data and the red line shows the effect of a cut on jet $\pt > 100\GeV$.}
