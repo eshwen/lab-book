@@ -1,0 +1,182 @@
+\newcommand{\keywords}[1]{\par\noindent{\small{\bf Keywords:} #1}} % Defines keywords small section
+
+% An initial of the very first character of the content
+\usepackage{lettrine}
+\newcommand{\initial}[1]{%
+	\lettrine[lines=3,lhang=0.33,nindent=0em]{
+		\color{gray}
+            {\textsc{#1}}}{}}
+
+% Generic
+\renewcommand{\_}{\texttt{\char`_}}
+\newcommand{\plusjets}{\ensuremath{+ \text{jets}}\xspace}
+\newcommand{\jone}{\ensuremath{\mathrm{j}_1}\xspace}
+\newcommand{\jtwo}{\ensuremath{\mathrm{j}_2}\xspace}
+\newcommand{\PVec}{\HepParticle{V}{}{}\xspace} % couldn't find command for generic V boson so created one
+
+% Electron volt units
+% Re-defining ptdr symbols for better spacing, consistency and simplicity with definitions, expanding list of symbols, using math mode ^2 for consistency with other symbols
+\newcommand{\eV}{\text{e\kern-0.15ex V}\xspace}
+\newcommand{\eVnxs}{\text{e\kern-0.15ex V}}  % no trailing xspace (e.g., for Gev/c or GeV/c^2)
+\renewcommand{\keV}{\ensuremath{\,\text{k\eV}}\xspace}
+\newcommand{\keVns}{\ensuremath{\text{k\eV}}\xspace}  % no leading thinspace
+\renewcommand{\MeV}{\ensuremath{\,\text{M\eV}}\xspace}
+\renewcommand{\MeVns}{\ensuremath{\text{M\eV}}\xspace}  % no leading thinspace
+\renewcommand{\GeV}{\ensuremath{\,\text{G\eV}}\xspace}
+\renewcommand{\GeVns}{\ensuremath{\text{G\eV}}\xspace}  % no leading thinspace
+\renewcommand{\gev}{\GeV}
+\newcommand{\Tkern}{\text{T\kern-0.2ex}}  % reducing space between the T and eV in TeV
+\renewcommand{\TeV}{\ensuremath{\,\text{\Tkern\eV}}\xspace}
+\renewcommand{\TeVns}{\ensuremath{\text{\Tkern\eV}}\xspace}  % no leading thinspace
+\renewcommand{\PeV}{\ensuremath{\,\text{P\eV}}\xspace}
+\newcommand{\PeVns}{\ensuremath{\text{P\eV}}\xspace}  % no leading thinspace
+
+\newcommand{\overc}{\ensuremath{\text{\hspace{-0.16em}/\hspace{-0.08em}}c}}
+\newcommand{\overcc}{\ensuremath{\overc^2}}
+\newcommand{\eVc}{\ensuremath{\,\text{\eVnxs\overc}}\xspace}
+\newcommand{\eVcc}{\ensuremath{\,\text{\eVnxs\overcc}}\xspace}
+\renewcommand{\keVc}{\ensuremath{\,\text{k\eVnxs\overc}}\xspace}
+\renewcommand{\MeVc}{\ensuremath{\,\text{M\eVnxs\overc}}\xspace}
+\renewcommand{\GeVc}{\ensuremath{\,\text{G\eVnxs\overc}}\xspace}
+\renewcommand{\GeVcns}{\text{G\eVnxs\overc}\xspace}  % no leading thinspace
+\renewcommand{\TeVc}{\ensuremath{\,\text{\Tkern\eVnxs\overc}}\xspace}
+\renewcommand{\keVcc}{\ensuremath{\,\text{k\eVnxs\overcc}}\xspace}
+\renewcommand{\MeVcc}{\ensuremath{\,\text{M\eVnxs\overcc}}\xspace}
+\renewcommand{\GeVcc}{\ensuremath{\,\text{G\eVnxs\overcc}}\xspace}
+\renewcommand{\GeVccns}{\text{G\eVnxs\overcc}\xspace}  % no leading thinspace
+\renewcommand{\TeVcc}{\ensuremath{\,\text{\Tkern\eVnxs\overcc}}\xspace}
+
+% Rationale for when to use \text{} and when to use \mathrm{} in physics symbols:
+%   - In math mode, wrapping something \text{} will render it in the main document font (i.e., garamond from the 'garamondx' package).
+%   - In math mode, wrapping something in \mathrm{} will render it upright in the math font (i.e., the font from the 'amsfonts' package).
+%   - \text{} should be used for things like control regions where the text from the macro is supposed to flow into the main text. Then it looks natural and consistent.
+%   - \mathrm{} should be used for subscripts and superscripts in symbols so it looks natural and consistent in that context. Even for sub/superscripts longer than one letter, e.g., the "min" in biased delta phi, it looks more natural if the font matches the rest of the symbol and equation.
+
+% Particles are typeset using the 'hepnames' package. If given the option 'italic', it will render the particles in italics. So if I want to change style, only need to edit the line that imports the package, not the macros.
+
+% Higgs to inv. modes
+\newcommand{\ttH}{\ensuremath{\Pqt\Pqt\PH}\xspace}
+\newcommand{\ggF}{\ensuremath{\cPg\cPg\mathrm{F}}\xspace}
+\newcommand{\ggH}{\ensuremath{\cPg\cPg\PH}\xspace}
+\newcommand{\VH}{\ensuremath{\PVec\PH}\xspace}
+\newcommand{\WH}{\ensuremath{\PW\PH}\xspace}
+\newcommand{\WplusH}{\ensuremath{\PWp\PH}\xspace}
+\newcommand{\WminusH}{\ensuremath{\PWm\PH}\xspace}
+\newcommand{\ZH}{\ensuremath{\PZ\PH}\xspace}
+
+% Higgs to inv. control regions
+\newcommand{\singleMuCr}{\ensuremath{\Pgm \plusjets}\xspace}
+\newcommand{\doubleMuCr}{\ensuremath{\Pgm\Pgm \plusjets}\xspace}
+\newcommand{\singleEleCr}{\ensuremath{\Pe \plusjets}\xspace}
+\newcommand{\doubleEleCr}{\ensuremath{\Pe\Pe \plusjets}\xspace}
+\newcommand{\singlePhotonCr}{\ensuremath{\Pphoton \plusjets}\xspace}
+
+% Variables/physics symbols
+\newcommand{\doubleMuMass}{\ensuremath{m_{\Pgm\Pgm}}\xspace}
+\newcommand{\doubleEleMass}{\ensuremath{m_{\Pe\Pe}}\xspace}
+\newcommand{\doubleLepMass}{\ensuremath{m_{\ell\ell}}\xspace}
+
+\newcommand{\etmiss}{\MET}
+\newcommand{\met}{\MET}
+\newcommand{\htmiss}{\mht}
+\newcommand{\alphat}{\ensuremath{\alpha_{\mathrm{T}}}\xspace}
+\newcommand{\alphaT}{\alphat}
+\newcommand{\biasedDPhi}{\ensuremath{\Delta\phi^*_{\mathrm{min}}}\xspace}
+\newcommand{\pT}{\pt}
+\renewcommand{\mT}{\ensuremath{M_{\mathrm{T}}}\xspace}  % changing transverse mass from m_T to M_T
+\newcommand{\mt}{\mT}
+
+\newcommand{\mTsup}[1]{\ensuremath{\mT^{#1}}\xspace}  % to add a superscript in mT. Call like \mTsup{foo} to get m_T^{foo}
+\newcommand{\mtMuon}{\ensuremath{\mTsup{\Pgm}}\xspace}
+\newcommand{\mtElectron}{\ensuremath{\mTsup{\Pe}}\xspace}
+\newcommand{\mjj}{\ensuremath{m_{\mathrm{jj}}}\xspace}
+\newcommand{\ptsup}[1]{\ensuremath{\pt^{#1}}\xspace}  % to add a superscript in pT
+\newcommand{\etasub}[1]{\ensuremath{\eta_{#1}}\xspace} % to add a subscript in eta
+\newcommand{\abseta}{\ensuremath{\abs{\eta}}\xspace}
+\newcommand{\absetasub}[1]{\ensuremath{\abs{\eta_{#1}}}\xspace}
+\newcommand{\nsub}[1]{\ensuremath{n_{#1}}\xspace}  % to add a subscript in n
+\newcommand{\ptjone}{\ensuremath{\ptsup{\jone}}\xspace}
+\newcommand{\ptjtwo}{\ensuremath{\ptsup{\jtwo}}\xspace}
+\newcommand{\etajone}{\ensuremath{\etasub{\jone}}\xspace}
+\newcommand{\etajtwo}{\ensuremath{\etasub{\jtwo}}\xspace}
+\newcommand{\njet}{\ensuremath{\nsub{\mathrm{jet}}}\xspace}
+\newcommand{\nbjet}{\ensuremath{\nsub{\Pqb}}\xspace}
+\newcommand{\nBoostedTop}{\ensuremath{\nsub{\Pqt}}\xspace}
+\newcommand{\nBoostedV}{\ensuremath{\nsub{\PVec}}\xspace}
+
+% Angular variables
+\newcommand{\omegaHat}{\ensuremath{\hat{\omega}_{\text{min}}}\xspace}
+\newcommand{\omegaTilde}{\ensuremath{\tilde{\omega}_{\text{min}}}\xspace}
+\newcommand{\minChi}{\ensuremath{\chi_{\text{min}}}\xspace}
+\newcommand{\mindphiAB}[2]{\ensuremath{\Delta\phi_{\text{min}}(#1, \ #2)}\xspace}
+\newcommand{\mindphiJetMet}{\ensuremath{\mindphiAB{\text{j}}{\MET}}\xspace}
+\newcommand{\dphiTj}{\ensuremath{\mindphiAB{\text{j}_{1, 2}}{\MET}}\xspace}
+\newcommand{\dphiFj}{\ensuremath{\mindphiAB{\text{j}_{1, 2, 3, 4}}{\MET}}\xspace}
+
+% Semi-visible jets variables. Taken from AN-19-061
+%\newcommand{\metmt}{\ensuremath{\MET/\mt}\xspace}
+\newcommand{\metmt}{\ensuremath{R_{\mathrm{T}}}\xspace}
+\renewcommand{\PZprime}{\ensuremath{{\PZ}^{\prime}}\xspace}
+\newcommand{\PZprimesup}[1]{\ensuremath{{\PZ}^{\prime#1}}\xspace}
+\newcommand{\mZprime}{\ensuremath{m_{\PZprime}}\xspace}
+\newcommand{\sigmaZprime}{\ensuremath{\sigma_{\PZprime}}\xspace}
+\newcommand{\mDark}{\ensuremath{m_{\mathrm{dark}}}\xspace}
+\newcommand{\aDark}{\ensuremath{\alpha_{\mathrm{dark}}}\xspace}
+\newcommand{\lamDark}{\ensuremath{\Lambda_{\mathrm{dark}}}\xspace}
+\newcommand{\aDarkPeak}{\ensuremath{\aDark^{\text{peak}}}\xspace}
+\newcommand{\lamDarkPeak}{\ensuremath{\lamDark^{\text{peak}}}\xspace}
+\newcommand{\aDarkHigh}{\ensuremath{\aDark^{\text{high}}}\xspace}
+\newcommand{\aDarkLow}{\ensuremath{\aDark^{\text{low}}}\xspace}
+\newcommand{\rinv}{\ensuremath{r_{\mathrm{inv}}}\xspace}
+\newcommand{\Pqdark}{\ensuremath{\chi}\xspace}
+\newcommand{\mqdark}{\ensuremath{m_{\Pqdark}}\xspace}
+\newcommand{\Paqdark}{\ensuremath{\overline{\chi}}\xspace}
+\newcommand{\PqdarkO}{\ensuremath{\chi_{1}}\xspace}
+\newcommand{\PqdarkT}{\ensuremath{\chi_{2}}\xspace}
+\newcommand{\Pgdark}{\ensuremath{\cPg_{\text{dark}}}\xspace}
+\newcommand{\Ppidark}{\ensuremath{\pi_{\text{dark}}}\xspace}
+\newcommand{\PpidarkDM}{\ensuremath{\Ppidark^{\text{DM}}}\xspace}
+\newcommand{\Prhodark}{\ensuremath{\rho_{\text{dark}}}\xspace}
+\newcommand{\PrhodarkDM}{\ensuremath{\Prhodark^{\text{DM}}}\xspace}
+\newcommand{\gq}{\ensuremath{g_{\cPq}^{\PZprime}}\xspace}
+\newcommand{\gqdark}{\ensuremath{g_{\Pqdark}^{\PZprime}}\xspace}
+\newcommand{\Nc}{\ensuremath{N_{c}}\xspace}
+\newcommand{\Nf}{\ensuremath{N_{f}}\xspace}
+\newcommand{\mb}{\ensuremath{m_{\cPqb}}\xspace}
+\newcommand{\mc}{\ensuremath{m_{\cPqc}}\xspace}
+\newcommand{\mq}{\ensuremath{m_{\cPq}}\xspace}
+\newcommand{\Nstable}{\ensuremath{N_{\text{stable}}}\xspace}
+\newcommand{\Nunstable}{\ensuremath{N_{\text{unstable}}}\xspace}
+\newcommand{\dijetDeta}{\ensuremath{\Delta\eta(j_{1},j_{2})}\xspace}
+\newcommand{\dijetMindphi}{\ensuremath{\Delta\phi_{\mathrm{min}}(j_{1,2}, \met)}\xspace}
+\newcommand{\schannel}{\ensuremath{s\text{-channel}}\xspace}
+\newcommand{\tchannel}{\ensuremath{t\text{-channel}}\xspace}
+
+% Background processes
+\newcommand{\lostlepton}{\ensuremath{\ell_{\text{lost}}}\xspace}
+\newcommand{\ztonunu}{\ensuremath{\HepProcess{\PZ \to \Pgn\Pagn}}\xspace}
+\newcommand{\ztomumu}{\ensuremath{\HepProcess{\PZ \to \Pgm\Pgm}}\xspace}
+\newcommand{\ztonunupjets}{\ensuremath{\PZ(\to \Pgn\Pagn) \plusjets}\xspace}
+\newcommand{\wtolnupjets}{\ensuremath{\PW(\to \ell\Pgn) \plusjets}\xspace}
+\newcommand{\ttbarpjets}{\ensuremath{\ttbar \plusjets}\xspace}
+
+% Software
+\newcommand{\madgraph}{\MADGRAPH}
+\newcommand{\MADGRAPHFULL}{\MGvATNLO\,2.6.0\xspace}
+\newcommand{\FEYNRULES}{\textsc{FeynRules}\xspace}
+\newcommand{\madanalysis}{\textsc{MadAnalysis}\xspace}
+\newcommand{\rivet}{\textsc{Rivet}\xspace}
+\newcommand{\ROOT}{\textsc{root}\xspace}
+\newcommand{\nanoAODtools}{\textsc{nanoAOD-tools}\xspace}
+
+% Other (physics-related)
+\newcommand{\intlumi}{\ensuremath{\lumi_{\mathrm{int.}}}\xspace}
+\newcommand{\transfac}{\ensuremath{\mathcal{T}}\xspace}
+\newcommand{\TF}{\transfac}
+\newcommand{\BR}{\ensuremath{\mathcal{B}}\xspace}
+\newcommand{\BRof}[1]{\ensuremath{\BR(#1)}\xspace} % branching ratio of a process
+\newcommand{\LSP}{\PSneutralinoOne}
+\newcommand{\comruntwo}{\ensuremath{\sqrt{s} = \text{13}\TeV}\xspace}
+\newcommand{\higgstoinv}{\ensuremath{\HepProcess{\PH \to \text{inv.}}}\xspace}
+\newcommand{\ptLOne}{\ensuremath{\ptsup{{\mathrm{L1}}}}\xspace}
+\newcommand{\ptRef}{\ensuremath{\ptsup{{\mathrm{ref.}}}}\xspace}

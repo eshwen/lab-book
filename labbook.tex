@@ -1,17 +1,145 @@
-\documentclass[12pt, dvipsnames, svgnames]{cmspaper} % dvipsnames, svgnames allows more colours to be used
+% ----------------------------------------
+\RequirePackage[l2tabu]{nag}        % Warns for incorrect (obsolete) LaTeX usage
+% ----------------------------------------
 
-% In TeXShop, compile pdflatex and bibliography in one command by selecting "pdflatexmk" from the drop-down menu next to "Typeset".
-% If compilation with pdflatexmk fails, hit the "Trash Aux Files" button and recompile.
+% ----------------------------------------
+% File: memoirthesis.tex
+% Author: Victor Brena
+% Description: Contains the thesis template using memoir class, which is mainly based on book class but permits better control of chapter styles for example. This template is an adaptation and modification of Oscar's.
+% 
+% Memoir is a flexible class for typesetting poetry, fiction, non-fiction and mathematical works as books, reports, articles or manuscripts. CTAN repository is found at: http://www.ctan.org/tex-archive/macros/latex/contrib/memoir/
+% Memoir class loads useful packages by default (see manual).
+\documentclass[a4paper,12pt,leqno,openbib,oldfontcommands,oneside]{memoir} % add 'draft' in options to render draft document (see below)
+% ----------------------------------------
 
-\usepackage{palatino} % this is the font of the main text
+% ----------------------------------------
+% Adding metadata:
+\usepackage{datetime}
+\usepackage{ifpdf}
+\ifpdf
+    \pdfinfo{
+        /Author Eshwen Bhal
+        /Title (Lab book)
+        /Keywords (dark matter; large hadron collider; LHC; CMS; hadronic final states; missing transverse energy; semi-visible jets; Higgs boson)
+        /CreationDate (D:\pdfdate)
+    }
+\fi
+
+% When draft option is on. 
+\ifdraftdoc 
+    \usepackage{draftwatermark}  % Sets watermarks up
+    \SetWatermarkScale{0.3}
+    \SetWatermarkText{\textbf{Draft: \today}}
+    \usepackage[left]{lineno}  % Set line numbers for easier referencing to specific points in the document
+    \linenumbers
+    \setkeys{Gin}{draft=false}  % allow figures to actually be displayed, not replaced by a box with the path to the figure
+\fi
+% ----------------------------------------
+
+% ----------------------------------------
+% Declare figure/table as a subfloat.
+\newsubfloat{figure}
+\newsubfloat{table}
+% ----------------------------------------
+
+% ----------------------------------------
+% Better page layout for A4 paper, see memoir manual.
+\settrimmedsize{297mm}{210mm}{*}
+\setlength{\trimtop}{0pt} 
+\setlength{\trimedge}{\stockwidth} 
+\addtolength{\trimedge}{-\paperwidth} 
+\settypeblocksize{634pt}{448.13pt}{*} 
+\setulmargins{4cm}{*}{*} 
+\setlrmargins{*}{*}{1.5} 
+\setmarginnotes{17pt}{51pt}{\onelineskip} 
+\setheadfoot{\onelineskip}{2\onelineskip} 
+\setheaderspaces{*}{2\onelineskip}{*} 
+\checkandfixthelayout
+% ----------------------------------------
+
+% ----------------------------------------
+\frenchspacing % single space after a sentence
+% ----------------------------------------
+
+% ----------------------------------------
+\usepackage[T1]{fontenc}                % To encode the font (glyphs/characters as bits)
+\usepackage[utf8]{inputenc}             % Needed to encode non-english characters directly for mac
+\usepackage{palatino}                   % this is the font of the main text
+% ----------------------------------------
+
+% ----------------------------------------
+\OnehalfSpacing
+%
+% Sets numbering division level
+\setsecnumdepth{subsection} 
+\maxsecnumdepth{subsubsection}
+%
+% Chapter style (taken and slightly modified from Lars Madsen Memoir Chapter 
+% Styles document
+\usepackage{calc,soul}
+\makeatletter 
+\newlength\dlf@normtxtw 
+\setlength\dlf@normtxtw{\textwidth} 
+\newsavebox{\feline@chapter} 
+\newcommand\feline@chapter@marker[1][4cm]{%
+    \sbox\feline@chapter{% 
+        \resizebox{!}{#1}{\fboxsep=1pt%
+            \colorbox{gray}{\color{white}\thechapter}% 
+        }}%
+        \rotatebox{90}{% 
+            \resizebox{%
+                \heightof{\usebox{\feline@chapter}}+\depthof{\usebox{\feline@chapter}}}% 
+            {!}{\scshape\so\@chapapp}}\quad%
+        \raisebox{\depthof{\usebox{\feline@chapter}}}{\usebox{\feline@chapter}}%
+} 
+\newcommand\feline@chm[1][4cm]{%
+    \sbox\feline@chapter{\feline@chapter@marker[#1]}% 
+    \makebox[0pt][c]{% aka \rlap
+        \makebox[1cm][r]{\usebox\feline@chapter}%
+    }}
+\makechapterstyle{daleifmodif}{
+    \renewcommand\chapnamefont{\normalfont\Large\scshape\raggedleft\so} 
+    \renewcommand\chaptitlefont{\normalfont\Large\bfseries\scshape} 
+    \renewcommand\chapternamenum{} \renewcommand\printchaptername{} 
+    \renewcommand\printchapternum{\null\hfill\feline@chm[2.5cm]\par} 
+    \renewcommand\afterchapternum{\par\vskip\midchapskip} 
+    \renewcommand\printchaptertitle[1]{\color{gray}\chaptitlefont\raggedleft ##1\par}
+} 
+\makeatother 
+\chapterstyle{daleifmodif}
+% Ensure that using bold in headings applies to math symbols as well
+\makeatletter
+\g@addto@macro\bfseries\boldmath
+\makeatother
+% ----------------------------------------
+
+% ----------------------------------------
+% The pages should be numbered consecutively at the bottom centre of the page.
+\makepagestyle{myvf} 
+\makeoddfoot{myvf}{}{\thepage}{} 
+\makeevenfoot{myvf}{}{\thepage}{} 
+\makeheadrule{myvf}{\textwidth}{\normalrulethickness} 
+\makeevenhead{myvf}{\small\textsc{\leftmark}}{}{} 
+\makeoddhead{myvf}{}{}{\small\textsc{\rightmark}}
+\pagestyle{myvf}
+%
+% Oscar's command (it works): Fills blank pages until next odd-numbered page. Used to emulate single-sided frontmatter. This will work for title, abstract and declaration. Though the contents sections will each start on an odd-numbered page they will spill over onto the even-numbered pages if extending beyond one page (hopefully, this is ok).
+\newcommand{\clearemptydoublepage}{\newpage{\thispagestyle{empty}\cleardoublepage}}
+% ----------------------------------------
+
+% ----------------------------------------
+% The import command enables each chapter tex file to use relative paths when accessing supplementary files. For example, to include chapters/brewing/images/figure1.png from chapters/brewing/brewing.tex we can use \includegraphics{images/figure1} instead of \includegraphics{chapters/brewing/images/figure1}
+\usepackage{import}
+% ----------------------------------------
+
+% ----------------------------------------
+% Add other packages needed for chapters here. For example:
 \usepackage{ptdr-definitions} % CMS definitions and styles. Needs to come first so definitions from other packages don't cause conflicts
 
 \usepackage{mathtools} % includes the "amsmath" package and other mathematical symbols and environments
 \usepackage{microtype} % for font and line spacing. fewer overfull/underfull hbox warnings
 \usepackage{texnames}
-\usepackage[utf8]{inputenc} % for special/accented characters
 \usepackage{physics} % for physics symbols, such as differential symbols
-\usepackage{courier} % font for code
 \usepackage{float} % to fix figures in place
 \usepackage{graphicx} % so I can use \includegraphics, etc.
 \usepackage{cprotect} % so I can use \verb and other commands within captions
@@ -19,11 +147,7 @@
 \usepackage{bbold} % for mathematical symbols like the characters for special sets
 \usepackage[ampersand]{easylist} % for bullet points and lists, etc. New entry starts with & character
 \usepackage{cancel} % for strike-throughs for missing energy/momentum, etc.
-\usepackage{maybemath} % required for hepparticles
-\usepackage{hepparticles} % required for hepnicenames
-\usepackage{hepnicenames} % standard symbols for HEP particles
-\usepackage{wasysym} % for more mathematical and astronomical symbols
-\usepackage{pdfpages} % to insert PDF documents within this document
+\usepackage[italic]{hepnames}           % standard symbols for HEP particles ('italic' option typesets particles in italics like ATLAS/LHCb convention, default is 'notitalic' a la CMS convention)
 \usepackage{spverbatim} % for linebreaks in the verbatim environment
 \usepackage{tabularx} % for multii-line cells in tables
 \usepackage{multirow} % for nested rows in tables
@@ -34,25 +158,38 @@
 
 \usepackage{array} % for more flexibility with tables
 \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}} % for text in table cells to be centred
+\renewcommand{\arraystretch}{1.2} % increase vertical space between rows in a table
 
-%\usepackage[backend=biber, natbib=true, sorting=none, style=numeric-comp]{biblatex} % old bibliography style, using biber backend/engine
-%\addbibresource{mybib.bib} % is using biblatex
-\usepackage[square, numbers, sort&compress]{natbib} % new bibliography style using bibtex backend/engine
+\usepackage[
+    backend=biber,
+    style=ieee,                         % numerical citation and compress multiple ones ([1, 2, 3] -> [1-3]
+    giveninits=true,                    % Replace first names with initial
+    block=space,                        % Separate each block/component of a bibliography entry by a space
+    url=false,                          % Disable display of URL in bibliography
+    ]{biblatex}                         % Calls bibliography commands.
+\addbibresource{mybib.bib} % Location of bib file
 
-\usepackage{color} % for more colours
-\usepackage{xcolor} % for even more colours (see https://en.wikibooks.org/wiki/LaTeX/Colors for more info)
+\usepackage[svgnames,dvipsnames]{xcolor} % for even more colours (see https://en.wikibooks.org/wiki/LaTeX/Colors for more info)
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
 
-\usepackage{hyperref} % to hyperlink references, contents, etc.
+\usepackage{hyperref}                   % to hyperlink references, contents, etc. Change colours if required
 \hypersetup{
     colorlinks=true,
-    linkcolor=blue,
+    linkcolor=black,                    % Colour of internal links
     filecolor=Fuchsia,
-    urlcolor=red,
-    citecolor=cyan,
+    urlcolor=Crimson,
+    citecolor=Cerulean,
 }
+\usepackage{memhfixc}                   % Must be used on memoir document class after hyperref
+% ----------------------------------------
+
+% ----------------------------------------
+% New command definitions for my thesis. Put here so macros can be used in glossary entries
+\input{macros}
+% ----------------------------------------
+
 
 \usepackage{listings} % for displaying code
 \lstset{ %
@@ -85,128 +222,131 @@
   title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 }
 
-\usepackage{tocloft} % for table of contents, figures, tables
-\renewcommand{\listfigurename}{Figures} % rename List of Figures heading
-\renewcommand{\listtablename}{Tables} % rename List of Tables heading
-\renewcommand{\lstlistlistingname}{Source code and scripts} % rename List of Listings heading
-\renewcommand\cftsecafterpnum{\vskip10pt} % change line spacing after each section entry
-\renewcommand\cftfigafterpnum{\vskip10pt} % change line spacing after each Figure entry
-\renewcommand\cfttabafterpnum{\vskip10pt} % change line spacing after each Table entry
-\renewcommand\cftbeforesubsecskip{-5pt} % reduce line spacing between section and subsection entry
-\renewcommand\cftsubsecafterpnum{\vskip10pt} % change line spacing after each subsection entry
-\renewcommand\cftbeforesubsubsecskip{-5pt} % reduce line spacing between subsection and subsubsection entry
-\renewcommand\cftsubsubsecafterpnum{\vskip10pt} % change line spacing after each subsubsection entry
-
-\renewcommand{\arraystretch}{1.2} % increase vertical space between rows in a table
-
-\begin{large} % these allow my listings to be added like list of tables/figures (with the same appearance)
-\makeatletter
-\begingroup\let\newcounter\@gobble\let\setcounter\@gobbletwo
-  \globaldefs\@ne \let\c@loldepth\@ne \let\l@lstlisting\l@figure
-  \newlistof{listings}{lol}{\lstlistlistingname}
-\endgroup
-\let\l@lstlisting\l@listings
-\AtBeginDocument{\addtocontents{lol}{\protect\addvspace{15pt}}}
-\makeatother
-\renewcommand{\lstlistoflistings}{\listoflistings}
-\end{large}
-
-% Replace existing commands/make my own commands
-\renewcommand{\_}{\texttt{\char`_}}
-\newcommand{\madgraph}{\MADGRAPH}
-\newcommand{\madanalysis}{\textsc{MadAnalysis}\xspace}
-\newcommand{\rivet}{\textsc{Rivet}}
-\newcommand{\etmiss}{\MET}
-\newcommand{\met}{\MET}
-\newcommand{\htmiss}{\mht}
-\newcommand{\alphat}{\ensuremath{\alpha_{\mathrm{T}}}\xspace}
-\newcommand{\biasedDPhi}{\ensuremath{\Delta\phi^*_{\mathrm{min}}}\xspace}
-\newcommand{\pT}{\pt}
-\newcommand{\LSP}{\ensuremath{\tilde{\chi}_1^0}\xspace}
-\newcommand{\rinv}{\ensuremath{r_{\mathrm{inv}}}\xspace}
-\newcommand{\comruntwo}{\ensuremath{\sqrt{s} = 13 \TeV}\xspace}
+% ----------------------------------------                            
+% Reduce widows (the last line of a paragraph at the start of a page) and orphans (the first line of paragraph at the end of a page)
+\widowpenalty=1000
+\clubpenalty=1000
+% ----------------------------------------
 
 \begin{document}
 
-\begin{titlepage}
+\frontmatter
+\pagenumbering{roman}
 
-   \cmsnote{Lab book}
-   \date{\today}
-
-  \title{Dark Matter searches at CMS at \comruntwo}
-
-  \begin{Authlist}
-    Eshwen Bhal
-       \Instfoot{bri}{University of Bristol, United Kingdom}
-       Contact info: \textbf{eshwen.bhal@bristol.ac.uk}; \textbf{eshwen.bhal@cern.ch}
-       
-       Supervisors: Henning Fl\"{a}cher (\textbf{Henning.Flacher@cern.ch}, \textbf{Henning.Flaecher@bristol.ac.uk}); Bj\"{o}rn Penning (\textbf{penning@cern.ch})
-  \end{Authlist}
-
-  \begin{abstract}
-This document is an electronic copy of the lab book I'll be keeping during my PhD. It was initially intended both as a backup in case something happens to my physical lab book, and as a searchable document if I want to find a reference, etc., quickly. But now it has assumed the role of my primary lab book for various reasons. This contains everything I have worked on since the start of my PhD including all analysis, research, service work, and also code, commands and reminders of things I may forget. It is also date-logged (in part), fully searchable and hyper-referenced.
-  \end{abstract} 
+\begin{titlingpage}
+  \begin{SingleSpace}
+  \calccentering{\unitlength} 
+  \begin{adjustwidth*}{\unitlength}{-\unitlength}
+  \vspace*{13mm}
+  \begin{center}
+  \rule[0.5ex]{\linewidth}{2pt}\vspace*{-\baselineskip}\vspace*{3.2pt}
+  \rule[0.5ex]{\linewidth}{1pt}\\[\baselineskip]
+  {\HUGE Dark Matter Searches at CMS at 13 TeV}\\[4mm] % title
+  {\Large \textit{Searches for invisibly decaying Higgs bosons and semi-visible jets}}\\ % subtitle
+  \rule[0.5ex]{\linewidth}{1pt}\vspace*{-\baselineskip}\vspace{3.2pt}
+  \rule[0.5ex]{\linewidth}{2pt}\\
+  \vspace{6.5mm}
+  {\large By}\\
+  \vspace{6.5mm}
+  {\large\textsc{Eshwen Bhal}}\\  % name
+  \vspace{11mm}
+  \includegraphics[scale=0.6]{headers/bristolcrest_colour}\\  % logo/university crest
+  \vspace{6mm}
+  {\large School of Physics\\  % school/department
+  \textsc{University of Bristol}}\\  % university
+  \vspace{11mm}
+  \begin{minipage}{10cm}
+  A lab book to keep track of research during my PhD.
   
-\end{titlepage}
+  Author details:
+  
+  Eshwen Bhal, University of Bristol, United Kingdom. \textbf{eshwen.bhal@bristol.ac.uk}, \textbf{eshwen.bhal@cern.ch}.
+       
+  Supervisor details: Henning Fl\"{a}cher, University of Bristol, United Kingdom. \textbf{Henning.Flacher@cern.ch}, \textbf{Henning.Flaecher@bristol.ac.uk}.
+  \end{minipage}\\
+  \vspace{9mm}
+  {\large\textsc{\today}}  % date of submission
+  \vspace{12mm}
+  \end{center}
+  \begin{flushright}
+  {\small Word count: number in words}  % word count
+  \end{flushright}
+  \end{adjustwidth*}
+  \end{SingleSpace}
+\end{titlingpage}
 
-\pagenumbering{roman} % use Roman numerals in contents pages
-\tableofcontents % adds a contents page
-\listoffigures % includes a list of figures in contents
-\listoftables % includes a list of tables in contents
-\lstlistoflistings % includes a list of listings (e.g. code)
+\chapter*{Abstract}
+\begin{SingleSpace}
+\initial{T}his document is an electronic copy of the lab book I'll be keeping during my PhD. It was initially intended both as a backup in case something happens to my physical lab book, and as a searchable document if I want to find a reference, etc., quickly. But now it has assumed the role of my primary lab book for various reasons. This contains everything I have worked on since the start of my PhD including all analysis, research, service work, and also code, commands and reminders of things I may forget. It is also date-logged (in part), fully searchable and hyper-referenced.
+\end{SingleSpace}
+\clearpage
 
-\newpage
-\pagenumbering{arabic} % change page numbering back to Arabic numbers
+\renewcommand{\contentsname}{Table of Contents}
+\maxtocdepth{subsection}
+\tableofcontents*
+\addtocontents{toc}{\par\nobreak \mbox{}\hfill\textbf{Page}\par\nobreak}
+\clearpage
+
+\listoffigures
+\addtocontents{lof}{\par\nobreak\textbf{{\scshape Figure} \hfill Page}\par\nobreak}
+\clearpage
+
+\listoftables
+\addtocontents{lot}{\par\nobreak\textbf{{\scshape Table} \hfill Page}\par\nobreak}
+\clearpage
+
+%\lstlistoflistings
+%\addtocontents{lol}{\par\nobreak\textbf{{\scshape Listing} \hfill Page}\par\nobreak}
+%\clearpage
+
+\mainmatter
 
 % Include all modules for lab book. Remember that path names to figures and other files will be relative to this directory of *this* file, not the directory where the module is located. I can also comment out the other modules If I want to test the current stuff I'm writing, just so it compiles quicker.
 
-\input{./modules/"Sec 1 - Introduction.tex"}
-\input{./modules/"Sec 2 - Introduction, software hardware needs, stuff to remember.tex"}
-\input{./modules/"Sec 3 - Useful introductory papers for Supersymmetry and dark matter.tex"}
-\input{./modules/"Sec 4 - Using Pythia with Cygwin.tex"}
-\input{./modules/"Sec 5 - Interesting thoughts and interpretations of dark matter.tex"}
-\input{./modules/"Sec 6 - Running ROOT in a Linux VM.tex"}
-\input{./modules/"Sec 7 - Using Soolin and DICE.tex"}
-\input{./modules/"Sec 8 - Using MadGraph first steps.tex"}
-\input{./modules/"Sec 9 - CERN account.tex"}
-\input{./modules/"Sec 10 - Scripting for MadGraph and ROOT.tex"}
-\input{./modules/"Sec 11 - Filling, Comparing and Normalizing Histograms.tex"}
-\input{./modules/"Sec 12 - CMSSW and Fireworks.tex"}
-\input{./modules/"Sec 13 - Using MadAnalysis and searching for dark matter.tex"}
-\input{./modules/"Sec 14 - Concepts, nomenclature and definitions.tex"}
-\input{./modules/"Sec 15 - Evaluating backgrounds in a dark matter search.tex"}
-\input{./modules/"Sec 16 - Rivet.tex"}
-\input{./modules/"Sec 17 - Searching for dark matter by identifying invisible jets.tex"}
-\input{./modules/"Sec 18 - Cut flow tables for SUS-15-005.tex"}
-\input{./modules/"Sec 19 - Imperial College account details.tex"}
-\input{./modules/"Sec 20 - Service Work Jet Energy Corrections.tex"}
-\input{./modules/"Sec 21 - Using SSHFS to mount remote servers.tex"}
-\input{./modules/"Sec 22 - Physics PGR conference and Annual Progress Monitoring.tex"}
-\input{./modules/"Sec 23 - Signal model analyses for SUS-16-038.tex"}
-\input{./modules/"Sec 24 - Making DMSimp dark matter trees.tex"}
-\input{./modules/"Sec 25 - LTA at CERN.tex"}
-\input{./modules/"Sec 26 - Using HEPData to archive published material.tex"}
-\input{./modules/"Sec 27 - Checking HTmiss tails for data in the event display.tex"}
-\input{./modules/"Sec 28 - Using NumPy and root_numpy.tex"}
-\input{./modules/"Sec 29 - Tree production for common analysis and 2017 data.tex"}
-\input{./modules/"Sec 30 - Cut flow tables for SUS-16-038.tex"}
-\input{./modules/"Sec 31 - Analysing the T2tt-4bd SUSY model.tex"}
-\input{./modules/"Sec 32 - An introduction to the dark Higgs.tex"}
-\input{./modules/"Sec 33 - Service Work Trigger Shifts at P5.tex"}
-\input{./modules/"Sec 34 - Service Work - ETmiss studies.tex"}
-\input{./modules/"Sec 35 - Semi-visible jets analysis.tex"}
-\input{./modules/"Sec 36 - FAST-RA1.tex"}
-\input{./modules/"Sec 37 - Combined Higgs to invisible analysis.tex"}
-\input{./modules/"Sec 38 - Annual Progress Monitoring (second year).tex"}
+\import{modules/}{Sec 1 - Introduction}
+\import{modules/}{Sec 2 - Introduction, software hardware needs, stuff to remember}
+\import{modules/}{Sec 3 - Useful introductory papers for Supersymmetry and dark matter}
+\import{modules/}{Sec 4 - Using Pythia with Cygwin}
+\import{modules/}{Sec 5 - Interesting thoughts and interpretations of dark matter}
+\import{modules/}{Sec 6 - Running ROOT in a Linux VM}
+\import{modules/}{Sec 7 - Using Soolin and DICE}
+\import{modules/}{Sec 8 - Using MadGraph first steps}
+\import{modules/}{Sec 9 - CERN account}
+\import{modules/}{Sec 10 - Scripting for MadGraph and ROOT}
+\import{modules/}{Sec 11 - Filling, Comparing and Normalizing Histograms}
+\import{modules/}{Sec 12 - CMSSW and Fireworks}
+\import{modules/}{Sec 13 - Using MadAnalysis and searching for dark matter}
+\import{modules/}{Sec 14 - Concepts, nomenclature and definitions}
+\import{modules/}{Sec 15 - Evaluating backgrounds in a dark matter search}
+\import{modules/}{Sec 16 - Rivet}
+\import{modules/}{Sec 17 - Searching for dark matter by identifying invisible jets}
+\import{modules/}{Sec 18 - Cut flow tables for SUS-15-005}
+\import{modules/}{Sec 19 - Imperial College account details}
+\import{modules/}{Sec 20 - Service Work Jet Energy Corrections}
+\import{modules/}{Sec 21 - Using SSHFS to mount remote servers}
+\import{modules/}{Sec 22 - Physics PGR conference and Annual Progress Monitoring}
+\import{modules/}{Sec 23 - Signal model analyses for SUS-16-038}
+\import{modules/}{Sec 24 - Making DMSimp dark matter trees}
+\import{modules/}{Sec 25 - LTA at CERN}
+\import{modules/}{Sec 26 - Using HEPData to archive published material}
+\import{modules/}{Sec 27 - Checking HTmiss tails for data in the event display}
+\import{modules/}{Sec 28 - Using NumPy and root_numpy}
+\import{modules/}{Sec 29 - Tree production for common analysis and 2017 data}
+\import{modules/}{Sec 30 - Cut flow tables for SUS-16-038}
+\import{modules/}{Sec 31 - Analysing the T2tt-4bd SUSY model}
+\import{modules/}{Sec 32 - An introduction to the dark Higgs}
+\import{modules/}{Sec 33 - Service Work Trigger Shifts at P5}
+\import{modules/}{Sec 34 - Service Work - ETmiss studies}
+\import{modules/}{Sec 35 - Semi-visible jets analysis}
+\import{modules/}{Sec 36 - FAST-RA1}
+\import{modules/}{Sec 37 - Combined Higgs to invisible analysis}
+\import{modules/}{Sec 38 - Annual Progress Monitoring (second year)}
 
 %------------------------------------------------------------------------------------------------------------------------
 
 \newpage
-\phantomsection % otherwise hyperlink for bibliography goes to the section/subsection before it
-\addcontentsline{toc}{section}{References} % to add bibliography to contents. Remove URLs from entries if present.
+\backmatter
 
-%\printbibliography % if using biblatex package, this is how the bibliography is printed
-\bibliographystyle{unsrt}
-\refstepcounter{section}
-\bibliography{mybib.bib}
+\printbibliography
+\refstepcounter{chapter}
 \end{document}
