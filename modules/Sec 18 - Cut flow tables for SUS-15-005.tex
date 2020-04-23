@@ -345,8 +345,8 @@ Rob has asked whether the preliminary tables (for signal data) contain \emph{all
 \begin{easylist}[itemize]
 \ListProperties(Style*=$\bullet$ , FinalMark={)})
 & $<$Skimmer name, as detailed in Dom's AlphaTools branch$>$ | $<$event selection$>$ | $<$necessary for benchmark model cut flows?$>$
-& defaultSkim | \alphat\ \HT-dependent cuts; \htmiss\ $> 130$ (for jets with $p_{\mathrm{T}} > 40$); $H_{\mathrm{T}} \geq 200$ (for jets with $p_{\mathrm{T}} > 40$); $n_{\mathrm{jets}}$ with $p_{\mathrm{T}} > 40$ is $> 1$; $n_{\mathrm{jets}}$ with $p_{\mathrm{T}} > 100$ is $\geq 1$ | Y
-& bDPhiSkim | $\Delta\phi^{*}_{\mathrm{min}} > 0.5$ | Y
+& defaultSkim | \alphat\ \HT-dependent cuts; \htmiss\ $> 130$ (for jets with $\pt > 40$); $\HT \geq 200$ (for jets with $\pt > 40$); $n_{\mathrm{jets}}$ with $\pt > 40$ is $> 1$; $n_{\mathrm{jets}}$ with $\pt > 100$ is $\geq 1$ | Y
+& bDPhiSkim | $\biasedDPhi > 0.5$ | Y
 & objectSkimmer | Lepton and photon vetoes, depends on data type (signal MC, single mu, double mu, etc.) | N
 & primaryDatasetSkimmer | no cut, specifies parent sample if data | N
 & cutFlowSkimmer | determine type of data for cut flows (data, control region MC, signal region MC) | Y
@@ -453,7 +453,7 @@ After including the skimmers applicable to the 2015 analysis (then removing the 
     
     --    &    39074    & 100    &    100    \\
     
-    $n_{\mathrm{jet}} \geq 2 \ (p_{\mathrm{T}}^{\ \mathrm{j}} > 40$ GeV)    &    39074    & 100    &    100    \\
+    $\njet \geq 2 \ (\pt^{\ \mathrm{j}} > 40\GeV$)    &    39074    & 100    &    100    \\
     
     Forward jet veto    &   35488    &  90.82   &    90.82   \\
     
@@ -465,17 +465,17 @@ After including the skimmers applicable to the 2015 analysis (then removing the 
     
     Isolated track veto    &    12017    &    30.75    &    34.88    \\
     
-    $n_{\mathrm{jet}} \geq 1 \ (p_{\mathrm{T}} > 100$ GeV)    &    7971    &    20.40    &    66.33    \\
+    $\njet \geq 1 \ (\pt > 100\GeV$)    &    7971    &    20.40    &    66.33    \\
     
-    $H_{\mathrm{T}} \geq 200$ GeV ($p_{\mathrm{T}}^{\ \mathrm{j}} > 40$ GeV)   &   7837    &    20.06    &    98.32    \\
+    $\HT \geq 200\GeV$ ($\pt^{\ \mathrm{j}} > 40\GeV$)   &   7837    &    20.06    &    98.32    \\
     
-    \htmiss\ $\geq 130$ GeV ($p_{\mathrm{T}}^{\ \mathrm{j}} > 40$ GeV)    &    4818    &    12.33    &    61.48    \\
+    \htmiss\ $\geq 130\GeV$ ($\pt^{\ \mathrm{j}} > 40\GeV$)    &    4818    &    12.33    &    61.48    \\
     
     \htmiss/\etmiss\ $< 1.25$    &    4050    &    10.36    &    84.06    \\
     
     \alphat\ \HT-dependent cuts    &    2863    &    7.33    &    70.69    \\
     
-    $\Delta\phi^{*}_{\mathrm{min}} > 0.5$    &    859    &    2.20    &    30.00    \\ \hline
+    $\biasedDPhi > 0.5$    &    859    &    2.20    &    30.00    \\ \hline
     
     \end{tabularx}
     \caption{The preliminary version of the cut flow table for the example 2016 dataset SMS\_T1tttt\_madgraphMLM (30799443 events, reduced to 39074 \emph{unweighted} events when selections on $m_{\mathrm{SUSY}}$ and $m_{\mathrm{LSP}}$ were applied). The cuts included comprise all of the relevant selections that were implemented for the benchmark models in the 2015 analysis. The \emph{final} tables will only contain the inclusive/cumulative efficiencies, and the column headers will be replaced by the sample parameters (equivalent to the cut flow table in SUS-14-006\_aux).}
@@ -546,9 +546,9 @@ If there are more selections that are needed for the cut flow table, or I want t
 
 for the T1tttt example I used above.
 
-If I look at Table 5 of the paper, showcasing the benchmark models and their samples, there's a column called "Most sensitive $n_{\mathrm{jet}}$ categories". These show the four most sensitive categories. Some of them contain an "a" following the number, which stands for "asymmetric". Asymmetric jets refer to the $p_{\mathrm{T}}$ of the two hardest jets. In the cut flow, it is required that at least two jets have $p_{\mathrm{T}}^{\mathrm{j}} > 40$ GeV, and the leading jet (j$_1$) has $p_{\mathrm{T}}^{\mathrm{j_1}} > 100$ GeV. If the second-hardest jet (j$_2$) also has $p_{\mathrm{T}}^{\mathrm{j_2}} > 100$ GeV, the topology is "symmetric". But, if it instead is $40 < p_{\mathrm{T}}^{\mathrm{j_2}} < 100$ GeV, the topology is asymmetric. In the rare case of $p_{\mathrm{T}}^{\mathrm{j_2}} < 40$ GeV, we have the "monojet" regime. I need to account for these $n_{\mathrm{jet}}$ categories in the cut flow. Essentially, I have a standard cut flow that is executed for each sample. Then at the end of that cut flow, I specify the sample-specific selections (i.e., the $n_{\mathrm{jet}}$ categories).
+If I look at Table 5 of the paper, showcasing the benchmark models and their samples, there's a column called "Most sensitive \njet categories". These show the four most sensitive categories. Some of them contain an "a" following the number, which stands for "asymmetric". Asymmetric jets refer to the \pt of the two hardest jets. In the cut flow, it is required that at least two jets have $\pt^{\mathrm{j}} > 40\GeV$, and the leading jet (j$_1$) has $\ptjone > 100\GeV$. If the second-hardest jet (j$_2$) also has $\pt^{\mathrm{j_2}} > 100\GeV$, the topology is "symmetric". But, if it instead is $40 < \pt^{\mathrm{j_2}} < 100\GeV$, the topology is asymmetric. In the rare case of $\pt^{\mathrm{j_2}} < 40\GeV$, we have the "monojet" regime. I need to account for these \njet categories in the cut flow. Essentially, I have a standard cut flow that is executed for each sample. Then at the end of that cut flow, I specify the sample-specific selections (i.e., the \njet categories).
 
-When making the cut flow tables for a sample I need to make sure that (in \textbf{twirl\_mktbl.py}) I've specified the correct path in \verb!default_heppydir!, the sparticles and their masses are correct, the $n_{\mathrm{jet}}$ categories are correct, and that I'm including the correct \verb!--components! argument when executing the command in the terminal.
+When making the cut flow tables for a sample I need to make sure that (in \textbf{twirl\_mktbl.py}) I've specified the correct path in \verb!default_heppydir!, the sparticles and their masses are correct, the \njet categories are correct, and that I'm including the correct \verb!--components! argument when executing the command in the terminal.
 
 After I made a few cut flow tables, I compared the end-of-cut-flow efficiencies with those listed in Table 5 of the paper. In the comparisons for all of the models I had tested, there was a discrepancy between the efficiencies. My values were consistently $\sim 2.0-2.5$x those in the paper. My initial reaction was that I had made a mistake somewhere. But on closer inspection, Matt and Rob discovered that the values in the paper were actually incorrect because they hadn't been scaled by the luminosity (2.3 fb$^{-1}$). So I inadvertently found a mistake in the paper (which I'm proud of). And it's good that this was found now rather than after publication. After generating the rest of the tables, I found another mistake. My efficiencies for the T2bb samples were a factor of more than 20 greater than in the paper. This was due to the values in the paper using the squark cross section as opposed to the sbottom. When corrected, the efficiencies were more consistent. For my contributions to the cut flows, I've also been added to the internal authors list. Because I'm not a CMS author and the public author list for the paper was finalised ages ago, I'm not an author on the \emph{public} paper but I am on the \emph{internal} paper (i.e., the draft versions) and the accompanying analysis note CMS AN-15-004. This is a huge step because it shows that I've made a significant enough contribution to the analysis that the rest of the group recognise it, and I know how much work and effort is needed to earn authorship.
 
@@ -566,7 +566,7 @@ After the months of slogging away, I have finally generated the cut flow tables 
 All of the cut flow tables, taken directly from the auxiliary material (\url{https://github.com/CMSRA1/AlphaTDR2/blob/master/papers/SUS-15-005/trunk/SUS-15-005_aux.tex}) are here:
 
 \begin{table}[H]
-\caption{A summary of the cumulative signal acceptance times efficiency, $\mathcal{A}\,\varepsilon$ [\%], for various benchmark models with both compressed and uncompressed mass spectra, following the application of the event selection criteria used to define the signal region. Values for $\mathcal{A}\,\varepsilon$ are also shown following the application of additional requirements that define the four most sensitive $n_{\mathrm{jet}}$ event categories, as defined in Table 5 of the paper. Scale factor corrections to simulated signal events that account for the mismodelling of theoretical and experimental parameters are not applied, and so the values for $\mathcal{A}\,\varepsilon$ differ with respect to those in Table 5 by up to 15\%. }
+\caption{A summary of the cumulative signal acceptance times efficiency, $\mathcal{A}\,\varepsilon$ [\%], for various benchmark models with both compressed and uncompressed mass spectra, following the application of the event selection criteria used to define the signal region. Values for $\mathcal{A}\,\varepsilon$ are also shown following the application of additional requirements that define the four most sensitive \njet event categories, as defined in Table 5 of the paper. Scale factor corrections to simulated signal events that account for the mismodelling of theoretical and experimental parameters are not applied, and so the values for $\mathcal{A}\,\varepsilon$ differ with respect to those in Table 5 by up to 15\%. }
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcccccc}
   \hline
@@ -580,16 +580,16 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
   Event veto for single isolated tracks & \phantom{1}94\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} \\
   Event veto for photons & \phantom{1}92\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}95\phantom{.1} \\
   Event veto for forward jets ($|\eta| > 3.0$) & \phantom{1}81\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}82\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}80\phantom{.1} & \phantom{1}80\phantom{.1} \\
-  $n_{\mathrm{jet}} \geq 2$ & \phantom{1}81\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}80\phantom{.1} & \phantom{1}75\phantom{.1} \\
-  $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}81\phantom{.1} & \phantom{1}71\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}57\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}66\phantom{.1} \\
+  $\njet \geq 2$ & \phantom{1}81\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}80\phantom{.1} & \phantom{1}75\phantom{.1} \\
+  $\ptjone > 100\GeV$ & \phantom{1}81\phantom{.1} & \phantom{1}71\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}57\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}66\phantom{.1} \\
   $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}81\phantom{.1} & \phantom{1}70\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}55\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}65\phantom{.1} \\
-  $H_{\mathrm{T}} > 200\,\mathrm{GeV}$ & \phantom{1}81\phantom{.1} & \phantom{1}69\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}60\phantom{.1} \\
-  $\mht > 130\,\mathrm{GeV}$ & \phantom{1}77\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}33\phantom{.1} & \phantom{1}71\phantom{.1} & \phantom{1}40\phantom{.1} \\
+  $\HT > 200\GeV$ & \phantom{1}81\phantom{.1} & \phantom{1}69\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}60\phantom{.1} \\
+  $\mht > 130\GeV$ & \phantom{1}77\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}33\phantom{.1} & \phantom{1}71\phantom{.1} & \phantom{1}40\phantom{.1} \\
   $\mht / \etmiss < 1.25$ & \phantom{1}74\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}75\phantom{.1} & \phantom{1}28\phantom{.1} & \phantom{1}65\phantom{.1} & \phantom{1}33\phantom{.1} \\
-  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 800\,\mathrm{GeV}$) & \phantom{1}74\phantom{.1} & \phantom{1}30\phantom{.1} & \phantom{1}71\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}17\phantom{.1} \\
-  $\Delta\phi^{*}_{\mathrm{min}} > 0.5$ & \phantom{1}22\phantom{.1} & \phantom{1}18\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}10\phantom{.1} & \phantom{1}33\phantom{.1} & \phantom{1}13\phantom{.1} \\
+  \HT-dependent \alphat requirements ($\HT < 800\GeV$) & \phantom{1}74\phantom{.1} & \phantom{1}30\phantom{.1} & \phantom{1}71\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}17\phantom{.1} \\
+  $\biasedDPhi > 0.5$ & \phantom{1}22\phantom{.1} & \phantom{1}18\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}10\phantom{.1} & \phantom{1}33\phantom{.1} & \phantom{1}13\phantom{.1} \\
   \hline
-  Four most sensitive $n_{\mathrm{jet}}$ event categories & \phantom{1}22\phantom{.1} & \phantom{1}13\phantom{.1} & \phantom{1}43\phantom{.1} & \phantom{10}5.5 & \phantom{1}31\phantom{.1} & \phantom{10}6.1 \\
+  Four most sensitive \njet event categories & \phantom{1}22\phantom{.1} & \phantom{1}13\phantom{.1} & \phantom{1}43\phantom{.1} & \phantom{10}5.5 & \phantom{1}31\phantom{.1} & \phantom{10}6.1 \\
   \hline
 \end{tabular}
 }
@@ -597,7 +597,7 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
 
 
 \begin{table}[H]
-\caption{A summary of the cumulative signal acceptance times efficiency, $\mathcal{A}\,\varepsilon$ [\%], for various benchmark models with both compressed and uncompressed mass spectra, following the application of the event selection criteria used to define the signal region. Values for $\mathcal{A}\,\varepsilon$ are also shown following the application of additional requirements that define the four most sensitive $n_{\mathrm{jet}}$ event categories, as defined in Table 5 of the paper. Scale factor corrections to simulated signal events that account for the mismodelling of theoretical and experimental parameters are not applied, and so the values for $\mathcal{A}\,\varepsilon$ differ with respect to those in Table 5 by up to 15\%. }
+\caption{A summary of the cumulative signal acceptance times efficiency, $\mathcal{A}\,\varepsilon$ [\%], for various benchmark models with both compressed and uncompressed mass spectra, following the application of the event selection criteria used to define the signal region. Values for $\mathcal{A}\,\varepsilon$ are also shown following the application of additional requirements that define the four most sensitive \njet event categories, as defined in Table 5 of the paper. Scale factor corrections to simulated signal events that account for the mismodelling of theoretical and experimental parameters are not applied, and so the values for $\mathcal{A}\,\varepsilon$ differ with respect to those in Table 5 by up to 15\%. }
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcccccc}
   \hline
@@ -611,16 +611,16 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
   Event veto for single isolated tracks & \phantom{1}94\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}31\phantom{.1} & \phantom{1}32\phantom{.1} & \phantom{1}51\phantom{.1} & \phantom{1}54\phantom{.1} \\
   Event veto for photons & \phantom{1}93\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}30\phantom{.1} & \phantom{1}32\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}54\phantom{.1} \\
   Event veto for forward jets ($|\eta| > 3.0$) & \phantom{1}82\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}47\phantom{.1} \\
-  $n_{\mathrm{jet}} \geq 2$ & \phantom{1}82\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}47\phantom{.1} \\
-  $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}82\phantom{.1} & \phantom{1}69\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}43\phantom{.1} \\
+  $\njet \geq 2$ & \phantom{1}82\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}47\phantom{.1} \\
+  $\ptjone > 100\GeV$ & \phantom{1}82\phantom{.1} & \phantom{1}69\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}43\phantom{.1} \\
   $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}82\phantom{.1} & \phantom{1}68\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}42\phantom{.1} \\
-  $H_{\mathrm{T}} > 200\,\mathrm{GeV}$ & \phantom{1}82\phantom{.1} & \phantom{1}66\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}42\phantom{.1} \\
-  $\mht > 130\,\mathrm{GeV}$ & \phantom{1}79\phantom{.1} & \phantom{1}48\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}41\phantom{.1} & \phantom{1}32\phantom{.1} \\
+  $\HT > 200\GeV$ & \phantom{1}82\phantom{.1} & \phantom{1}66\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}42\phantom{.1} \\
+  $\mht > 130\GeV$ & \phantom{1}79\phantom{.1} & \phantom{1}48\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}41\phantom{.1} & \phantom{1}32\phantom{.1} \\
   $\mht / \etmiss < 1.25$ & \phantom{1}77\phantom{.1} & \phantom{1}43\phantom{.1} & \phantom{1}24\phantom{.1} & \phantom{1}11\phantom{.1} & \phantom{1}38\phantom{.1} & \phantom{1}26\phantom{.1} \\
-  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 800\,\mathrm{GeV}$) & \phantom{1}77\phantom{.1} & \phantom{1}29\phantom{.1} & \phantom{1}24\phantom{.1} & \phantom{10}8.3 & \phantom{1}38\phantom{.1} & \phantom{1}19\phantom{.1} \\
-  $\Delta\phi^{*}_{\mathrm{min}} > 0.5$ & \phantom{1}23\phantom{.1} & \phantom{1}17\phantom{.1} & \phantom{10}5.6 & \phantom{10}1.3 & \phantom{10}9.5 & \phantom{10}8.8 \\
+  \HT-dependent \alphat requirements ($\HT < 800\GeV$) & \phantom{1}77\phantom{.1} & \phantom{1}29\phantom{.1} & \phantom{1}24\phantom{.1} & \phantom{10}8.3 & \phantom{1}38\phantom{.1} & \phantom{1}19\phantom{.1} \\
+  $\biasedDPhi > 0.5$ & \phantom{1}23\phantom{.1} & \phantom{1}17\phantom{.1} & \phantom{10}5.6 & \phantom{10}1.3 & \phantom{10}9.5 & \phantom{10}8.8 \\
   \hline
-  Four most sensitive $n_{\mathrm{jet}}$ event categories & \phantom{1}23\phantom{.1} & \phantom{1}12\phantom{.1} & \phantom{10}5.6 & \phantom{10}1.3 & \phantom{10}9.5 & \phantom{10}7.4 \\
+  Four most sensitive \njet event categories & \phantom{1}23\phantom{.1} & \phantom{1}12\phantom{.1} & \phantom{10}5.6 & \phantom{10}1.3 & \phantom{10}9.5 & \phantom{10}7.4 \\
   \hline
 \end{tabular}
 }
@@ -628,7 +628,7 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
 
 
 \begin{table}[H]
-\caption{A summary of the cumulative signal acceptance times efficiency, $\mathcal{A}\,\varepsilon$ [\%], for various benchmark models with both compressed and uncompressed mass spectra, following the application of the event selection criteria used to define the signal region. Values for $\mathcal{A}\,\varepsilon$ are also shown following the application of additional requirements that define the four most sensitive $n_{\mathrm{jet}}$ event categories, as defined in Table 5 of the paper. Scale factor corrections to simulated signal events that account for the mismodelling of theoretical and experimental parameters are not applied, and so the values for $\mathcal{A}\,\varepsilon$ differ with respect to those in Table 5 by up to 15\%. }
+\caption{A summary of the cumulative signal acceptance times efficiency, $\mathcal{A}\,\varepsilon$ [\%], for various benchmark models with both compressed and uncompressed mass spectra, following the application of the event selection criteria used to define the signal region. Values for $\mathcal{A}\,\varepsilon$ are also shown following the application of additional requirements that define the four most sensitive \njet event categories, as defined in Table 5 of the paper. Scale factor corrections to simulated signal events that account for the mismodelling of theoretical and experimental parameters are not applied, and so the values for $\mathcal{A}\,\varepsilon$ differ with respect to those in Table 5 by up to 15\%. }
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcccc}
   \hline
@@ -642,16 +642,16 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
   Event veto for single isolated tracks & \phantom{1}30\phantom{.1} & \phantom{1}32\phantom{.1} & \phantom{1}53\phantom{.1} & \phantom{1}53\phantom{.1} \\
   Event veto for photons & \phantom{1}30\phantom{.1} & \phantom{1}31\phantom{.1} & \phantom{1}53\phantom{.1} & \phantom{1}52\phantom{.1} \\
   Event veto for forward jets ($|\eta| > 3.0$) & \phantom{1}25\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}45\phantom{.1} \\
-  $n_{\mathrm{jet}} \geq 2$ & \phantom{1}25\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}41\phantom{.1} \\
-  $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}25\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}25\phantom{.1} \\
+  $\njet \geq 2$ & \phantom{1}25\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}41\phantom{.1} \\
+  $\ptjone > 100\GeV$ & \phantom{1}25\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}25\phantom{.1} \\
   $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}25\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}24\phantom{.1} \\
-  $H_{\mathrm{T}} > 200\,\mathrm{GeV}$ & \phantom{1}25\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}23\phantom{.1} \\
-  $\mht > 130\,\mathrm{GeV}$ & \phantom{1}17\phantom{.1} & \phantom{10}9.4 & \phantom{1}44\phantom{.1} & \phantom{1}15\phantom{.1} \\
+  $\HT > 200\GeV$ & \phantom{1}25\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}23\phantom{.1} \\
+  $\mht > 130\GeV$ & \phantom{1}17\phantom{.1} & \phantom{10}9.4 & \phantom{1}44\phantom{.1} & \phantom{1}15\phantom{.1} \\
   $\mht / \etmiss < 1.25$ & \phantom{1}11\phantom{.1} & \phantom{10}5.6 & \phantom{1}42\phantom{.1} & \phantom{1}12\phantom{.1} \\
-  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 800\,\mathrm{GeV}$) & \phantom{1}11\phantom{.1} & \phantom{10}3.9 & \phantom{1}41\phantom{.1} & \phantom{10}7.5 \\
-  $\Delta\phi^{*}_{\mathrm{min}} > 0.5$ & \phantom{10}0.4 & \phantom{10}0.5 & \phantom{1}13\phantom{.1} & \phantom{10}3.2 \\
+  \HT-dependent \alphat requirements ($\HT < 800\GeV$) & \phantom{1}11\phantom{.1} & \phantom{10}3.9 & \phantom{1}41\phantom{.1} & \phantom{10}7.5 \\
+  $\biasedDPhi > 0.5$ & \phantom{10}0.4 & \phantom{10}0.5 & \phantom{1}13\phantom{.1} & \phantom{10}3.2 \\
   \hline
-  Four most sensitive $n_{\mathrm{jet}}$ event categories & \phantom{10}0.4 & \phantom{10}0.4 & \phantom{1}13\phantom{.1} & \phantom{10}2.3 \\
+  Four most sensitive \njet event categories & \phantom{10}0.4 & \phantom{10}0.4 & \phantom{1}13\phantom{.1} & \phantom{10}2.3 \\
   \hline
 \end{tabular}
 }
@@ -659,7 +659,7 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
 
 
 \begin{table}[H]
-\caption{A summary of the cumulative signal acceptance times efficiency, $\mathcal{A}\,\varepsilon$ [\%], for various benchmark models with both compressed and uncompressed mass spectra, following the application of the event selection criteria used to define the signal region. Values for $\mathcal{A}\,\varepsilon$ are also shown following the application of additional requirements that define the four most sensitive $n_{\mathrm{jet}}$ event categories, as defined in Table 5 of the paper. Scale factor corrections to simulated signal events that account for the mismodelling of theoretical and experimental parameters are not applied, and so the values for $\mathcal{A}\,\varepsilon$ differ with respect to those in Table 5 by up to 15\%. }
+\caption{A summary of the cumulative signal acceptance times efficiency, $\mathcal{A}\,\varepsilon$ [\%], for various benchmark models with both compressed and uncompressed mass spectra, following the application of the event selection criteria used to define the signal region. Values for $\mathcal{A}\,\varepsilon$ are also shown following the application of additional requirements that define the four most sensitive \njet event categories, as defined in Table 5 of the paper. Scale factor corrections to simulated signal events that account for the mismodelling of theoretical and experimental parameters are not applied, and so the values for $\mathcal{A}\,\varepsilon$ differ with respect to those in Table 5 by up to 15\%. }
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcccccc}
   \hline
@@ -673,16 +673,16 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
   Event veto for single isolated tracks & \phantom{1}96\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}61\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}53\phantom{.1} & \phantom{1}53\phantom{.1} \\
   Event veto for photons & \phantom{1}95\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}60\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}52\phantom{.1} & \phantom{1}52\phantom{.1} \\
   Event veto for forward jets ($|\eta| > 3.0$) & \phantom{1}81\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}51\phantom{.1} & \phantom{1}62\phantom{.1} & \phantom{1}45\phantom{.1} & \phantom{1}45\phantom{.1} \\
-  $n_{\mathrm{jet}} \geq 2$ & \phantom{1}80\phantom{.1} & \phantom{1}61\phantom{.1} & \phantom{1}51\phantom{.1} & \phantom{1}53\phantom{.1} & \phantom{1}45\phantom{.1} & \phantom{1}44\phantom{.1} \\
-  $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}80\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}35\phantom{.1} \\
+  $\njet \geq 2$ & \phantom{1}80\phantom{.1} & \phantom{1}61\phantom{.1} & \phantom{1}51\phantom{.1} & \phantom{1}53\phantom{.1} & \phantom{1}45\phantom{.1} & \phantom{1}44\phantom{.1} \\
+  $\ptjone > 100\GeV$ & \phantom{1}80\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}35\phantom{.1} \\
   $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}80\phantom{.1} & \phantom{1}34\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}34\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}34\phantom{.1} \\
-  $H_{\mathrm{T}} > 200\,\mathrm{GeV}$ & \phantom{1}80\phantom{.1} & \phantom{1}30\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}30\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}33\phantom{.1} \\
-  $\mht > 130\,\mathrm{GeV}$ & \phantom{1}75\phantom{.1} & \phantom{1}18\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}17\phantom{.1} & \phantom{1}40\phantom{.1} & \phantom{1}20\phantom{.1} \\
+  $\HT > 200\GeV$ & \phantom{1}80\phantom{.1} & \phantom{1}30\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}30\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}33\phantom{.1} \\
+  $\mht > 130\GeV$ & \phantom{1}75\phantom{.1} & \phantom{1}18\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}17\phantom{.1} & \phantom{1}40\phantom{.1} & \phantom{1}20\phantom{.1} \\
   $\mht / \etmiss < 1.25$ & \phantom{1}72\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}38\phantom{.1} & \phantom{1}12\phantom{.1} & \phantom{1}38\phantom{.1} & \phantom{1}15\phantom{.1} \\
-  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 800\,\mathrm{GeV}$) & \phantom{1}62\phantom{.1} & \phantom{10}7.2 & \phantom{1}30\phantom{.1} & \phantom{10}5.5 & \phantom{1}34\phantom{.1} & \phantom{10}8.8 \\
-  $\Delta\phi^{*}_{\mathrm{min}} > 0.5$ & \phantom{1}39\phantom{.1} & \phantom{10}4.5 & \phantom{1}17\phantom{.1} & \phantom{10}3.2 & \phantom{1}21\phantom{.1} & \phantom{10}4.0 \\
+  \HT-dependent \alphat requirements ($\HT < 800\GeV$) & \phantom{1}62\phantom{.1} & \phantom{10}7.2 & \phantom{1}30\phantom{.1} & \phantom{10}5.5 & \phantom{1}34\phantom{.1} & \phantom{10}8.8 \\
+  $\biasedDPhi > 0.5$ & \phantom{1}39\phantom{.1} & \phantom{10}4.5 & \phantom{1}17\phantom{.1} & \phantom{10}3.2 & \phantom{1}21\phantom{.1} & \phantom{10}4.0 \\
   \hline
-  Four most sensitive $n_{\mathrm{jet}}$ event categories & \phantom{1}37\phantom{.1} & \phantom{10}2.9 & \phantom{1}14\phantom{.1} & \phantom{10}2.1 & \phantom{1}19\phantom{.1} & \phantom{10}3.0 \\
+  Four most sensitive \njet event categories & \phantom{1}37\phantom{.1} & \phantom{10}2.9 & \phantom{1}14\phantom{.1} & \phantom{10}2.1 & \phantom{1}19\phantom{.1} & \phantom{10}3.0 \\
   \hline
 \end{tabular}
 }
@@ -690,7 +690,7 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
 
 
 \begin{table}[H]
-\caption{A summary of the cumulative signal acceptance times efficiency, $\mathcal{A}\,\varepsilon$ [\%], for various benchmark models with both compressed and uncompressed mass spectra, following the application of the event selection criteria used to define the signal region. Values for $\mathcal{A}\,\varepsilon$ are also shown following the application of additional requirements that define the four most sensitive $n_{\mathrm{jet}}$ event categories, as defined in Table 5 of the paper. Scale factor corrections to simulated signal events that account for the mismodelling of theoretical and experimental parameters are not applied, and so the values for $\mathcal{A}\,\varepsilon$ differ with respect to those in Table 5 by up to 15\%. }
+\caption{A summary of the cumulative signal acceptance times efficiency, $\mathcal{A}\,\varepsilon$ [\%], for various benchmark models with both compressed and uncompressed mass spectra, following the application of the event selection criteria used to define the signal region. Values for $\mathcal{A}\,\varepsilon$ are also shown following the application of additional requirements that define the four most sensitive \njet event categories, as defined in Table 5 of the paper. Scale factor corrections to simulated signal events that account for the mismodelling of theoretical and experimental parameters are not applied, and so the values for $\mathcal{A}\,\varepsilon$ differ with respect to those in Table 5 by up to 15\%. }
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lccc}
   \hline
@@ -704,16 +704,16 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
   Event veto for single isolated tracks & \phantom{1}97\phantom{.1} & \phantom{1}98\phantom{.1} & \phantom{1}83\phantom{.1} \\
   Event veto for photons & \phantom{1}97\phantom{.1} & \phantom{1}97\phantom{.1} & \phantom{1}83\phantom{.1} \\
   Event veto for forward jets ($|\eta| > 3.0$) & \phantom{1}83\phantom{.1} & \phantom{1}84\phantom{.1} & \phantom{1}72\phantom{.1} \\
-  $n_{\mathrm{jet}} \geq 2$ & \phantom{1}26\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}36\phantom{.1} \\
-  $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}16\phantom{.1} & \phantom{1}14\phantom{.1} & \phantom{1}19\phantom{.1} \\
+  $\njet \geq 2$ & \phantom{1}26\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}36\phantom{.1} \\
+  $\ptjone > 100\GeV$ & \phantom{1}16\phantom{.1} & \phantom{1}14\phantom{.1} & \phantom{1}19\phantom{.1} \\
   $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}15\phantom{.1} & \phantom{1}13\phantom{.1} & \phantom{1}18\phantom{.1} \\
-  $H_{\mathrm{T}} > 200\,\mathrm{GeV}$ & \phantom{1}13\phantom{.1} & \phantom{1}11\phantom{.1} & \phantom{1}15\phantom{.1} \\
-  $\mht > 130\,\mathrm{GeV}$ & \phantom{1}11\phantom{.1} & \phantom{10}9.2 & \phantom{1}10\phantom{.1} \\
+  $\HT > 200\GeV$ & \phantom{1}13\phantom{.1} & \phantom{1}11\phantom{.1} & \phantom{1}15\phantom{.1} \\
+  $\mht > 130\GeV$ & \phantom{1}11\phantom{.1} & \phantom{10}9.2 & \phantom{1}10\phantom{.1} \\
   $\mht / \etmiss < 1.25$ & \phantom{10}9.2 & \phantom{10}7.5 & \phantom{10}8.4 \\
-  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 800\,\mathrm{GeV}$) & \phantom{10}4.8 & \phantom{10}4.3 & \phantom{10}3.7 \\
-  $\Delta\phi^{*}_{\mathrm{min}} > 0.5$ & \phantom{10}3.7 & \phantom{10}3.7 & \phantom{10}2.3 \\
+  \HT-dependent \alphat requirements ($\HT < 800\GeV$) & \phantom{10}4.8 & \phantom{10}4.3 & \phantom{10}3.7 \\
+  $\biasedDPhi > 0.5$ & \phantom{10}3.7 & \phantom{10}3.7 & \phantom{10}2.3 \\
   \hline
-  Four most sensitive $n_{\mathrm{jet}}$ event categories & \phantom{10}1.9 & \phantom{10}1.9 & \phantom{10}0.9 \\
+  Four most sensitive \njet event categories & \phantom{10}1.9 & \phantom{10}1.9 & \phantom{10}0.9 \\
   \hline
 \end{tabular}
 }

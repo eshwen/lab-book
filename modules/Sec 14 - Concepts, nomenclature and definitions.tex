@@ -8,14 +8,14 @@
 
 & Jet: when a quark is produced in a collision, it hadronizes (to become colour-neutral). So another quark is created to pair with the lone quark. But because the particle typically has a lot of energy, more quark-antiquark pairs are produced (the same as when a quark pair is pulled apart, the stored energy in the flux tube between them allows the pair production of quarks, such that there are now two pairs of quarks). This cascades and several quark pairs are produced rapidly, turning into a jet (as each new pair produced travels in the same direction as the original quark(s)).
 
-& $b$-tagging: when bottom ($b$) quarks are produced in accelerator collisions, they hadronize and form jets. The hadrons composed of $b$-quarks have a relatively long lifetime and decay in the detector (or decay between the primary vertex -- initial interaction point -- and the detector to create a second jet and a secondary vertex). Because $b$-quarks have a large mass, their decay products tend to have a high $p_{\mathrm{T}}$. This leads to high-multiplicity, wide jets. These properties allow the jets to be "tagged" and identified, which can be useful when studying specific decays that would likely produce $b$-quarks.
+& $b$-tagging: when bottom ($b$) quarks are produced in accelerator collisions, they hadronize and form jets. The hadrons composed of $b$-quarks have a relatively long lifetime and decay in the detector (or decay between the primary vertex -- initial interaction point -- and the detector to create a second jet and a secondary vertex). Because $b$-quarks have a large mass, their decay products tend to have a high \pt. This leads to high-multiplicity, wide jets. These properties allow the jets to be "tagged" and identified, which can be useful when studying specific decays that would likely produce $b$-quarks.
 
 & Pseudorapidity: the pseudorapidity $\eta$ is a spatial coordinate that describes the angle of a particle (after a collision in an accelerator) relative to the beam axis. The formula is $\eta = -\ln[\tan(\theta/2)]$, where $\theta$ is the angle between the particle's three-momentum and the positive direction of the beam axis. So as $\theta \rightarrow 0^{\circ}$ (the beam line), $\eta \rightarrow \infty$. Generally, particles with large $\eta$ escape the detector (because they are travelling so close to the beam line), so cuts on the order of $|\eta| < 5$ or tighter are usually applied during analysis.
 
-& $\alpha_{\mathrm{T}}$: the kinematic variable $\alpha_{\mathrm{T}}$ is used in analyses to suppress QCD backgrounds, and to suppress multijet production and mis-reconstructed $p_{\mathrm{T}}$. It is defined in~\cite{Randall:2008rw}, and further described in~\cite{PhysRevLett.107.221804}. Another form is
+& \alphat: the kinematic variable \alphat is used in analyses to suppress QCD backgrounds, and to suppress multijet production and mis-reconstructed \pt. It is defined in~\cite{Randall:2008rw}, and further described in~\cite{PhysRevLett.107.221804}. Another form is
 
 \begin{equation}
-\alpha_{\mathrm{T}} = \frac{ \sum_{i \in \mathrm{jets}} E_{\mathrm{T}}^i - \Delta E_{\mathrm{T}} } {2 \sqrt{ \left( \sum_{i \in \mathrm{jets}} E_{\mathrm{T}}^i \right)^2 - (\mht)^2 } }
+\alphat = \frac{ \sum_{i \in \mathrm{jets}} E_{\mathrm{T}}^i - \Delta E_{\mathrm{T}} } {2 \sqrt{ \left( \sum_{i \in \mathrm{jets}} E_{\mathrm{T}}^i \right)^2 - (\mht)^2 } }
 \label{eq:alphaT}
 \end{equation}
 
@@ -42,21 +42,21 @@
 
 A value of $\Delta R = 0.4$ is commonly used for lepton (namely muon) isolation. Whilst most people say that it isn't a "cone", it's more like a cone in 3D space but a circle in the $\phi-\eta$ plane (which is how the trigger crystals and towers are arranged).
 
-& Isolation/isolated lepton: particle isolation is defined by the fractional momentum contribution of other particles "near" the particle you're interested in. First the track of the target particle is identified. Then a cone of radius $\Delta R$ is constructed (with $\Delta R = 0.4$ being a common choice for muons) around a point in the track with its apex at the primary vertex, and the sums of the $p_{\mathrm{T}}$ and $E_{\mathrm{T}}$ of all the particles within this cone are calculated. Then by dividing by the target particle's $p_{\mathrm{T}}$ you can calculate the fraction of the momentum that other particles are contributing to the total momentum inside the cone, which is also called the value of the particle's "relative isolation". Then you can impose cuts on these values, depending on how isolated you want a certain particle to be.
+& Isolation/isolated lepton: particle isolation is defined by the fractional momentum contribution of other particles "near" the particle you're interested in. First the track of the target particle is identified. Then a cone of radius $\Delta R$ is constructed (with $\Delta R = 0.4$ being a common choice for muons) around a point in the track with its apex at the primary vertex, and the sums of the \pt and $E_{\mathrm{T}}$ of all the particles within this cone are calculated. Then by dividing by the target particle's \pt you can calculate the fraction of the momentum that other particles are contributing to the total momentum inside the cone, which is also called the value of the particle's "relative isolation". Then you can impose cuts on these values, depending on how isolated you want a certain particle to be.
 
 & Drell-Yan processes: in the LHC, the Drell-Yan (DY) process is when a quark from one proton annihilates with an antiquark from an oncoming proton. This normally produces one of the electroweak bosons, which decays into a lepton-antilepton pair. Looking at invariant mass plots from DY can show clear peaks at the masses of different particles, like the $\phi$. $J/\psi$, $\upsilon$ hadrons and the $Z$ boson. However, as protons contain many quarks, antiquarks and gluons, DY is normally messy and the final states can include several jets.
 
-& \biasedDPhi: the variable \biasedDPhi, known as "biased delta phi", is used in making event selections in signal/data, similar to \alphat.~\cite{CMS-PAPER-SUS-15-005-arXiv} It is based on the minimum azimuthal separation between a jet and the negative vector $\vec{p}_{\mathrm{T}}$ sum of all of the other jets in the event. So it is essentially the minimal separation between the jet and the \htmiss\ vector. It is calculated with the formula
+& \biasedDPhi: the variable \biasedDPhi, known as "biased delta phi", is used in making event selections in signal/data, similar to \alphat~\cite{CMS-PAPER-SUS-15-005-arXiv}. It is based on the minimum azimuthal separation between a jet and the negative vector $\vec{p}_{\mathrm{T}}$ sum of all of the other jets in the event. So it is essentially the minimal separation between the jet and the \htmiss\ vector. It is calculated with the formula
 
 \begin{equation}
-  \Delta\phi^*_{\mathrm{min}} = \min_{\,\forall\, \mathrm{j}_k\,\in\, [1,n_{\mathrm{jet}}]}
+  \Delta\phi^*_{\mathrm{min}} = \min_{\,\forall\, \mathrm{j}_k\,\in\, [1,\njet]}
   \Delta\phi \Bigl( \vec{p}_{\mathrm{T}}^{\ \mathrm{j}_k}, \,
-    -\hspace{-0.5em}\sum_{\substack{\mathrm{j}_i= 1 \\ \mathrm{j}_i \ne \mathrm{j}_k}}^{n_{\mathrm{jet}}}
+    -\hspace{-0.5em}\sum_{\substack{\mathrm{j}_i= 1 \\ \mathrm{j}_i \ne \mathrm{j}_k}}^{\njet}
 \vec{p}_{\mathrm{T}}^{\ \mathrm{j}_i} \Bigr).
 \label{eq:biasedDPhi}
 \end{equation}
 
-& Heavy flavour dark matter: these models include dark matter production in conjunction with heavy-flavour SM particles (top and bottom quarks). The final state products that could be detected would be those quarks (or their decay products) and \etmiss\ from the DM. Examples of these models can be found in~\cite{Sirunyan:2017xgm}. In contrast, "light flavour" dark matter models yield a final state of dark matter particles and light quarks, i.e., up, down, charm, and strange.
+& Heavy flavour dark matter: these models include dark matter production in conjunction with heavy-flavour SM particles (top and bottom quarks). The final state products that could be detected would be those quarks (or their decay products) and \etmiss from the DM. Examples of these models can be found in~\cite{Sirunyan:2017xgm}. In contrast, "light flavour" dark matter models yield a final state of dark matter particles and light quarks, i.e., up, down, charm, and strange.
 
 & Systematic uncertainties: systematics are due to uncertainty from known sources. In particle physics analysis, these are from Monte Carlo statistical uncertainties, initial state radiation (ISR), jet energy corrections (JECs), etc., and need to be taken into account because they can affect the reliability of results.
 

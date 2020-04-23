@@ -2,12 +2,12 @@
 \chapter{Checking \texorpdfstring{\htmiss}{HTmiss} tails for data in the event display (11/07/2017)}
 % The \texorpdfstring is so that bookmarks (in Adobe Reader, etc.) can be rendered properly. In the first {}, I specify the math symbols/special characters I want to use. In the second {}, I specify the normal text I want it to display in the bookmarks. Note, this doesn't affect my table of contents.
 
-For pre-approval for SUS-16-038, I've been asked to look at the \htmiss\ tails in the event display at high \HT, LT, for data. I can use Fireworks (see~\ref{sec:fireworks}) as the event display visualiser. It's a case of identifying the excess events and inspecting them to see if there are any problems (reconstruction, etc.). By looking at the mountain range plot for the fully-unblinded 2016 data (the most current one is below), the bins containing "excess" events are indicated as those with large pulls (on the Pull axis, the units are in sigmas). So, to start with, I should be looking in the bins with a pull of 3$\sigma$ or more: $n_{\mathrm{jet}} = 3$, $n_{\mathrm{b-jet}} = 3$, $H_{\mathrm{T}} > 600$ GeV; and $n_{\mathrm{jet}} \geq 6$, $n_{\mathrm{b-jet}} \geq 3$, $600 < H_{\mathrm{T}} < 900$ GeV.
+For pre-approval for SUS-16-038, I've been asked to look at the \htmiss\ tails in the event display at high \HT, LT, for data. I can use Fireworks (see~\ref{sec:fireworks}) as the event display visualiser. It's a case of identifying the excess events and inspecting them to see if there are any problems (reconstruction, etc.). By looking at the mountain range plot for the fully-unblinded 2016 data (the most current one is below), the bins containing "excess" events are indicated as those with large pulls (on the Pull axis, the units are in sigmas). So, to start with, I should be looking in the bins with a pull of 3$\sigma$ or more: $\njet = 3$, $n_{\mathrm{b-jet}} = 3$, $\HT > 600\GeV$; and $\njet \geq 6$, $n_{\mathrm{b-jet}} \geq 3$, $600 < \HT < 900\GeV$.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./sec27/summaryPlot_Symmetric_prefit_overlay_fit_b.pdf}
-\caption{Mountain range plot showing the signal region events binned by (symmetric) $n_{\mathrm{jet}}$, $n_{\mathrm{b-jet}}$ and \HT with the fully unblinded 2016 data at 35.9 fb$^{-1}$. }
+\caption{Mountain range plot showing the signal region events binned by (symmetric) \njet, $n_{\mathrm{b-jet}}$ and \HT with the fully unblinded 2016 data at 35.9 fb$^{-1}$. }
 \end{figure}
 
 % CAN REPLACE WITH FINAL MOUNTAIN RANGE PLOT ONCE IT'S IN PAPER, AND PAPER'S PUBLISHED
@@ -59,7 +59,7 @@ If on a remote server, I need to connect with \texttt{ssh -X} or \texttt{-Y} for
 
 I can switch between events in a \ROOT file by pressing the big green arrows. I can add annotations to physics objects -- to show their properties -- by right-clicking over the object and pressing "Add Annotation". I can also drag the annotation to move it, and a grey line connects it to its object to avoid confusion with other, possibly similar objects. I can also save files, the main display being labelled a $\rho-\phi$ plot with File$\rightarrow$Export Main View Image.
 
-I couldn't find any obvious anomalies in the event displays. There were several jets, as expexted, high \etmiss, and the occasional high-$p_{\mathrm{T}}$ muon. One of the annotated displays is below.
+I couldn't find any obvious anomalies in the event displays. There were several jets, as expexted, high \etmiss, and the occasional high-\pt muon. One of the annotated displays is below.
 
 \begin{figure}[H]
 \centering

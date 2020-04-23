@@ -72,7 +72,7 @@ There are several components that make up an analysis of any model. For this mod
 & Uncertainties from systematic sources for benchmark models
 & Cross section limits for benchmark models
 & Signal acceptance $\times$ efficiency for benchmark models
-& Plot of the most sensitive $n_{\mathrm{jet}}$ categories
+& Plot of the most sensitive \njet categories
 & Significance scan
 & $\sigma / \sigma_{\mathrm{theory}}$ (limits per bin) plots for benchmarks
 & Mountain range plots for benchmark models
@@ -147,7 +147,7 @@ which should give me nice limit plots. If I wanted to change anything aesthetica
 
 % UPDATE IF I MAKE CHANGES TO PLOT
 
-Rob asked whether there was any signal contamination from the $\mu +$ jets CR, and it turns out there wasn't. This was a bug that appeared in some of the other SMS models as well, more evident in T1tttt and T2tt as they're more leptonic than the other models. The signal contamination should be most evident for mass splittings of $\sim 80$ GeV, as the sparticle can decay with an off-shell $W$ boson that decays leptonically. The source of the bug was due to the trigger bit information not being in the trees (which I noticed previously when making the cut flow tables in Sec.~\ref{sec:cutflowtables2016paper}). However, we wouldn't need to regenerate the trees \emph{with} the trigger bits (as that would take ages), we'd just need to comment out \texttt{skimSequence.append(triggerSkimmer2016)} in \textbf{Sequences/Sequence2016.py} in AlphaTools. Then, I could just re-run the limits workflow from the StatsAnalyzer stage.
+Rob asked whether there was any signal contamination from the $\mu +$ jets CR, and it turns out there wasn't. This was a bug that appeared in some of the other SMS models as well, more evident in T1tttt and T2tt as they're more leptonic than the other models. The signal contamination should be most evident for mass splittings of $\sim 80\GeV$, as the sparticle can decay with an off-shell $W$ boson that decays leptonically. The source of the bug was due to the trigger bit information not being in the trees (which I noticed previously when making the cut flow tables in Sec.~\ref{sec:cutflowtables2016paper}). However, we wouldn't need to regenerate the trees \emph{with} the trigger bits (as that would take ages), we'd just need to comment out \texttt{skimSequence.append(triggerSkimmer2016)} in \textbf{Sequences/Sequence2016.py} in AlphaTools. Then, I could just re-run the limits workflow from the StatsAnalyzer stage.
 
 
 \subsection{Feynman diagram}
@@ -252,7 +252,7 @@ Then,
 python runCombineTask.py -i $OUTDIR -t ASCLS_UL_PRIOR --what expected
 \end{lstlisting}
 
-I could sort the $n_{\mathrm{jet}}$ categories by sensitivity with
+I could sort the \njet categories by sensitivity with
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 python sortCategories.py -i $OUTDIR -m ul -c "nB"
@@ -264,7 +264,7 @@ Finally, I just had to add the StatsAnalyzer output directory (or StatsInput dir
 python makeJetRankingPlot_2016_SMS.py -i $OUTDIR -o <output dir for plots>
 \end{lstlisting}
 
-This creates the plots of signal acceptance $\times$ efficiency for the mass plane, and also the plot of the most sensitive $n_{\mathrm{jet}}$ categories. 
+This creates the plots of signal acceptance $\times$ efficiency for the mass plane, and also the plot of the most sensitive \njet categories. 
 
 \begin{figure}[H]
 \centering
@@ -297,9 +297,9 @@ which gives me \textbf{0.0935877} for the benchmark model. In a nicer format:
         \end{table}
 
 
-\subsection{Most sensitive \texorpdfstring{$n_{\mathrm{jet}}$}{njet} categories}
+\subsection{Most sensitive \texorpdfstring{\njet}{njet} categories}
 
-This is accomplished when making the signal acceptance $\times$ efficiency plot. In the output directory from makeJetRankingPlot, there are separate plots for each $n_{\mathrm{jet}}$ category, and the complete "bit map" plot. That is what needs to be added to the AN.
+This is accomplished when making the signal acceptance $\times$ efficiency plot. In the output directory from makeJetRankingPlot, there are separate plots for each \njet category, and the complete "bit map" plot. That is what needs to be added to the AN.
 
 \begin{figure}[H]
 \centering
@@ -342,7 +342,7 @@ python batchSubmitOptimise.py -o <output dir without gb label> -f --options "--s
 python batchSubmitOptimise.py -o <output dir with gb label> -f --options "--shapeSystFromFile --getDataLumi --runFormula --extrapolateZinv --greenBand --gbForZinvExtrap" --submit
 \end{lstlisting}
 
-Once done, I had to duplicate each of the output directories so I had four (two with \texttt{--gbForZinvExtrap} and two without). Then, I had to run makeCardsAndWs four times with different options for each. In one of the directories without \texttt{--gbForZinvExtrap}, I had to run with the option \texttt{-c "all"} to combine all bins, and in the other I had to run with \texttt{-c "nB"} to combine everything apart from $n_{\mathrm{jet}}$. Then, in one of the directories with \texttt{--gbForZinvExtrap}, I had to run with \texttt{-c "ht"} to combine only in \HT, and in the other directory I had to run with \texttt{-c "none"} to combine nothing. So, the commands would look like this:
+Once done, I had to duplicate each of the output directories so I had four (two with \texttt{--gbForZinvExtrap} and two without). Then, I had to run makeCardsAndWs four times with different options for each. In one of the directories without \texttt{--gbForZinvExtrap}, I had to run with the option \texttt{-c "all"} to combine all bins, and in the other I had to run with \texttt{-c "nB"} to combine everything apart from \njet. Then, in one of the directories with \texttt{--gbForZinvExtrap}, I had to run with \texttt{-c "ht"} to combine only in \HT, and in the other directory I had to run with \texttt{-c "none"} to combine nothing. So, the commands would look like this:
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 python makeCardsAndWs.py -i <datacards dir without gb 1> -c "all" --bbbFormulaUssr --bbbOptSig
@@ -414,15 +414,15 @@ For the cut flows, I used the same workflow as in Section~\ref{sec:cutflowtables
   Event veto for single isolated tracks & \phantom{1}71\phantom{.1} \\
   Event veto for photons & \phantom{1}71\phantom{.1}  \\
   Event veto for jets failing ID & \phantom{1}71\phantom{.1}  \\
-   $n_{\mathrm{jet}} \geq 2$  & \phantom{1}55\phantom{.1}  \\
+   $\njet \geq 2$  & \phantom{1}55\phantom{.1}  \\
    $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}50\phantom{.1}  \\
-   $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}41\phantom{.1} \\
-   $H_{\mathrm{T}} > 200\,\mathrm{GeV}$  & \phantom{1}37\phantom{.1} \\
-  $\mht > 200\,\mathrm{GeV}$  & \phantom{1}26\phantom{.1}  \\
+   $\ptjone > 100\GeV$ & \phantom{1}41\phantom{.1} \\
+   $\HT > 200\GeV$  & \phantom{1}37\phantom{.1} \\
+  $\mht > 200\GeV$  & \phantom{1}26\phantom{.1}  \\
   Event veto for forward jets ($|\eta| > 2.4$) & \phantom{1}22\phantom{.1} \\
   $\mht / \etmiss < 1.25$ & \phantom{1}20\phantom{.1} \\
-  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 900\,\mathrm{GeV}$)  & \phantom{1}11\phantom{.1} \\
-  $\Delta\phi^{*}_{\mathrm{min}} > 0.5$  & \phantom{10}8.3 \\
+  \HT-dependent \alphat requirements ($\HT < 900\GeV$)  & \phantom{1}11\phantom{.1} \\
+  $\biasedDPhi > 0.5$  & \phantom{10}8.3 \\
   \hline
 \end{tabular}
 }
@@ -448,7 +448,7 @@ tdr --draft --style=an b AN-17-122
 
 Then the path to the pdf will be given.
 
-I gave a presentation to RA1 about the analysis for this model: \href{run:./sec31/T2tt-4bd analysis complete (16-11-2017).pdf}{T2tt-4bd analysis complete (16-11-2017)}. The main, interesting comments were about the limit per bin plot, the cut flow tables and the most sensitive $n_{\mathrm{jet}}$ categories plot. Shane expected the $2b$ categories to drive the sensitivity in the limit per bin plot. But because the mass splitting is small, there's only a small amount of energy to be distributed among the $b$jets, making them soft. With the cut flow tables, the same effect of the efficiencies not agreeing with the signal acceptance $\times$ efficiency values, applies here. The plot gives an efficiency of 9.4\%, while the table gives it as 8.3\%. I think this is due to the plot calculating the post-fit efficiency, while my tables calculate the pre-fit (because I only re-weight the trees). Then, in the $n_{\mathrm{jet}}$ categories plot, two mass points were missing. In the raw plot, those two mass points were present but the values associated to their most sensitive categories were low, and so weren't included in the final plot. I don't think this is an issue as only 1\% of the models are affected.
+I gave a presentation to RA1 about the analysis for this model: \href{run:./sec31/T2tt-4bd analysis complete (16-11-2017).pdf}{T2tt-4bd analysis complete (16-11-2017)}. The main, interesting comments were about the limit per bin plot, the cut flow tables and the most sensitive \njet categories plot. Shane expected the $2b$ categories to drive the sensitivity in the limit per bin plot. But because the mass splitting is small, there's only a small amount of energy to be distributed among the $b$jets, making them soft. With the cut flow tables, the same effect of the efficiencies not agreeing with the signal acceptance $\times$ efficiency values, applies here. The plot gives an efficiency of 9.4\%, while the table gives it as 8.3\%. I think this is due to the plot calculating the post-fit efficiency, while my tables calculate the pre-fit (because I only re-weight the trees). Then, in the \njet categories plot, two mass points were missing. In the raw plot, those two mass points were present but the values associated to their most sensitive categories were low, and so weren't included in the final plot. I don't think this is an issue as only 1\% of the models are affected.
 
 I had to give an approval talk for the model at a SUSY inclusive meeting. The slides are here: \href{run:./sec31/T20180213 T2tt-4bd approval.pdf}{20180213 T2tt-4bd approval}.
 
@@ -544,6 +544,6 @@ We chose a benchmark model at (500, 460). Usually, when choosing benchmark point
 \end{figure}
 
 
-% NEED TO ADD Signal acceptance $\times$ efficiency for benchmark model, Plot of the most sensitive $n_{\mathrm{jet}}$ categories, Mountain range plots for benchmark model, Cut flow tables for benchmark model (ask Ben)
+% NEED TO ADD Signal acceptance $\times$ efficiency for benchmark model, Plot of the most sensitive \njet categories, Mountain range plots for benchmark model, Cut flow tables for benchmark model (ask Ben)
 
 % Fix cross section reweighting for both models. Would need to remake limit plane (find out where xs is applied and just multiply it by the factor), signal acc x eff (again, just multiply xs by the factor, ~L152 in makeJetRankingPlot_2016), limit per bin plots.

@@ -36,7 +36,7 @@ dict(All = ("ev : ev.nElectronsVeto[0] == 0",
                 "ev : ev.HLT_PFMETNoMu120_PFMHTNoMu120_IDTight[0] == 1")), # HLTs, needed only for LLP models
 \end{lstlisting}
 
-and the models are listed in the subsections below. The "simplified" categories group several $n_{\mathrm{jet}}$, $n_b$ categories together, e.g., \texttt{eq01b\_eq45j}. Then, in the cut flow I could cut on \texttt{"eq0b or eq1b" and "eq4j or eq5j"}. So the cut would look like
+and the models are listed in the subsections below. The "simplified" categories group several \njet, $n_b$ categories together, e.g., \texttt{eq01b\_eq45j}. Then, in the cut flow I could cut on \texttt{"eq0b or eq1b" and "eq4j or eq5j"}. So the cut would look like
 
 \begin{lstlisting}[belowskip=-0.7cm, language=python]
 dict(All = ( dict(Any = ("ev : ev.nBJet40[0] == 0", "ev : ev.nBJet40[0] == 1")),
@@ -74,7 +74,7 @@ and the cut flow is described above. I could then run the script as normal with
 
 Originally, I tried to run over the split trees as they were already separated by mass point, which would make everything quicker. However, I ran into weird errors when attempting it. The problem was that the root file for each split tree actually contained two identical trees, each called "tree". The one with the higher index is the latest revision of the tree. But as the tree name is hardcoded into a variable in the cutflowirl workflow, it may have been confused when it came across two trees with the same name. So I decided to run over the original, unsplit trees instead, located at \textbf{/vols/cms/RA1/80X/MC/LongLived/20170904/AtLogic\_MC\_LL}.
 
-Another problem I ran into was that the end-of-cut-flow efficiencies for my tables were noticeably lower than in the efficiency maps produced by Christian and Lucien. After some debugging and jigging the \alphat\ cuts in the cut flow, many of the events that failed were in the $800 < H_{\mathrm{T}} < 900$ region and weren't being run over properly. It turned out to be some outdated information in Tai's atlogic submodule. In \textbf{atlogic/Scribblers/htbin.py}, L7 gives the bin boundaries. I had to update the "800" to 900 because there was no $H_{\mathrm{T}} = 800$ boundary any more. This fixed the low-efficiency issue. I then made a PR to include the change whenever the submodule was used in the future.
+Another problem I ran into was that the end-of-cut-flow efficiencies for my tables were noticeably lower than in the efficiency maps produced by Christian and Lucien. After some debugging and jigging the \alphat\ cuts in the cut flow, many of the events that failed were in the $800 < \HT < 900$ region and weren't being run over properly. It turned out to be some outdated information in Tai's atlogic submodule. In \textbf{atlogic/Scribblers/htbin.py}, L7 gives the bin boundaries. I had to update the "800" to 900 because there was no $\HT = 800$ boundary any more. This fixed the low-efficiency issue. I then made a PR to include the change whenever the submodule was used in the future.
 
 But even after all that, the efficiencies were still different. This was because the trees I was running over were not weighted, but the events in the efficiency maps were. So I had to use AlphaTools ("v1.10.x\_LLValidation" branch) to re-weight the events but not apply any selections. In \textbf{Configuration/config\_cfi\_2016.py}, I had to set the directory of \texttt{basedirMC} to the location of the \emph{split} trees (running over them removes one of the two identical trees so cutflowirl can run over the output). Then I could add the following line to \textbf{Configuration/Samples/samples\_13TeV\_80X\_T1qqqqLL.py}:
 
@@ -140,15 +140,15 @@ For $c\tau = 0.001$ mm:
   Event veto for single isolated tracks & \phantom{1}91\phantom{.1} & \phantom{1}89\phantom{.1}  \\
   Event veto for photons & \phantom{1}90\phantom{.1} & \phantom{1}89\phantom{.1} \\
   Event veto for jets failing ID & \phantom{1}90\phantom{.1} & \phantom{1}88\phantom{.1} \\
-   $n_{\mathrm{jet}} \geq 2$ & \phantom{1}90\phantom{.1} & \phantom{1}76\phantom{.1}  \\
+   $\njet \geq 2$ & \phantom{1}90\phantom{.1} & \phantom{1}76\phantom{.1}  \\
    $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}87\phantom{.1} & \phantom{1}72\phantom{.1} \\
-   $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}87\phantom{.1} & \phantom{1}44\phantom{.1} \\
-   $H_{\mathrm{T}} > 200\,\mathrm{GeV}$ & \phantom{1}87\phantom{.1} & \phantom{1}39\phantom{.1}  \\
-  $\mht > 200\,\mathrm{GeV}$ & \phantom{1}82\phantom{.1} & \phantom{1}22\phantom{.1}  \\
+   $\ptjone > 100\GeV$ & \phantom{1}87\phantom{.1} & \phantom{1}44\phantom{.1} \\
+   $\HT > 200\GeV$ & \phantom{1}87\phantom{.1} & \phantom{1}39\phantom{.1}  \\
+  $\mht > 200\GeV$ & \phantom{1}82\phantom{.1} & \phantom{1}22\phantom{.1}  \\
   Event veto for forward jets ($|\eta| > 2.4$) & \phantom{1}77\phantom{.1} & \phantom{1}20\phantom{.1}  \\
   $\mht / \etmiss < 1.25$ & \phantom{1}76\phantom{.1} & \phantom{1}19\phantom{.1}  \\
-  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 900\,\mathrm{GeV}$) & \phantom{1}76\phantom{.1} & \phantom{1}12\phantom{.1} \\
-  $\Delta\phi^{*}_{\mathrm{min}} > 0.5$ & \phantom{1}24\phantom{.1} & \phantom{10}7.9  \\
+  \HT-dependent \alphat requirements ($\HT < 900\GeV$) & \phantom{1}76\phantom{.1} & \phantom{1}12\phantom{.1} \\
+  $\biasedDPhi > 0.5$ & \phantom{1}24\phantom{.1} & \phantom{10}7.9  \\
   Trigger efficiency & \phantom{1}24\phantom{.1} & \phantom{10}7.8 \\
   \hline
 \end{tabular}
@@ -172,15 +172,15 @@ For $c\tau = 1$ mm:
   Event veto for single isolated tracks & \phantom{1}80\phantom{.1} & \phantom{1}90\phantom{.1} \\
   Event veto for photons & \phantom{1}79\phantom{.1} & \phantom{1}89\phantom{.1} \\
   Event veto for jets failing ID & \phantom{1}79\phantom{.1} & \phantom{1}89\phantom{.1} \\
-   $n_{\mathrm{jet}} \geq 2$  & \phantom{1}79\phantom{.1} & \phantom{1}70\phantom{.1} \\
+   $\njet \geq 2$  & \phantom{1}79\phantom{.1} & \phantom{1}70\phantom{.1} \\
    $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}74\phantom{.1} & \phantom{1}66\phantom{.1} \\
-   $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}74\phantom{.1} & \phantom{1}36\phantom{.1} \\
-   $H_{\mathrm{T}} > 200\,\mathrm{GeV}$  & \phantom{1}74\phantom{.1} & \phantom{1}31\phantom{.1} \\
-  $\mht > 200\,\mathrm{GeV}$  & \phantom{1}68\phantom{.1} & \phantom{1}15\phantom{.1} \\
+   $\ptjone > 100\GeV$ & \phantom{1}74\phantom{.1} & \phantom{1}36\phantom{.1} \\
+   $\HT > 200\GeV$  & \phantom{1}74\phantom{.1} & \phantom{1}31\phantom{.1} \\
+  $\mht > 200\GeV$  & \phantom{1}68\phantom{.1} & \phantom{1}15\phantom{.1} \\
   Event veto for forward jets ($|\eta| > 2.4$) & \phantom{1}65\phantom{.1} & \phantom{1}14\phantom{.1} \\
   $\mht / \etmiss < 1.25$ & \phantom{1}58\phantom{.1} & \phantom{1}13\phantom{.1} \\
-  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 900\,\mathrm{GeV}$)  & \phantom{1}58\phantom{.1} & \phantom{10}8.7 \\
-  $\Delta\phi^{*}_{\mathrm{min}} > 0.5$  & \phantom{1}22\phantom{.1} & \phantom{10}5.8 \\
+  \HT-dependent \alphat requirements ($\HT < 900\GeV$)  & \phantom{1}58\phantom{.1} & \phantom{10}8.7 \\
+  $\biasedDPhi > 0.5$  & \phantom{1}22\phantom{.1} & \phantom{10}5.8 \\
   Trigger efficiency & \phantom{1}22\phantom{.1} & \phantom{10}5.8  \\
   \hline
 \end{tabular}
@@ -204,15 +204,15 @@ For $c\tau = 10^5$ mm:
   Event veto for single isolated tracks & \phantom{1}97\phantom{.1} & \phantom{1}97\phantom{.1} \\
   Event veto for photons & \phantom{1}97\phantom{.1} & \phantom{1}97\phantom{.1} \\
   Event veto for jets failing ID & \phantom{1}95\phantom{.1} & \phantom{1}96\phantom{.1} \\
-   $n_{\mathrm{jet}} \geq 2$  & \phantom{1}35\phantom{.1} & \phantom{1}33\phantom{.1} \\
+   $\njet \geq 2$  & \phantom{1}35\phantom{.1} & \phantom{1}33\phantom{.1} \\
    $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}29\phantom{.1} & \phantom{1}30\phantom{.1} \\
-   $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}23\phantom{.1} & \phantom{1}23\phantom{.1} \\
-   $H_{\mathrm{T}} > 200\,\mathrm{GeV}$  & \phantom{1}21\phantom{.1} & \phantom{1}21\phantom{.1} \\
-  $\mht > 200\,\mathrm{GeV}$  & \phantom{1}16\phantom{.1} & \phantom{1}16\phantom{.1} \\
+   $\ptjone > 100\GeV$ & \phantom{1}23\phantom{.1} & \phantom{1}23\phantom{.1} \\
+   $\HT > 200\GeV$  & \phantom{1}21\phantom{.1} & \phantom{1}21\phantom{.1} \\
+  $\mht > 200\GeV$  & \phantom{1}16\phantom{.1} & \phantom{1}16\phantom{.1} \\
   Event veto for forward jets ($|\eta| > 2.4$) & \phantom{1}15\phantom{.1} & \phantom{1}14\phantom{.1} \\
   $\mht / \etmiss < 1.25$ & \phantom{1}14\phantom{.1} & \phantom{1}14\phantom{.1} \\
-  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 900\,\mathrm{GeV}$)  &  \phantom{10}9.7 & \phantom{10}9.4 \\
-  $\Delta\phi^{*}_{\mathrm{min}} > 0.5$  & \phantom{10}8.2 & \phantom{10}8.2 \\
+  \HT-dependent \alphat requirements ($\HT < 900\GeV$)  &  \phantom{10}9.7 & \phantom{10}9.4 \\
+  $\biasedDPhi > 0.5$  & \phantom{10}8.2 & \phantom{10}8.2 \\
   Trigger efficiency &  \phantom{10}8.2 &  \phantom{10}8.2 \\
   \hline
 \end{tabular}
@@ -284,15 +284,15 @@ Once the trees were made, I had to transfer them to Imperial so I could split an
    Event veto for single isolated tracks & \phantom{1}96\phantom{.1} & \phantom{1}93\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}92\phantom{.1} \\
    Event veto for photons & \phantom{1}95\phantom{.1} & \phantom{1}92\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}92\phantom{.1} \\
    Event veto for jets failing ID & \phantom{1}95\phantom{.1} & \phantom{1}92\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}91\phantom{.1} \\
-   $n_{\mathrm{jet}} \geq 2$  & \phantom{1}95\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}88\phantom{.1} \\
+   $\njet \geq 2$  & \phantom{1}95\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}88\phantom{.1} \\
    $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}90\phantom{.1} & \phantom{1}87\phantom{.1} & \phantom{1}89\phantom{.1} & \phantom{1}83\phantom{.1} \\
-   $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}90\phantom{.1} & \phantom{1}75\phantom{.1} & \phantom{1}89\phantom{.1} & \phantom{1}64\phantom{.1} \\
-   $H_{\mathrm{T}} > 200\,\mathrm{GeV}$  & \phantom{1}90\phantom{.1} & \phantom{1}73\phantom{.1} & \phantom{1}89\phantom{.1} & \phantom{1}60\phantom{.1} \\
-   $\mht > 200\,\mathrm{GeV}$  & \phantom{1}84\phantom{.1} & \phantom{1}37\phantom{.1} & \phantom{1}83\phantom{.1} & \phantom{1}27\phantom{.1} \\
+   $\ptjone > 100\GeV$ & \phantom{1}90\phantom{.1} & \phantom{1}75\phantom{.1} & \phantom{1}89\phantom{.1} & \phantom{1}64\phantom{.1} \\
+   $\HT > 200\GeV$  & \phantom{1}90\phantom{.1} & \phantom{1}73\phantom{.1} & \phantom{1}89\phantom{.1} & \phantom{1}60\phantom{.1} \\
+   $\mht > 200\GeV$  & \phantom{1}84\phantom{.1} & \phantom{1}37\phantom{.1} & \phantom{1}83\phantom{.1} & \phantom{1}27\phantom{.1} \\
   Event veto for forward jets ($|\eta| > 2.4$) & \phantom{1}76\phantom{.1} & \phantom{1}33\phantom{.1} & \phantom{1}73\phantom{.1} & \phantom{1}24\phantom{.1} \\
   $\mht / \etmiss < 1.25$ & \phantom{1}75\phantom{.1} & \phantom{1}31\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}23\phantom{.1} \\
-  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 900\,\mathrm{GeV}$)  &  \phantom{1}75\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}17\phantom{.1} \\
-  $\Delta\phi^{*}_{\mathrm{min}} > 0.5$  & \phantom{1}23\phantom{.1} & \phantom{1}17\phantom{.1} & \phantom{1}22\phantom{.1} & \phantom{1}11\phantom{.1} \\
+  \HT-dependent \alphat requirements ($\HT < 900\GeV$)  &  \phantom{1}75\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}17\phantom{.1} \\
+  $\biasedDPhi > 0.5$  & \phantom{1}23\phantom{.1} & \phantom{1}17\phantom{.1} & \phantom{1}22\phantom{.1} & \phantom{1}11\phantom{.1} \\
   \hline
 \end{tabular}
 }
@@ -313,15 +313,15 @@ Once the trees were made, I had to transfer them to Imperial so I could split an
    Event veto for single isolated tracks & \phantom{1}34\phantom{.1} & \phantom{1}37\phantom{.1} & \phantom{1}97\phantom{.1} & \phantom{1}95\phantom{.1} \\
    Event veto for photons & \phantom{1}34\phantom{.1} & \phantom{1}37\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} \\
    Event veto for jets failing ID & \phantom{1}34\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} \\
-   $n_{\mathrm{jet}} \geq 2$  & \phantom{1}34\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}79\phantom{.1} \\
+   $\njet \geq 2$  & \phantom{1}34\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}79\phantom{.1} \\
    $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}33\phantom{.1} & \phantom{1}35\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}75\phantom{.1} \\
-   $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}33\phantom{.1} & \phantom{1}29\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}52\phantom{.1} \\
-   $H_{\mathrm{T}} > 200\,\mathrm{GeV}$  & \phantom{1}33\phantom{.1} & \phantom{1}29\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}45\phantom{.1} \\
-   $\mht > 200\,\mathrm{GeV}$  & \phantom{1}31\phantom{.1} & \phantom{10}6.7 & \phantom{1}82\phantom{.1} & \phantom{1}18\phantom{.1} \\
+   $\ptjone > 100\GeV$ & \phantom{1}33\phantom{.1} & \phantom{1}29\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}52\phantom{.1} \\
+   $\HT > 200\GeV$  & \phantom{1}33\phantom{.1} & \phantom{1}29\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}45\phantom{.1} \\
+   $\mht > 200\GeV$  & \phantom{1}31\phantom{.1} & \phantom{10}6.7 & \phantom{1}82\phantom{.1} & \phantom{1}18\phantom{.1} \\
   Event veto for forward jets ($|\eta| > 2.4$) & \phantom{1}27\phantom{.1} & \phantom{10}5.7 & \phantom{1}70\phantom{.1} & \phantom{1}15\phantom{.1} \\
   $\mht / \etmiss < 1.25$ & \phantom{1}27\phantom{.1} & \phantom{10}4.9 & \phantom{1}70\phantom{.1} & \phantom{1}14\phantom{.1} \\
-  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 900\,\mathrm{GeV}$)  &  \phantom{1}27\phantom{.1} & \phantom{10}4.3 & \phantom{1}62\phantom{.1} & \phantom{10}9.0 \\
-  $\Delta\phi^{*}_{\mathrm{min}} > 0.5$  & \phantom{10}7.3 & \phantom{10}0.4 & \phantom{1}40\phantom{.1} & \phantom{10}6.3 \\
+  \HT-dependent \alphat requirements ($\HT < 900\GeV$)  &  \phantom{1}27\phantom{.1} & \phantom{10}4.3 & \phantom{1}62\phantom{.1} & \phantom{10}9.0 \\
+  $\biasedDPhi > 0.5$  & \phantom{10}7.3 & \phantom{10}0.4 & \phantom{1}40\phantom{.1} & \phantom{10}6.3 \\
   \hline
 \end{tabular}
 }
@@ -342,15 +342,15 @@ Once the trees were made, I had to transfer them to Imperial so I could split an
    Event veto for single isolated tracks & \phantom{1}58\phantom{.1} & \phantom{1}56\phantom{.1} & \phantom{1}59\phantom{.1} & \phantom{1}96\phantom{.1} \\
    Event veto for photons & \phantom{1}57\phantom{.1} & \phantom{1}55\phantom{.1} & \phantom{1}59\phantom{.1} & \phantom{1}96\phantom{.1} \\
    Event veto for jets failing ID & \phantom{1}57\phantom{.1} & \phantom{1}55\phantom{.1} & \phantom{1}59\phantom{.1} & \phantom{1}96\phantom{.1} \\
-   $n_{\mathrm{jet}} \geq 2$  & \phantom{1}57\phantom{.1} & \phantom{1}55\phantom{.1} & \phantom{1}40\phantom{.1} & \phantom{1}70\phantom{.1} \\
+   $\njet \geq 2$  & \phantom{1}57\phantom{.1} & \phantom{1}55\phantom{.1} & \phantom{1}40\phantom{.1} & \phantom{1}70\phantom{.1} \\
    $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}55\phantom{.1} & \phantom{1}52\phantom{.1} & \phantom{1}37\phantom{.1} & \phantom{1}64\phantom{.1} \\
-   $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}55\phantom{.1} & \phantom{1}43\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}55\phantom{.1} \\
-   $H_{\mathrm{T}} > 200\,\mathrm{GeV}$  & \phantom{1}55\phantom{.1} & \phantom{1}42\phantom{.1} & \phantom{1}13\phantom{.1} & \phantom{1}49\phantom{.1} \\
-   $\mht > 200\,\mathrm{GeV}$  & \phantom{1}50\phantom{.1} & \phantom{1}16\phantom{.1} & \phantom{10}2.4 & \phantom{1}36\phantom{.1} \\
+   $\ptjone > 100\GeV$ & \phantom{1}55\phantom{.1} & \phantom{1}43\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}55\phantom{.1} \\
+   $\HT > 200\GeV$  & \phantom{1}55\phantom{.1} & \phantom{1}42\phantom{.1} & \phantom{1}13\phantom{.1} & \phantom{1}49\phantom{.1} \\
+   $\mht > 200\GeV$  & \phantom{1}50\phantom{.1} & \phantom{1}16\phantom{.1} & \phantom{10}2.4 & \phantom{1}36\phantom{.1} \\
   Event veto for forward jets ($|\eta| > 2.4$) & \phantom{1}43\phantom{.1} & \phantom{1}14\phantom{.1} & \phantom{10}2.0 & \phantom{1}31\phantom{.1} \\
   $\mht / \etmiss < 1.25$ & \phantom{1}42\phantom{.1} & \phantom{1}12\phantom{.1} & \phantom{10}1.6 & \phantom{1}30\phantom{.1} \\
-  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 900\,\mathrm{GeV}$)  &  \phantom{1}40\phantom{.1} & \phantom{10}9.9 & \phantom{10}0.8 & \phantom{1}18\phantom{.1} \\
-  $\Delta\phi^{*}_{\mathrm{min}} > 0.5$  & \phantom{1}25\phantom{.1} & \phantom{10}5.5 & \phantom{10}0.3 & \phantom{1}15\phantom{.1} \\
+  \HT-dependent \alphat requirements ($\HT < 900\GeV$)  &  \phantom{1}40\phantom{.1} & \phantom{10}9.9 & \phantom{10}0.8 & \phantom{1}18\phantom{.1} \\
+  $\biasedDPhi > 0.5$  & \phantom{1}25\phantom{.1} & \phantom{10}5.5 & \phantom{10}0.3 & \phantom{1}15\phantom{.1} \\
   \hline
 \end{tabular}
 }
@@ -371,15 +371,15 @@ Once the trees were made, I had to transfer them to Imperial so I could split an
    Event veto for single isolated tracks & \phantom{1}97\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}97\phantom{.1} & \phantom{1}96\phantom{.1} \\
    Event veto for photons & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} \\
    Event veto for jets failing ID & \phantom{1}95\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} \\
-   $n_{\mathrm{jet}} \geq 2$  & \phantom{1}95\phantom{.1} & \phantom{1}83\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}80\phantom{.1} \\
+   $\njet \geq 2$  & \phantom{1}95\phantom{.1} & \phantom{1}83\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}80\phantom{.1} \\
    $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}89\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}75\phantom{.1} \\
-   $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}89\phantom{.1} & \phantom{1}59\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}51\phantom{.1} \\
-   $H_{\mathrm{T}} > 200\,\mathrm{GeV}$  & \phantom{1}89\phantom{.1} & \phantom{1}52\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}43\phantom{.1} \\
-   $\mht > 200\,\mathrm{GeV}$  & \phantom{1}84\phantom{.1} & \phantom{1}22\phantom{.1} & \phantom{1}76\phantom{.1} & \phantom{1}14\phantom{.1} \\
+   $\ptjone > 100\GeV$ & \phantom{1}89\phantom{.1} & \phantom{1}59\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}51\phantom{.1} \\
+   $\HT > 200\GeV$  & \phantom{1}89\phantom{.1} & \phantom{1}52\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}43\phantom{.1} \\
+   $\mht > 200\GeV$  & \phantom{1}84\phantom{.1} & \phantom{1}22\phantom{.1} & \phantom{1}76\phantom{.1} & \phantom{1}14\phantom{.1} \\
   Event veto for forward jets ($|\eta| > 2.4$) & \phantom{1}73\phantom{.1} & \phantom{1}19\phantom{.1} & \phantom{1}65\phantom{.1} & \phantom{1}12\phantom{.1} \\
   $\mht / \etmiss < 1.25$ & \phantom{1}73\phantom{.1} & \phantom{1}18\phantom{.1} & \phantom{1}63\phantom{.1} & \phantom{1}11\phantom{.1} \\
-  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 900\,\mathrm{GeV}$)  &  \phantom{1}69\phantom{.1} & \phantom{1}12\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{10}6.9 \\
-  $\Delta\phi^{*}_{\mathrm{min}} > 0.5$  & \phantom{1}44\phantom{.1} & \phantom{10}8.6 & \phantom{1}35\phantom{.1} & \phantom{10}4.9 \\
+  \HT-dependent \alphat requirements ($\HT < 900\GeV$)  &  \phantom{1}69\phantom{.1} & \phantom{1}12\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{10}6.9 \\
+  $\biasedDPhi > 0.5$  & \phantom{1}44\phantom{.1} & \phantom{10}8.6 & \phantom{1}35\phantom{.1} & \phantom{10}4.9 \\
   \hline
 \end{tabular}
 }

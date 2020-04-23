@@ -171,13 +171,13 @@ making sure the \verb!-c "nB"! flag is used to combine the \HT bins and $b$-cate
 python runCombineTask.py -i <output directory from optimiseBinning> -t ASCLS_UL_PRIOR --what expected
 \end{lstlisting}
 
-Once that has run, I need to sort the $n_{\mathrm{jet}}$ categories by sensitivity. This is done with
+Once that has run, I need to sort the \njet categories by sensitivity. This is done with
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 python sortCategories.py -i <output directory from optimiseBinning> -m ul -c "nB"
 \end{lstlisting}
 
-This should give me a file for each sample called \textbf{datacards\_for\_combination\_$<$sample$>$\_mht\_sorted.txt}, which contains a list of the combined Higgs datacard files, sorted by sensitivity in the $n_{\mathrm{jet}}$ dimension. These files are then used as input for a version of the script \textbf{makeJetRankingPlot.py}, which I then modified and stripped down to include only the signal stuff, and reflect the changes between the 2015 and 2016 analyses (such as updating the $n_{\mathrm{jet}}$ categories). This script, \textbf{makeJetRankingPlot\_2016\_SMS.py}. makes efficiency plots for the SMS models (and can be built upon to include DM models). I just need to set the path for \verb!inputFileStatsAnalyzer! to the \textbf{Signal\_SignalModels.root} file in the output from StatsAnalyzer. Then I can just type
+This should give me a file for each sample called \textbf{datacards\_for\_combination\_$<$sample$>$\_mht\_sorted.txt}, which contains a list of the combined Higgs datacard files, sorted by sensitivity in the \njet dimension. These files are then used as input for a version of the script \textbf{makeJetRankingPlot.py}, which I then modified and stripped down to include only the signal stuff, and reflect the changes between the 2015 and 2016 analyses (such as updating the \njet categories). This script, \textbf{makeJetRankingPlot\_2016\_SMS.py}. makes efficiency plots for the SMS models (and can be built upon to include DM models). I just need to set the path for \verb!inputFileStatsAnalyzer! to the \textbf{Signal\_SignalModels.root} file in the output from StatsAnalyzer. Then I can just type
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 python makeJetRankingPlot_2016_SMS.py -i <output directory from optimiseBinning> -o <output directory for efficiency plots>
