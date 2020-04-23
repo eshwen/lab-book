@@ -69,7 +69,7 @@ I'll also have to attend extra meetings, which can be found at \url{https://twik
 
 There are several tutorials and instructions that are helpful when dealing with a call: \href{run:./sec33/calo2-oncall-tutorial-dqm.pdf}{calo2-oncall-tutorial-dqm.pdf}, \href{run:./sec33/caloLayer2onCall_onlineSW_02032018.pdf}{caloLayer2onCall\_onlineSW\_02032018.pdf}, \href{run:./sec33/Tutorial_May_2017_v1.pdf}{Tutorial\_May\_2017\_v1.pdf}.
 
-I got a call from the L1DOC about an input link error (crcError) on MP5, which is a known problem among Calo Layer-2 and shouldn't be a cause for concern. But Calo Layer-2 was briefly in error (likely from a "blip" where a couple of components were in error, flagging the entire subsystem in that state). A single component warning/error can send the entire subsystem into an "error" state, even though basically everything is fine. The current trigger shifter who noticed the error wrote an e-log detailing it. These will be in the same place as the normal shift logs (see \ref{subsec:onP5shift}. I could also write replies to the e-logs to reassure the shifter that there's no real problem so they don't call me or the L1DOC throughout the night. I also posted about the problem on the CaloL2 Ops Skype chat to let everyone know.
+I got a call from the L1DOC about an input link error (crcError) on MP5, which is a known problem among Calo Layer-2 and shouldn't be a cause for concern. But Calo Layer-2 was briefly in error (likely from a "blip" where a couple of components were in error, flagging the entire subsystem in that state). A single component warning/error can send the entire subsystem into an "error" state, even though basically everything is fine. The current trigger shifter who noticed the error wrote an e-log detailing it. These will be in the same place as the normal shift logs (see~\ref{subsec:onP5shift}. I could also write replies to the e-logs to reassure the shifter that there's no real problem so they don't call me or the L1DOC throughout the night. I also posted about the problem on the CaloL2 Ops Skype chat to let everyone know.
 
 
 \subsection{Setting up a tunnel to P5}
@@ -80,7 +80,7 @@ For online DQM (Data Quality Monitoring) and maintenance of the Trigger (like th
 alias p5tun='ssh -tN -v -4  -D 55555 ebhal@cmsusr.cern.ch -o "ProxyCommand=ssh ebhal@lxplus.cern.ch -W %h:%p"'
 \end{lstlisting}
 
-Then I downloaded the FoxyProxy add-on for Firefox (not Chrome as suggested) and followed the instructions to set it up. Then I followed the link \url{https://gitlab.cern.ch/cactus/cms-ca} to install the CMS Level-1 Software Certificate Authority certificate in my browser. I also added my grid certificate (see Sec \ref{subsec:flattreeprodCMG}) to lxplus. Once those were completed, I can now just type
+Then I downloaded the FoxyProxy add-on for Firefox (not Chrome as suggested) and followed the instructions to set it up. Then I followed the link \url{https://gitlab.cern.ch/cactus/cms-ca} to install the CMS Level-1 Software Certificate Authority certificate in my browser. I also added my grid certificate (see Sec~\ref{subsec:flattreeprodCMG}) to lxplus. Once those were completed, I can now just type
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 p5tun

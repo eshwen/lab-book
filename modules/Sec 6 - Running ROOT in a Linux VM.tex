@@ -1,10 +1,10 @@
 \newpage
-\chapter{Running ROOT in a Linux VM (30/09/2016)}
+\chapter{Running \ROOT in a Linux VM (30/09/2016)}
 \label{sec:rootlinlinuxvm}
 
-I eventually got the Internet to work on the Linux VM on my Fujitsu laptop. I rebooted the network whilst inside the VM and that seemed to do the trick. So I downloaded ROOT (v5.34/36 because that was the latest version compatible with my VM's architecture), unpacked it and followed the instructions in the \textbf{root/README/INSTALL} file. It took a while to configure (using the command \texttt{./configure linux} in the terminal) because there were several packages missing that I had to install (hopefully I won't have to go through that again when I try installing it on the Macbook Air). Then after configuring, I had to make the program (just running the \texttt{make} command in the terminal) which took \underline{several hours} but eventually finished. To run it, navigate to the directory containing ROOT (\textbf{../root/}) and run the command \texttt{root} in the terminal. All commands within ROOT must be preceded by a ".", including the exit command (either \texttt{.q} or \texttt{.exit}) and should be written as C++ code.
+I eventually got the Internet to work on the Linux VM on my Fujitsu laptop. I rebooted the network whilst inside the VM and that seemed to do the trick. So I downloaded \ROOT (v5.34/36 because that was the latest version compatible with my VM's architecture), unpacked it and followed the instructions in the \textbf{root/README/INSTALL} file. It took a while to configure (using the command \texttt{./configure linux} in the terminal) because there were several packages missing that I had to install (hopefully I won't have to go through that again when I try installing it on the Macbook Air). Then after configuring, I had to make the program (just running the \texttt{make} command in the terminal) which took \underline{several hours} but eventually finished. To run it, navigate to the directory containing \ROOT (\textbf{../root/}) and run the command \texttt{root} in the terminal. All commands within \ROOT must be preceded by a ".", including the exit command (either \texttt{.q} or \texttt{.exit}) and should be written as C++ code.
 
-When I want to run ROOT, navigate to the /root folder using the terminal, then type \texttt{source bin/thisroot.sh}, then I can run the program by typing \texttt{root}.
+When I want to run \ROOT, navigate to the /root folder using the terminal, then type \texttt{source bin/thisroot.sh}, then I can run the program by typing \texttt{root}.
 
 In my Linux VM, open the terminal then type:
 
@@ -29,7 +29,7 @@ To see what's inside the .root file, type
 .ls
 \end{lstlisting}
 
-To access the ROOT Browser (like a GUI), type
+To access the \ROOT Browser (like a GUI), type
 
 \begin{lstlisting}[belowskip=-0.7cm, language=C++, numbers=none]
 new TBrowser()
@@ -45,7 +45,7 @@ When creating macros (mini programs to analyse the data in a tree), saving them 
 
 To open (any) files in a terminal which contain spaces in their names, enclose the path and name of the file in quotation marks, e.g., \texttt{open "this thing.png"}.
 
-If I want to see the contents of a tree from a .root file, go into ROOT and type the commands
+If I want to see the contents of a tree from a .root file, go into \ROOT and type the commands
 
 \begin{lstlisting}[belowskip=-0.7cm, language=C++, numbers=none]
 TFile f("<name of .root file>")
@@ -55,7 +55,7 @@ TFile f("<name of .root file>")
 then a .C and .h file will be created in the current directory. Then open the .h file to see the names of the branches and leaves, so you know the syntax for, e.g., getting branches and leaves to fill histograms.
 
 \fcolorbox{red}{pink}{\begin{minipage}{\textwidth}
-Many ROOT histograms seen in papers have the $y$-axis label as "$<$some variable or number of events$>$/$<$some value$>$". The $<$some value$>$ is usually the width of the bin in the $x$-axis. So, for example, if I'm looking at a histogram with the number of events vs. \etmiss, the $y$-axis label might read "events/1 GeV". So this will show the number of events with the histogram bins being 1 GeV wide in \etmiss.
+Many \ROOT histograms seen in papers have the $y$-axis label as "$<$some variable or number of events$>$/$<$some value$>$". The $<$some value$>$ is usually the width of the bin in the $x$-axis. So, for example, if I'm looking at a histogram with the number of events vs. \etmiss, the $y$-axis label might read "events/1 GeV". So this will show the number of events with the histogram bins being 1 GeV wide in \etmiss.
 \end{minipage}}
 
-From now, until I state otherwise, I will be using ROOT v5.34/36.
+From now, until I state otherwise, I will be using \ROOT v5.34/36.

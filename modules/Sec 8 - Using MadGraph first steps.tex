@@ -1,11 +1,11 @@
 \newpage
 \chapter{Using \madgraph (first steps) (07/10/2016)}
 
-\madgraph \cite{Alwall:2011madgraph} is software used to run different physics processes (namely particle collisions). There is a version on the web which has a GUI (of sorts) -- \url{madgraph.physics.illinois.edu} -- but requires extra files to be uploaded that you have to create/edit from a template.
+\madgraph~\cite{Alwall:2011madgraph} is software used to run different physics processes (namely particle collisions). There is a version on the web which has a GUI (of sorts) -- \url{madgraph.physics.illinois.edu} -- but requires extra files to be uploaded that you have to create/edit from a template.
 
 Generally \madgraph -- more specifically, \textsc{MadGraph 5} -- will be used on my local machine or accessed on Soolin and is used from the command line. In my Soolin directory I have installed it and I also have the tar file if I want to unpack and install it again. From now, until I state otherwise, I will be using \textsc{MadGraph 5} v2.4.3.
 
-\textbf{Note that if I use results -- when writing a paper/my thesis -- that were generated in \madgraph, \madanalysis, ROOT or any other programs (including extra packages for them you can install), I will need to appropriately reference them. When starting the programs (or in the respective READMEs), there should be information on how to reference them.}
+\textbf{Note that if I use results -- when writing a paper/my thesis -- that were generated in \madgraph, \madanalysis, \ROOT or any other programs (including extra packages for them you can install), I will need to appropriately reference them. When starting the programs (or in the respective READMEs), there should be information on how to reference them.}
 
 To start off with, navigate to the \textbf{/mg} directory. For now I'll just be playing with the test file (\textbf{sm\_test.dat}), but will presumably be able to create my own in the future. Type
 
@@ -100,7 +100,7 @@ Varying beam energy (ebeam1 and ebeam2):
 
 For all of these, every other variable was kept the same (10 000 events, etc.). The process was $pp \rightarrow e^+ e^-$ @ 1\textsuperscript{st} order.
 
-With the current build of \madgraph I have on Soolin, I can also run \PYTHIA (this build can install \textsc{Pythia6}, \cite{Sjostrand:2007pythia}), \textsc{Delphes} \cite{Ovyn:2009delphes} (detector simulation program), and \textsc{ExRootAnalysis} (convert output files into .root containers). In the \textbf{sm\_test.dat} file, after the \texttt{launch} statement, include
+With the current build of \madgraph I have on Soolin, I can also run \PYTHIA (this build can install \textsc{Pythia6},~\cite{Sjostrand:2007pythia}), \textsc{Delphes}~\cite{Ovyn:2009delphes} (detector simulation program), and \textsc{ExRootAnalysis} (convert output files into .root containers). In the \textbf{sm\_test.dat} file, after the \texttt{launch} statement, include
 
 \begin{easylist}
 \ListProperties(Style*=, FinalMark={)})

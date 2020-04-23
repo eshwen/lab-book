@@ -5,9 +5,9 @@ With Python, it's quite easy to plot and slightly manipulate the contents of .ro
 
 With Bjoern's help, I created some macros to compare and analyse histograms. To be able to manipulate them for, e.g., normalizing, you have to create a new histogram and fill it with the contents of the branch/leaf you want to analyse because you can't edit the contents of a root file itself. All of this is difficult in Python, hence the switch to C++.
 
-Three types of files were created: the header file (.h) which contains the information and declarations, etc., pertaining to the tree in the root file; the source file (.C) in which most of the analysis commands are executed; the "daddy" macro, which is what is executed in ROOT and ties the other source files and executes the necessary loops, etc.
+Three types of files were created: the header file (.h) which contains the information and declarations, etc., pertaining to the tree in the root file; the source file (.C) in which most of the analysis commands are executed; the "daddy" macro, which is what is executed in \ROOT and ties the other source files and executes the necessary loops, etc.
 
-As an example, I'm analysing the $\eta$ component of a jet from a \madgraph analysis from the processes $pp \rightarrow t\bar{t}$, $pp \rightarrow W +$ jets, and $pp \rightarrow Z +$ jets. These are SM backgrounds for a hadronic search because the DM final state is usually large \etmiss\ and several jets. The \madgraph output is converted into a .root file using my \textbf{rootconverter.sh} script. Then ROOT is launched and the analysis is done by executing the "daddy" macro (\textbf{execComparejets.C}) and I get a histogram out of it with three normalized plots of the respective Jet.Eta plots.
+As an example, I'm analysing the $\eta$ component of a jet from a \madgraph analysis from the processes $pp \rightarrow t\bar{t}$, $pp \rightarrow W +$ jets, and $pp \rightarrow Z +$ jets. These are SM backgrounds for a hadronic search because the DM final state is usually large \etmiss\ and several jets. The \madgraph output is converted into a .root file using my \textbf{rootconverter.sh} script. Then \ROOT is launched and the analysis is done by executing the "daddy" macro (\textbf{execComparejets.C}) and I get a histogram out of it with three normalized plots of the respective Jet.Eta plots.
 
 So in total I had 10 files used (daddy macro + $3\times3$ files for each analysis -- source file, header file, root file):
 
@@ -50,7 +50,7 @@ I should find a way to plot such that the histogram with the largest $y$-value i
 & Write an input file for \madgraph detailing the process I want to look at.
 & Run \madgraph with the input file and get the output .lhco files, etc.
 & Convert the .lhco and .lhe files to .root files using my rootconverter.sh script.
-& Run ROOT and get the MakeClass file (.h and .C) for the .root file.
+& Run \ROOT and get the MakeClass file (.h and .C) for the .root file.
 & Use the templates above to edit the .h and .C files accordingly, paying close attention to the other header files I need to include, the bin sizes of the histograms, the names of the branches I'm accessing, normalization, line colours, whether the histogram is cut off because of the canvas size.
 & Write the "daddy" macro to execute and run all the analyses and get the histogram(s) out.
 \end{easylist}
@@ -62,7 +62,7 @@ I should find a way to plot such that the histogram with the largest $y$-value i
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./sec11/comparejetsv2.pdf}
-\cprotect\caption{Multiple histograms showcasing the normalized entries versus pseudorapidity from three standard model processes: $pp \rightarrow t\bar{t}$ (blue); $pp \rightarrow W +$ jets (red); and $pp \rightarrow Z +$ jets (green). These were plotted as a histogram stack. The left panel is from the base \texttt{Draw()} command in ROOT, and the right panel displays the same stack as a "lego" plot.}
+\cprotect\caption{Multiple histograms showcasing the normalized entries versus pseudorapidity from three standard model processes: $pp \rightarrow t\bar{t}$ (blue); $pp \rightarrow W +$ jets (red); and $pp \rightarrow Z +$ jets (green). These were plotted as a histogram stack. The left panel is from the base \texttt{Draw()} command in \ROOT, and the right panel displays the same stack as a "lego" plot.}
 \end{figure}
 
 I've updated my macros slightly to divide the canvas and make a "lego" plot that's angled slightly to give a different perspective. Both plots were created using the \texttt{THStack} class so that the histograms can be added and then plotted as a stack so you don't get any weird overlap like you do when plotting them one-by-one. I haven't updated the code enough to justify sticking it in the lab book. Maybe I'll add it once I've figured out how to add the legend and added some other features.
@@ -108,7 +108,7 @@ In this version of the code, each histogram was normalized according to the lumi
 N = \sigma \mathcal{L}
 \end{equation}
 
-where $N$ is the number of events, $\sigma$ is the interaction cross section, and $\mathcal{L}$ is the luminosity. These values are detailed in Table \ref{tab:comparison}. Then the scale factor is
+where $N$ is the number of events, $\sigma$ is the interaction cross section, and $\mathcal{L}$ is the luminosity. These values are detailed in Table~\ref{tab:comparison}. Then the scale factor is
 
 \begin{equation}
 s.f. = \sigma \mathcal{L} / N

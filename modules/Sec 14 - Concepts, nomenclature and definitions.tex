@@ -12,18 +12,18 @@
 
 & Pseudorapidity: the pseudorapidity $\eta$ is a spatial coordinate that describes the angle of a particle (after a collision in an accelerator) relative to the beam axis. The formula is $\eta = -\ln[\tan(\theta/2)]$, where $\theta$ is the angle between the particle's three-momentum and the positive direction of the beam axis. So as $\theta \rightarrow 0^{\circ}$ (the beam line), $\eta \rightarrow \infty$. Generally, particles with large $\eta$ escape the detector (because they are travelling so close to the beam line), so cuts on the order of $|\eta| < 5$ or tighter are usually applied during analysis.
 
-& $\alpha_{\mathrm{T}}$: the kinematic variable $\alpha_{\mathrm{T}}$ is used in analyses to suppress QCD backgrounds, and to suppress multijet production and mis-reconstructed $p_{\mathrm{T}}$. It is defined in \cite{Randall:2008rw}, and further described in \cite{PhysRevLett.107.221804}. Another form is
+& $\alpha_{\mathrm{T}}$: the kinematic variable $\alpha_{\mathrm{T}}$ is used in analyses to suppress QCD backgrounds, and to suppress multijet production and mis-reconstructed $p_{\mathrm{T}}$. It is defined in~\cite{Randall:2008rw}, and further described in~\cite{PhysRevLett.107.221804}. Another form is
 
 \begin{equation}
 \alpha_{\mathrm{T}} = \frac{ \sum_{i \in \mathrm{jets}} E_{\mathrm{T}}^i - \Delta E_{\mathrm{T}} } {2 \sqrt{ \left( \sum_{i \in \mathrm{jets}} E_{\mathrm{T}}^i \right)^2 - (\mht)^2 } }
 \label{eq:alphaT}
 \end{equation}
 
-"where $E_{\mathrm{T}}^i (\equiv E^i \sin\theta^i)$ is the jet transverse energy, and $\Delta E_{\mathrm{T}}$ is the difference in $E_{\mathrm{T}}$ of the two \emph{pseudo-jets}, two sets of jets into which the jets in the event are combined so as to minimize $\Delta E_{\mathrm{T}}$" \cite{Sakuma:2016nxo}.
+"where $E_{\mathrm{T}}^i (\equiv E^i \sin\theta^i)$ is the jet transverse energy, and $\Delta E_{\mathrm{T}}$ is the difference in $E_{\mathrm{T}}$ of the two \emph{pseudo-jets}, two sets of jets into which the jets in the event are combined so as to minimize $\Delta E_{\mathrm{T}}$"~\cite{Sakuma:2016nxo}.
 
-& Parton Distribution Function (PDF): a parton distribution function details the momentum distribution of the partons (quarks and gluons) within a proton. There exist many PDFs, that depend on factors such as the energy and the processes that are occurring. See \url{http://www.scholarpedia.org/article/Introduction_to_Parton_Distribution_Functions} and \cite{Placakyte:2011az}.
+& Parton Distribution Function (PDF): a parton distribution function details the momentum distribution of the partons (quarks and gluons) within a proton. There exist many PDFs, that depend on factors such as the energy and the processes that are occurring. See \url{http://www.scholarpedia.org/article/Introduction_to_Parton_Distribution_Functions} and~\cite{Placakyte:2011az}.
 
-& MiniAOD: mini-analysis object data (miniAOD) is a data format used to store data for CMS analyses, and so called because it dramatically reduced the size of the data files. This meant that computing resources and disk space became less strained. See \cite{1742-6596-664-7-072052} for more information.
+& MiniAOD: mini-analysis object data (miniAOD) is a data format used to store data for CMS analyses, and so called because it dramatically reduced the size of the data files. This meant that computing resources and disk space became less strained. See~\cite{1742-6596-664-7-072052} for more information.
 
 & LHE: The Le Houches Accords was an agreement between particle physicists that standardised the interface between the matrix element programs (e.g., \madgraph) and the event generators (e.g., \PYTHIA) used to calculate different quantities. Events that conform to the formats described in the Les Houches Accords are said to be in the Les Houches Event (LHE) format.
 
@@ -46,7 +46,7 @@ A value of $\Delta R = 0.4$ is commonly used for lepton (namely muon) isolation.
 
 & Drell-Yan processes: in the LHC, the Drell-Yan (DY) process is when a quark from one proton annihilates with an antiquark from an oncoming proton. This normally produces one of the electroweak bosons, which decays into a lepton-antilepton pair. Looking at invariant mass plots from DY can show clear peaks at the masses of different particles, like the $\phi$. $J/\psi$, $\upsilon$ hadrons and the $Z$ boson. However, as protons contain many quarks, antiquarks and gluons, DY is normally messy and the final states can include several jets.
 
-& \biasedDPhi: the variable \biasedDPhi, known as "biased delta phi", is used in making event selections in signal/data, similar to \alphat. \cite{CMS-PAPER-SUS-15-005-arXiv} It is based on the minimum azimuthal separation between a jet and the negative vector $\vec{p}_{\mathrm{T}}$ sum of all of the other jets in the event. So it is essentially the minimal separation between the jet and the \htmiss\ vector. It is calculated with the formula
+& \biasedDPhi: the variable \biasedDPhi, known as "biased delta phi", is used in making event selections in signal/data, similar to \alphat.~\cite{CMS-PAPER-SUS-15-005-arXiv} It is based on the minimum azimuthal separation between a jet and the negative vector $\vec{p}_{\mathrm{T}}$ sum of all of the other jets in the event. So it is essentially the minimal separation between the jet and the \htmiss\ vector. It is calculated with the formula
 
 \begin{equation}
   \Delta\phi^*_{\mathrm{min}} = \min_{\,\forall\, \mathrm{j}_k\,\in\, [1,n_{\mathrm{jet}}]}
@@ -56,13 +56,13 @@ A value of $\Delta R = 0.4$ is commonly used for lepton (namely muon) isolation.
 \label{eq:biasedDPhi}
 \end{equation}
 
-& Heavy flavour dark matter: these models include dark matter production in conjunction with heavy-flavour SM particles (top and bottom quarks). The final state products that could be detected would be those quarks (or their decay products) and \etmiss\ from the DM. Examples of these models can be found in \cite{Sirunyan:2017xgm}. In contrast, "light flavour" dark matter models yield a final state of dark matter particles and light quarks, i.e., up, down, charm, and strange.
+& Heavy flavour dark matter: these models include dark matter production in conjunction with heavy-flavour SM particles (top and bottom quarks). The final state products that could be detected would be those quarks (or their decay products) and \etmiss\ from the DM. Examples of these models can be found in~\cite{Sirunyan:2017xgm}. In contrast, "light flavour" dark matter models yield a final state of dark matter particles and light quarks, i.e., up, down, charm, and strange.
 
 & Systematic uncertainties: systematics are due to uncertainty from known sources. In particle physics analysis, these are from Monte Carlo statistical uncertainties, initial state radiation (ISR), jet energy corrections (JECs), etc., and need to be taken into account because they can affect the reliability of results.
 
 & Look-elsewhere effect: % ADD HERE
 
-& Particle Flow: the reconstruction algorithm used by CMS. It essentially takes the elements (hits, clusters, tracks, etc.) from the different parts of the detector (tracker, ECAL, HCAL, etc.) and correlates them to build up the reconstructed event. See \cite{CMS-PRF-14-001} for more information. 
+& Particle Flow: the reconstruction algorithm used by CMS. It essentially takes the elements (hits, clusters, tracks, etc.) from the different parts of the detector (tracker, ECAL, HCAL, etc.) and correlates them to build up the reconstructed event. See~\cite{CMS-PRF-14-001} for more information. 
 
 & Pileup: in colliders like the LHC, where the proton beams are split into bunches, there is an expected number of collisions/events per bunch crossing at a detector. If there are more than expected, these excess events are deemed as "pileup". At higher luminosities, more pileup events are expected, and so experiments have to find a way to sort the recorded objects correctly to determine which particles came from which event.
 
@@ -70,7 +70,7 @@ A value of $\Delta R = 0.4$ is commonly used for lepton (namely muon) isolation.
 
 & Trigger menu: the collection of trigger algorithms available in firmware at a given time.
 
-& AK4 and AK8: the "AK" stands for "anti-$k_{\mathrm{T}}$", which is a jet clustering algorithm widely used in data analysis from hadron-hadron collisions \cite{Cacciari:2008gp}. The 4 and 8 give the size of the jet ($R = 0.4$ and $R = 0.8$, respectively). In analyses, people sometimes refer to "AK4" or "AK8" jets, which are essentially jets clustered using the anti-$k_{\mathrm{T}}$ algorithm with the respective $R$ value. So a larger $R$ jet would be more inclusive if you have, say, a fat jet, but the isolation would be worse. This algorithm is used to cluster offline jets (Calo/PF/Gen).
+& AK4 and AK8: the "AK" stands for "anti-$k_{\mathrm{T}}$", which is a jet clustering algorithm widely used in data analysis from hadron-hadron collisions~\cite{Cacciari:2008gp}. The 4 and 8 give the size of the jet ($R = 0.4$ and $R = 0.8$, respectively). In analyses, people sometimes refer to "AK4" or "AK8" jets, which are essentially jets clustered using the anti-$k_{\mathrm{T}}$ algorithm with the respective $R$ value. So a larger $R$ jet would be more inclusive if you have, say, a fat jet, but the isolation would be worse. This algorithm is used to cluster offline jets (Calo/PF/Gen).
 
 & \etmiss\ vs. \htmiss: \etmiss\ (or MET) is the missing transverse energy, i.e., the negative vector sum of the transverse energies of \emph{all} particles in an event. \htmiss\ (or MHT) is the negative vector sum of the transverse energies (or momenta) of \emph{only the jets} in an event. An easy way to distinguish is to think of the "H" in MHT standing for "hadronic".
 
@@ -87,7 +87,7 @@ As an aside, below is a cross section of CMS. It's useful for scale and to see t
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./sec14/Transverse_slice_CMS.png}
-\caption{A transverse slice through CMS, taken from \cite{CMS-PRF-14-001}.}
+\caption{A transverse slice through CMS, taken from~\cite{CMS-PRF-14-001}.}
 \end{figure}
 
 %---------------------------------------------------------------------------------------------------------------
@@ -123,7 +123,7 @@ in compact notation. $\mathcal{N}$ is a normalisation factor, $\boldsymbol{\sigm
 \end{pmatrix}
 \end{equation}
 
-See \cite{Steane:2013wra} for more information.
+See~\cite{Steane:2013wra} for more information.
 
 & Tree level: the process that contributes most to an interaction in a Feynman diagram. There are no loops or extra virtual particles created. It is the simplest interaction; most Feynman diagrams you see describing a specific interaction is shown at tree level.
 
@@ -246,9 +246,9 @@ Z^0 = W^0\cos(\theta_W) - B^0\sin(\theta_W), \
 A = W^0\sin(\theta_W) + B^0\cos(\theta_W)
 \end{equation}
 
-where $\theta_W = 28.7^{\circ}$ is the weak mixing angle, or Weinberg angle. \cite{tagkey1984quarksandleptons}
+where $\theta_W = 28.7^{\circ}$ is the weak mixing angle, or Weinberg angle.~\cite{tagkey1984quarksandleptons}
 
-& Kaluza-Klein theory: this is a field theory that unifies gravity and electromagnetism by extending general relativity to five dimensions (adding a new spatial dimension). Kaluza described his theory classically in 1921 \cite{Kaluza1921}, and Klein developed a quantum interpretation in 1926 \cite{1926ZPhy37895K}. As Kaluza's classical theory only extended GR, there were no free parameters. He introduced what he called the "cylinder condition", imposing that none of the components in the new five-dimensional metric depended on the fifth dimension. This meant that the field equations were simpler, and that standard GR could be recovered in four dimensions. The geodesic equation \cite{2012AstRv7b5W},
+& Kaluza-Klein theory: this is a field theory that unifies gravity and electromagnetism by extending general relativity to five dimensions (adding a new spatial dimension). Kaluza described his theory classically in 1921~\cite{Kaluza1921}, and Klein developed a quantum interpretation in 1926~\cite{1926ZPhy37895K}. As Kaluza's classical theory only extended GR, there were no free parameters. He introduced what he called the "cylinder condition", imposing that none of the components in the new five-dimensional metric depended on the fifth dimension. This meant that the field equations were simpler, and that standard GR could be recovered in four dimensions. The geodesic equation~\cite{2012AstRv7b5W},
 
 \begin{multline}
 \frac{ dU^{\nu} }{ d\tau } + \tilde{\Gamma}^{\mu}_{\alpha\beta} U^{\alpha}U^{\beta} + 2 \tilde{\Gamma}^{\mu}_{5\alpha}U^{\alpha}U^5 + \tilde{\Gamma}^{\mu}_{55} (U^5)^2 + U^{\mu} \frac{ d }{ d\tau } \ln \left( \frac{ cd\tau }{ ds } \right) = 0, \\ \textrm{where $U^{\nu} \equiv dx^{\nu} / d\tau$ is the four-velocity}
@@ -256,9 +256,9 @@ where $\theta_W = 28.7^{\circ}$ is the weak mixing angle, or Weinberg angle. \ci
 
 yields terms that correspond to standard results: the quadratic term in $U^{\nu}$ gives the 4D geodesic equation with some EM terms; the linear term in $U^{\nu}$ gives the Lorentz force law as long as the fifth-dimensional component of the five-velocity corresponds to electric charge. This means that electric charge is understood as motion along the fifth dimension. Klein proposed that this fifth dimension was very small and tightly curled up (compactified).
 
-Some phenomenological aspects of KK are described in \cite{Flacke:2017xsv}, along with dark matter candidates that may be accessible at the LHC. In models with universal extra dimensions (UED) with a TeV-scale extra dimension (the mass gap is on the order of the reciprocal of the compactification radius $R$), KK excitations of SM particles can be well-defined compared to their SM counterparts (which are the zero KK modes of their respective fields). With minimal universal extra dimensions (MUED), the first KK excitation of the photon is the lightest KK partner (LKP).
+Some phenomenological aspects of KK are described in~\cite{Flacke:2017xsv}, along with dark matter candidates that may be accessible at the LHC. In models with universal extra dimensions (UED) with a TeV-scale extra dimension (the mass gap is on the order of the reciprocal of the compactification radius $R$), KK excitations of SM particles can be well-defined compared to their SM counterparts (which are the zero KK modes of their respective fields). With minimal universal extra dimensions (MUED), the first KK excitation of the photon is the lightest KK partner (LKP).
 
-& Ultraviolet completion: UV completion refers to a quantum field theory that, either passes to a more general theory, or is applicable, beyond a cut-off energy that would otherwise apply \cite{Shore:2007um}.
+& Ultraviolet completion: UV completion refers to a quantum field theory that, either passes to a more general theory, or is applicable, beyond a cut-off energy that would otherwise apply~\cite{Shore:2007um}.
 
 & Initial state radiation (ISR): this refers to radiation (usually photons, gluons, electroweak bosons or a Higgs) emitted by particles before the primary collision. It can be interesting in searches for invisible particles, such as dark matter. If two quarks produce a $Z'$ in the $s$-channel which decays into $\chi\bar{\chi}$, there are no visible particles that can be identified. In the case there's ISR, it recoils off the $Z'$, boosting the system. The ISR can be detected which gives insight into the final state.
 

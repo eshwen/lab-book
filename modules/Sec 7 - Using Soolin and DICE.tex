@@ -2,7 +2,7 @@
 \chapter{Using Soolin and DICE (05/10/2016)}
 \label{sec:usingsoolindice}
 
-Soolin is a computer that can be accessed remotely (via ssh) to, e.g., submit jobs or compile and use ROOT (or other software). A handy link is \url{https://github.com/uobdic/Bristol-PHYS14}. To log in to Soolin, open a terminal (normal terminal on a Mac/Linux machine, Cygwin on Windows), and type
+Soolin is a computer that can be accessed remotely (via ssh) to, e.g., submit jobs or compile and use \ROOT (or other software). A handy link is \url{https://github.com/uobdic/Bristol-PHYS14}. To log in to Soolin, open a terminal (normal terminal on a Mac/Linux machine, Cygwin on Windows), and type
 
 \begin{easylist}
 \ListProperties(Style*=, FinalMark={)})
@@ -13,7 +13,7 @@ then enter my password (normal University of Bristol password) and I can use Soo
 
 You can change directories (and back out of your home directory to go into others'/tmp, etc.), copy files (\texttt{cp $<$path to file to copy$>$ $<$destination path$>$}), and everything else you can normally do in a terminal.
 
-ROOT should already be installed on Soolin. To access it, see page 18/later this section.
+\ROOT should already be installed on Soolin. To access it, see page 18/later this section.
 
 DICE is the server/cluster that jobs can be submitted to, and is accessed via Soolin (i.e., when you're doing stuff on Soolin, it is using the computing resources of DICE).
 
@@ -28,10 +28,10 @@ and swap the commands to copy Soolin $\rightarrow$ local. To copy a folder, use 
 
 \textbf{UPDATE:} there's a new, upgraded version of Soolin. It works like the previous version. I just log on with eb16003@soolin.dice.priv now, and everything else works in the same way.
 
-\section{Getting ROOT on Soolin}
+\section{Getting \ROOT on Soolin}
 % The stuff in this subsection is (in my physical lab book) in the section "Using Madgraph (first steps)" but it makes more sense to include it here
 
-A way to get ROOT on Soolin: log in to Soolin, then type
+A way to get \ROOT on Soolin: log in to Soolin, then type
 
 \begin{easylist}
 \ListProperties(Style*=, FinalMark={)})
@@ -42,17 +42,17 @@ A way to get ROOT on Soolin: log in to Soolin, then type
 & \texttt{cd $\sim$}
 \end{easylist}
 
-These commands set up a ROOT environment for me on Soolin. Once I've done that I can use \madgraph with \texttt{pythia=ON} and \texttt{pgs=ON} to generate .root files that I can analyse in ROOT. To do this, navigate to the directory (the output directory, in this case \textbf{sm\_test\_ppXll/Events/run\_01}). Then type
+These commands set up a \ROOT environment for me on Soolin. Once I've done that I can use \madgraph with \texttt{pythia=ON} and \texttt{pgs=ON} to generate .root files that I can analyse in \ROOT. To do this, navigate to the directory (the output directory, in this case \textbf{sm\_test\_ppXll/Events/run\_01}). Then type
 
 \texttt{root tag\_1\_pgs\_events.root}
 
-and then I can inspect and modify the output from the command line or with TBrowser. If the command \texttt{new TBrowser()} doesn't work or -- when starting ROOT -- I get a warning "DISPLAY not set...", install XQuartz, then log off and log back in. Then boot up my normal terminal and try again.
+and then I can inspect and modify the output from the command line or with TBrowser. If the command \texttt{new TBrowser()} doesn't work or -- when starting \ROOT -- I get a warning "DISPLAY not set...", install XQuartz, then log off and log back in. Then boot up my normal terminal and try again.
 
 Also, if I get a "DISPLAY not set..." warning, try logging out of Soolin and then reconnecting using \texttt{ssh -Y ...} or \texttt{ssh -X ...} rather than just \texttt{ssh ...}.
 
-The commands used to initialise ROOT have been added to my bash profile on Soolin so that they automatically execute when I log in to Soolin. To edit my bash profile (to execute different commands upon logging in), I need to edit -- with emacs/vi -- \texttt{$\sim$/.bashrc}. (The tilde just points to my home directory.)
+The commands used to initialise \ROOT have been added to my bash profile on Soolin so that they automatically execute when I log in to Soolin. To edit my bash profile (to execute different commands upon logging in), I need to edit -- with emacs/vi -- \texttt{$\sim$/.bashrc}. (The tilde just points to my home directory.)
 
-I can also preload commands to execute automatically when I start ROOT (by creating and editing \textbf{rootlogon.C}), then creating a .rootrc file and pointing to the \textbf{rootlogon.C} file (see \sloppy\url{https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookSetComputerNode}).
+I can also preload commands to execute automatically when I start \ROOT (by creating and editing \textbf{rootlogon.C}), then creating a .rootrc file and pointing to the \textbf{rootlogon.C} file (see \sloppy\url{https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookSetComputerNode}).
 
 \section{Generating an ssh key (30/11/2016)}
 

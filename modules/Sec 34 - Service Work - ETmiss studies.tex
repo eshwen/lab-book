@@ -62,13 +62,13 @@ voms-proxy-init --voms cms --valid 168:00 # if my grid cert. proxy has expired
 
 The rest of the README is only really relevant if I'm contributing to the development of the repo. On the master branch, I need to make a config to store the dataset information I want (see \textbf{config/offline\_met\_studies.yaml} for a template) and an analyzer to take in the config and create the plots I want (see \textbf{cmsl1t/analyzers/offline\_met\_analyzer.py} for a template). This should be everything I need to add to make the MET plots.
 
-In the config, when specifying the root file(s) I want to run over, I can use xrootd to check the leaves and trees so I know what to reference. I'll need a valid grid certificate proxy to be able to access the service. In a ROOT session, I can open the file as normal, e.g.,
+In the config, when specifying the root file(s) I want to run over, I can use xrootd to check the leaves and trees so I know what to reference. I'll need a valid grid certificate proxy to be able to access the service. In a \ROOT session, I can open the file as normal, e.g.,
 
 \begin{lstlisting}[belowskip=-0.7cm, language=C++, numbers=none]
 TFile *f = TFile::Open("root://eoscms.cern.ch//eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/safarzad/2017/ZeroBias/Collision2017-noRECO-l1t-integration-96p20/ZeroBias/crab_Collision2017-noRECO-l1t-integration-96p20__ZeroBias_Run2017C/170726_094745/0000/L1Ntuple_1.root")
 \end{lstlisting}
 
-then I can just open a TBrowser. The root file will be located in \textbf{ROOT files/}, as seen in the TBrowser window. Note that whilst I can use wildcarding in the config, for obvious reasons I have to specify the exact path when using xrootd.
+then I can just open a TBrowser. The root file will be located in \textbf{\ROOT files/}, as seen in the TBrowser window. Note that whilst I can use wildcarding in the config, for obvious reasons I have to specify the exact path when using xrootd.
 
 \fi
 

@@ -28,7 +28,7 @@ python chain.py <output root file> <absolute path to input trees>
 
 But for the rest, I had to use another script from Ben (that I modified a bit) to untar these chunks and format the directory names for \texttt{heppy\_hadd} to work. It can be found here: \href{run:sec31/copy_untar.py}{copy\_untar.py}.
 
-Once the output was combined, I transferred it to Imperial and split the trees. One caveat was the final step of actually splitting the trees. ROOT treats TChains and TTrees differently when cloning trees from those types. So, in \textbf{cutTree.cpp}, I had to change L44 from
+Once the output was combined, I transferred it to Imperial and split the trees. One caveat was the final step of actually splitting the trees. \ROOT treats TChains and TTrees differently when cloning trees from those types. So, in \textbf{cutTree.cpp}, I had to change L44 from
 
 \begin{lstlisting}[belowskip=-0.7cm, language=C++, numbers=none]
 TTree *newtree = chain->CopyTree(cut);
@@ -147,7 +147,7 @@ which should give me nice limit plots. If I wanted to change anything aesthetica
 
 % UPDATE IF I MAKE CHANGES TO PLOT
 
-Rob asked whether there was any signal contamination from the $\mu +$ jets CR, and it turns out there wasn't. This was a bug that appeared in some of the other SMS models as well, more evident in T1tttt and T2tt as they're more leptonic than the other models. The signal contamination should be most evident for mass splittings of $\sim 80$ GeV, as the sparticle can decay with an off-shell $W$ boson that decays leptonically. The source of the bug was due to the trigger bit information not being in the trees (which I noticed previously when making the cut flow tables in Sec. \ref{sec:cutflowtables2016paper}). However, we wouldn't need to regenerate the trees \emph{with} the trigger bits (as that would take ages), we'd just need to comment out \texttt{skimSequence.append(triggerSkimmer2016)} in \textbf{Sequences/Sequence2016.py} in AlphaTools. Then, I could just re-run the limits workflow from the StatsAnalyzer stage.
+Rob asked whether there was any signal contamination from the $\mu +$ jets CR, and it turns out there wasn't. This was a bug that appeared in some of the other SMS models as well, more evident in T1tttt and T2tt as they're more leptonic than the other models. The signal contamination should be most evident for mass splittings of $\sim 80$ GeV, as the sparticle can decay with an off-shell $W$ boson that decays leptonically. The source of the bug was due to the trigger bit information not being in the trees (which I noticed previously when making the cut flow tables in Sec.~\ref{sec:cutflowtables2016paper}). However, we wouldn't need to regenerate the trees \emph{with} the trigger bits (as that would take ages), we'd just need to comment out \texttt{skimSequence.append(triggerSkimmer2016)} in \textbf{Sequences/Sequence2016.py} in AlphaTools. Then, I could just re-run the limits workflow from the StatsAnalyzer stage.
 
 
 \subsection{Feynman diagram}
@@ -272,7 +272,7 @@ This creates the plots of signal acceptance $\times$ efficiency for the mass pla
 \caption{T2tt-4bd: $\epsilon_{\mathrm{sig}}$.}
 \end{figure}
 
-To extract the value for the benchmark model, need to go to the output directory, into the \textbf{eff/}. This should contain a root file with all the information in it. Then, in a ROOT session, I can do
+To extract the value for the benchmark model, need to go to the output directory, into the \textbf{eff/}. This should contain a root file with all the information in it. Then, in a \ROOT session, I can do
 
 \begin{lstlisting}[belowskip=-0.7cm, language=C++, numbers=none]
 TFile f("effHist.root")
@@ -397,7 +397,7 @@ Ben volunteered to make the mountain range plot for the benchmark model, as the 
 
 \subsection{Cut flow table for benchmarks}
 
-For the cut flows, I used the same workflow as in Section \ref{sec:cutflowtables2016paper} to re-weight the split trees I already had for the benchmark model. I made sure to use the same branch of AlphaTools, just adding the sample to the T1qqqqLL sample file, and point to the ISR pickle I generated earlier for this model. Then, I could just point cutflowirl to the directory of the reweighted tree and run the code as normal to get the table.
+For the cut flows, I used the same workflow as in Section~\ref{sec:cutflowtables2016paper} to re-weight the split trees I already had for the benchmark model. I made sure to use the same branch of AlphaTools, just adding the sample to the T1qqqqLL sample file, and point to the ISR pickle I generated earlier for this model. Then, I could just point cutflowirl to the directory of the reweighted tree and run the code as normal to get the table.
 
 \begin{table}[H]
 \caption{Cut flow table for \texttt{T2tt-4bd} model.}

@@ -1,7 +1,7 @@
 \newpage
 \chapter{Evaluating backgrounds in a dark matter search from a CMS Physics Analysis Summary (17/11/2016)}
 
-So that I can begin doing some proper analysis, I will be using a CMS Physics Analysis Summary (PAS) \cite{CMS:2016pod} as a template. The information in the paper will be used to create an analysis file to run in \madanalysis. The paper states that 90\% of the backgrounds in this type of dark matter search can be attributed to Standard Model decays into $W^{\pm} / Z$ + jet. So I've created an input file for \madanalysis to apply the cuts given for the monojet analysis in the paper: $|\eta| < 2.5$, leading jet $p_{\mathrm{T}} > 100$ GeV, $\etmiss > 200$ GeV, no leptons, no $b$-quarks. This way I can plot the backgrounds that I generated previously for $pp \rightarrow W +$ jets and $pp \rightarrow Z +$ jets (with some minor changes: removing the lepton $p_{\mathrm{T}}$ cut, and generating more events). Then we get an estimate of these backgrounds for the DM search -- which will be enhanced with more events, etc., in the future -- and can then start thinking about implementing the other backgrounds for this search. Then we can look for a signal. At the LHC, monojets are used most prominently to look for dark matter particles. This because when the protons collide and produce dark matter, the incoming protons can emit gluons or jets before the collision and recoil from the dark matter, so you get a boosted jet because the DM particles are heavy.
+So that I can begin doing some proper analysis, I will be using a CMS Physics Analysis Summary (PAS)~\cite{CMS:2016pod} as a template. The information in the paper will be used to create an analysis file to run in \madanalysis. The paper states that 90\% of the backgrounds in this type of dark matter search can be attributed to Standard Model decays into $W^{\pm} / Z$ + jet. So I've created an input file for \madanalysis to apply the cuts given for the monojet analysis in the paper: $|\eta| < 2.5$, leading jet $p_{\mathrm{T}} > 100$ GeV, $\etmiss > 200$ GeV, no leptons, no $b$-quarks. This way I can plot the backgrounds that I generated previously for $pp \rightarrow W +$ jets and $pp \rightarrow Z +$ jets (with some minor changes: removing the lepton $p_{\mathrm{T}}$ cut, and generating more events). Then we get an estimate of these backgrounds for the DM search -- which will be enhanced with more events, etc., in the future -- and can then start thinking about implementing the other backgrounds for this search. Then we can look for a signal. At the LHC, monojets are used most prominently to look for dark matter particles. This because when the protons collide and produce dark matter, the incoming protons can emit gluons or jets before the collision and recoil from the dark matter, so you get a boosted jet because the DM particles are heavy.
 
 The only problem, at the moment, with generating my backgrounds is the weight assigned to each event. The paper uses 12.9 fb$^{-1}$ of data, corresponding to a lot of events. With the \madgraph output that I've generated, I only ran 200,000 events for each process, corresponding to a luminosity $\mathcal{O}$(10 pb) [where the symbol $\mathcal{O}$ means "of order"]. So when I scale the luminosity in the \madanalysis input file to 12.9 fb$^{-1}$, it effectively scales the weight of each event by a certain amount to match that luminosity. With reliable data the weight of each event is $\sim$1, so the backgrounds I have generated at the time of writing are not suitable for detailed analysis. Obviously this will be rectified in the future, but for now I am just demonstrating the technique and the motivation behind the use of \madanalysis and these data.
 
@@ -9,9 +9,9 @@ The input and output files are displayed below. The values I have after the cuts
 
 The input file \textbf{DMbkgmonoj.ma}:
 
-\lstinputlisting[language=Python, label={listing:dmmonojinput}, caption={The input file to analyse the monojet backgrounds for the dark matter search in \cite{CMS:2016pod}. File name: DMbkgmonoj.ma (v1).}]{./sec15/DMbkgmonojv1.ma}
+\lstinputlisting[language=Python, label={listing:dmmonojinput}, caption={The input file to analyse the monojet backgrounds for the dark matter search in~\cite{CMS:2016pod}. File name: DMbkgmonoj.ma (v1).}]{./sec15/DMbkgmonojv1.ma}
 
-Then I created some C++ macros to analyse the file \textbf{TheMouth.root} so that I could get the $y$-values of each bin in the \etmiss histogram and compare them with those from the paper. Because the entries in each bin must be multiplied by its weight -- given in the main.pdf file created during the \madanalysis run, which is fine because I need to run \madanalysis to generate the PDF and ROOT files before running the macros -- I've included that value as a \texttt{const double} in the global header \textbf{MouthGlobal.h}. In the same file, I've added a \texttt{TString} that contains the directory to \textbf{TheMouth.root}. So if I have several background files, as in this case, I can just modify the string once and it will apply globally (as I only need one source file and one header file to analyse \emph{any} \textbf{TheMouth.root} file). The commands are the same as with normal .root files; just open ROOT and type \verb!.x execMouth.C!.
+Then I created some C++ macros to analyse the file \textbf{TheMouth.root} so that I could get the $y$-values of each bin in the \etmiss histogram and compare them with those from the paper. Because the entries in each bin must be multiplied by its weight -- given in the main.pdf file created during the \madanalysis run, which is fine because I need to run \madanalysis to generate the PDF and \ROOT files before running the macros -- I've included that value as a \texttt{const double} in the global header \textbf{MouthGlobal.h}. In the same file, I've added a \texttt{TString} that contains the directory to \textbf{TheMouth.root}. So if I have several background files, as in this case, I can just modify the string once and it will apply globally (as I only need one source file and one header file to analyse \emph{any} \textbf{TheMouth.root} file). The commands are the same as with normal .root files; just open \ROOT and type \verb!.x execMouth.C!.
 
 The "daddy" macro \textbf{execMouth.C}:
 
@@ -25,7 +25,7 @@ The source file \textbf{TheMouth.C}:
 
 \lstinputlisting[language=C++, caption={The source file used to analyse TheMouth.root. File name: TheMouth.C (v1).}]{./sec15/TheMouthv1.C}
 
-In the header file \textbf{TheMouth.h}, I've only included a few lines (the ones that need changing from their default when generated by ROOT). Some of the default "include" headers were also removed as they caused errors.
+In the header file \textbf{TheMouth.h}, I've only included a few lines (the ones that need changing from their default when generated by \ROOT). Some of the default "include" headers were also removed as they caused errors.
 
 \lstinputlisting[language=C++, firstline=620, lastline=634, caption={Lines 620--634 of the header file used to analyse TheMouth.root. File name: TheMouth.h (v1).}]{./sec15/TheMouthv1.h}
 
@@ -61,7 +61,7 @@ The table of contributions from the dominant background processes in the paper:
     \textbf{$Z(\ell\ell)$ + jets} & $<$0.1   & $<$0.1   & $<$0.1    & $<$0.1   & $<$0.1    & $<$0.1     & $<$0.1   \\ \hline
     \textbf{Total}        & 121.6 & 75.4  & 73.7   & 37.4  & 23.7   & 16.9    & 31.2  \\ \hline
     \end{tabular}
-    \caption{The number of entries in bins of \etmiss of the dominant backgrounds in \cite{CMS:2016pod}. I used a precision of one decimal point when copying these values.}
+    \caption{The number of entries in bins of \etmiss of the dominant backgrounds in~\cite{CMS:2016pod}. I used a precision of one decimal point when copying these values.}
     \label{tab:cmspaper}
 \end{table}
 
@@ -127,11 +127,11 @@ The difference between my results and those from the paper:
     \textbf{$W$ + jets} & 24.4    & 14.1    & -1368.2     & 6.4     & 3.6      & 2.9       & 4.3     \\ \hline
     \textbf{Total}        & 121.6 & 75.4  & 1429.1   & 37.4  & 23.7   & 16.9    & 31.2  \\ \hline
     \end{tabular}
-    \caption{The difference between my results and those from the paper (see Tables \ref{tab:cmspaper} and \ref{tab:mybkgs200kevnt}). The differences were calculated by subtracting my results from those in the paper, hence the reason for minus signs in some of the elements. When calculating the $Z$ + jets difference, I combined the $Z(\nu\nu)$ and $Z(\ell\ell)$ values, then subtracted my results. The total is calculated by adding the absolute values (i.e., the modulus) of the values in the previous rows.}
+    \caption{The difference between my results and those from the paper (see Tables~\ref{tab:cmspaper} and~\ref{tab:mybkgs200kevnt}). The differences were calculated by subtracting my results from those in the paper, hence the reason for minus signs in some of the elements. When calculating the $Z$ + jets difference, I combined the $Z(\nu\nu)$ and $Z(\ell\ell)$ values, then subtracted my results. The total is calculated by adding the absolute values (i.e., the modulus) of the values in the previous rows.}
     \label{tab:diff-mine-cms}
 \end{table}
 
-Note: uncertainties are not included. The paper \emph{does} include uncertainties, but I'm not sure how to calculate the error in \emph{my} results. My \madgraph process for $Z$ + jets does not specifically include $Z(\nu\nu)$ or $Z(\ell\ell)$ so I'm assuming they are just combined in my results. In Table \ref{tab:diff-mine-cms}, the total is the sum of the \emph{absolute} values (i.e., the modulus) of the elements in the rows above. It is interesting to note that, for the most part, the differences between my results and those of the paper are smaller for the $Z$ + jets process(es) than for the $W$ + jets process. This is most likely due to the weighting that \madanalysis implements in my results to match the luminosity in the paper. The weighting for the $W$ + jets events was 1381, whilst it was only 751 for the $Z$ + jets events.
+Note: uncertainties are not included. The paper \emph{does} include uncertainties, but I'm not sure how to calculate the error in \emph{my} results. My \madgraph process for $Z$ + jets does not specifically include $Z(\nu\nu)$ or $Z(\ell\ell)$ so I'm assuming they are just combined in my results. In Table~\ref{tab:diff-mine-cms}, the total is the sum of the \emph{absolute} values (i.e., the modulus) of the elements in the rows above. It is interesting to note that, for the most part, the differences between my results and those of the paper are smaller for the $Z$ + jets process(es) than for the $W$ + jets process. This is most likely due to the weighting that \madanalysis implements in my results to match the luminosity in the paper. The weighting for the $W$ + jets events was 1381, whilst it was only 751 for the $Z$ + jets events.
 
 As I mentioned earlier, with my \madgraph results I have to multiply the events in each bin of the histograms by the weight given by \madanalysis. However, because the weight is so high, each entry effectively contributes more, which is a problem in the low-entry limit (where I only have a few entries in a bin). So the accuracy will not be good because one event multiplied by the weight effectively gives lots of entries. So if I want to be accurate, I need to run more events so the luminosity is higher, so has to be scaled to a lesser degree to match the luminosity in the paper, therefore assigning a smaller weight ($\rightarrow 1$) for each event. Then the law of large numbers should give me smoother distributions and finer results.
 
@@ -159,13 +159,13 @@ tar -cvzf mg_image.tar.gz --exclude=mg_image.tar.gz --exclude=results/* *
 
 This will create a tar ball called \textbf{mg\_image.tar.gz}. It is an image file that the Condor script copies to the machines on DICE so it knows what program to execute in conjunction with my input file(s). This image file then needs to be moved to the \textbf{submit\_mg} folder.
 
-I also need to make sure I've sourced CMSSW so that I have a ROOT environment on Soolin (so that the output files I need are generated). In my home directory, I have a shell script called \textbf{cms.sh}, that I just need to \verb!source!. Once these steps are complete, I can submit the job to Condor by typing
+I also need to make sure I've sourced CMSSW so that I have a \ROOT environment on Soolin (so that the output files I need are generated). In my home directory, I have a shell script called \textbf{cms.sh}, that I just need to \verb!source!. Once these steps are complete, I can submit the job to Condor by typing
 
 \verb!./run_mg.py configs/ppWjets.input!
 
 To check the status of the job, type \verb!condor_q eb16003!. I don't think it tells you when the job is complete, but when it has finished the output is located in \textbf{submit\_mg/results/ppWjets}. Then the entire \madgraph output can be accessed like normal.
 
-I should be submitting jobs with around 50,000 events each and then running multiple jobs to get lots of output files (and therefore lots of events in total). Then I need to combine them into one. If they are .root files, I can use the \verb!hadd! command if I've sourced ROOT:
+I should be submitting jobs with around 50,000 events each and then running multiple jobs to get lots of output files (and therefore lots of events in total). Then I need to combine them into one. If they are .root files, I can use the \verb!hadd! command if I've sourced \ROOT:
 
 \verb!hadd <merged file name>.root <input1>.root <input2>.root ...!
 
@@ -177,7 +177,7 @@ But I'm not sure if I can combine the \textbf{tag\_1\_pythia\_events.hep.gz} fil
 
 So now that multiple, identical input files have been created -- the only differences being the indices at the end of the input and output files -- I can begin to run multiple jobs at once. In the bash programming language that the Mac terminal (and most terminals) uses, the \verb!*! character encompasses the objects that share the name of what is typed before the \verb!*!. So if I write \verb!for f in *; do echo $f; done! in the terminal, everything in the current directory will be printed (the \verb!echo! command prints stuff to the screen). Or if I wrote \verb!for g in cats*; do echo $g; done!, then everything in the current directory whose file name starts with \verb!cats! gets printed. So I can apply this to Condor.
 
-Because my input files all start with the common string "ppWjets" (see Listing \ref{listing:genmultiinput}), I can use the command \verb!<blah> ppWjets*! to encompass all those input files. To run multiple jobs on Condor, simply type
+Because my input files all start with the common string "ppWjets" (see Listing~\ref{listing:genmultiinput}), I can use the command \verb!<blah> ppWjets*! to encompass all those input files. To run multiple jobs on Condor, simply type
 
 \verb!for f in configs/ppWjets*; do ./run_mg.py $f; done!
 
@@ -192,7 +192,7 @@ A more compact list of things to do:
 & Edit my \textbf{writeinputfiles\_mg.py} script to match the \madgraph input file, making sure I've got \verb!pythia=ON!; and the correct number of total events, events per run, and indices for each file. Then run the script in the terminal (\verb!python writeinputfiles_.py!) to generate the numerous files.
 & Copy these files to the \textbf{submit\_mg/configs} folder on Soolin.
 & Make sure I have the re-tarred version of \madgraph (containing the packages I need) \textbf{mg\_image.tar.gz} in my \textbf{submit\_mg} folder.
-& Source CMSSW so I have a ROOT (+ other) environment(s), which allows \madgraph to generate the output files I need. I already created a shell script containing the commands (see Sec. \ref{sec:usingsoolindice}). I just need to go to my home directory on Soolin (\textbf{/users/eb16003}) and type \verb!source cms.sh!.
+& Source CMSSW so I have a \ROOT (+ other) environment(s), which allows \madgraph to generate the output files I need. I already created a shell script containing the commands (see Sec.~\ref{sec:usingsoolindice}). I just need to go to my home directory on Soolin (\textbf{/users/eb16003}) and type \verb!source cms.sh!.
 & Then, navigate to the \textbf{/submit\_mg/} directory in the terminal, and run the command \texttt{for f in configs/$<$common name of input files$>$*; do ./run\_mg.py \$f; done} to submit the jobs to Condor.
 & Wait for the output to be generated and check everything ran correctly.
 \end{easylist}
@@ -241,11 +241,11 @@ to save the files in my home directory. Or I could be lazy and copy \emph{everyt
 (just for reference, on Soolin it's \textbf{/users/}, on my Mac it's \textbf{/Users/}).
 \end{minipage} }
 
-Once I have the necessary files, I need to create an input file to analyse everything. This will be similar to Listing \ref{listing:dmmonojinput}. But I can use the \verb!*! trick and write \verb!import ./Input/ppWjets* as ppWjets! rather than writing a new line for each file. Then I can write out the analysis commands like normal, and they will operate on all the input files as they are now collectively labelled as "ppWjets". This means that only one \textbf{TheMouth.root} file will be generated, meaning I only need to use my "TheMouth" macros once, and don't have to use \verb!hadd!.
+Once I have the necessary files, I need to create an input file to analyse everything. This will be similar to Listing~\ref{listing:dmmonojinput}. But I can use the \verb!*! trick and write \verb!import ./Input/ppWjets* as ppWjets! rather than writing a new line for each file. Then I can write out the analysis commands like normal, and they will operate on all the input files as they are now collectively labelled as "ppWjets". This means that only one \textbf{TheMouth.root} file will be generated, meaning I only need to use my "TheMouth" macros once, and don't have to use \verb!hadd!.
 
 I will also run \madgraph for the $pp \rightarrow Z$ + jets process with 1,000,000 events (20 runs $\times$ 50,000 events run$^{-1}$). Then I will analyse both processes with \madanalysis and be able to simulate the backgrounds better because of the greater amount of data I have.
 
-After simulating 1,000,000 \madgraph events with each process, I then analysed them with \madanalysis using the input file displayed below (under \textbf{1.1 Command history}). The weight for each event is still high (245 for $W$ + jets, and 150 for $Z$ + jets), but a factor of $\sim$5 lower than before (see Tables \ref{tab:mybkgs200kevnt}, \ref{tab:diff-mine-cms}).
+After simulating 1,000,000 \madgraph events with each process, I then analysed them with \madanalysis using the input file displayed below (under \textbf{1.1 Command history}). The weight for each event is still high (245 for $W$ + jets, and 150 for $Z$ + jets), but a factor of $\sim$5 lower than before (see Tables~\ref{tab:mybkgs200kevnt},~\ref{tab:diff-mine-cms}).
 
 The PDF from \madanalysis after analysing the processes: %\href{run:sec15/bkgtest_main.pdf}{bkgtest_main.pdf}.
 
@@ -265,11 +265,11 @@ So this is the procedure as a more compact list:
 
 \begin{easylist}[enumerate]
 & Copy the \madgraph output files (\textbf{tag\_1\_pythia\_events.hep.gz}) from \textbf{/storage/eb16003/submit\_mg/results/} to my \madanalysis directory -- renaming them to something more appropriate -- and consolidate them in the directory \textbf{/storage/eb16003/MadAnalysis/MA5\_v1\_4/Input/}.
-& Write an input file for \madanalysis to analyse the .hep.gz files, using Listing \ref{listing:dmmonojinput} as a template. Pay attention to the files I'm importing, the cuts, and the histograms I want plotted. The cuts described in that file are applicable to this analysis because I'm still modelling the backgrounds from the dark matter search in \cite{CMS:2016pod}.
+& Write an input file for \madanalysis to analyse the .hep.gz files, using Listing~\ref{listing:dmmonojinput} as a template. Pay attention to the files I'm importing, the cuts, and the histograms I want plotted. The cuts described in that file are applicable to this analysis because I'm still modelling the backgrounds from the dark matter search in~\cite{CMS:2016pod}.
 & Make sure I've sourced my \textbf{cms.sh} script to set up the necessary environments.
 & Run \madanalysis (with the \verb!-s -R! commands to ensure the creation of the .root file) with the input file.
 & Open the PDF in \textbf{/MA5\_v1\_4/$<$name of output directory$>$/PDF/main.pdf} to get information about the weight assigned to the events in each process, the histograms, and the cut flow. I can't open it on Soolin, so just \verb!scp! it to my local machine and use Adobe Reader.
-& My macros won't work on the version of ROOT I have on Soolin for whatever reason, so \verb!scp! the \textbf{TheMouth.root} files to my local machine (renaming them to something appropriate to avoid confusion). Then modify my local copies of \textbf{MouthGlobal.h} (see Listing \ref{listing:mouthglobalv1}) in \textbf{/Users/eb16003/PhD\_Software/MadAnalysis/MA5\_v1\_4/Macros\_TheMouth/} to point to the directory containing the renamed \textbf{TheMouth.root} file of the process I want to look at, change the variable \verb!weight! to the value given in the PDF, and make sure \verb!N_BINS!, \verb!X_MIN! and \verb!X_MAX! are the correct values for what I'm looking at.
+& My macros won't work on the version of \ROOT I have on Soolin for whatever reason, so \verb!scp! the \textbf{TheMouth.root} files to my local machine (renaming them to something appropriate to avoid confusion). Then modify my local copies of \textbf{MouthGlobal.h} (see Listing~\ref{listing:mouthglobalv1}) in \textbf{/Users/eb16003/PhD\_Software/MadAnalysis/MA5\_v1\_4/Macros\_TheMouth/} to point to the directory containing the renamed \textbf{TheMouth.root} file of the process I want to look at, change the variable \verb!weight! to the value given in the PDF, and make sure \verb!N_BINS!, \verb!X_MIN! and \verb!X_MAX! are the correct values for what I'm looking at.
 & Run \textbf{execMouth.C} to print the \emph{weighted} events in each MET bin for the \textbf{TheMouth.root} file I want to look at. Then document the results in a .txt file or an Excel spreadsheet.
 % CAN ADD THESE TO THE EXISTING BACKGROUNDS I'VE GOT OR COMPARE THEM WITH THE PAPER.
 \end{easylist}
