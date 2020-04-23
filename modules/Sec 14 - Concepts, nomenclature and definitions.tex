@@ -1,7 +1,7 @@
 \newpage
-\section{Concepts, nomenclature and definitions in high energy physics (17/11/2016)}
+\chapter{Concepts, nomenclature and definitions in high energy physics (17/11/2016)}
 
-\subsection{Experimental}
+\section{Experimental}
 
 \begin{easylist}[itemize]
 \ListProperties(Style*=-- , FinalMark={)})
@@ -15,7 +15,7 @@
 & $\alpha_{\mathrm{T}}$: the kinematic variable $\alpha_{\mathrm{T}}$ is used in analyses to suppress QCD backgrounds, and to suppress multijet production and mis-reconstructed $p_{\mathrm{T}}$. It is defined in \cite{Randall:2008rw}, and further described in \cite{PhysRevLett.107.221804}. Another form is
 
 \begin{equation}
-\alpha_{\mathrm{T}} = \frac{ \sum_{i \in \mathrm{jets}} E_{\mathrm{T}}^i - \Delta E_{\mathrm{T}} } {2 \sqrt{ \left( \sum_{i \in \mathrm{jets}} E_{\mathrm{T}}^i \right)^2 - (H_{\mathrm{T}}^{\mathrm{miss}})^2 } }
+\alpha_{\mathrm{T}} = \frac{ \sum_{i \in \mathrm{jets}} E_{\mathrm{T}}^i - \Delta E_{\mathrm{T}} } {2 \sqrt{ \left( \sum_{i \in \mathrm{jets}} E_{\mathrm{T}}^i \right)^2 - (\mht)^2 } }
 \label{eq:alphaT}
 \end{equation}
 
@@ -25,7 +25,7 @@
 
 & MiniAOD: mini-analysis object data (miniAOD) is a data format used to store data for CMS analyses, and so called because it dramatically reduced the size of the data files. This meant that computing resources and disk space became less strained. See \cite{1742-6596-664-7-072052} for more information.
 
-& LHE: The Le Houches Accords was an agreement between particle physicists that standardised the interface between the matrix element programs (e.g., \madgraph) and the event generators (e.g., \textsc{Pythia}) used to calculate different quantities. Events that conform to the formats described in the Les Houches Accords are said to be in the Les Houches Event (LHE) format.
+& LHE: The Le Houches Accords was an agreement between particle physicists that standardised the interface between the matrix element programs (e.g., \madgraph) and the event generators (e.g., \PYTHIA) used to calculate different quantities. Events that conform to the formats described in the Les Houches Accords are said to be in the Les Houches Event (LHE) format.
 
 & Loose/medium/tight lepton: this type of identification of a lepton refers to the "working points" (cuts) that are applied. The "tighter" the particle, the more (numerous and/or restrictive) cuts are applied. This leads to a lower cut flow efficiency but more accuracy. Usually, the more problems that backgrounds pose, the tighter the cuts are made in order to suppress them. See \url{https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideMuonIdRun2#Muon_Identification} and \url{https://twiki.cern.ch/twiki/bin/viewauth/CMS/CutBasedElectronIdentificationRun2#Electron_ID_Working_Points_WP_de} for more information.
 
@@ -92,7 +92,7 @@ As an aside, below is a cross section of CMS. It's useful for scale and to see t
 
 %---------------------------------------------------------------------------------------------------------------
 
-\subsection{Theoretical}
+\section{Theoretical}
 
 \begin{easylist}[itemize]
 \ListProperties(Style*=-- , FinalMark={)})

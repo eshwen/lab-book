@@ -1,12 +1,12 @@
 \newpage
-\section{Cut flow tables for SUS-15-005 (14/12/2016)}
+\chapter{Cut flow tables for SUS-15-005 (14/12/2016)}
 \label{sec:cutflowtablesSUS15005}
 
 I've been asked by the CMS SUSY RA1 (Reference Analysis 1) team to produce cut flow tables to help them in their analyses. The cut flow efficiencies for some example benchmarks signals for their Run 1 paper \cite{CMS-SUS-14-006} are detailed in Table 6 of the Additional Material at \url{https://twiki.cern.ch/twiki/pub/CMS/SUS14006/SUS-14-006_aux.pdf}. The team want this replicated for for their first Run 2 paper \cite{CMS-PAPER-SUS-15-005-arXiv} (note that this is the \emph{paper} CMS-SUS-15-005, not the \emph{PAS} CMS-PAS-SUS-15-005). Details of the various benchmark models they consider are in Table 5 of the paper. My task is to produce cut flow tables for each of these benchmark models. They are useful in a number of ways: firstly, they are a requirement for all SUSY analyses; they help you understand the data better (if there are unexplained efficiencies from a cut, etc.); they help to optimise the data (you can see what cuts are removing lots of signal, etc., \textbf{and the main goal is to find a group of cuts that maximise the amount of signal you keep and minimise the background}). 
 
 I'll need to use \textsc{Heppy} (Python framework to run over EDM files, such as miniAODs), \textsc{CMGTools} (the "tree production code" that utilises Heppy), and \textsc{AlphaTools} (the "analysis code") in some capacity to produce these.
 
-\subsection{Configuring GitHub and CMSSW for \textsc{CMGTools}}
+\section{Configuring GitHub and CMSSW for \textsc{CMGTools}}
 
 For \textsc{CMGTools} I first need to subscribe to GitHub (\url{https://github.com}) and set it up for CMSSW. I deleted my old GitHub profile and made a new one for my uni account. My details are
 
@@ -83,7 +83,7 @@ git push origin <branch>
 
 Remember that the version numbers of CMSSW and those of the branches can change. I'll need to know which branch(es) to use for a specific analysis, especially if I'm using old data/Monte Carlo.
 
-\subsection{Flat tree production with \textsc{CMGTools}}
+\section{Flat tree production with \textsc{CMGTools}}
 \label{subsec:flattreeprodCMG}
 
 To initialise CMSSW and git, and check out the branches I need \emph{after} I've set everything up the first time, I need to do the following:
@@ -121,7 +121,7 @@ If I want today's date in the terminal, I just need to use the syntax \texttt{\$
 & \texttt{OUTDIR=/storage/eb16003/SUSY\_RA1/data/80X/Data/\$(date "+\%Y\%m\%d")\_S01/}
 \end{easylist}
 
-\subsubsection{Running a test and tagging the code}
+\subsection{Running a test and tagging the code}
 
 To run a test, do
 
@@ -148,7 +148,7 @@ popd
 
 I can probably include these commands in a shell script as well if needed.
 
-\subsubsection{Submitting jobs and creating flat trees}
+\subsection{Submitting jobs and creating flat trees}
 
 To submit jobs to DICE using Soolin, I'll still need to be in the \textbf{\$CMSSW\_BASE/src/CMGTools/RA1/cfg/} directory. Then type
 
@@ -210,15 +210,15 @@ Once I've finished the tutorial, I should have enough information to produce fla
 
 The organisation is in \textbf{bold} and the repository is in \emph{italics}. So entering a subdirectory is represented by a ".", with other Python scripts that are imported being assumed to reside in the \textbf{/python} folder. Hopefully these examples will allow me to easily find other imported files in the future.
 
-\subsection{\textsc{AlphaTools}}
+\section{\textsc{AlphaTools}}
 
 During the flat tree production, I should set up the main analysis framework \textsc{AlphaTools}. There's a README at \url{https://github.com/cmsra1/alphatools} that I can follow to accomplish this. There is more event selection in this stage of the workflow so an additional cut flow table implementation is needed. I've cloned the repository to \textbf{/storage/eb16003/CMScmg/AlphaTools/} because it was suggested to install \textsc{AlphaTools} \emph{outside} of my CMSSW release. I've included the initialisation procedure in my \textbf{cmssw\_git.sh} script so I don't have to do it manually; it's basically checking out my own branch for my analysis (v1.9.x-eshDevs), and sourcing \textbf{setup.sh} in the directory \textbf{AlphaTools/analysis/}. The README that I should be following is slightly out of date as it references the branch "v1.6.x", when it should be "v1.\textbf{9}.x". 
 
 The 1.6.x branch was used in the 2015 analysis so that will be the branch I need. \textsc{CMGTools}/Heppy produce the flat trees, and then \textsc{AlphaTools} is used for further analysis and will be needed to create the cut flow tables.
 
-\subsection{One method of creating the cut flow efficiencies}
+\section{One method of creating the cut flow efficiencies}
 
-\subsubsection{Relevant files and functions}
+\subsection{Relevant files and functions}
 
 It is possible to find the tags (on GitHub) that were used for the production of the trees used in the SUS-15-005 analysis -- this is detailed in the following subsubsection. Then I can check out these tags which will allow me to make the cut flow tables without remaking the trees. To produce trees, any of the files in \textbf{\$CMSSW\_BASE/src/CMGTools/RA1/cfg/} can be run, e.g., \textbf{run\_AtLogic\_Data\_cfg.py} for data. The event selections in this config file are specified at line 66, i.e., the function \texttt{buildEventSelection\_options}. This calls the function \texttt{event\_selection\_path\_cfg\_tree\_production} constructed in \textbf{eventSelectionPathCfgDicts.py}, L52--109. (This and the following files are located in \textbf{\$CMSSW\_BASE/src/CMGTools/RA1/python/atlogic/}.) It is a nested combination of conditions combined with \verb!All! and \verb!Any!. If specified by \verb!All!, the events need to satisfy all the conditions. If specified by \verb!Any!, then at least one of the conditions must be met. The aliases (shorthands) for these conditions are stored in \textbf{eventSelectionAliasDict.py}.
 
@@ -255,7 +255,7 @@ Then commit them with \texttt{git commit} to commit the files I've edited \emph{
 Finally, I can use \texttt{git push} to push those changes to the current branch, or \texttt{git push <remote> <branch>} to specify further. To get an updated version of a branch, first type \texttt{git fetch} which updates the metadata and changes made for everything in the repository and allows for new branches to be pulled. Then type \texttt{git pull <remote> <branch>}, which actually pulls the changes. A simple, good primer for git is \url{http://rogerdudler.github.io/git-guide/}.
 \end{minipage} }
 
-\subsubsection{Tagged code and tree locations}
+\subsection{Tagged code and tree locations}
 
 For a proper cut flow table, each selection needs to have some kind of ID, otherwise we cannot distinguish between different selections in the table. The selections used in the analysis for SUS-15-005 would be specified (in a particular order) in a dictionary. I just need to find the tags of the code used in the analysis, then I can find the dictionary used in it. These tags are written in a text file in the directory containing a tree. The trees used in the analysis are from 2015 and would be in \textbf{/hdfs/SUSY/RA1/74X/} on Soolin. The next step is to find the code with that tag and check it out. This would allow me to find the dictionary -- and therefore the selections -- used to produce the trees, giving me the cut flow. The analysis was conducted before cmgtools-lite became the tool the RA1 group uses, so the relevant files would still be part of the regular CMGTools. The Heppy tags are as follows:
 
@@ -293,7 +293,7 @@ The directories containing the trees used in the 2015 analysis are located (on S
 & Data Trees: \textbf{/hdfs/SUSY/RA1/74X/Data/20151202\_D01/20151202\_run\\\_susyAlphaT\_AtLogic\_Data\_25ns\_cfg/}
 \end{easylist}
 
-\subsubsection{Dom's method to generate cut flow tables}
+\subsection{Dom's method to generate cut flow tables}
 \label{subsubsec:currentprocedurecutflows}
 
 I've pulled several repositories from Dom to get the code he's written that allow me to generate cut flow efficiencies. The necessary information is detailed in the shell script \textbf{load\_doms\_alphatools.sh} in my home folder on Soolin. The branch I'm performing the analysis on is "v1.6.12\_Approval\_151210\_cutflow" or "v1.6.12\_Approval\_151210\_cutflow\_eshDev" in the AlphaTools repo. If I get an error when loading the script try \verb!grep -r HEAD! to find conflicts, then resolve them before committing. If that fails or there are too many conflicts, delete everything and just do a fresh install by following this script:
@@ -345,7 +345,7 @@ Rob has asked whether the preliminary tables (for signal data) contain \emph{all
 \begin{easylist}[itemize]
 \ListProperties(Style*=$\bullet$ , FinalMark={)})
 & $<$Skimmer name, as detailed in Dom's AlphaTools branch$>$ | $<$event selection$>$ | $<$necessary for benchmark model cut flows?$>$
-& defaultSkim | \alphat\ $H_{\mathrm{T}}$-dependent cuts; \htmiss\ $> 130$ (for jets with $p_{\mathrm{T}} > 40$); $H_{\mathrm{T}} \geq 200$ (for jets with $p_{\mathrm{T}} > 40$); $n_{\mathrm{jets}}$ with $p_{\mathrm{T}} > 40$ is $> 1$; $n_{\mathrm{jets}}$ with $p_{\mathrm{T}} > 100$ is $\geq 1$ | Y
+& defaultSkim | \alphat\ \HT-dependent cuts; \htmiss\ $> 130$ (for jets with $p_{\mathrm{T}} > 40$); $H_{\mathrm{T}} \geq 200$ (for jets with $p_{\mathrm{T}} > 40$); $n_{\mathrm{jets}}$ with $p_{\mathrm{T}} > 40$ is $> 1$; $n_{\mathrm{jets}}$ with $p_{\mathrm{T}} > 100$ is $\geq 1$ | Y
 & bDPhiSkim | $\Delta\phi^{*}_{\mathrm{min}} > 0.5$ | Y
 & objectSkimmer | Lepton and photon vetoes, depends on data type (signal MC, single mu, double mu, etc.) | N
 & primaryDatasetSkimmer | no cut, specifies parent sample if data | N
@@ -372,7 +372,7 @@ Rob has asked whether the preliminary tables (for signal data) contain \emph{all
 
 For clarification: j$_1$ describes the leading jet; all values are assumed to be in GeV unless stated otherwise; some cuts are not needed because they apply only to data or to control regions. All of these variables and terms should be defined in \cite{CMS-PAPER-SUS-15-005-arXiv}.
 
-\subsection{Presentation/talk on cut flow tables progress}
+\section{Presentation/talk on cut flow tables progress}
 
 Below is the progress report I gave to the RA1 group regarding the progress we've made with creating the cut flow tables. For this, and future, talks, it is important to remember the following:
 
@@ -386,12 +386,9 @@ Below is the progress report I gave to the RA1 group regarding the progress we'v
 & Remember to credit the people who helped in the work/analysis, regardless of whether they helped to write the talk itself. Just follow the same rules as authorship in papers.
 \end{easylist}
 
-The link to the slides is \href{run:sec18/Cut flow tables progress.pdf}{Cut flow tables progress}.
-% If I want to include the pdf itself, use:
-%\setboolean{@twoside}{false}
-%\includepdf[pages={1-9}, offset=72 -72, nup=1x3]{./sec18/Cut_flow_tables_progress.pdf}
+The link to the slides is %\href{run:sec18/Cut flow tables progress.pdf}{Cut flow tables progress}.
 
-\subsection{Configuring event selections using Tai's method}
+\section{Configuring event selections using Tai's method}
 \label{subsec:taiscutflowirlcode}
 
 Tai has created another method that implements cut flows which could be used in future analyses, and possibly also the 2015 analysis if it can be perfected and streamlined quickly. The code, with an example of how to run it, is located at \url{https://github.com/TaiSakuma/cutflowirl}. The command, using an example SMS model, is
@@ -476,7 +473,7 @@ After including the skimmers applicable to the 2015 analysis (then removing the 
     
     \htmiss/\etmiss\ $< 1.25$    &    4050    &    10.36    &    84.06    \\
     
-    \alphat\ $H_{\mathrm{T}}$-dependent cuts    &    2863    &    7.33    &    70.69    \\
+    \alphat\ \HT-dependent cuts    &    2863    &    7.33    &    70.69    \\
     
     $\Delta\phi^{*}_{\mathrm{min}} > 0.5$    &    859    &    2.20    &    30.00    \\ \hline
     
@@ -490,11 +487,12 @@ The jet CHF variable is the charged hadron fraction of the jet. We've added supp
 
 I'll probably use Tai's method, as opposed to Dom's, to generate the cut flow tables for the benchmark models. With Tai's method, it could be possible to run over the MiniAOD files rather than the flat trees (which are created from MiniAODs), which might be better because tree production already applies some loose cuts which could then skew the results of the cut flow.  
 
-I wrote a short talk giving an update on the cut flows using Tai's method. The link to the slides is \href{run:sec18/Cut flow tables progress II.pdf}{Cut flow tables progress II}. After presenting, the general consensus on how to proceed is to create flat trees from MiniAOD files in Heppy, applying no cuts. Then incorporate the code from Tai's cutflowirl repo into \textsc{AlphaTools} and rerun the procedure to generate cut flows, this time including every selection (as detailed in Sec. \ref{subsubsec:currentprocedurecutflows}) regardless of whether they apply to these SMS models or not. Then we can discuss the order and grouping of the cuts and make nice, polished tables.
+I wrote a short talk giving an update on the cut flows using Tai's method. The link to the slides is %\href{run:sec18/Cut flow tables progress II.pdf}{Cut flow tables progress II}.
+After presenting, the general consensus on how to proceed is to create flat trees from MiniAOD files in Heppy, applying no cuts. Then incorporate the code from Tai's cutflowirl repo into \textsc{AlphaTools} and rerun the procedure to generate cut flows, this time including every selection (as detailed in Sec. \ref{subsubsec:currentprocedurecutflows}) regardless of whether they apply to these SMS models or not. Then we can discuss the order and grouping of the cuts and make nice, polished tables.
 
-\subsection{Creating the cut flow tables for the benchmark models}
+\section{Creating the cut flow tables for the benchmark models}
 
-\subsubsection{Making the flat trees (with no cuts) for the models}
+\subsection{Making the flat trees (with no cuts) for the models}
 
 Using the information detailed in the previous subsections, I should be able to start generating the cut flow tables for the SMS models in the 2015 analysis. The first task is to produce the flat trees for the models in Heppy without any cuts (except the mass points from the different samples). To remain consistent between the production of these trees and the original ones, I'll need to use the same version of CMSSW and the same tag of the code in Heppy/CMGTools. They used CMSSW\_7\_4\_X at the time so I'm using 7\_4\_14. Stefano gave me the tag for the SMS models (74X\_MC\_20151207\_D01). So I can follow the instructions at \url{https://github.com/CMSRA1/RA1OPS/wiki/B1.-Flat-Tree-Production-(74X)} and just check out that tag. Although the original trees would have been produced at different times, they should have been so with consistent settings (otherwise the results in the paper would be wrong), so using the tag above should be fine. Once I was on that tag I checked out my own branch \emph{eshMCtreeprod20170221}. I will now need to add a skimmer for the sparticle masses. I can take inspiration from \url{https://github.com/CMSRA1/cmgtools-lite-private/blob/80X-ra1-0.7.x/TTHAnalysis/python/analyzers/susyParameterScanAnalyzer.py} to get the variables corresponding to the masses and then add some \verb!if! statements to match the sample(s).
 
@@ -529,7 +527,7 @@ Once the jobs have finished, I can extract and check the output files, and resub
 & /hdfs/SUSY/RA1/74X/MC/20170306\_S01
 \end{easylist}
 
-\subsubsection{Making the cut flow tables themselves}
+\subsection{Making the cut flow tables themselves}
 
 Now Tai's cut flow code -- see Sec. \ref{subsec:taiscutflowirlcode} -- comes into play. As some of the samples used in tree production contain mass \emph{ranges}, I can make mass \emph{point} cuts on $m_{\mathrm{SUSY}}$ and $m_{\mathrm{LSP}}$ here. At the moment, the repo containing the code is in \textbf{/storage/eb16003/TEMPCUTFLOW/} on Soolin. In this directory, I need to edit the files \textbf{cutflowirl/twirl\_mktbl.py} to point to the directory containing my flat trees, and \textbf{cutflowirl/FrameworkHeppy.py}, changing all mentions of \verb!'roctree'! to \verb!'treeProducerSusyAlphaT'!. Then I can run the command
 
@@ -554,14 +552,14 @@ When making the cut flow tables for a sample I need to make sure that (in \textb
 
 After I made a few cut flow tables, I compared the end-of-cut-flow efficiencies with those listed in Table 5 of the paper. In the comparisons for all of the models I had tested, there was a discrepancy between the efficiencies. My values were consistently $\sim 2.0-2.5$x those in the paper. My initial reaction was that I had made a mistake somewhere. But on closer inspection, Matt and Rob discovered that the values in the paper were actually incorrect because they hadn't been scaled by the luminosity (2.3 fb$^{-1}$). So I inadvertently found a mistake in the paper (which I'm proud of). And it's good that this was found now rather than after publication. After generating the rest of the tables, I found another mistake. My efficiencies for the T2bb samples were a factor of more than 20 greater than in the paper. This was due to the values in the paper using the squark cross section as opposed to the sbottom. When corrected, the efficiencies were more consistent. For my contributions to the cut flows, I've also been added to the internal authors list. Because I'm not a CMS author and the public author list for the paper was finalised ages ago, I'm not an author on the \emph{public} paper but I am on the \emph{internal} paper (i.e., the draft versions) and the accompanying analysis note CMS AN-15-004. This is a huge step because it shows that I've made a significant enough contribution to the analysis that the rest of the group recognise it, and I know how much work and effort is needed to earn authorship.
 
-\subsubsection{The cut flow}
+\subsection{The cut flow}
 
 I've sent Rob Bainbridge the list of skimmers used in the 2015 analysis, the leaves in the flat trees and the event selection dictionary from Tai so he could decide what cuts we should use and in what order. After some deliberation, the cut flow for these benchmark models is as follows:
 
 \lstinputlisting[language=Python, linerange={86-119}, caption={The final cut flow to generate raw cut flow tables for the benchmark models used in the 2015 analysis. The mass points are specified in the function \texttt{path\_cfg} and the rest of the selections are in \texttt{std\_cutflow}. File name: twirl\_mktbl.py (v2, L86--119).}]{./sec18/twirl_mktblv2.py}
 
 
-\subsection{The final cut flow tables}
+\section{The final cut flow tables}
 
 After the months of slogging away, I have finally generated the cut flow tables for SUS-15-005. The tables are linked from the auxiliary material, located here: \url{https://twiki.cern.ch/twiki/pub/CMS/PhysicsResultsSUS15005/SUS-15-005_aux_temp.pdf}. They can also be viewed on the public webpage here: \url{http://cms-results.web.cern.ch/cms-results/public-results/publications/SUS-15-005/index.html}. The raw tables were generated by me, which I then passed to Rob for formatting in \LaTeX\ so the final versions were consistent with the style of the paper.
 
@@ -586,9 +584,9 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
   $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}81\phantom{.1} & \phantom{1}71\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}57\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}66\phantom{.1} \\
   $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}81\phantom{.1} & \phantom{1}70\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}55\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}65\phantom{.1} \\
   $H_{\mathrm{T}} > 200\,\mathrm{GeV}$ & \phantom{1}81\phantom{.1} & \phantom{1}69\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}60\phantom{.1} \\
-  $H_{\mathrm{T}}^{\mathrm{miss}} > 130\,\mathrm{GeV}$ & \phantom{1}77\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}33\phantom{.1} & \phantom{1}71\phantom{.1} & \phantom{1}40\phantom{.1} \\
-  $H_{\mathrm{T}}^{\mathrm{miss}} / E_{\mathrm{T}}^{\mathrm{miss}} < 1.25$ & \phantom{1}74\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}75\phantom{.1} & \phantom{1}28\phantom{.1} & \phantom{1}65\phantom{.1} & \phantom{1}33\phantom{.1} \\
-  $H_{\mathrm{T}}$-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 800\,\mathrm{GeV}$) & \phantom{1}74\phantom{.1} & \phantom{1}30\phantom{.1} & \phantom{1}71\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}17\phantom{.1} \\
+  $\mht > 130\,\mathrm{GeV}$ & \phantom{1}77\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}33\phantom{.1} & \phantom{1}71\phantom{.1} & \phantom{1}40\phantom{.1} \\
+  $\mht / \etmiss < 1.25$ & \phantom{1}74\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}75\phantom{.1} & \phantom{1}28\phantom{.1} & \phantom{1}65\phantom{.1} & \phantom{1}33\phantom{.1} \\
+  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 800\,\mathrm{GeV}$) & \phantom{1}74\phantom{.1} & \phantom{1}30\phantom{.1} & \phantom{1}71\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}17\phantom{.1} \\
   $\Delta\phi^{*}_{\mathrm{min}} > 0.5$ & \phantom{1}22\phantom{.1} & \phantom{1}18\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}10\phantom{.1} & \phantom{1}33\phantom{.1} & \phantom{1}13\phantom{.1} \\
   \hline
   Four most sensitive $n_{\mathrm{jet}}$ event categories & \phantom{1}22\phantom{.1} & \phantom{1}13\phantom{.1} & \phantom{1}43\phantom{.1} & \phantom{10}5.5 & \phantom{1}31\phantom{.1} & \phantom{10}6.1 \\
@@ -617,9 +615,9 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
   $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}82\phantom{.1} & \phantom{1}69\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}43\phantom{.1} \\
   $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}82\phantom{.1} & \phantom{1}68\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}42\phantom{.1} \\
   $H_{\mathrm{T}} > 200\,\mathrm{GeV}$ & \phantom{1}82\phantom{.1} & \phantom{1}66\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}42\phantom{.1} \\
-  $H_{\mathrm{T}}^{\mathrm{miss}} > 130\,\mathrm{GeV}$ & \phantom{1}79\phantom{.1} & \phantom{1}48\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}41\phantom{.1} & \phantom{1}32\phantom{.1} \\
-  $H_{\mathrm{T}}^{\mathrm{miss}} / E_{\mathrm{T}}^{\mathrm{miss}} < 1.25$ & \phantom{1}77\phantom{.1} & \phantom{1}43\phantom{.1} & \phantom{1}24\phantom{.1} & \phantom{1}11\phantom{.1} & \phantom{1}38\phantom{.1} & \phantom{1}26\phantom{.1} \\
-  $H_{\mathrm{T}}$-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 800\,\mathrm{GeV}$) & \phantom{1}77\phantom{.1} & \phantom{1}29\phantom{.1} & \phantom{1}24\phantom{.1} & \phantom{10}8.3 & \phantom{1}38\phantom{.1} & \phantom{1}19\phantom{.1} \\
+  $\mht > 130\,\mathrm{GeV}$ & \phantom{1}79\phantom{.1} & \phantom{1}48\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}41\phantom{.1} & \phantom{1}32\phantom{.1} \\
+  $\mht / \etmiss < 1.25$ & \phantom{1}77\phantom{.1} & \phantom{1}43\phantom{.1} & \phantom{1}24\phantom{.1} & \phantom{1}11\phantom{.1} & \phantom{1}38\phantom{.1} & \phantom{1}26\phantom{.1} \\
+  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 800\,\mathrm{GeV}$) & \phantom{1}77\phantom{.1} & \phantom{1}29\phantom{.1} & \phantom{1}24\phantom{.1} & \phantom{10}8.3 & \phantom{1}38\phantom{.1} & \phantom{1}19\phantom{.1} \\
   $\Delta\phi^{*}_{\mathrm{min}} > 0.5$ & \phantom{1}23\phantom{.1} & \phantom{1}17\phantom{.1} & \phantom{10}5.6 & \phantom{10}1.3 & \phantom{10}9.5 & \phantom{10}8.8 \\
   \hline
   Four most sensitive $n_{\mathrm{jet}}$ event categories & \phantom{1}23\phantom{.1} & \phantom{1}12\phantom{.1} & \phantom{10}5.6 & \phantom{10}1.3 & \phantom{10}9.5 & \phantom{10}7.4 \\
@@ -648,9 +646,9 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
   $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}25\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}25\phantom{.1} \\
   $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}25\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}24\phantom{.1} \\
   $H_{\mathrm{T}} > 200\,\mathrm{GeV}$ & \phantom{1}25\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}23\phantom{.1} \\
-  $H_{\mathrm{T}}^{\mathrm{miss}} > 130\,\mathrm{GeV}$ & \phantom{1}17\phantom{.1} & \phantom{10}9.4 & \phantom{1}44\phantom{.1} & \phantom{1}15\phantom{.1} \\
-  $H_{\mathrm{T}}^{\mathrm{miss}} / E_{\mathrm{T}}^{\mathrm{miss}} < 1.25$ & \phantom{1}11\phantom{.1} & \phantom{10}5.6 & \phantom{1}42\phantom{.1} & \phantom{1}12\phantom{.1} \\
-  $H_{\mathrm{T}}$-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 800\,\mathrm{GeV}$) & \phantom{1}11\phantom{.1} & \phantom{10}3.9 & \phantom{1}41\phantom{.1} & \phantom{10}7.5 \\
+  $\mht > 130\,\mathrm{GeV}$ & \phantom{1}17\phantom{.1} & \phantom{10}9.4 & \phantom{1}44\phantom{.1} & \phantom{1}15\phantom{.1} \\
+  $\mht / \etmiss < 1.25$ & \phantom{1}11\phantom{.1} & \phantom{10}5.6 & \phantom{1}42\phantom{.1} & \phantom{1}12\phantom{.1} \\
+  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 800\,\mathrm{GeV}$) & \phantom{1}11\phantom{.1} & \phantom{10}3.9 & \phantom{1}41\phantom{.1} & \phantom{10}7.5 \\
   $\Delta\phi^{*}_{\mathrm{min}} > 0.5$ & \phantom{10}0.4 & \phantom{10}0.5 & \phantom{1}13\phantom{.1} & \phantom{10}3.2 \\
   \hline
   Four most sensitive $n_{\mathrm{jet}}$ event categories & \phantom{10}0.4 & \phantom{10}0.4 & \phantom{1}13\phantom{.1} & \phantom{10}2.3 \\
@@ -679,9 +677,9 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
   $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}80\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}35\phantom{.1} \\
   $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}80\phantom{.1} & \phantom{1}34\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}34\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}34\phantom{.1} \\
   $H_{\mathrm{T}} > 200\,\mathrm{GeV}$ & \phantom{1}80\phantom{.1} & \phantom{1}30\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}30\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}33\phantom{.1} \\
-  $H_{\mathrm{T}}^{\mathrm{miss}} > 130\,\mathrm{GeV}$ & \phantom{1}75\phantom{.1} & \phantom{1}18\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}17\phantom{.1} & \phantom{1}40\phantom{.1} & \phantom{1}20\phantom{.1} \\
-  $H_{\mathrm{T}}^{\mathrm{miss}} / E_{\mathrm{T}}^{\mathrm{miss}} < 1.25$ & \phantom{1}72\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}38\phantom{.1} & \phantom{1}12\phantom{.1} & \phantom{1}38\phantom{.1} & \phantom{1}15\phantom{.1} \\
-  $H_{\mathrm{T}}$-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 800\,\mathrm{GeV}$) & \phantom{1}62\phantom{.1} & \phantom{10}7.2 & \phantom{1}30\phantom{.1} & \phantom{10}5.5 & \phantom{1}34\phantom{.1} & \phantom{10}8.8 \\
+  $\mht > 130\,\mathrm{GeV}$ & \phantom{1}75\phantom{.1} & \phantom{1}18\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}17\phantom{.1} & \phantom{1}40\phantom{.1} & \phantom{1}20\phantom{.1} \\
+  $\mht / \etmiss < 1.25$ & \phantom{1}72\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}38\phantom{.1} & \phantom{1}12\phantom{.1} & \phantom{1}38\phantom{.1} & \phantom{1}15\phantom{.1} \\
+  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 800\,\mathrm{GeV}$) & \phantom{1}62\phantom{.1} & \phantom{10}7.2 & \phantom{1}30\phantom{.1} & \phantom{10}5.5 & \phantom{1}34\phantom{.1} & \phantom{10}8.8 \\
   $\Delta\phi^{*}_{\mathrm{min}} > 0.5$ & \phantom{1}39\phantom{.1} & \phantom{10}4.5 & \phantom{1}17\phantom{.1} & \phantom{10}3.2 & \phantom{1}21\phantom{.1} & \phantom{10}4.0 \\
   \hline
   Four most sensitive $n_{\mathrm{jet}}$ event categories & \phantom{1}37\phantom{.1} & \phantom{10}2.9 & \phantom{1}14\phantom{.1} & \phantom{10}2.1 & \phantom{1}19\phantom{.1} & \phantom{10}3.0 \\
@@ -710,9 +708,9 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
   $p_{\mathrm{T}}^{\mathrm{j_1}} > 100\,\mathrm{GeV}$ & \phantom{1}16\phantom{.1} & \phantom{1}14\phantom{.1} & \phantom{1}19\phantom{.1} \\
   $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}15\phantom{.1} & \phantom{1}13\phantom{.1} & \phantom{1}18\phantom{.1} \\
   $H_{\mathrm{T}} > 200\,\mathrm{GeV}$ & \phantom{1}13\phantom{.1} & \phantom{1}11\phantom{.1} & \phantom{1}15\phantom{.1} \\
-  $H_{\mathrm{T}}^{\mathrm{miss}} > 130\,\mathrm{GeV}$ & \phantom{1}11\phantom{.1} & \phantom{10}9.2 & \phantom{1}10\phantom{.1} \\
-  $H_{\mathrm{T}}^{\mathrm{miss}} / E_{\mathrm{T}}^{\mathrm{miss}} < 1.25$ & \phantom{10}9.2 & \phantom{10}7.5 & \phantom{10}8.4 \\
-  $H_{\mathrm{T}}$-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 800\,\mathrm{GeV}$) & \phantom{10}4.8 & \phantom{10}4.3 & \phantom{10}3.7 \\
+  $\mht > 130\,\mathrm{GeV}$ & \phantom{1}11\phantom{.1} & \phantom{10}9.2 & \phantom{1}10\phantom{.1} \\
+  $\mht / \etmiss < 1.25$ & \phantom{10}9.2 & \phantom{10}7.5 & \phantom{10}8.4 \\
+  \HT-dependent $\alpha_{\mathrm{T}}$ requirements ($H_{\mathrm{T}} < 800\,\mathrm{GeV}$) & \phantom{10}4.8 & \phantom{10}4.3 & \phantom{10}3.7 \\
   $\Delta\phi^{*}_{\mathrm{min}} > 0.5$ & \phantom{10}3.7 & \phantom{10}3.7 & \phantom{10}2.3 \\
   \hline
   Four most sensitive $n_{\mathrm{jet}}$ event categories & \phantom{10}1.9 & \phantom{10}1.9 & \phantom{10}0.9 \\

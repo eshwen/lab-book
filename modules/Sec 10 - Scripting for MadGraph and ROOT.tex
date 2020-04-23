@@ -1,21 +1,21 @@
 \newpage
-\section{Scripting for \madgraph\ and ROOT (24/10/2016)}
+\chapter{Scripting for \madgraph and ROOT (24/10/2016)}
 
-For a lot of tasks, especially ones I'll be repeating (e.g., doing a specific analysis), it's quicker to write and then execute a script. For ROOT, these can either be Python scripts or C++ macros. For, e.g., executing a sequence of terminal commands, I can just write a .sh script and type (in the terminal) \verb!source <script name>.sh!.
+For a lot of tasks, especially ones I'll be repeating (e.g., doing a specific analysis), it's quicker to write and then execute a script. For ROOT, these can either be Python scripts or C++ macros. For, e.g., executing a sequence of terminal commands, I can just write a .sh script and type (in the terminal) !source <script name>.sh!.
 
 I wrote a Python script for analysing a .root file, then drawing and saving certain histograms as .png files.
 
 \lstinputlisting[language=Python, caption={Printing histograms with a Python script. File name: readjets.py (v1).}]{./sec10/readjetsv1.py}
 
-Locally, on my machine, when running \madgraph\ with \textsc{ExRootAnalysis}, it doesn't convert the .lhe and .lhco files into their respective .root files like it does on Soolin. So this script is to convert them, and then I can analyse them with my Python script.
+Locally, on my machine, when running \madgraph with \textsc{ExRootAnalysis}, it doesn't convert the .lhe and .lhco files into their respective .root files like it does on Soolin. So this script is to convert them, and then I can analyse them with my Python script.
 
 \lstinputlisting[language=sh, caption={Unzip .lhe and .lhco files and convert to .root files. File name: rootconverter.sh.}]{./sec10/rootconverter.sh}
 
-Some I/O (input/output) from \madgraph\ and ROOT is displayed below.
+Some I/O (input/output) from \madgraph and ROOT is displayed below.
 
 The input file (\textbf{sm\_test.dat}) I used to generate the output displayed in the following plots:
 
-\lstinputlisting[language=Python, caption={\madgraph\ input file sm\_test.dat used to simulate $pp \rightarrow e^+ e^-$.}]{./sec10/sm_test.dat}
+\lstinputlisting[language=Python, caption={\madgraph input file sm\_test.dat used to simulate $pp \rightarrow e^+ e^-$.}]{./sec10/sm_test.dat}
 
 Syntax for $W^+$ boson: W+, $W^-$ boson: W-, $Z^0$ boson: Z.
 

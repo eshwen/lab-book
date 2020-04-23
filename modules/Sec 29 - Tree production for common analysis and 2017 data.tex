@@ -1,5 +1,5 @@
 \newpage
-\section{Tree production for common analysis and 2017 data (19/09/2017)}
+\chapter{Tree production for common analysis and 2017 data (19/09/2017)}
 
 In recent months, we have decided to start implementing a "common analysis" with the VBF (and possibly Top) group in CMS. The first step is to produce common flat trees that includes all the information each group needs. This will save processing time (as only one set of trees needs to be made to satisfy all the groups) and storage space. Currently, we are still using Heppy and CMGTools with the RA1 workflow, but accommodating for the selections, variables and triggers, etc. that VBF requires. There has been some debate on the triggers and selections (and their thresholds) because there's a trade-off between inclusivity and size of the trees. If we make minimal selections, there's more potential for different studies and analyses but the trees will be larger. Our code in cmgtools-lite-private also had to be re-based to work with CMSSW\_92X to process 2017 data, which Shane has done (albeit with a few bugs).
 
@@ -40,4 +40,4 @@ I could then look at \textbf{heppy\_hadd.py} in \textbf{PhysicsTools/HeppyCore/s
 \textbf{Update:} instead of \texttt{heppy\_hadd}, we're likely going to switch to using the nanoAOD data format and not use Heppy/CMGTools to make trees.
 
 
-\subsection{nanoAOD}
+\section{nanoAOD}

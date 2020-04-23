@@ -1,5 +1,5 @@
 \newpage
-\section{CERN Account (14/10/2016)}
+\chapter{CERN Account (14/10/2016)}
 \label{sec:cernaccount}
 
 After some work, I've managed to get my CERN account up and running. Details are below.
@@ -23,10 +23,10 @@ To get my CERN email account on an android device, I just have to enter the emai
 & Android Community: \url{https://android.web.cern.ch/}
 \end{easylist}
 
-I've also subscribed to the CMS HyperNews System \url{https://hypernews.cern.ch/HyperNews/CMS/top.pl} which will keep me up to date with advances in the field and news related to the forums I'm subscribed to (Exotica and Exotica-MET+X, at the moment). The twiki page at CERN is \url{https://twiki.cern.ch/twiki/bin/view/CMS/EXOTICA}. To sign up initially to HyperNews I have to go to the terminal and type \verb!ssh ebhal@lxplus.cern.ch! to log in to CERN's LXPLUS cluster (their Soolin equivalent), then \texttt{ssh hypernews.cern.ch} and set up a username and password. My username is just \texttt{ebhal} and my password is \texttt{cernhypernews}. Mailing lists that I'm subscribed to can be found on HyperNews and on \url{https://e-groups.cern.ch/}. If I end up with a constant barrage of emails, look through my subscriptions and unsubscribe to irrelevant lists. With a CERN account, I also get access to Indico (\url{https://indico.cern.ch/}); the service which organises meetings and conferences. A useful link is \url{https://indico.cern.ch/category/201/}, which lists UK CMS meetings (Bristol CMS weekly meetings, RA1, trigger, etc.).
+I've also subscribed to the CMS HyperNews System \url{https://hypernews.cern.ch/HyperNews/CMS/top.pl} which will keep me up to date with advances in the field and news related to the forums I'm subscribed to (Exotica and Exotica-MET+X, at the moment). The twiki page at CERN is \url{https://twiki.cern.ch/twiki/bin/view/CMS/EXOTICA}. To sign up initially to HyperNews I have to go to the terminal and type \texttt{ssh ebhal@lxplus.cern.ch} to log in to CERN's LXPLUS cluster (their Soolin equivalent), then \texttt{ssh hypernews.cern.ch} and set up a username and password. My username is just \texttt{ebhal} and my password is \texttt{cernhypernews}. Mailing lists that I'm subscribed to can be found on HyperNews and on \url{https://e-groups.cern.ch/}. If I end up with a constant barrage of emails, look through my subscriptions and unsubscribe to irrelevant lists. With a CERN account, I also get access to Indico (\url{https://indico.cern.ch/}); the service which organises meetings and conferences. A useful link is \url{https://indico.cern.ch/category/201/}, which lists UK CMS meetings (Bristol CMS weekly meetings, RA1, trigger, etc.).
 
 
-\subsection{The lxplus remote server}
+\section{The lxplus remote server}
 
 As a CERN affiliate, I have access to the remote server and grid located on site, lxplus. I can ssh into it with
 
@@ -46,12 +46,12 @@ Disk quotas:
 \end{easylist}
 
 
-\subsection{Certificates and running on the grid(s)}
+\section{Certificates and running on the grid(s)}
 \label{subsec:gridcertificates}
 
 I've been having the occasional problem accessing CMS/CERN webpages, citing problems with my certificates. If I get this problem in the future, visit \url{https://ca.cern.ch/ca/} and install the following: New Grid User certificate; New EduRoam certificate; CERN Certification Authorities Files; CERN Grid Certification Authorities Certificates. I can also check the expiry dates of the certificates I have by going to "My User certificates".
 
-To use the grid on Soolin or another remote server, I had to go onto Firefox on my Mac, then go to Preferences $\rightarrow$ Advanced $\rightarrow$ Certificates $\rightarrow$ View Certificates $\rightarrow$ Your Certificates, then "Backup" the certificate named "Eshwen Bhal". This should download the certificate to my Downloads folder, with the extension \textbf{.p12}. Rename the file to \textbf{myCert.p12} and \verb!scp! it to my home directory on the server. Then type the commands
+To use the grid on Soolin or another remote server, I had to go onto Firefox on my Mac, then go to Preferences $\rightarrow$ Advanced $\rightarrow$ Certificates $\rightarrow$ View Certificates $\rightarrow$ Your Certificates, then "Backup" the certificate named "Eshwen Bhal". This should download the certificate to my Downloads folder, with the extension \textbf{.p12}. Rename the file to \textbf{myCert.p12} and \texttt{scp} it to my home directory on the server. Then type the commands
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 openssl pkcs12 -in myCert.p12 -clcerts -nokeys -out $HOME/.globus/usercert.pem

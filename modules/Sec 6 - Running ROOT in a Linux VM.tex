@@ -1,18 +1,18 @@
 \newpage
-\section{Running ROOT in a Linux VM (30/09/2016)}
+\chapter{Running ROOT in a Linux VM (30/09/2016)}
 \label{sec:rootlinlinuxvm}
 
-I eventually got the Internet to work on the Linux VM on my Fujitsu laptop. I rebooted the network whilst inside the VM and that seemed to do the trick. So I downloaded ROOT (v5.34/36 because that was the latest version compatible with my VM's architecture), unpacked it and followed the instructions in the \textbf{root/README/INSTALL} file. It took a while to configure (using the command \verb!./configure linux! in the terminal) because there were several packages missing that I had to install (hopefully I won't have to go through that again when I try installing it on the Macbook Air). Then after configuring, I had to make the program (just running the \verb!make! command in the terminal) which took \underline{several hours} but eventually finished. To run it, navigate to the directory containing ROOT (\textbf{../root/}) and run the command \verb!root! in the terminal. All commands within ROOT must be preceded by a ".", including the exit command (either \verb!.q! or \verb!.exit!) and should be written as C++ code.
+I eventually got the Internet to work on the Linux VM on my Fujitsu laptop. I rebooted the network whilst inside the VM and that seemed to do the trick. So I downloaded ROOT (v5.34/36 because that was the latest version compatible with my VM's architecture), unpacked it and followed the instructions in the \textbf{root/README/INSTALL} file. It took a while to configure (using the command \texttt{./configure linux} in the terminal) because there were several packages missing that I had to install (hopefully I won't have to go through that again when I try installing it on the Macbook Air). Then after configuring, I had to make the program (just running the \texttt{make} command in the terminal) which took \underline{several hours} but eventually finished. To run it, navigate to the directory containing ROOT (\textbf{../root/}) and run the command \texttt{root} in the terminal. All commands within ROOT must be preceded by a ".", including the exit command (either \texttt{.q} or \texttt{.exit}) and should be written as C++ code.
 
-When I want to run ROOT, navigate to the /root folder using the terminal, then type \verb!source bin/thisroot.sh!, then I can run the program by typing \verb!root!.
+When I want to run ROOT, navigate to the /root folder using the terminal, then type \texttt{source bin/thisroot.sh}, then I can run the program by typing \texttt{root}.
 
 In my Linux VM, open the terminal then type:
 
 \begin{easylist}[itemize]
 \ListProperties(Style*=, FinalMark={)})
-& \verb!cd root!
-& \verb!source bin/thisroot.sh!
-& \verb!root!
+& \texttt{cd root}
+& \texttt{source bin/thisroot.sh}
+& \texttt{root}
 \end{easylist}
 
 \underline{Input is case sensitive}.
@@ -43,7 +43,7 @@ and you can access the branches and stuff within a tree. To draw (display) data 
 
 When creating macros (mini programs to analyse the data in a tree), saving them as a \underline{\textbf{.c}} file makes it a C source file, whereas saving it as a \underline{\textbf{.C}} file make it a C++ source file, which is usually what you want.
 
-To open (any) files in a terminal which contain spaces in their names, enclose the path and name of the file in quotation marks, e.g., \verb!open "this thing.png"!.
+To open (any) files in a terminal which contain spaces in their names, enclose the path and name of the file in quotation marks, e.g., \texttt{open "this thing.png"}.
 
 If I want to see the contents of a tree from a .root file, go into ROOT and type the commands
 

@@ -1,44 +1,44 @@
 \newpage
-\section{Using \madgraph\ (first steps) (07/10/2016)}
+\chapter{Using \madgraph (first steps) (07/10/2016)}
 
-\madgraph\ \cite{Alwall:2011madgraph} is software used to run different physics processes (namely particle collisions). There is a version on the web which has a GUI (of sorts) -- \url{madgraph.physics.illinois.edu} -- but requires extra files to be uploaded that you have to create/edit from a template.
+\madgraph \cite{Alwall:2011madgraph} is software used to run different physics processes (namely particle collisions). There is a version on the web which has a GUI (of sorts) -- \url{madgraph.physics.illinois.edu} -- but requires extra files to be uploaded that you have to create/edit from a template.
 
-Generally \madgraph\ -- more specifically, \textsc{MadGraph 5} -- will be used on my local machine or accessed on Soolin and is used from the command line. In my Soolin directory I have installed it and I also have the tar file if I want to unpack and install it again. From now, until I state otherwise, I will be using \textsc{MadGraph 5} v2.4.3.
+Generally \madgraph -- more specifically, \textsc{MadGraph 5} -- will be used on my local machine or accessed on Soolin and is used from the command line. In my Soolin directory I have installed it and I also have the tar file if I want to unpack and install it again. From now, until I state otherwise, I will be using \textsc{MadGraph 5} v2.4.3.
 
 \textbf{Note that if I use results -- when writing a paper/my thesis -- that were generated in \madgraph, \madanalysis, ROOT or any other programs (including extra packages for them you can install), I will need to appropriately reference them. When starting the programs (or in the respective READMEs), there should be information on how to reference them.}
 
 To start off with, navigate to the \textbf{/mg} directory. For now I'll just be playing with the test file (\textbf{sm\_test.dat}), but will presumably be able to create my own in the future. Type
 
-\verb!emacs sm_test.dat!
+\texttt{emacs sm\_test.dat}
 
-to bring up the text editor (emacs) and allow me to to edit the file. To exit the editor, use Ctrl-X + Ctrl-C and hit \verb!y! to save. To comment stuff out use the \# symbol. I can set parameters using the \verb!set! command, e.g., \verb!set misset 60! to set the lower limit on $E_{\mathrm{T}}^{\mathrm{miss}}$ to 60 GeV, \verb!set ebeam1 2000! to change the single-particle energy of beam 1 to 2000 GeV, etc.
+to bring up the text editor (emacs) and allow me to to edit the file. To exit the editor, use Ctrl-X + Ctrl-C and hit \texttt{y} to save. To comment stuff out use the \# symbol. I can set parameters using the \texttt{set} command, e.g., \texttt{set misset 60} to set the lower limit on \etmiss to 60 GeV, \texttt{set ebeam1 2000} to change the single-particle energy of beam 1 to 2000 GeV, etc.
 
 If not units are given for values, or when setting/editing them, energy/mass/momentum are assumed to be in GeV and cross section ($\sigma$) is assumed to be in picobarns (pb, 1 pb $= 10^{-40}$ m$^2$).
 
 To run \madgraph, type
 
-\verb!./bin/mg5 sm_test.dat!
+\texttt{./bin/mg5 sm\_test.dat}
 
 and the program will run. The main bits of the output -- total cross section, number of events -- will be displayed toward the end. It also gives more information in \textbf{/users/eb16003/MadGraph/mg/sm\_test\_met60/index.html}, which gives the input and output in a pretty detailed fashion. I'm not sure how to open it on Cygwin, though it may be able to open on a mac.
 
 There are other text editors on Soolin, like pico. It's probably best to brave it and just learn to use emacs (or "vi" -- as of writing, the new Soolin only has vi, and not emacs). If I get stuck, check the Internet for help. Typing
 
-\verb!cat sm_test.dat!
+\texttt{cat sm\_test.dat}
 
 shows some preamble and definitions, such as the labels for particles, which model is being used (Standard Model in this case), the process being described, etc.
 
-Play around with \madgraph, edit parameters (beam energy, $E_{\mathrm{T}}^{\mathrm{miss}}$, etc.) and see how the results change.
+Play around with \madgraph, edit parameters (beam energy, \etmiss, etc.) and see how the results change.
 
-I can change the name of the output file (the path shown above is \textbf{.../mg/$<$output file$>$/index.html}) by looking for the \verb!output! statement toward the end of the .dat file.
+I can change the name of the output file (the path shown above is \textbf{.../mg/$<$output file$>$/index.html}) by looking for the \texttt{output} statement toward the end of the .dat file.
 
-After the \verb!launch! statement near the end of the file, I can change certain variables to see what the outcome is like. For example, there's \verb!set !
+After the \texttt{launch} statement near the end of the file, I can change certain variables to see what the outcome is like. For example, there's \texttt{set }
 
 \begin{easylist}[itemize]
 \ListProperties(Style*=, FinalMark={)})
-& \verb!misset <number>! -- set lower limit on $E_{\mathrm{T}}^{\mathrm{miss}}$ to $<$number$>$ GeV
-& \verb!ebeam1 <number>! -- set energy of protons in beam 1 to $<$number$>$ GeV
-& \verb!ebeam2 <number>! -- set energy of protons in beam 2 to $<$number$>$ GeV
-& \verb!ptl <number>! -- set lower limit on lepton momentum to $<$number$>$ GeV
+& \texttt{misset $<$number$>$} -- set lower limit on \etmiss to $<$number$>$ GeV
+& \texttt{ebeam1 $<$number$>$} -- set energy of protons in beam 1 to $<$number$>$ GeV
+& \texttt{ebeam2 $<$number$>$} -- set energy of protons in beam 2 to $<$number$>$ GeV
+& \texttt{ptl $<$number$>$} -- set lower limit on lepton momentum to $<$number$>$ GeV
 \end{easylist}
 
 The lower limit on a variable is also referred to as a "cut".
@@ -47,7 +47,7 @@ To test out the effects of different variables, I'll edit them in \textbf{sm\_te
 
 To find out the names of different variables and the parameters that are used in the simulations, navigate to \textbf{mg/$<$output destination$>$/Cards} and open \textbf{run\_card.dat}. It shows the different variable names with explanations and the other parameters used in the program. Note that this is just for reference; if I want to edit these parameters, do so in the \textbf{sm\_test.dat} file.
 
-If I want the html file to open automatically after finishing a run, I would have to run \madgraph\ locally as there is no browser on Soolin that \madgraph\ can point to in order to open the file.
+If I want the html file to open automatically after finishing a run, I would have to run \madgraph locally as there is no browser on Soolin that \madgraph can point to in order to open the file.
 
 Varying lepton momentum (ptl):
 
@@ -66,7 +66,7 @@ Varying lepton momentum (ptl):
    \caption{Cross section versus lepton momentum for $pp \rightarrow e^+ e^-$ in \madgraph.}
 \end{table}
 
-Varying $E_{\mathrm{T}}^{\mathrm{miss}}$ (misset):
+Varying \etmiss (misset):
 
 \begin{table}[H]
 \centering
@@ -100,17 +100,17 @@ Varying beam energy (ebeam1 and ebeam2):
 
 For all of these, every other variable was kept the same (10 000 events, etc.). The process was $pp \rightarrow e^+ e^-$ @ 1\textsuperscript{st} order.
 
-With the current build of \madgraph\ I have on Soolin, I can also run \textsc{Pythia} (this build can install \textsc{Pythia6}, \cite{Sjostrand:2007pythia}), \textsc{Delphes} \cite{Ovyn:2009delphes} (detector simulation program), and \textsc{ExRootAnalysis} (convert output files into .root containers). In the \textbf{sm\_test.dat} file, after the \verb!launch! statement, include
+With the current build of \madgraph I have on Soolin, I can also run \PYTHIA (this build can install \textsc{Pythia6}, \cite{Sjostrand:2007pythia}), \textsc{Delphes} \cite{Ovyn:2009delphes} (detector simulation program), and \textsc{ExRootAnalysis} (convert output files into .root containers). In the \textbf{sm\_test.dat} file, after the \texttt{launch} statement, include
 
 \begin{easylist}
 \ListProperties(Style*=, FinalMark={)})
-& \verb!pythia=ON!
-& \verb!delphes=ON!
+& \texttt{pythia=ON}
+& \texttt{delphes=ON}
 \end{easylist}
 
-etc., but I have to make sure they are installed. To install these packages, go to the \textbf{/mg} directory and type \verb!./bin/mg5! and then type \verb!install <program>!. If you mistype or spell it wrong, etc., a warning should appear to show you the correct syntax and the names of all the programs you can install.
+etc., but I have to make sure they are installed. To install these packages, go to the \textbf{/mg} directory and type \texttt{./bin/mg5} and then type \texttt{install $<$program$>$}. If you mistype or spell it wrong, etc., a warning should appear to show you the correct syntax and the names of all the programs you can install.
 
-To get time information (how long a particular simulation takes), add \verb!time! before \verb!./bin/mg5! when I run a simulation, i.e., \verb!time ./bin/mg5 <input file>!.
+To get time information (how long a particular simulation takes), add \texttt{time} before \texttt{./bin/mg5} when I run a simulation, i.e., \texttt{time ./bin/mg5 $<$input file$>$}.
 
-The .lhe.gz output files, once converted to a .root file, contain a TTree called LHEF. One of the branches is named Particle.PID which gives information about which particles are in event. By selecting a certain particle ID you can plot the kinematic distributions for each particle and create other important variables, e.g., $H_{\mathrm{T}}$ (scalar sum of the jet momenta), $M_{\mathrm{T}}$ (transverse mass, that allows you to distinguish e.g. $W$s), or the angle between the $E_{\mathrm{T}}^{\mathrm{miss}}$ and lepton/jet. More information on the particle IDs can be found at \url{http://pdg.lbl.gov/2007/reviews/montecarlorpp.pdf}.
+The .lhe.gz output files, once converted to a .root file, contain a TTree called LHEF. One of the branches is named Particle.PID which gives information about which particles are in event. By selecting a certain particle ID you can plot the kinematic distributions for each particle and create other important variables, e.g., \HT (scalar sum of the jet momenta), \mT (transverse mass, that allows you to distinguish e.g. $W$s), or the angle between the \etmiss and lepton/jet. More information on the particle IDs can be found at \url{http://pdg.lbl.gov/2007/reviews/montecarlorpp.pdf}.
 

@@ -64,7 +64,7 @@
 % ----------------------------------------
 \usepackage[T1]{fontenc}                % To encode the font (glyphs/characters as bits)
 \usepackage[utf8]{inputenc}             % Needed to encode non-english characters directly for mac
-\usepackage{palatino}                   % this is the font of the main text
+\usepackage{ebgaramond}                 % this is the font of the main text
 % ----------------------------------------
 
 % ----------------------------------------
@@ -136,25 +136,37 @@
 % Add other packages needed for chapters here. For example:
 \usepackage{ptdr-definitions} % CMS definitions and styles. Needs to come first so definitions from other packages don't cause conflicts
 
-\usepackage{mathtools} % includes the "amsmath" package and other mathematical symbols and environments
-\usepackage{microtype} % for font and line spacing. fewer overfull/underfull hbox warnings
-\usepackage{texnames}
-\usepackage{physics} % for physics symbols, such as differential symbols
-\usepackage{float} % to fix figures in place
-\usepackage{graphicx} % so I can use \includegraphics, etc.
-\usepackage{cprotect} % so I can use \verb and other commands within captions
-\usepackage{amssymb} % for an extended library of mathematical symbols
-\usepackage{bbold} % for mathematical symbols like the characters for special sets
-\usepackage[ampersand]{easylist} % for bullet points and lists, etc. New entry starts with & character
-\usepackage{cancel} % for strike-throughs for missing energy/momentum, etc.
+\usepackage{mathtools}                  % Loads the "amsmath" package, and contains other mathematical symbols and environments
+\usepackage{amssymb}                    % Loads the "amsfonts" package for proper rendering of math, and contains additional math symbols
+\usepackage{graphicx}                   % Calls figure environment, i.e., starting figures with \includegraphics
+\usepackage{subcaption}                 % Allow use of subfigures
+\usepackage{longtable,rotating}         % Long tab environments including rotation
+\usepackage{float}                      % Helps to place figures, tables, etc.
+\usepackage[svgnames,dvipsnames]{xcolor}% Creates coloured text and backgrounds
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\usepackage[spanish,british]{babel}     % For languages characters and hyphenation
+\usepackage{csquotes}                   % Used in conjunction with babel to use quotes appropriate to language (biblatex throws warning if not used)
+\usepackage{enumerate}                  % For enumeration counter
+\usepackage{microtype}                  % Makes pdf look better (affects font and line spacing, fewer overfull/underfull hbox warnings)
+\usepackage{physics}                    % for physics symbols, such as differential symbols
+\usepackage{bbold}                      % for mathematical symbols like the characters for special sets
+\usepackage[ampersand]{easylist}        % for bullet points and lists, etc. New entry starts with & character
+\newcommand{\easylistprops}{\ListProperties(Style*=-- , Style2*=$\bullet$ , Style3*=$\circ$ , Hang=true, FinalMark={)})} % Macro for list properties. FinalMark indicates the end of the list properties and must be used
 \usepackage[italic]{hepnames}           % standard symbols for HEP particles ('italic' option typesets particles in italics like ATLAS/LHCb convention, default is 'notitalic' a la CMS convention)
+\usepackage{tabularx}                   % for multi-line cells in tables
+\usepackage{multirow}                   % for nested rows in tables
+\usepackage{siunitx}                    % for SI units, and aligning numbers properly in tables (column type is "S")
+\usepackage{xfrac}                      % for nice-looking diagonal (a/b) fractions
+\usepackage{booktabs}                   % for table formatting macros. Other good formatting tips in the package manual
+
+\usepackage{texnames}
+\usepackage{cprotect} % so I can use \verb and other commands within captions
+\usepackage{cancel} % for strike-throughs for missing energy/momentum, etc.
 \usepackage{spverbatim} % for linebreaks in the verbatim environment
-\usepackage{tabularx} % for multii-line cells in tables
-\usepackage{multirow} % for nested rows in tables
-\usepackage{siunitx} % for aligning numbers properly in tables (column type is "S")
 \usepackage[normalem]{ulem} % for underlining over multiple lines. Need "normalem" option otherwise \emph underlines
 \usepackage{pdflscape} % for landscape-oriented tables
-\usepackage{xfrac} % for nice-looking diagonal (a/b) fractions
 
 \usepackage{array} % for more flexibility with tables
 \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}} % for text in table cells to be centred
@@ -167,12 +179,7 @@
     block=space,                        % Separate each block/component of a bibliography entry by a space
     url=false,                          % Disable display of URL in bibliography
     ]{biblatex}                         % Calls bibliography commands.
-\addbibresource{mybib.bib} % Location of bib file
-
-\usepackage[svgnames,dvipsnames]{xcolor} % for even more colours (see https://en.wikibooks.org/wiki/LaTeX/Colors for more info)
-\definecolor{mygreen}{rgb}{0,0.6,0}
-\definecolor{mygray}{rgb}{0.5,0.5,0.5}
-\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\addbibresource{mybib.bib}              % Location of bib file
 
 \usepackage{hyperref}                   % to hyperlink references, contents, etc. Change colours if required
 \hypersetup{
@@ -241,7 +248,7 @@
   \begin{center}
   \rule[0.5ex]{\linewidth}{2pt}\vspace*{-\baselineskip}\vspace*{3.2pt}
   \rule[0.5ex]{\linewidth}{1pt}\\[\baselineskip]
-  {\HUGE Dark Matter Searches at CMS at 13 TeV}\\[4mm] % title
+  {\HUGE Dark Matter Searches at CMS at \comruntwo}\\[4mm] % title
   {\Large \textit{Searches for invisibly decaying Higgs bosons and semi-visible jets}}\\ % subtitle
   \rule[0.5ex]{\linewidth}{1pt}\vspace*{-\baselineskip}\vspace{3.2pt}
   \rule[0.5ex]{\linewidth}{2pt}\\
@@ -258,10 +265,12 @@
   \begin{minipage}{10cm}
   A lab book to keep track of research during my PhD.
   
-  Author details:
-  
-  Eshwen Bhal, University of Bristol, United Kingdom. \textbf{eshwen.bhal@bristol.ac.uk}, \textbf{eshwen.bhal@cern.ch}.
-       
+  \
+
+  Author details: Eshwen Bhal, University of Bristol, United Kingdom. \textbf{eshwen.bhal@bristol.ac.uk}, \textbf{eshwen.bhal@cern.ch}.
+
+  \
+
   Supervisor details: Henning Fl\"{a}cher, University of Bristol, United Kingdom. \textbf{Henning.Flacher@cern.ch}, \textbf{Henning.Flaecher@bristol.ac.uk}.
   \end{minipage}\\
   \vspace{9mm}

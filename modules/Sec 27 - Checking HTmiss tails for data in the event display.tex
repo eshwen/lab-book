@@ -1,13 +1,13 @@
 \newpage
-\section{Checking \texorpdfstring{\htmiss}{HTmiss} tails for data in the event display (11/07/2017)}
+\chapter{Checking \texorpdfstring{\htmiss}{HTmiss} tails for data in the event display (11/07/2017)}
 % The \texorpdfstring is so that bookmarks (in Adobe Reader, etc.) can be rendered properly. In the first {}, I specify the math symbols/special characters I want to use. In the second {}, I specify the normal text I want it to display in the bookmarks. Note, this doesn't affect my table of contents.
 
-For pre-approval for SUS-16-038, I've been asked to look at the \htmiss\ tails in the event display at high $H_{\mathrm{T}}$, LT, for data. I can use Fireworks (see \ref{sec:fireworks}) as the event display visualiser. It's a case of identifying the excess events and inspecting them to see if there are any problems (reconstruction, etc.). By looking at the mountain range plot for the fully-unblinded 2016 data (the most current one is below), the bins containing "excess" events are indicated as those with large pulls (on the Pull axis, the units are in sigmas). So, to start with, I should be looking in the bins with a pull of 3$\sigma$ or more: $n_{\mathrm{jet}} = 3$, $n_{\mathrm{b-jet}} = 3$, $H_{\mathrm{T}} > 600$ GeV; and $n_{\mathrm{jet}} \geq 6$, $n_{\mathrm{b-jet}} \geq 3$, $600 < H_{\mathrm{T}} < 900$ GeV.
+For pre-approval for SUS-16-038, I've been asked to look at the \htmiss\ tails in the event display at high \HT, LT, for data. I can use Fireworks (see \ref{sec:fireworks}) as the event display visualiser. It's a case of identifying the excess events and inspecting them to see if there are any problems (reconstruction, etc.). By looking at the mountain range plot for the fully-unblinded 2016 data (the most current one is below), the bins containing "excess" events are indicated as those with large pulls (on the Pull axis, the units are in sigmas). So, to start with, I should be looking in the bins with a pull of 3$\sigma$ or more: $n_{\mathrm{jet}} = 3$, $n_{\mathrm{b-jet}} = 3$, $H_{\mathrm{T}} > 600$ GeV; and $n_{\mathrm{jet}} \geq 6$, $n_{\mathrm{b-jet}} \geq 3$, $600 < H_{\mathrm{T}} < 900$ GeV.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./sec27/summaryPlot_Symmetric_prefit_overlay_fit_b.pdf}
-\caption{Mountain range plot showing the signal region events binned by (symmetric) $n_{\mathrm{jet}}$, $n_{\mathrm{b-jet}}$ and $H_{\mathrm{T}}$ with the fully unblinded 2016 data at 35.9 fb$^{-1}$. }
+\caption{Mountain range plot showing the signal region events binned by (symmetric) $n_{\mathrm{jet}}$, $n_{\mathrm{b-jet}}$ and \HT with the fully unblinded 2016 data at 35.9 fb$^{-1}$. }
 \end{figure}
 
 % CAN REPLACE WITH FINAL MOUNTAIN RANGE PLOT ONCE IT'S IN PAPER, AND PAPER'S PUBLISHED
@@ -23,14 +23,14 @@ git clone git@github.com:eshwen/LittleFWLite.git
 As I'm using my own fork of the repo, I can push any changes to \texttt{origin master}.
 
 
-\subsection{Retrieving the event information}
+\section{Retrieving the event information}
 
 To get the event information, I can use AlphaTools at Imperial. On the v1.10.x branch, in \textbf{Analyzers/EventDisplay/}, there's a script called \textbf{Displayer\_HighNb\_cfg.py} which can create an RA1-style event display and a list of the events, after cuts, with their relevant information. I just needed to change the cuts to suit my needs, as well as the output file names and directory. It is already configured to run over 2016 data. I also had to edit L129 and L176 of \textbf{./Modules/Displayer.py}, changing \texttt{objTag = ""}. The leaf "pseudoJetFlag" is not in the newer trees, so I get errors if I leave those references in. Once I had made those changes, I could just run the script. The output folder contains text and pdf files for each data set that was run over. The text files contain the run number, lumi section and event number for each event that I need for the next step. The pdfs contain the RA1-style displays -- with one pdf per data set -- that show the event information, \alphat\ distributions, the properties and tracks of the hardest objects, and some calorimeter information.
 
 The RA1 displays are quite helpful. Fireworks doesn't distinguish between regular jets and $b$-jets (and we need to know which is which). So I added some code in \textbf{Displayer.py} to change the colour of the $b$-jets in the circular plot and the square $\eta-\phi$ plot, as well as add a legend entry for them. But it turns out that the $b$-tag working points we were using were out of date. They are stored in a dict in \textbf{\$ALPHATOOLSDIR/Data/BTagWorkingPoints.py}, and the \texttt{outString} string in the \texttt{printJets} function of \textbf{Displayer.py} calls the values in this dict. The portion of the string \texttt{bCategory("CSV",jet.btagCSV)} appends L, M or T (whether it uses the loose, medium or tight working point) to the bit in quotes, and then pulls the corresponding value from the dict. So I just had to change it to \texttt{bCategory("CSVv2IVF",jet.btagCSV)}. Then I could add \texttt{if} statements in the jet loops of \textbf{Displayer.py} to \uline{draw the $b$-jets that satisfied the medium working point (\texttt{phyobj.btagCSV > 0.8484}) in dark red}.
 
 
-\subsection{Skimming the miniAODs}
+\section{Skimming the miniAODs}
 
 Now I can use LittleFWLite to skim over the miniAODs in the data set, and output the selected events into a new root file. If I go to the directory (\textbf{$\sim$/LittleFWLite/}), I need to \texttt{source setup.sh} and also do \texttt{cmsenv} in a recent CMSSW release -- I used 8.0.26 -- to source the main FWLite and FWCore modules.
 
@@ -47,7 +47,7 @@ cmsRun skimMiniAOD_EvtListAndPD_cfg.py
 I should get the log on-screen indicating the root files being opened and the events being processed.
 
 
-\subsection{Using Fireworks to check the event displays}
+\section{Using Fireworks to check the event displays}
 
 Once I had the ROOT file of the events I needed, I could use Fireworks to look at the event displays. For stand-alone tarballs, the commands to download and install it are different for the different versions (see \ref{sec:fireworks}). However, it is fully integrated within CMSSW from CMSSW\_3\_X\_X. As I was using CMSSW\_8\_0\_26, I just needed to \texttt{cmsenv}, then I could run it with
 
@@ -68,7 +68,7 @@ I couldn't find any obvious anomalies in the event displays. There were several 
 \end{figure}
 
 
-\subsection{Conveying the results on Imperial's web pages}
+\section{Conveying the results on Imperial's web pages}
 
 Using some software developed by Ben and other IC people, I can use HTML and web-based languages to upload plots, etc., in a clean layout on Imperial's website. By logging onto lx00 or lx01, I need to do
 
@@ -87,7 +87,7 @@ for file in */*pdf; do convert -density 150 $file -trim ${file/pdf/png}; done
 
 Next I had to add a \textbf{config.js} file, which contained code to point to the images to display, as well as how to organise and divide them up. Then I added an \textbf{index.html} file, which took care of the layout of the web page and the sub-headings, etc. The \textbf{style.css} file generated the colours and font. The link to all the event displays is at \url{http://www.hep.ph.ic.ac.uk/~ebhal/CMS/RA1/AN-17-122/EventDisplays/plotify/}. The Fireworks and RA1 displays are shown, with one event per page. As the Fireworks displays don't distinguish between regular and $b$-jets, I can match the circular plot in the RA1 display to the jets in Fireworks.
 
-\subsection{Remaking the RA1 trees to include all muons in the event displays}
+\section{Remaking the RA1 trees to include all muons in the event displays}
 
 By default, in the RA1 display none of the muons aren't plotted; presumably because they fail at least one of the acc/ID/isolation/$\Delta R$ requirements. Because the code that produces the plots runs over the trees located at Imperial. The cuts that are applied during tree production means that none of these muons are actually stored in the trees. But with the skimmed miniAODs I have of the excess events, we should be able to reproduce the trees of those events, but leave in all the muons. Then I can run over these new, small trees in AlphaTools to produce RA1 displays that contain the muons and their properties.
 

@@ -1,5 +1,5 @@
 \newpage
-\section{Service Work: Trigger Shifts at P5 (22/11/2017)}
+\chapter{Service Work: Trigger Shifts at P5 (22/11/2017)}
 
 To gain additional EPR credit that gets me closer to authorship, I should sign up for trigger shifts at P5. The url to sign up is \url{https://cmsonline.cern.ch/webcenter/portal/cmsonline/pages_common/shiftlist}. \uline{Once shifts open up, it's good to grab them as quickly as possible.} My shifts are:
 
@@ -20,7 +20,7 @@ For getting to P5 and back, there are shuttle buses that leave from CERN and som
 
 A tutorial session was run, detailing the basics of shifts. The slides are here: \href{run:./sec33/Trigger_shifter_tutorial_--_Introduction_control_and_configuration.pdf}{Trigger shifter tutorial -- Introduction, control and configuration} and \href{run:./sec33/Trigger_shifter_tutorial_--_Monitoring_troubleshooting_and_summary.pdf}{Trigger shifter tutorial -- Monitoring, troubleshooting and summary}.
 
-\subsection{On shift}
+\section{On shift}
 \label{subsec:onP5shift}
 
 When on shift, I essentially need to monitor the trigger subsystems and rates, and check everything is okay. When I first get into the Control Room, the previous shifter will tell me about anything noteworthy that happened on their shift. The monitors should already have the relevant pages loaded (like uGT SWATCH cell, L1Page, DQM monitoring, etc.). I should look at the previous shifter's elog on \url{https://cmsonline.cern.ch/}. I could find the logs by navigating to Elog $>$ Subsystems $>$ Trigger $>$ Trigger. I should also start my own elog for the shift using my template, logging the state of the run and system when my shift starts, as well when new runs start, the beam is dumped, etc (with the context surrounding it). I can check the rates on the page documented in the list below. The plot will show the L1 rate and usually three other triggers (belonging to EG, muons and jets, respectively). Hovering over a curve will give the trigger as a bit number. Then, I can navigate the table below to see which trigger corresponds to the number. At the end of the shift, I should upload my elog.
@@ -51,7 +51,7 @@ Some useful links are
 I should remember to bring lunch, my laptop (for working when nothing interesting is happening), my laptop charger and a Swiss plug adapter.
 
 
-\subsection{Calo Layer-2 on call}
+\section{Calo Layer-2 on call}
 
 In addition to shifts, I'm expected to sign up as a Layer-2 on-call person. I'm basically given the on-call phone for a shift -- each shift being a week long and being expected to do four shifts over the year -- and give advice to whomever rings it.
 
@@ -72,7 +72,7 @@ There are several tutorials and instructions that are helpful when dealing with 
 I got a call from the L1DOC about an input link error (crcError) on MP5, which is a known problem among Calo Layer-2 and shouldn't be a cause for concern. But Calo Layer-2 was briefly in error (likely from a "blip" where a couple of components were in error, flagging the entire subsystem in that state). A single component warning/error can send the entire subsystem into an "error" state, even though basically everything is fine. The current trigger shifter who noticed the error wrote an e-log detailing it. These will be in the same place as the normal shift logs (see \ref{subsec:onP5shift}. I could also write replies to the e-logs to reassure the shifter that there's no real problem so they don't call me or the L1DOC throughout the night. I also posted about the problem on the CaloL2 Ops Skype chat to let everyone know.
 
 
-\subsubsection{Setting up a tunnel to P5}
+\subsection{Setting up a tunnel to P5}
 
 For online DQM (Data Quality Monitoring) and maintenance of the Trigger (like the L1 Page, etc.), I need to set up an ssh tunnel to P5. This is because the relevant webpages and information are only available from within the P5 network. The instructions are at \url{https://twiki.cern.ch/twiki/bin/viewauth/CMS/CaloLayer2OnCall}. First, on my computers, I opened \textbf{$\sim$/.profile} and added this line:
 

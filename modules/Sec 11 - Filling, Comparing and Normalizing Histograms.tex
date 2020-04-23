@@ -1,5 +1,5 @@
 \newpage
-\section{Filling, Comparing and Normalizing Histograms using Macros (02/11/2016)}
+\chapter{Filling, Comparing and Normalizing Histograms using Macros (02/11/2016)}
 
 With Python, it's quite easy to plot and slightly manipulate the contents of .root files. But once the analysis gets a bit more complicated (e.g., normalizing histograms), it's difficult to accomplish in Python because most of the stuff (like the classes and documentation) is written in/for C++. So for the time being, I'll be writing C++ macros rather than Python scripts for analysis.
 
@@ -7,7 +7,7 @@ With Bjoern's help, I created some macros to compare and analyse histograms. To 
 
 Three types of files were created: the header file (.h) which contains the information and declarations, etc., pertaining to the tree in the root file; the source file (.C) in which most of the analysis commands are executed; the "daddy" macro, which is what is executed in ROOT and ties the other source files and executes the necessary loops, etc.
 
-As an example, I'm analysing the $\eta$ component of a jet from a \madgraph\ analysis from the processes $pp \rightarrow t\bar{t}$, $pp \rightarrow W +$ jets, and $pp \rightarrow Z +$ jets. These are SM backgrounds for a hadronic search because the DM final state is usually large \etmiss\ and several jets. The \madgraph\ output is converted into a .root file using my \textbf{rootconverter.sh} script. Then ROOT is launched and the analysis is done by executing the "daddy" macro (\textbf{execComparejets.C}) and I get a histogram out of it with three normalized plots of the respective Jet.Eta plots.
+As an example, I'm analysing the $\eta$ component of a jet from a \madgraph analysis from the processes $pp \rightarrow t\bar{t}$, $pp \rightarrow W +$ jets, and $pp \rightarrow Z +$ jets. These are SM backgrounds for a hadronic search because the DM final state is usually large \etmiss\ and several jets. The \madgraph output is converted into a .root file using my \textbf{rootconverter.sh} script. Then ROOT is launched and the analysis is done by executing the "daddy" macro (\textbf{execComparejets.C}) and I get a histogram out of it with three normalized plots of the respective Jet.Eta plots.
 
 So in total I had 10 files used (daddy macro + $3\times3$ files for each analysis -- source file, header file, root file):
 
@@ -21,7 +21,7 @@ So in total I had 10 files used (daddy macro + $3\times3$ files for each analysi
 
 And the output file \textbf{comparejets.png}. At the moment, the aim is to plot SM background processes so we can find DM/exotic signals easier.
 
-(Notes on \madgraph\ syntax can be found at \url{http://www.niu.edu/spmartin/madgraph/madsyntax.html}.)
+(Notes on \madgraph syntax can be found at \url{http://www.niu.edu/spmartin/madgraph/madsyntax.html}.)
 
 The "daddy" macro \textbf{execComparejets.C}:
 
@@ -33,7 +33,8 @@ The C source file \textbf{ppttbar.C}:
 
 The header file \textbf{pptbar.h}:
 
-\href{run:./sec11/ppttbarv1.h}{ppttbar.h}: The header file for the macro with the same name (ppttbar). I didn't display the file itself because the code stretches over 10 pages. This file includes all the declarations, branch names and other information relating to the root file. File name: ppttbar.h (v1).
+%\href{run:./sec11/ppttbarv1.h}{ppttbar.h}:
+The header file for the macro with the same name (ppttbar). I didn't display the file itself because the code stretches over 10 pages. This file includes all the declarations, branch names and other information relating to the root file. File name: ppttbar.h (v1).
 
 The output \textbf{comparejets.png}:
 
@@ -46,8 +47,8 @@ The output \textbf{comparejets.png}:
 I should find a way to plot such that the histogram with the largest $y$-value is plotted first. So for the time being, until I can streamline it, the process for getting and analysing data is as follows:
 
 \begin{easylist}[enumerate]
-& Write an input file for \madgraph\ detailing the process I want to look at.
-& Run \madgraph\ with the input file and get the output .lhco files, etc.
+& Write an input file for \madgraph detailing the process I want to look at.
+& Run \madgraph with the input file and get the output .lhco files, etc.
 & Convert the .lhco and .lhe files to .root files using my rootconverter.sh script.
 & Run ROOT and get the MakeClass file (.h and .C) for the .root file.
 & Use the templates above to edit the .h and .C files accordingly, paying close attention to the other header files I need to include, the bin sizes of the histograms, the names of the branches I'm accessing, normalization, line colours, whether the histogram is cut off because of the canvas size.
@@ -61,14 +62,14 @@ I should find a way to plot such that the histogram with the largest $y$-value i
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./sec11/comparejetsv2.pdf}
-\cprotect\caption{Multiple histograms showcasing the normalized entries versus pseudorapidity from three standard model processes: $pp \rightarrow t\bar{t}$ (blue); $pp \rightarrow W +$ jets (red); and $pp \rightarrow Z +$ jets (green). These were plotted as a histogram stack. The left panel is from the base \verb!Draw()! command in ROOT, and the right panel displays the same stack as a "lego" plot.}
+\cprotect\caption{Multiple histograms showcasing the normalized entries versus pseudorapidity from three standard model processes: $pp \rightarrow t\bar{t}$ (blue); $pp \rightarrow W +$ jets (red); and $pp \rightarrow Z +$ jets (green). These were plotted as a histogram stack. The left panel is from the base \texttt{Draw()} command in ROOT, and the right panel displays the same stack as a "lego" plot.}
 \end{figure}
 
 I've updated my macros slightly to divide the canvas and make a "lego" plot that's angled slightly to give a different perspective. Both plots were created using the \texttt{THStack} class so that the histograms can be added and then plotted as a stack so you don't get any weird overlap like you do when plotting them one-by-one. I haven't updated the code enough to justify sticking it in the lab book. Maybe I'll add it once I've figured out how to add the legend and added some other features.
 
 \textbf{UPDATE:} I've figured out how to add legends to the plots and have tidied up/expanded some of the files. I might add the new versions of the code later on.
 
-\subsection{Updated code for C++ macros}
+\section{Updated code for C++ macros}
 
 An updated version (v3) of my files are included below (but not in my physical lab book for waste of time and paper) for future reference. The header files are not included because they have not changed, and are the same across all three processes with the exception of the function names and the names of the .root files. The update notes: more parameters and include files being held in \textbf{global.h}; the canvas declaration and some aesthetics being executed by the "daddy" macro; a legend; and scaling by luminosity instead of area.
 
@@ -127,15 +128,15 @@ and is dimensionless, since [$\sigma$] = pb and [$\mathcal{L}$] = pb$^{-1}$.
     Jet $\eta$  events after cut (Jet $p_{\mathrm{T}} >$ 200) & 4 609    & 371     & 470     \\
     Efficiency (\%)                         & 4.6     & 0.37    & 0.47    \\ \hline
     \end{tabular}
-\caption{The properties of the \madgraph\ processes that were simulated.}
+\caption{The properties of the \madgraph processes that were simulated.}
 \label{tab:comparison}
 \end{table}
 
-The luminosity from a process is given in the stream of output text during a \madgraph\ run, but I didn't realise until after I had made the plots. So I just assumed the luminosity was 20 fb$^{-1}$ (20,000 pb$^{-1}$). The luminosity would most likely be different for each decay and so would scale the histograms slightly differently, but the point of this exercise was to demonstrate the technique behind filling and plotting histograms rather than a rigorous analysis. The efficiency was just calculated from the number of events after the cut $\div$ number before the cut.
+The luminosity from a process is given in the stream of output text during a \madgraph run, but I didn't realise until after I had made the plots. So I just assumed the luminosity was 20 fb$^{-1}$ (20,000 pb$^{-1}$). The luminosity would most likely be different for each decay and so would scale the histograms slightly differently, but the point of this exercise was to demonstrate the technique behind filling and plotting histograms rather than a rigorous analysis. The efficiency was just calculated from the number of events after the cut $\div$ number before the cut.
 
-\subsection{Running \madgraph\ for benchmarks}
+\section{Running \madgraph for benchmarks}
 
-I've run a few different simulations in \madgraph\ to get benchmark times to see which processes are the most efficient, possibly for future backgrounds or analyses. The following processes (with the names of the output files) in terms of \madgraph\ syntax were run with 10,000 events. Bottom quarks and tau leptons were also included in the multiparticle labels in the input files. Some processes included Quantum Chromodynamics (QCD) at Next to Leading Order (NLO) and ran their own subprocesses within \madgraph. All other settings were left as their default.
+I've run a few different simulations in \madgraph to get benchmark times to see which processes are the most efficient, possibly for future backgrounds or analyses. The following processes (with the names of the output files) in terms of \madgraph syntax were run with 10,000 events. Bottom quarks and tau leptons were also included in the multiparticle labels in the input files. Some processes included Quantum Chromodynamics (QCD) at Next to Leading Order (NLO) and ran their own subprocesses within \madgraph. All other settings were left as their default.
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 generate p p > t t~, (t > b W+, W+ > l+ vl), (t~ > b~ W-, W- > s c~)
@@ -191,6 +192,6 @@ The results are displayed below.
 
 \lstinputlisting[language=sh, caption={Benchmark run times for different processes executed in \madgraph. File name: process\texttt{\char`_}comparison.txt}.]{./sec11/process_comparison.txt}
 
-The NLO processes automatically set the number of events to 10,000 and give me an error message if I use the command \verb!set nevents ...!, so I set the number of events to 10,000 for all runs. \textsc{Pythia} and PGS were \verb!OFF!, but the NLO processes run their own extra routines, like \textsc{MCatNLO} and HERWIG6.
+The NLO processes automatically set the number of events to 10,000 and give me an error message if I use the command \texttt{set nevents ...}, so I set the number of events to 10,000 for all runs. \PYTHIA and PGS were \texttt{OFF}, but the NLO processes run their own extra routines, like \textsc{MCatNLO} and HERWIG6.
 
 To compare the cross sections I got with the currently accepted values, see \url{https://twiki.cern.ch/twiki/bin/viewauth/CMS/SummaryTable1G25ns}.

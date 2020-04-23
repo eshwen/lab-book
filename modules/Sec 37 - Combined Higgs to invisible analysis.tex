@@ -1,7 +1,7 @@
 \newpage
-\section{Combined \texorpdfstring{$H \rightarrow \mathrm{inv.}$}{Higgs to invisible} analysis (25/05/2018)}
+\chapter{Combined \texorpdfstring{$H \rightarrow \mathrm{inv.}$}{Higgs to invisible} analysis (25/05/2018)}
 
-\subsection{Motivation}
+\section{Motivation}
 
 Whilst working on semi-visible jets, I am also involved in a combined Higgs to invisible analysis. This is "combined" in the sense that we will perform a Higgs $\rightarrow$ inv. search over all possible SM production modes in a single analysis. This is in contrast to the regular approach in which a separate analysis would be conducted for each channel and results would be combined at the end. Our strategy should give much better sensitivity than has previously been possible.
 
@@ -10,14 +10,14 @@ Despite this analysis seeming purely Standard Model-based, there is the possibil
 In the SM, the Higgs can only decay to neutrinos via $H \rightarrow ZZ \rightarrow 4\nu$, with a predicted branching ratio of $1.06 \times 10^{-3}$ \cite{Heinemeyer:1559921}. It may also decay directly to neutrinos ($H \rightarrow \nu\nu$) if neutrinos acquire their mass from the Higgs. Although, as neutrino masses (if they do indeed have mass) are very small, this decay would be suppressed.
 
 
-\subsection{Models and sample production}
+\section{Models and sample production}
 
 A subset of the Higgs production modes we are considering are gluon-gluon fusion ($gg$F), top pair production with a Higgs ($ttH$), Higgs production in association with a vector boson ($VH$), and vector boson fusion (VBF). Our first step is to analyse samples from each of these processes and attempt to construct orthogonal signal regions to cover the largest phase space possible. An analysis will then be performed to extract the limit on the invisible (neutrino) branching fraction. As these processes are Standard Model and not BSM, this is a simpler undertaking in the sense it does not involve parameter scans or any other nuisances that arises from those models.
 
 My current task is to investigate $ttH$ sample production, binning it, and exploring an event selection and discriminating variables. In the future, it may develop into analysing dark matter models in this context, if we decide on pursuing BSM physics. For all of the modes above, we plan to use the centrally-produced nanoAOD MC However, for $ttH$, they haven't been produced yet as of 30/05/2018 (but the request has gone in, so it should be available soon). The dataset entry is on McM though, so I could see the CMSSW version and cmsDriver command required to produce my own samples from the miniAODs for the time being. So, I made some nanoAOD files which I could run through FAST-RA1. (A few people on this analysis are actively involved in developing FAST, and this framework will very likely be what we use in the analysis.)
 
 
-\subsubsection{Building the dataframe of files to run over}
+\subsection{Building the dataframe of files to run over}
 
 I needed to build a list of files to run over, which is straightforward if they're local but more involved if they're not. I could use \texttt{t2df\_find\_files.py}, with the option of an output text file containing the list to use in the next steps. The argument I needed to specify was the actual files, which allows wildcarding. If I looked up the dataset on DAS and clicked on "files", I could use the prefix \texttt{root://cms-xrd-global.cern.ch//} in the argument, then append the file paths "/store/.../*.root". This would use AAA with the global redirector to look for the file names. So the full command would look like this:
 
@@ -40,7 +40,7 @@ for dataset in $(cat qcd_bkg_datasets.dat); do bin/das_query --do-xsdb-query -f 
 Note that if using \texttt{das\_query}, I need to source the setup script in that directory, make sure my grid certificate proxy is active, make sure the \textbf{xsecdb} submodule is cloned, and install the pip packages in the requirements file.
 
 
-\subsubsection{Building the dataframes from nanoAODs}
+\subsection{Building the dataframes from nanoAODs}
 
 Then, I could specify binning and an event selection in a YAML config file, then I could run \texttt{nanoaod2dataframes\_cfg} to get a dataframe. I can look at the other configs to get an idea of the layout and arguments, and then the actual executable for its arguments and options. So an example command would be
 
@@ -95,7 +95,7 @@ in a separate window, also in a screen session for good measure.
 The output from \texttt{nanoaod2dataframes\_cfg} will be a dataframe with the events that pass the selections specified in the config file, and binned according to it. These can be loaded and plotted using \texttt{pandas} and \texttt{matplotlib}. FAST doesn't have any plotting functions built in, but those two packages are fairly straightforward to use. 
 
 
-\subsubsection{Cross section reweighting}
+\subsection{Cross section reweighting}
 
 When skimming over datasets (e.g., if you want to apply some pre-selection and reduce its overall footprint), reweighting for the cross section needs to be taken into account. To first order, the weight applied is
 
@@ -114,7 +114,7 @@ w_i = \frac{ \sigma_i ' \mathcal{L} }{ N_{\mathrm{tot.}} \varepsilon }, \ \mathr
 where the weight for a split dataset $i$ needs to be corrected by normalising the cross section by the sum of the cross sections in all the datasets (assuming the split datasets are contiguous, i.e., HT100-200, HT200-400, etc.), then multiplied by the total NLO cross section.
 
 
-\subsection{Skimming over datasets}
+\section{Skimming over datasets}
 The new FAST framework, written from the ground up to be fully vectorised (reading in and running over a "chunk" of several thousand events at a time as opposed to a single-event loop), is much quicker than FAST-RA1. The bottleneck, in terms of processing time, is now in I/O. When performing studies and tweaking various aspects of the analysis, we want to iterate as fast as possible. The easiest way to do this is by reducing the number of events that must be processed, i.e., by skimming over the files we eventually want to run.
 
 NanoAOD-tools (\url{https://github.com/cms-nanoAOD/nanoAOD-tools}) has built-in support to run over nanoAOD files and run centrally-maintained modules (to add branches for various weights and object cleaning/ID) as well as custom ones. Our goal is to first run all the datasets we plan to use in FAST through nanoAOD-tools first, where we can add these extra weight and scale factor branches, perform some object cleaning, and apply a loose preselection (i.e., HLT paths and some filters). CRAB can be used to funnel the actual processing and allow us to store the output on /hdfs at Bristol. As we will be using FAST at Bristol, the I/O bottleneck is mitigated and the number of events to be processed is also reduced.
@@ -122,7 +122,7 @@ NanoAOD-tools (\url{https://github.com/cms-nanoAOD/nanoAOD-tools}) has built-in 
 Vukasin and Ann-Marie have a setup going for their VBF-side processing, which I've forked: \url{https://github.com/eshwen/VBFHToInv-nanoAOD-tools}. I've written custom modules for various things and consolidated all the centralised modules we need. Then it's straightforward to run all the public datasets on CRAB and send the output to Bristol. The main problem was running over private datasets as CRAB only supports those accessible on DAS. For this, I had to write a Condor framework to process those and then manually transfer them to Bristol. To access the output files, one can use the local path if they're working on Soolin. But for external users, they need the Bristol xrootd redirector \texttt{root://lcgse01.phy.bris.ac.uk:11001//}. If the files were produced with CRAB, they can append onto that \texttt{/store/user/<user>/<path>/}. If they are instead produced another way (like on Condor and manually transferred across), they should instead append \texttt{<path minus "/hdfs">}.
 
 
-\subsection{Analysis}
+\section{Analysis}
 
 Once we have the skimmed samples, we can run them through the analysis software. This is essentially a new FAST-RA1, but rewritten from the ground up. All the code is stored in \url{https://gitlab.cern.ch/cms-chip/chip}. This stores the analysis-specific code (\textbf{C}ombined \textbf{H}iggs to \textbf{I}nvisible \textbf{P}roject) such as scribblers and sample lists. The machinery that runs everything is the package \texttt{fast\_carpenter}: \url{https://pypi.org/project/fast-carpenter/}. It takes in a YAML-style sequence cfg specifying each stage of the analysis like in FAST-RA1, and a YAML-style dataset cfg that takes in a list of files and any other metadata (cross section, etc.) that can be built with \texttt{fast\_curator} (https://pypi.org/project/fast-curator/). Behind the scenes, it uses \texttt{uproot} to convert flat trees into dataframes, \texttt{AlphaTwirl} for handling batch submission, and some other packages.
 
@@ -140,15 +140,16 @@ git pull overleaf master --allow-unrelated-histories
 
 Whenever edits/updates are made to the project on Overleaf (\url{https://www.overleaf.com/project/5cd2a70d3d57d07d68fa386a}), it automatically updates the branch \texttt{overleaf/master}. By pulling the latest changes at a certain point in time, a merge request can then be made to the main GitLab repo above.
 
-\subsection{IOP 2019 (25/01/2019)}
+\section{IOP 2019 (25/01/2019)}
 
 As I'm in my third year, I've been asked to present at the Joint APP and HEPP Annual Conference, organised by the IOP. I'll be giving a 15 minute talk on Higgs to invisible (as I've contributed to it more than semi-visible jets, recently). The title is \textbf{Combined Search for an Invisibly Decaying Higgs Boson in Hadronic Channels at $\sqrt{s} = 13$ TeV with CMS}, and the abstract is below:
 
 The leading upper limit on the Higgs boson to invisible state branching ratio (BR) is 24\%, while the Standard Model prediction sits far below at 0.1\%. The observed value was measured using pp data collected by the CMS experiment between 2011 and 2015. Our analysis targets a better limit by using 13 TeV data from 2016-2018 -- an integrated luminosity of over 130 fb$^{-1}$ -- in addition to performing the combination over all Higgs production modes from the outset rather than in a posthoc fashion. The hadronic channels we include are gluon-gluon fusion, ttH, vector boson fusion (VBF) and Higgs production in association with a vector boson (VH). Analysing each production mode in an orthogonal search region gives a high degree of sensitivity compared to previous attempts. In this talk, the finalised event selection, signal categorisation, data-driven background estimation and systematic uncertainties for the non-VBF production modes will be presented. A sufficiently accurate limit on the BR that is still above the Standard Model prediction may be interpreted in a beyond-Standard Model context. Constraints can be placed on theories that posit exotic particles or dark matter that couple to the Higgs, enhancing the invisible state BR.
 
-My finished slides are here: \href{run:./sec37/20190410 Combined Search for an Invisibly Decaying Higgs (final, 16x9).pdf}{20190410 Combined Search for an Invisibly Decaying Higgs (final, 16x9).pdf}. They include a very recent result for $ttH (H \rightarrow \mathrm{inv.})$: \cite{CMS-PAS-HIG-18-008}, and also a combination from ATLAS (plots taken from conference note, paper uploaded soon after talk): \cite{Aaboud:2019rtt}.
+My finished slides are here: %\href{run:./sec37/20190410 Combined Search for an Invisibly Decaying Higgs (final, 16x9).pdf}{20190410 Combined Search for an Invisibly Decaying Higgs (final, 16x9).pdf}
+. They include a very recent result for $ttH (H \rightarrow \mathrm{inv.})$: \cite{CMS-PAS-HIG-18-008}, and also a combination from ATLAS (plots taken from conference note, paper uploaded soon after talk): \cite{Aaboud:2019rtt}.
 
 
 % --------------------------------- OTHER ---------------------------------
 An interesting new publication from CMS about $ttH$, which may prove useful, is in Ref. \cite{PhysRevLett.120.231801}.
-When looking into 2016 and 2017 data in nanoAOD, I found a good overview into how data is recorded and managed in CMS: \url{https://indico.cern.ch/event/455071/contributions/1123140/attachments/1229600/1801901/2016-02-17-cmsDasTaipei-franzoni-DataPreparation.pdf}. This is useful in general.
+When looking into 2016 and 2017 data in nanoAOD, I found a good overview into how data is recorded and managed in CMS: %\url{https://indico.cern.ch/event/455071/contributions/1123140/attachments/1229600/1801901/2016-02-17-cmsDasTaipei-franzoni-DataPreparation.pdf}. This is useful in general.
