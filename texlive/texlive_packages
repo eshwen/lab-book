@@ -15,10 +15,10 @@ luaotfload
 # texliveonfly does not detect the following packages automatically
 minted fvextra upquote lineno xstring framed caption
 
-# thesis-specific
+# lab book-specific
 nag
 biber
-biblatex
+biblatex-ieee
 babel-spanish
 babel-english
 texcount

@@ -24,7 +24,7 @@ script:
   - latexmk -synctex=1 -interaction=nonstopmode -pdf -file-line-error labbook_ci.tex
 
   # Fully compile draft version of pdf
-  - texliveonfly --arguments="-synctex=1 -interaction=nonstopmode \"\PassOptionsToClass{draft}{memoir}\input{labbook}\"" labbook_ci_draft.tex
+  - texliveonfly --arguments="-synctex=1 -interaction=nonstopmode \"\PassOptionsToClass{draft}{memoir}\input{labbook_ci_draft}\"" labbook_ci_draft.tex
   - latexmk -synctex=1 -interaction=nonstopmode -pdf -file-line-error "\PassOptionsToClass{draft}{memoir}\input{labbook_ci_draft}"
 
   # Word count
