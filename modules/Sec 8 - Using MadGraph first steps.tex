@@ -63,7 +63,7 @@ Varying lepton momentum (ptl):
     100       & 0.7843             \\
     200       & 0.07772            \\
     \end{tabular}
-   \caption{Cross section versus lepton momentum for $pp \rightarrow e^+ e^-$ in \madgraph.}
+   \caption{Cross section versus lepton momentum for $\Pp\Pp \rightarrow \Ppositron \Pelectron$ in \madgraph.}
 \end{table}
 
 Varying \etmiss (misset):
@@ -80,7 +80,7 @@ Varying \etmiss (misset):
     100          & 642.6              \\
     200          & 844.5              \\
     \end{tabular}
-    \caption{Cross section versus missing transverse energy for $pp \rightarrow e^+ e^-$ in \madgraph.}
+    \caption{Cross section versus missing transverse energy for $\Pp\Pp \rightarrow \Ppositron \Pelectron$ in \madgraph.}
 \end{table}
 
 Varying beam energy (ebeam1 and ebeam2):
@@ -95,10 +95,10 @@ Varying beam energy (ebeam1 and ebeam2):
     10 000, 10 000       & 1217               \\
     15 000, 15 000       & 1717               \\
     \end{tabular}
-    \caption{Cross section versus missing beam energy for $pp \rightarrow e^+ e^-$ in \madgraph.}
+    \caption{Cross section versus missing beam energy for $\Pp\Pp \rightarrow \Ppositron \Pelectron$ in \madgraph.}
 \end{table}
 
-For all of these, every other variable was kept the same (10 000 events, etc.). The process was $pp \rightarrow e^+ e^-$ @ 1\textsuperscript{st} order.
+For all of these, every other variable was kept the same (10 000 events, etc.). The process was $\Pp\Pp \rightarrow \Ppositron \Pelectron$ @ 1\textsuperscript{st} order.
 
 With the current build of \madgraph I have on Soolin, I can also run \PYTHIA (this build can install \textsc{Pythia6},~\cite{Sjostrand:2007pythia}), \textsc{Delphes}~\cite{Ovyn:2009delphes} (detector simulation program), and \textsc{ExRootAnalysis} (convert output files into .root containers). In the \textbf{sm\_test.dat} file, after the \texttt{launch} statement, include
 
@@ -112,5 +112,5 @@ etc., but I have to make sure they are installed. To install these packages, go 
 
 To get time information (how long a particular simulation takes), add \texttt{time} before \texttt{./bin/mg5} when I run a simulation, i.e., \texttt{time ./bin/mg5 $<$input file$>$}.
 
-The .lhe.gz output files, once converted to a .root file, contain a TTree called LHEF. One of the branches is named Particle.PID which gives information about which particles are in event. By selecting a certain particle ID you can plot the kinematic distributions for each particle and create other important variables, e.g., \HT (scalar sum of the jet momenta), \mT (transverse mass, that allows you to distinguish e.g. $W$s), or the angle between the \etmiss and lepton/jet. More information on the particle IDs can be found at \url{http://pdg.lbl.gov/2007/reviews/montecarlorpp.pdf}.
+The .lhe.gz output files, once converted to a .root file, contain a TTree called LHEF. One of the branches is named Particle.PID which gives information about which particles are in event. By selecting a certain particle ID you can plot the kinematic distributions for each particle and create other important variables, e.g., \HT (scalar sum of the jet momenta), \mT (transverse mass, that allows you to distinguish e.g. $\PW\text{s}$), or the angle between the \etmiss and lepton/jet. More information on the particle IDs can be found at \url{http://pdg.lbl.gov/2007/reviews/montecarlorpp.pdf}.
 

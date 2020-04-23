@@ -1,7 +1,7 @@
 
 \chapter{Signal model analyses for SUS-16-038 (21/04/2017)}
 
-My next task is to learn about the signal models used in RA1's 2016 paper (SUS-16-038 -- reinterpretation of SUS-16-016 analysis with full 2016 dataset), which encompasses the SUSY SMS models, and HF DM (heavy flavour dark matter) models. The HF DM models are so called because the final state includes a heavy quark, i.e., a $t$ or $b$. They're usually labelled in the fashion "DMttP" for a $t\bar{t}$ final state and pseudoscalar mediator. For private samples (not needed for this), there will be a "p" prefix, e.g., "pDMttP". I need to make a list of all of these models, whether there are trees already -- and where they are -- and which trees haven't been made yet. Then I can create the trees (I'll need to know what cuts, etc. to apply) for the remaining models and conduct some analysis; for the moment this will comprise checking the acceptance, systematics, efficiencies, etc. Beyond that I'll need to derive some results, but the above is a lot of work for the immediate future, so I can worry about that later on.
+My next task is to learn about the signal models used in RA1's 2016 paper (SUS-16-038 -- reinterpretation of SUS-16-016 analysis with full 2016 dataset), which encompasses the SUSY SMS models, and HF DM (heavy flavour dark matter) models. The HF DM models are so called because the final state includes a heavy quark, i.e., a $t$ or \Pqb. They're usually labelled in the fashion "DMttP" for a $\ttbar$ final state and pseudoscalar mediator. For private samples (not needed for this), there will be a "p" prefix, e.g., "pDMttP". I need to make a list of all of these models, whether there are trees already -- and where they are -- and which trees haven't been made yet. Then I can create the trees (I'll need to know what cuts, etc. to apply) for the remaining models and conduct some analysis; for the moment this will comprise checking the acceptance, systematics, efficiencies, etc. Beyond that I'll need to derive some results, but the above is a lot of work for the immediate future, so I can worry about that later on.
 
 The paper is currently being written, so isn't available yet. From my perspective, I can use information from the SUS-16-016 Analysis Note (AN-16-161, \url{http://cms.cern.ch/iCMS/jsp/db_notes/noteInfo.jsp?cmsnoteid=CMS\%20AN-2016/161}) to learn about how the analysis is actually completed. The relevant information is in sections 16 "Interpretation in Simplified SUSY models" and 17 "Interpretation in Dark Matter models". These indicate the models and samples used, as well as technicalities and the context surrounding the signal we're analysing. The Analysis Note for SUS-16-038, being written in tandem with the paper, is here: \url{http://cms.cern.ch/iCMS/jsp/db_notes/noteInfo.jsp?cmsnoteid=CMS\%20AN-2017/122}. 
 
@@ -73,7 +73,7 @@ For making SMS model trees I'll need the config file \textbf{run\_AtLogicNoSelec
 At IC, the path \textbf{/vols/cms/RA1/80X/MC/20170210\_SUSY\_DM\_PreAppr/} contains the trees of the currently-produced signal models. The following models are contained in these subdirectories:
 
 \begin{easylist}
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & \textbf{AtLogic\_MCSummer16\_DM/}: HF DM scalar and psuedoscalar models (Summer16, OBSELETE).
 & \textbf{AtLogicNoSelection\_MCMiniAODv2\_SUSY\_SMS\_FastSim/}: SUSY SMS T1bbbb, T2cc, and T2tt models (Spring16, OBSELETE).
 \end{easylist}
@@ -87,7 +87,7 @@ heppyBatchAlphaT.py -o $OUTDIR -c AtLogicNoSelection_MCMiniAODv2_SUSY_SMS_FastSi
 Then I extracted the output, resubmitted failed jobs, then combined them when everything succeeded. At Bristol, the trees are located at
 
 \begin{easylist}
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & Bristol: \textbf{/hdfs/SUSY/RA1/80X/MC/20170426\_S01} (T2bb Spring16, OBSELETE).
 & Imperial: \textbf{/vols/cms/RA1/80X/MC/20170426\_S01} (T2bb Spring16, OBSELETE).
 \end{easylist}
@@ -98,7 +98,7 @@ Then I extracted the output, resubmitted failed jobs, then combined them when ev
 However, there was a problem with the trees that I encountered when trying to analyse them. In the SMS trees, all of the SUSY particle masses were "lumped" together, and so the mass points weren't saved in the trees (like $m_{\mathrm{SUSY}}$ and $m_{\mathrm{LSP}}$ for events). So Shane submitted a \textcolor{ForestGreen}{"pull request" on GitHub -- basically committing changes, but allowing them to be reviewed before being merged into a branch/repo, which is generally good practice, especially when modifying code in important branches} -- which includes the SUSY particle masses and isolated track variables. Then I just needed to merge it, and in my workspace on Soolin/lx00, I just needed to do \texttt{git pull ra1-private 80X-ra1-0.7.x-Moriond17Prod} to get the updated code. After that, I needed to remake all the SMS trees with these inclusions. In the config file, I just had to make sure all of the components were uncommented, then I could submit jobs and combine the output, etc. to make the trees. After another pull request from Shane to fix the DM tree production, I could submit the DM jobs as well. A few DM jobs were consistently failing due to an empty \textbf{pycfg.py} file. As with tree production for the cut flow tables, I could copy the filled \textbf{pycfg.py} from a successful job into the directory of a failed one (as long as it is from the same sample), and then resubmit them. The tag of the code for both SMS and DM tree production is \textbf{80X\_MC\_20170510\_S01}. The new trees are located at
 
 \begin{easylist}
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & Bristol (SUSY SMS): \textbf{/hdfs//SUSY/RA1/80X/MC/20170510\_SMS-Spring16\_DM-Summer16/AtLogicNoSelection\_MCMiniAODv2\_SUSY\_SMS\_FastSim/} (T1bbbb, T2bb, T2cc, T2tt; Spring16).
 & Bristol (DM): \textbf{/hdfs/SUSY/RA1/80X/MC/20170510\_SMS-Spring16\_DM-Summer16/AtLogic\_MCSummer16\_DM/} (DMttP, DMttS; Summer16).
 & Imperial (SUSY SMS): \textbf{/vols/cms/RA1/80X/MC/20170510\_SMS-Spring16\_DM-Summer16/AtLogicNoSelection\_MCMiniAODv2\_SUSY\_SMS\_FastSim/} (T1bbbb, T2bb, T2cc, T2tt; Spring16).
@@ -108,7 +108,7 @@ However, there was a problem with the trees that I encountered when trying to an
 The mass points were still merged into one tree per model for production, so they needed to be split such that there was a tree for each mass point. This was done using the TreeSplitterSusy macro in AlphaTools. For whatever reason, this wasn't working with my set up so Shane split the trees. These new "split" trees are stored in
 
 \begin{easylist}
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & \textbf{/vols/cms/RA1/80X/MC/20170510\_SMS-Spring16\_DM-Summer16/AtLogicNoSelection\_MCMiniAODv2\_SUSY\_SMS\_FastSim/SMS\_splitMasses/} (T1bbbb, T2bb, T2cc, T2tt Spring16 split trees).
 \end{easylist}
 
@@ -159,13 +159,13 @@ To initialise it I just need to source the setup script, which also creates the 
 python batchSubmitOptimise.py -o <output directory> -f --options "-d --getDataLumi --greenBand --signalMCStat" --submit
 \end{lstlisting}
 
-should give me Higgs datacards and shape root files for each sample, separated by \HT, $b$-categories, and jet categories. I then need to combine them using the script \textbf{makeCardsAndWs.py}. There's no need to edit anything so I can just type
+should give me Higgs datacards and shape root files for each sample, separated by \HT, \Pqb-categories, and jet categories. I then need to combine them using the script \textbf{makeCardsAndWs.py}. There's no need to edit anything so I can just type
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 python makeCardsAndWs.py -i <output directory from optimiseBinning> -c "nB"
 \end{lstlisting}
 
-making sure the \verb!-c "nB"! flag is used to combine the \HT bins and $b$-categories, but not the jet categories. Next, I call \textbf{runCombineTask.py} to sort the categories by sensitivity with the command
+making sure the \verb!-c "nB"! flag is used to combine the \HT bins and \Pqb-categories, but not the jet categories. Next, I call \textbf{runCombineTask.py} to sort the categories by sensitivity with the command
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 python runCombineTask.py -i <output directory from optimiseBinning> -t ASCLS_UL_PRIOR --what expected

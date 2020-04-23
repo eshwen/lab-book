@@ -15,34 +15,34 @@ Some I/O (input/output) from \madgraph and \ROOT is displayed below.
 
 The input file (\textbf{sm\_test.dat}) I used to generate the output displayed in the following plots:
 
-\lstinputlisting[language=Python, caption={\madgraph input file sm\_test.dat used to simulate $pp \rightarrow e^+ e^-$.}]{./sec10/sm_test.dat}
+\lstinputlisting[language=Python, caption={\madgraph input file sm\_test.dat used to simulate $\Pp\Pp \rightarrow \Ppositron \Pelectron$.}]{./sec10/sm_test.dat}
 
-Syntax for $W^+$ boson: W+, $W^-$ boson: W-, $Z^0$ boson: Z.
+Syntax for \PWplus boson: W+, \PWminus boson: W-, \PZzero boson: Z.
 
 Here is the output.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./sec10/JetPT.png}
-\caption{The number of entries versus the transverse momentum of the leading jet using 50,000 $pp \rightarrow e^+ e^-$ events simulated in \madgraph. The left panel shows the raw histogram and the right shows the effect of adding a cut on the mass of the jet $>$ 10 GeV.}
+\caption{The number of entries versus the transverse momentum of the leading jet using 50,000 $\Pp\Pp \rightarrow \Ppositron \Pelectron$ events simulated in \madgraph. The left panel shows the raw histogram and the right shows the effect of adding a cut on the mass of the jet $>10\GeV$.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./sec10/JetEta.png}
-\caption{The number of entries versus the pseudorapidity of the leading jet using 50,000 $pp \rightarrow e^+ e^-$ events simulated in \madgraph. The left panel shows the raw histogram and the right shows the effect of adding a cut on the mass of the jet $>$ 10 GeV.}
+\caption{The number of entries versus the pseudorapidity of the leading jet using 50,000 $\Pp\Pp \rightarrow \Ppositron \Pelectron$ events simulated in \madgraph. The left panel shows the raw histogram and the right shows the effect of adding a cut on the mass of the jet $>10\GeV$.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./sec10/JetMass.png}
-\caption{The number of entries versus the mass of the leading jet using 50,000 $pp \rightarrow e^+ e^-$ events simulated in \madgraph. The left panel shows the raw histogram and the right shows the effect of adding a cut on the mass of the jet $>$ 10 GeV.}
+\caption{The number of entries versus the mass of the leading jet using 50,000 $\Pp\Pp \rightarrow \Ppositron \Pelectron$ events simulated in \madgraph. The left panel shows the raw histogram and the right shows the effect of adding a cut on the mass of the jet $>10\GeV$.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./sec10/JetPhi.png}
-\caption{The number of entries versus the phi (meaning?) of the leading jet using 50,000 $pp \rightarrow e^+ e^-$ events simulated in \madgraph. The left panel shows the raw histogram and the right shows the effect of adding a cut on the mass of the jet $>$ 10 GeV.}
+\caption{The number of entries versus the phi (meaning?) of the leading jet using 50,000 $\Pp\Pp \rightarrow \Ppositron \Pelectron$ events simulated in \madgraph. The left panel shows the raw histogram and the right shows the effect of adding a cut on the mass of the jet $>10\GeV$.}
 \end{figure}
 
 It is obvious that even with a small cut on jet mass, the histograms noticeably change. For the jet mass plot, it retains the same shape after the cut because were effectively only changing the range. But applying a cut on jet mass excludes different relevant data for jet $\phi$, jet $\eta$, jet \pt, etc. so the plots look quite different. This kind of analysis can be used to determine the dependencies of certain variables on others, e.g., when you change/exclude certain ranges of jet \pt, how does the histogram for jet mass change? And so on. This will be especially useful when analysing real LHC data to try and determine, not just the mass, but different properties of dark matter and different particle decay modes.
@@ -52,7 +52,7 @@ I've also figured out how to plot a histogram, and then overlay the histogram af
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./sec10/JetEtalargecut.png}
-\caption{The number of entries versus the pseudorapidity of the leading jet using 50,000 $pp \rightarrow e^+ e^-$ events simulated in \madgraph. The blue line shows the raw data and the red line shows the effect of a cut on jet $\pt > 100\GeV$.}
+\caption{The number of entries versus the pseudorapidity of the leading jet using 50,000 $\Pp\Pp \rightarrow \Ppositron \Pelectron$ events simulated in \madgraph. The blue line shows the raw data and the red line shows the effect of a cut on jet $\pt > 100\GeV$.}
 \end{figure}
 
 \lstinputlisting[language=Python, caption={A Python script used to print histograms with a cut on the same axes. File name: readjets.py (v2).}]{./sec10/readjetsv2.py}

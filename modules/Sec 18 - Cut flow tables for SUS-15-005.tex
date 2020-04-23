@@ -11,7 +11,7 @@ I'll need to use \textsc{Heppy} (Python framework to run over EDM files, such as
 For \textsc{CMGTools} I first need to subscribe to GitHub (\url{https://github.com}) and set it up for CMSSW. I deleted my old GitHub profile and made a new one for my uni account. My details are
 
 \begin{easylist}[itemize]
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & Name: Eshwen Bhal
 & Username: eshwen
 & Password: $<$normal password, normal numbers$>$
@@ -202,7 +202,7 @@ which is the same as on the Flat Tree Production primer, but without the \texttt
 Once I've finished the tutorial, I should have enough information to produce flat trees. The list of analysers that are used in selecting events for a flat tree can be found in \textbf{CMGTools/RA1/python/buildSequence.py}. It is recommended to look at each analyser to understand what it does. In the file various things are imported. If I look on GitHub (or Soolin assuming I've cloned the correct repositories), the path to these files are as follows:
 
 \begin{easylist}
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & \verb!CMGTools.RootTools.RootTools!: \\ \textbf{CMSRA1}/\emph{cmgtools-lite-private}/RootTools/python/RootTools.py
 & \verb!CMGTools.TTHAnalysis.analyzers.susyCore_modules_cff!: \\ \textbf{CERN-PH-CMG}/\emph{cmgtools-lite}/TTHAnalysis/python/analyzers/susyCore\_\\modules\_cff.py
 & \verb!PhysicsTools.Heppy.analyzers.<etc.>!: \\ \textbf{CMSRA1}/\emph{cmg-cmssw-central}/PhysicsTools/Heppy/python/analyzers/$<$etc.$>$
@@ -260,7 +260,7 @@ Finally, I can use \texttt{git push} to push those changes to the current branch
 For a proper cut flow table, each selection needs to have some kind of ID, otherwise we cannot distinguish between different selections in the table. The selections used in the analysis for SUS-15-005 would be specified (in a particular order) in a dictionary. I just need to find the tags of the code used in the analysis, then I can find the dictionary used in it. These tags are written in a text file in the directory containing a tree. The trees used in the analysis are from 2015 and would be in \textbf{/hdfs/SUSY/RA1/74X/} on Soolin. The next step is to find the code with that tag and check it out. This would allow me to find the dictionary -- and therefore the selections -- used to produce the trees, giving me the cut flow. The analysis was conducted before cmgtools-lite became the tool the RA1 group uses, so the relevant files would still be part of the regular CMGTools. The Heppy tags are as follows:
 
 \begin{easylist}
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & SUSY Signal models: 74X\_MC\_20151207\_D01 
 & DM Signal models: 74X\_MC\_20151112\_B01
 & SM background MC: RA1cmg\_SCF\_v4.0\_7414\_01 (has the bdphi problem) (\url{https://github.com/CMSRA1/cmg-cmssw-private/tree/RA1cmg_SCF_v4.0_7414_01})
@@ -288,7 +288,7 @@ where the \verb!'ev : -2.5 < ev.jet_eta[0] < 2.5'! is a selection. So I just nee
 The directories containing the trees used in the 2015 analysis are located (on Soolin) at:
 
 \begin{easylist}
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & MC Trees: \textbf{/hdfs/SUSY/RA1/74X/MC/20151014\_B01/20151014\_SixCutflows\_MC\\\_25ns/}
 & Data Trees: \textbf{/hdfs/SUSY/RA1/74X/Data/20151202\_D01/20151202\_run\\\_susyAlphaT\_AtLogic\_Data\_25ns\_cfg/}
 \end{easylist}
@@ -355,7 +355,7 @@ Rob has asked whether the preliminary tables (for signal data) contain \emph{all
 & JSONSkimmer | Checks if sample is MC, or if run/lumi pair is in JSON file if data | N
 & badMCEventSkimmer | Returns True if sample is data. If MC, checks for "bad" events | Y
 & relIsoSkimmer | Cut on relative isolation of leptons | N
-& eleEtaSkimmer | asserts that $|\eta|$ for ALL electrons $< 1.479$ | N
+& eleEtaSkimmer | asserts that $\abseta$ for ALL electrons $< 1.479$ | N
 & promptPhotonSkimmer | if sample is data, return True (no cut). If not data, want 0 photons | N
 & ttJetsSkimmer | if sample is data, return True. If parent sample is not TTJets, return True. Else, lots of conditions | N
 & photonPtSkimmer | cut on photon momentum | N
@@ -377,7 +377,7 @@ For clarification: j$_1$ describes the leading jet; all values are assumed to be
 Below is the progress report I gave to the RA1 group regarding the progress we've made with creating the cut flow tables. For this, and future, talks, it is important to remember the following:
 
 \begin{easylist}[itemize]
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & Include name, email address, University of Bristol logo, CMS logo, and slide numbers in every slide.
 & At the very least, include the date that I'm giving the presentation on the title slide. I can also include it in each slide as part of the footer.
 & For consistency, create a "Slide Master" in PowerPoint when I'm creating the presentation (taking into account the first point in this list), and give it some name. Then each new slide can use that template.
@@ -519,7 +519,7 @@ where \textbf{\$OUTDIR = /storage/eb16003/Cutflow2015Storage/74X/MC/20170221\_S0
 Once the jobs have finished, I can extract and check the output files, and resubmit any failed jobs, using the commands in the flat tree production tutorial. Once \emph{all} of the jobs have succeeded, I can combine the output files so that I get a single flat tree for each sample (stored in \textbf{$<$sample$>$/treeProducerSusyAlphaT/}). I should double-check that everything is in order by opening the root file and looking at the histograms. A quick cross check would be to compare the number of events in the tree to that of the corresponding miniAOD file (which I can do using Tai's cut flow code); these should be the same (which they were when I tested it on a T1tttt sample), indicating that everything wrote to the root file properly and that no loose cuts were applied during tree production. Another would be to take a look at the histograms of the sparticle masses. These should effectively be delta functions where the different masses are, and also gives an insight into how many events you should expect when running over specific mass points. The final task is to copy all the trees to \textbf{/hdfs} because I shouldn't have $\sim 600$ GB of stuff clogging up \textbf{/storage}. The locations are as follows:
 
 \begin{easylist}
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & /hdfs/SUSY/RA1/74X/MC/20170302\_S01
 & /hdfs/SUSY/RA1/74X/MC/20170303\_S02
 & /hdfs/SUSY/RA1/74X/MC/20170304\_S02
@@ -549,7 +549,7 @@ If I look at Table 5 of the paper, showcasing the benchmark models and their sam
 
 When making the cut flow tables for a sample I need to make sure that (in \textbf{twirl\_mktbl.py}) I've specified the correct path in \verb!default_heppydir!, the sparticles and their masses are correct, the \njet categories are correct, and that I'm including the correct \verb!--components! argument when executing the command in the terminal.
 
-After I made a few cut flow tables, I compared the end-of-cut-flow efficiencies with those listed in Table 5 of the paper. In the comparisons for all of the models I had tested, there was a discrepancy between the efficiencies. My values were consistently $\sim 2.0-2.5$x those in the paper. My initial reaction was that I had made a mistake somewhere. But on closer inspection, Matt and Rob discovered that the values in the paper were actually incorrect because they hadn't been scaled by the luminosity (2.3 fb$^{-1}$). So I inadvertently found a mistake in the paper (which I'm proud of). And it's good that this was found now rather than after publication. After generating the rest of the tables, I found another mistake. My efficiencies for the T2bb samples were a factor of more than 20 greater than in the paper. This was due to the values in the paper using the squark cross section as opposed to the sbottom. When corrected, the efficiencies were more consistent. For my contributions to the cut flows, I've also been added to the internal authors list. Because I'm not a CMS author and the public author list for the paper was finalised ages ago, I'm not an author on the \emph{public} paper but I am on the \emph{internal} paper (i.e., the draft versions) and the accompanying analysis note CMS AN-15-004. This is a huge step because it shows that I've made a significant enough contribution to the analysis that the rest of the group recognise it, and I know how much work and effort is needed to earn authorship.
+After I made a few cut flow tables, I compared the end-of-cut-flow efficiencies with those listed in Table 5 of the paper. In the comparisons for all of the models I had tested, there was a discrepancy between the efficiencies. My values were consistently $\sim 2.0-2.5$x those in the paper. My initial reaction was that I had made a mistake somewhere. But on closer inspection, Matt and Rob discovered that the values in the paper were actually incorrect because they hadn't been scaled by the luminosity (2.3\fbinv). So I inadvertently found a mistake in the paper (which I'm proud of). And it's good that this was found now rather than after publication. After generating the rest of the tables, I found another mistake. My efficiencies for the T2bb samples were a factor of more than 20 greater than in the paper. This was due to the values in the paper using the squark cross section as opposed to the sbottom. When corrected, the efficiencies were more consistent. For my contributions to the cut flows, I've also been added to the internal authors list. Because I'm not a CMS author and the public author list for the paper was finalised ages ago, I'm not an author on the \emph{public} paper but I am on the \emph{internal} paper (i.e., the draft versions) and the accompanying analysis note CMS AN-15-004. This is a huge step because it shows that I've made a significant enough contribution to the analysis that the rest of the group recognise it, and I know how much work and effort is needed to earn authorship.
 
 \subsection{The cut flow}
 
@@ -578,7 +578,7 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
   Event veto for muons and electrons & \phantom{1}99\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} \\
   Event veto for single isolated tracks & \phantom{1}94\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} \\
   Event veto for photons & \phantom{1}92\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}95\phantom{.1} \\
-  Event veto for forward jets ($|\eta| > 3.0$) & \phantom{1}81\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}82\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}80\phantom{.1} & \phantom{1}80\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 3.0$) & \phantom{1}81\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}82\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}80\phantom{.1} & \phantom{1}80\phantom{.1} \\
   $\njet \geq 2$ & \phantom{1}81\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}80\phantom{.1} & \phantom{1}75\phantom{.1} \\
   $\ptjone > 100\GeV$ & \phantom{1}81\phantom{.1} & \phantom{1}71\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}57\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}66\phantom{.1} \\
   $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}81\phantom{.1} & \phantom{1}70\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}55\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}65\phantom{.1} \\
@@ -609,7 +609,7 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
   Event veto for muons and electrons & \phantom{1}99\phantom{.1} & \phantom{1}98\phantom{.1} & \phantom{1}41\phantom{.1} & \phantom{1}42\phantom{.1} & \phantom{1}61\phantom{.1} & \phantom{1}64\phantom{.1} \\
   Event veto for single isolated tracks & \phantom{1}94\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}31\phantom{.1} & \phantom{1}32\phantom{.1} & \phantom{1}51\phantom{.1} & \phantom{1}54\phantom{.1} \\
   Event veto for photons & \phantom{1}93\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}30\phantom{.1} & \phantom{1}32\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}54\phantom{.1} \\
-  Event veto for forward jets ($|\eta| > 3.0$) & \phantom{1}82\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}47\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 3.0$) & \phantom{1}82\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}47\phantom{.1} \\
   $\njet \geq 2$ & \phantom{1}82\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}47\phantom{.1} \\
   $\ptjone > 100\GeV$ & \phantom{1}82\phantom{.1} & \phantom{1}69\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}43\phantom{.1} \\
   $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}82\phantom{.1} & \phantom{1}68\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}42\phantom{.1} \\
@@ -640,7 +640,7 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
   Event veto for muons and electrons & \phantom{1}41\phantom{.1} & \phantom{1}42\phantom{.1} & \phantom{1}63\phantom{.1} & \phantom{1}63\phantom{.1} \\
   Event veto for single isolated tracks & \phantom{1}30\phantom{.1} & \phantom{1}32\phantom{.1} & \phantom{1}53\phantom{.1} & \phantom{1}53\phantom{.1} \\
   Event veto for photons & \phantom{1}30\phantom{.1} & \phantom{1}31\phantom{.1} & \phantom{1}53\phantom{.1} & \phantom{1}52\phantom{.1} \\
-  Event veto for forward jets ($|\eta| > 3.0$) & \phantom{1}25\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}45\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 3.0$) & \phantom{1}25\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}45\phantom{.1} \\
   $\njet \geq 2$ & \phantom{1}25\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}41\phantom{.1} \\
   $\ptjone > 100\GeV$ & \phantom{1}25\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}25\phantom{.1} \\
   $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}25\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}24\phantom{.1} \\
@@ -671,7 +671,7 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
   Event veto for muons and electrons & \phantom{1}99\phantom{.1} & \phantom{1}99\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}80\phantom{.1} & \phantom{1}63\phantom{.1} & \phantom{1}63\phantom{.1} \\
   Event veto for single isolated tracks & \phantom{1}96\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}61\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}53\phantom{.1} & \phantom{1}53\phantom{.1} \\
   Event veto for photons & \phantom{1}95\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}60\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}52\phantom{.1} & \phantom{1}52\phantom{.1} \\
-  Event veto for forward jets ($|\eta| > 3.0$) & \phantom{1}81\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}51\phantom{.1} & \phantom{1}62\phantom{.1} & \phantom{1}45\phantom{.1} & \phantom{1}45\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 3.0$) & \phantom{1}81\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}51\phantom{.1} & \phantom{1}62\phantom{.1} & \phantom{1}45\phantom{.1} & \phantom{1}45\phantom{.1} \\
   $\njet \geq 2$ & \phantom{1}80\phantom{.1} & \phantom{1}61\phantom{.1} & \phantom{1}51\phantom{.1} & \phantom{1}53\phantom{.1} & \phantom{1}45\phantom{.1} & \phantom{1}44\phantom{.1} \\
   $\ptjone > 100\GeV$ & \phantom{1}80\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}35\phantom{.1} \\
   $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}80\phantom{.1} & \phantom{1}34\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}34\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}34\phantom{.1} \\
@@ -702,7 +702,7 @@ All of the cut flow tables, taken directly from the auxiliary material (\url{htt
   Event veto for muons and electrons & 100\phantom{.1} & 100\phantom{.1} & \phantom{1}89\phantom{.1} \\
   Event veto for single isolated tracks & \phantom{1}97\phantom{.1} & \phantom{1}98\phantom{.1} & \phantom{1}83\phantom{.1} \\
   Event veto for photons & \phantom{1}97\phantom{.1} & \phantom{1}97\phantom{.1} & \phantom{1}83\phantom{.1} \\
-  Event veto for forward jets ($|\eta| > 3.0$) & \phantom{1}83\phantom{.1} & \phantom{1}84\phantom{.1} & \phantom{1}72\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 3.0$) & \phantom{1}83\phantom{.1} & \phantom{1}84\phantom{.1} & \phantom{1}72\phantom{.1} \\
   $\njet \geq 2$ & \phantom{1}26\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}36\phantom{.1} \\
   $\ptjone > 100\GeV$ & \phantom{1}16\phantom{.1} & \phantom{1}14\phantom{.1} & \phantom{1}19\phantom{.1} \\
   $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}15\phantom{.1} & \phantom{1}13\phantom{.1} & \phantom{1}18\phantom{.1} \\

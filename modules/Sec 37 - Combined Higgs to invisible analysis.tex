@@ -100,15 +100,15 @@ The output from \texttt{nanoaod2dataframes\_cfg} will be a dataframe with the ev
 When skimming over datasets (e.g., if you want to apply some pre-selection and reduce its overall footprint), reweighting for the cross section needs to be taken into account. To first order, the weight applied is
 
 \begin{equation}
-w = \frac{ \sigma \mathcal{L} }{ N_{\mathrm{tot.}} \varepsilon }
+w = \frac{ \sigma \lumi }{ N_{\mathrm{tot.}} \varepsilon }
 \end{equation}
 
-where $\sigma$ is the cross section of the dataset (on DAS/XSDB for public datasets), $\mathcal{L}$ is the integrated luminosity, $N_{\mathrm{tot.}}$ is the number of events in the dataset before any skimming, and $\varepsilon$ is the filter efficiency.
+where $\sigma$ is the cross section of the dataset (on DAS/XSDB for public datasets), $\lumi$ is the integrated luminosity, $N_{\mathrm{tot.}}$ is the number of events in the dataset before any skimming, and $\varepsilon$ is the filter efficiency.
 
 For datasets that are split, e.g., by HT (like QCD or Drell-Yan), it's more complex as the weight needs to take all the datasets over the range into account. For Drell-Yan, the new calculation would be
 
 \begin{equation}
-w_i = \frac{ \sigma_i ' \mathcal{L} }{ N_{\mathrm{tot.}} \varepsilon }, \ \mathrm{where} \ \sigma_i ' = \left( \frac{\sigma_i}{\Sigma_i \sigma_i} \right) \sigma_{\mathrm{tot.@NLO}}
+w_i = \frac{ \sigma_i ' \lumi }{ N_{\mathrm{tot.}} \varepsilon }, \ \mathrm{where} \ \sigma_i ' = \left( \frac{\sigma_i}{\Sigma_i \sigma_i} \right) \sigma_{\mathrm{tot.@NLO}}
 \end{equation}
 
 where the weight for a split dataset $i$ needs to be corrected by normalising the cross section by the sum of the cross sections in all the datasets (assuming the split datasets are contiguous, i.e., HT100-200, HT200-400, etc.), then multiplied by the total NLO cross section.
@@ -144,7 +144,7 @@ Whenever edits/updates are made to the project on Overleaf (\url{https://www.ove
 
 As I'm in my third year, I've been asked to present at the Joint APP and HEPP Annual Conference, organised by the IOP. I'll be giving a 15 minute talk on Higgs to invisible (as I've contributed to it more than semi-visible jets, recently). The title is \textbf{Combined Search for an Invisibly Decaying Higgs Boson in Hadronic Channels at $\sqrt{s} = 13$ TeV with CMS}, and the abstract is below:
 
-The leading upper limit on the Higgs boson to invisible state branching ratio (BR) is 24\%, while the Standard Model prediction sits far below at 0.1\%. The observed value was measured using pp data collected by the CMS experiment between 2011 and 2015. Our analysis targets a better limit by using 13 TeV data from 2016-2018 -- an integrated luminosity of over 130 fb$^{-1}$ -- in addition to performing the combination over all Higgs production modes from the outset rather than in a posthoc fashion. The hadronic channels we include are gluon-gluon fusion, ttH, vector boson fusion (VBF) and Higgs production in association with a vector boson (VH). Analysing each production mode in an orthogonal search region gives a high degree of sensitivity compared to previous attempts. In this talk, the finalised event selection, signal categorisation, data-driven background estimation and systematic uncertainties for the non-VBF production modes will be presented. A sufficiently accurate limit on the BR that is still above the Standard Model prediction may be interpreted in a beyond-Standard Model context. Constraints can be placed on theories that posit exotic particles or dark matter that couple to the Higgs, enhancing the invisible state BR.
+The leading upper limit on the Higgs boson to invisible state branching ratio (BR) is 24\%, while the Standard Model prediction sits far below at 0.1\%. The observed value was measured using pp data collected by the CMS experiment between 2011 and 2015. Our analysis targets a better limit by using 13 TeV data from 2016-2018 -- an integrated luminosity of over 130\fbinv -- in addition to performing the combination over all Higgs production modes from the outset rather than in a posthoc fashion. The hadronic channels we include are gluon-gluon fusion, ttH, vector boson fusion (VBF) and Higgs production in association with a vector boson (VH). Analysing each production mode in an orthogonal search region gives a high degree of sensitivity compared to previous attempts. In this talk, the finalised event selection, signal categorisation, data-driven background estimation and systematic uncertainties for the non-VBF production modes will be presented. A sufficiently accurate limit on the BR that is still above the Standard Model prediction may be interpreted in a beyond-Standard Model context. Constraints can be placed on theories that posit exotic particles or dark matter that couple to the Higgs, enhancing the invisible state BR.
 
 My finished slides are here: \href{run:./sec37/20190410 Combined Search for an Invisibly Decaying Higgs (final, 16x9).pdf}{20190410 Combined Search for an Invisibly Decaying Higgs (final, 16x9).pdf}. They include a very recent result for $ttH (H \rightarrow \mathrm{inv.})$:~\cite{CMS-PAS-HIG-18-008}, and also a combination from ATLAS (plots taken from conference note, paper uploaded soon after talk):~\cite{Aaboud:2019rtt}.
 

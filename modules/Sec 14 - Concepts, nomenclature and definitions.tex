@@ -4,13 +4,13 @@
 \section{Experimental}
 
 \begin{easylist}[itemize]
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 
 & Jet: when a quark is produced in a collision, it hadronizes (to become colour-neutral). So another quark is created to pair with the lone quark. But because the particle typically has a lot of energy, more quark-antiquark pairs are produced (the same as when a quark pair is pulled apart, the stored energy in the flux tube between them allows the pair production of quarks, such that there are now two pairs of quarks). This cascades and several quark pairs are produced rapidly, turning into a jet (as each new pair produced travels in the same direction as the original quark(s)).
 
-& $b$-tagging: when bottom ($b$) quarks are produced in accelerator collisions, they hadronize and form jets. The hadrons composed of $b$-quarks have a relatively long lifetime and decay in the detector (or decay between the primary vertex -- initial interaction point -- and the detector to create a second jet and a secondary vertex). Because $b$-quarks have a large mass, their decay products tend to have a high \pt. This leads to high-multiplicity, wide jets. These properties allow the jets to be "tagged" and identified, which can be useful when studying specific decays that would likely produce $b$-quarks.
+& \Pqb-tagging: when bottom (\Pqb) quarks are produced in accelerator collisions, they hadronize and form jets. The hadrons composed of \Pqb-quarks have a relatively long lifetime and decay in the detector (or decay between the primary vertex -- initial interaction point -- and the detector to create a second jet and a secondary vertex). Because \Pqb-quarks have a large mass, their decay products tend to have a high \pt. This leads to high-multiplicity, wide jets. These properties allow the jets to be "tagged" and identified, which can be useful when studying specific decays that would likely produce \Pqb-quarks.
 
-& Pseudorapidity: the pseudorapidity $\eta$ is a spatial coordinate that describes the angle of a particle (after a collision in an accelerator) relative to the beam axis. The formula is $\eta = -\ln[\tan(\theta/2)]$, where $\theta$ is the angle between the particle's three-momentum and the positive direction of the beam axis. So as $\theta \rightarrow 0^{\circ}$ (the beam line), $\eta \rightarrow \infty$. Generally, particles with large $\eta$ escape the detector (because they are travelling so close to the beam line), so cuts on the order of $|\eta| < 5$ or tighter are usually applied during analysis.
+& Pseudorapidity: the pseudorapidity $\eta$ is a spatial coordinate that describes the angle of a particle (after a collision in an accelerator) relative to the beam axis. The formula is $\eta = -\ln[\tan(\theta/2)]$, where $\theta$ is the angle between the particle's three-momentum and the positive direction of the beam axis. So as $\theta \rightarrow 0^{\circ}$ (the beam line), $\eta \rightarrow \infty$. Generally, particles with large $\eta$ escape the detector (because they are travelling so close to the beam line), so cuts on the order of $\abseta < 5$ or tighter are usually applied during analysis.
 
 & \alphat: the kinematic variable \alphat is used in analyses to suppress QCD backgrounds, and to suppress multijet production and mis-reconstructed \pt. It is defined in~\cite{Randall:2008rw}, and further described in~\cite{PhysRevLett.107.221804}. Another form is
 
@@ -29,7 +29,7 @@
 
 & Loose/medium/tight lepton: this type of identification of a lepton refers to the "working points" (cuts) that are applied. The "tighter" the particle, the more (numerous and/or restrictive) cuts are applied. This leads to a lower cut flow efficiency but more accuracy. Usually, the more problems that backgrounds pose, the tighter the cuts are made in order to suppress them. See \url{https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideMuonIdRun2#Muon_Identification} and \url{https://twiki.cern.ch/twiki/bin/viewauth/CMS/CutBasedElectronIdentificationRun2#Electron_ID_Working_Points_WP_de} for more information.
 
-& Control region: orthogonal to the signal region, so no signal is expected. Control regions are used to see if backgrounds are well understood. So you form a "background-only" hypothesis (i.e., no signal -- in the case of Higgs boson searches, the hypothesis would be that $pp$ collisions would produce everything we've seen previously in colliders with no hint of a Higgs, because we hadn't detected the Higgs yet) and predict what your data \emph{should} look like in the regions that aren't the signal region. Then if your data in the control regions agree with your background-only hypothesis, you can build confidence that you're estimating the backgrounds correctly and not introducing any unexpected bias.
+& Control region: orthogonal to the signal region, so no signal is expected. Control regions are used to see if backgrounds are well understood. So you form a "background-only" hypothesis (i.e., no signal -- in the case of Higgs boson searches, the hypothesis would be that $\Pp\Pp$ collisions would produce everything we've seen previously in colliders with no hint of a Higgs, because we hadn't detected the Higgs yet) and predict what your data \emph{should} look like in the regions that aren't the signal region. Then if your data in the control regions agree with your background-only hypothesis, you can build confidence that you're estimating the backgrounds correctly and not introducing any unexpected bias.
 
 & PromptReco and ReReco: % FIND DEFINITIONS
 
@@ -44,7 +44,7 @@ A value of $\Delta R = 0.4$ is commonly used for lepton (namely muon) isolation.
 
 & Isolation/isolated lepton: particle isolation is defined by the fractional momentum contribution of other particles "near" the particle you're interested in. First the track of the target particle is identified. Then a cone of radius $\Delta R$ is constructed (with $\Delta R = 0.4$ being a common choice for muons) around a point in the track with its apex at the primary vertex, and the sums of the \pt and $E_{\mathrm{T}}$ of all the particles within this cone are calculated. Then by dividing by the target particle's \pt you can calculate the fraction of the momentum that other particles are contributing to the total momentum inside the cone, which is also called the value of the particle's "relative isolation". Then you can impose cuts on these values, depending on how isolated you want a certain particle to be.
 
-& Drell-Yan processes: in the LHC, the Drell-Yan (DY) process is when a quark from one proton annihilates with an antiquark from an oncoming proton. This normally produces one of the electroweak bosons, which decays into a lepton-antilepton pair. Looking at invariant mass plots from DY can show clear peaks at the masses of different particles, like the $\phi$. $J/\psi$, $\upsilon$ hadrons and the $Z$ boson. However, as protons contain many quarks, antiquarks and gluons, DY is normally messy and the final states can include several jets.
+& Drell-Yan processes: in the LHC, the Drell-Yan (DY) process is when a quark from one proton annihilates with an antiquark from an oncoming proton. This normally produces one of the electroweak bosons, which decays into a lepton-antilepton pair. Looking at invariant mass plots from DY can show clear peaks at the masses of different particles, like the $\phi$. $J/\psi$, $\upsilon$ hadrons and the \PZ boson. However, as protons contain many quarks, antiquarks and gluons, DY is normally messy and the final states can include several jets.
 
 & \biasedDPhi: the variable \biasedDPhi, known as "biased delta phi", is used in making event selections in signal/data, similar to \alphat~\cite{CMS-PAPER-SUS-15-005-arXiv}. It is based on the minimum azimuthal separation between a jet and the negative vector $\vec{p}_{\mathrm{T}}$ sum of all of the other jets in the event. So it is essentially the minimal separation between the jet and the \htmiss\ vector. It is calculated with the formula
 
@@ -95,7 +95,7 @@ As an aside, below is a cross section of CMS. It's useful for scale and to see t
 \section{Theoretical}
 
 \begin{easylist}[itemize]
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 
 & Spinors: vector-like mathematical objects. In particle physics, spinors are associated with the spin of a particle. In QED and QCD, an object formed of two 2-component spinors (effectively spin-up and spin-down states) are solutions to the Dirac equation. For example, the spinor $u_r (\mathbf{p})$ is a positive energy fermion solution of the form
 
@@ -155,7 +155,7 @@ The d'Alembertian,
 \Box = \partial^{\mu} \partial_{\mu} = \frac{ \partial^2 }{ \partial t^2 } - \vec{\nabla}^2
 \end{equation}
 
-& Why the weak force is "weak": this is due to the Higgs field. In the very early universe ($\mathcal{O} (10^{-12}) $ seconds), the Higgs field introducing mass to elementary particles broke a symmetry in the electroweak interaction (before, all particles, including the weak bosons, were massless). When the $W^{\pm}$ and $Z$ bosons gained mass, their force-carrying ability became constrained by the Heisenberg Uncertainty Principle. As the particles mediating an interaction are virtual, they draw from the vacuum energy and so must "pay it back" in a time dictated by the Principle. The weak bosons are very massive, so require a lot of energy for them to pop into existence. And as they can only travel so fast, this limits both the range and strength of the weak interaction.
+& Why the weak force is "weak": this is due to the Higgs field. In the very early universe ($\order{10^{-12}}$ seconds), the Higgs field introducing mass to elementary particles broke a symmetry in the electroweak interaction (before, all particles, including the weak bosons, were massless). When the \PWpm and \PZ bosons gained mass, their force-carrying ability became constrained by the Heisenberg Uncertainty Principle. As the particles mediating an interaction are virtual, they draw from the vacuum energy and so must "pay it back" in a time dictated by the Principle. The weak bosons are very massive, so require a lot of energy for them to pop into existence. And as they can only travel so fast, this limits both the range and strength of the weak interaction.
 
 & Conservation laws as a consequence of symmetries: % ADD
 
@@ -239,7 +239,7 @@ And so, for massless particles its helicity is fixed and therefore Lorentz invar
 
 & Special group: in group theory, a group is labelled "special" if the matrices within it have a determinant of $+1$.
 
-& $Z$ boson and photon as mixed states: in the GWS model, the electroweak force (before symmetry breaking) contained four massless bosons ($W^+$, $W^-$, $W^0$ and $B^0$). The two neutral bosons mixed to give rise to the $Z^0$ and $A$ (photon) with
+& \PZ boson and photon as mixed states: in the GWS model, the electroweak force (before symmetry breaking) contained four massless bosons (\PWplus, \PWminus, $W^0$ and $B^0$). The two neutral bosons mixed to give rise to the \PZzero and $A$ (photon) with
 
 \begin{equation}
 Z^0 = W^0\cos(\theta_W) - B^0\sin(\theta_W), \ 

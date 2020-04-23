@@ -1,9 +1,9 @@
 
 \chapter{Evaluating backgrounds in a dark matter search from a CMS Physics Analysis Summary (17/11/2016)}
 
-So that I can begin doing some proper analysis, I will be using a CMS Physics Analysis Summary (PAS)~\cite{CMS:2016pod} as a template. The information in the paper will be used to create an analysis file to run in \madanalysis. The paper states that 90\% of the backgrounds in this type of dark matter search can be attributed to Standard Model decays into $W^{\pm} / Z$ + jet. So I've created an input file for \madanalysis to apply the cuts given for the monojet analysis in the paper: $|\eta| < 2.5$, leading jet $\pt > 100\GeV$, $\etmiss > 200\GeV$, no leptons, no $b$-quarks. This way I can plot the backgrounds that I generated previously for $pp \rightarrow W +$ jets and $pp \rightarrow Z +$ jets (with some minor changes: removing the lepton \pt cut, and generating more events). Then we get an estimate of these backgrounds for the DM search -- which will be enhanced with more events, etc., in the future -- and can then start thinking about implementing the other backgrounds for this search. Then we can look for a signal. At the LHC, monojets are used most prominently to look for dark matter particles. This because when the protons collide and produce dark matter, the incoming protons can emit gluons or jets before the collision and recoil from the dark matter, so you get a boosted jet because the DM particles are heavy.
+So that I can begin doing some proper analysis, I will be using a CMS Physics Analysis Summary (PAS)~\cite{CMS:2016pod} as a template. The information in the paper will be used to create an analysis file to run in \madanalysis. The paper states that 90\% of the backgrounds in this type of dark matter search can be attributed to Standard Model decays into $W^{\pm} / Z$ + jet. So I've created an input file for \madanalysis to apply the cuts given for the monojet analysis in the paper: $\abseta < 2.5$, leading jet $\pt > 100\GeV$, $\etmiss > 200\GeV$, no leptons, no \Pqb-quarks. This way I can plot the backgrounds that I generated previously for $\Pp\Pp \rightarrow W +$ jets and $\Pp\Pp \rightarrow Z +$ jets (with some minor changes: removing the lepton \pt cut, and generating more events). Then we get an estimate of these backgrounds for the DM search -- which will be enhanced with more events, etc., in the future -- and can then start thinking about implementing the other backgrounds for this search. Then we can look for a signal. At the LHC, monojets are used most prominently to look for dark matter particles. This because when the protons collide and produce dark matter, the incoming protons can emit gluons or jets before the collision and recoil from the dark matter, so you get a boosted jet because the DM particles are heavy.
 
-The only problem, at the moment, with generating my backgrounds is the weight assigned to each event. The paper uses 12.9 fb$^{-1}$ of data, corresponding to a lot of events. With the \madgraph output that I've generated, I only ran 200,000 events for each process, corresponding to a luminosity $\mathcal{O}$(10 pb) [where the symbol $\mathcal{O}$ means "of order"]. So when I scale the luminosity in the \madanalysis input file to 12.9 fb$^{-1}$, it effectively scales the weight of each event by a certain amount to match that luminosity. With reliable data the weight of each event is $\sim$1, so the backgrounds I have generated at the time of writing are not suitable for detailed analysis. Obviously this will be rectified in the future, but for now I am just demonstrating the technique and the motivation behind the use of \madanalysis and these data.
+The only problem, at the moment, with generating my backgrounds is the weight assigned to each event. The paper uses 12.9\fbinv of data, corresponding to a lot of events. With the \madgraph output that I've generated, I only ran 200,000 events for each process, corresponding to a luminosity $\order{10}$\,pb [where the symbol $\order{1}$ means "of order 1"]. So when I scale the luminosity in the \madanalysis input file to 12.9\fbinv, it effectively scales the weight of each event by a certain amount to match that luminosity. With reliable data the weight of each event is $\sim$1, so the backgrounds I have generated at the time of writing are not suitable for detailed analysis. Obviously this will be rectified in the future, but for now I am just demonstrating the technique and the motivation behind the use of \madanalysis and these data.
 
 The input and output files are displayed below. The values I have after the cuts can be compared with those from the paper via the link \url{http://cms-results.web.cern.ch/cms-results/public-results/preliminary-results/EXO-16-037/} under the "Additional Tables" heading. If I want to examine the .root file generated for each process that I'm importing, it is located in the path \textbf{$<$name of output folder$>$/Output/\_$<$label given to imported file$>$/TheMouth.root}.
 
@@ -74,24 +74,24 @@ The table of contributions from the background process I generated in \madgraph:
     
     \textbf{\etmiss (GeV)}       & \textbf{200-230} & \textbf{230-260} & \textbf{260-290}  & \textbf{290-320} & \textbf{320-350}  & \textbf{350-390}  & \textbf{390-430} \\ \hline
     
-    \textbf{$Z$ + jets} & 72096   & 41305   & 17273    & 12767   & 9763     & 8261      & 3004    \\ \hline
-    \textbf{$W$ + jets} & 56621   & 33144   & 9667    & 13810    & 5524     & 2762      & 4143    \\ \hline
+    \textbf{\PZ + jets} & 72096   & 41305   & 17273    & 12767   & 9763     & 8261      & 3004    \\ \hline
+    \textbf{\PW + jets} & 56621   & 33144   & 9667    & 13810    & 5524     & 2762      & 4143    \\ \hline
     \textbf{Total}        & 128717  & 74449   & 26940    & 26577 & 15287  & 11023    & 7147  \\ \hline
     
     ~            & ~       & ~       & ~        & ~       & ~        & ~         & ~       \\ \hline
     
     \textbf{\etmiss (GeV)}      & \textbf{430-470} & \textbf{470-510} & \textbf{510-550}  & \textbf{550-590} & \textbf{590-640}  & \textbf{640-690}   & \textbf{690-740} \\ \hline
     
-    \textbf{$Z$ + jets}  & 2253    & 751    & 0      & 751     & 2253      & 0       & 0     \\ \hline
-    \textbf{$W$ + jets} & 0     & 1381     & 1381      & 0     & 0      & 0        & 0    \\ \hline
+    \textbf{\PZ + jets}  & 2253    & 751    & 0      & 751     & 2253      & 0       & 0     \\ \hline
+    \textbf{\PW + jets} & 0     & 1381     & 1381      & 0     & 0      & 0        & 0    \\ \hline
     \textbf{Total}        & 2253  & 2132  & 1381 & 751 & 2253  & 0   & 0 \\ \hline
     
     ~            & ~       & ~       & ~        & ~       & ~        & ~         & ~       \\ \hline
     
     \textbf{\etmiss (GeV)}      & \textbf{740-790} & \textbf{790-840} & \textbf{840-900}  & \textbf{900-960} & \textbf{960-1020} & \textbf{1020-1090} & \textbf{$>$1090}   \\ \hline
     
-    \textbf{$Z$ + jets}  & 0    & 0    & 0    & 0      & 0     & 0        & 0    \\ \hline
-    \textbf{$W$ + jets} & 0    & 0    & 1381     & 0     & 0      & 0       & 0     \\ \hline
+    \textbf{\PZ + jets}  & 0    & 0    & 0    & 0      & 0     & 0        & 0    \\ \hline
+    \textbf{\PW + jets} & 0    & 0    & 1381     & 0     & 0      & 0       & 0     \\ \hline
     \textbf{Total}        & 0 & 0  & 1381   & 0  & 0   & 0    & 0  \\ \hline
     \end{tabular}
     \caption{The number of entries in bins of \etmiss of the dominant backgrounds in the results from my \madgraph runs, multiplied by the weight given by the \madanalysis output to account for luminosity.}
@@ -107,31 +107,31 @@ The difference between my results and those from the paper:
     
     \textbf{\etmiss (GeV)}       & \textbf{200-230} & \textbf{230-260} & \textbf{260-290}  & \textbf{290-320} & \textbf{320-350}  & \textbf{350-390}  & \textbf{390-430} \\ \hline
     
-    \textbf{$Z$ + jets} & 2897   & -487   & 5274    & 393.3   & -1729.4     & -2015.9      & 555.5    \\ \hline
-    \textbf{$W$ + jets} & 3539   & -3441   & 4969    & -6102    & -1312     & 250      & -2614    \\ \hline
+    \textbf{\PZ + jets} & 2897   & -487   & 5274    & 393.3   & -1729.4     & -2015.9      & 555.5    \\ \hline
+    \textbf{\PW + jets} & 3539   & -3441   & 4969    & -6102    & -1312     & 250      & -2614    \\ \hline
     \textbf{Total}        & 6436  & 3928   & 10243    & 6495.3 & 3041.4  & 2265.9    & 3169.5  \\ \hline
     
     ~            & ~       & ~       & ~        & ~       & ~        & ~         & ~       \\ \hline
     
     \textbf{\etmiss (GeV)}      & \textbf{430-470} & \textbf{470-510} & \textbf{510-550}  & \textbf{550-590} & \textbf{590-640}  & \textbf{640-690}   & \textbf{690-740} \\ \hline
     
-    \textbf{$Z$ + jets}  & -189.7    & 519.5    & 725.4      & -234.6    & -1835.7      & 252.1       & 145.1     \\ \hline
-    \textbf{$W$ + jets} & 860     & -900     & 1098      & 163     & 129      & 68        & 37.4    \\ \hline
+    \textbf{\PZ + jets}  & -189.7    & 519.5    & 725.4      & -234.6    & -1835.7      & 252.1       & 145.1     \\ \hline
+    \textbf{\PW + jets} & 860     & -900     & 1098      & 163     & 129      & 68        & 37.4    \\ \hline
     \textbf{Total}       & 1049.7  & 1419.5  & 1823.4 & 397.6 & 1964.7  & 320.1   & 182.5 \\ \hline
     
     ~            & ~       & ~       & ~        & ~       & ~        & ~         & ~       \\ \hline
     
     \textbf{\etmiss (GeV)}      & \textbf{740-790} & \textbf{790-840} & \textbf{840-900}  & \textbf{900-960} & \textbf{960-1020} & \textbf{1020-1090} & \textbf{$>$1090}   \\ \hline
     
-    \textbf{$Z$ + jets}  & 97.2    & 61.3    & 60.9    & 31      & 20.1     & 14        & 26.9    \\ \hline
-    \textbf{$W$ + jets} & 24.4    & 14.1    & -1368.2     & 6.4     & 3.6      & 2.9       & 4.3     \\ \hline
+    \textbf{\PZ + jets}  & 97.2    & 61.3    & 60.9    & 31      & 20.1     & 14        & 26.9    \\ \hline
+    \textbf{\PW + jets} & 24.4    & 14.1    & -1368.2     & 6.4     & 3.6      & 2.9       & 4.3     \\ \hline
     \textbf{Total}        & 121.6 & 75.4  & 1429.1   & 37.4  & 23.7   & 16.9    & 31.2  \\ \hline
     \end{tabular}
-    \caption{The difference between my results and those from the paper (see Tables~\ref{tab:cmspaper} and~\ref{tab:mybkgs200kevnt}). The differences were calculated by subtracting my results from those in the paper, hence the reason for minus signs in some of the elements. When calculating the $Z$ + jets difference, I combined the $Z(\nu\nu)$ and $Z(\ell\ell)$ values, then subtracted my results. The total is calculated by adding the absolute values (i.e., the modulus) of the values in the previous rows.}
+    \caption{The difference between my results and those from the paper (see Tables~\ref{tab:cmspaper} and~\ref{tab:mybkgs200kevnt}). The differences were calculated by subtracting my results from those in the paper, hence the reason for minus signs in some of the elements. When calculating the \PZ + jets difference, I combined the $Z(\nu\nu)$ and $Z(\ell\ell)$ values, then subtracted my results. The total is calculated by adding the absolute values (i.e., the modulus) of the values in the previous rows.}
     \label{tab:diff-mine-cms}
 \end{table}
 
-Note: uncertainties are not included. The paper \emph{does} include uncertainties, but I'm not sure how to calculate the error in \emph{my} results. My \madgraph process for $Z$ + jets does not specifically include $Z(\nu\nu)$ or $Z(\ell\ell)$ so I'm assuming they are just combined in my results. In Table~\ref{tab:diff-mine-cms}, the total is the sum of the \emph{absolute} values (i.e., the modulus) of the elements in the rows above. It is interesting to note that, for the most part, the differences between my results and those of the paper are smaller for the $Z$ + jets process(es) than for the $W$ + jets process. This is most likely due to the weighting that \madanalysis implements in my results to match the luminosity in the paper. The weighting for the $W$ + jets events was 1381, whilst it was only 751 for the $Z$ + jets events.
+Note: uncertainties are not included. The paper \emph{does} include uncertainties, but I'm not sure how to calculate the error in \emph{my} results. My \madgraph process for \PZ + jets does not specifically include $Z(\nu\nu)$ or $Z(\ell\ell)$ so I'm assuming they are just combined in my results. In Table~\ref{tab:diff-mine-cms}, the total is the sum of the \emph{absolute} values (i.e., the modulus) of the elements in the rows above. It is interesting to note that, for the most part, the differences between my results and those of the paper are smaller for the \PZ + jets process(es) than for the \PW + jets process. This is most likely due to the weighting that \madanalysis implements in my results to match the luminosity in the paper. The weighting for the \PW + jets events was 1381, whilst it was only 751 for the \PZ + jets events.
 
 As I mentioned earlier, with my \madgraph results I have to multiply the events in each bin of the histograms by the weight given by \madanalysis. However, because the weight is so high, each entry effectively contributes more, which is a problem in the low-entry limit (where I only have a few entries in a bin). So the accuracy will not be good because one event multiplied by the weight effectively gives lots of entries. So if I want to be accurate, I need to run more events so the luminosity is higher, so has to be scaled to a lesser degree to match the luminosity in the paper, therefore assigning a smaller weight ($\rightarrow 1$) for each event. Then the law of large numbers should give me smoother distributions and finer results.
 
@@ -243,9 +243,9 @@ to save the files in my home directory. Or I could be lazy and copy \emph{everyt
 
 Once I have the necessary files, I need to create an input file to analyse everything. This will be similar to Listing~\ref{listing:dmmonojinput}. But I can use the \verb!*! trick and write \verb!import ./Input/ppWjets* as ppWjets! rather than writing a new line for each file. Then I can write out the analysis commands like normal, and they will operate on all the input files as they are now collectively labelled as "ppWjets". This means that only one \textbf{TheMouth.root} file will be generated, meaning I only need to use my "TheMouth" macros once, and don't have to use \verb!hadd!.
 
-I will also run \madgraph for the $pp \rightarrow Z$ + jets process with 1,000,000 events (20 runs $\times$ 50,000 events run$^{-1}$). Then I will analyse both processes with \madanalysis and be able to simulate the backgrounds better because of the greater amount of data I have.
+I will also run \madgraph for the $\Pp\Pp \rightarrow Z$ + jets process with 1,000,000 events (20 runs $\times$ 50,000 events run$^{-1}$). Then I will analyse both processes with \madanalysis and be able to simulate the backgrounds better because of the greater amount of data I have.
 
-After simulating 1,000,000 \madgraph events with each process, I then analysed them with \madanalysis using the input file displayed below (under \textbf{1.1 Command history}). The weight for each event is still high (245 for $W$ + jets, and 150 for $Z$ + jets), but a factor of $\sim$5 lower than before (see Tables~\ref{tab:mybkgs200kevnt},~\ref{tab:diff-mine-cms}).
+After simulating 1,000,000 \madgraph events with each process, I then analysed them with \madanalysis using the input file displayed below (under \textbf{1.1 Command history}). The weight for each event is still high (245 for \PW + jets, and 150 for \PZ + jets), but a factor of $\sim$5 lower than before (see Tables~\ref{tab:mybkgs200kevnt},~\ref{tab:diff-mine-cms}).
 
 The PDF from \madanalysis after analysing the processes: \href{run:sec15/bkgtest_main.pdf}{bkgtest\_main.pdf}.
 
@@ -254,10 +254,10 @@ The histograms before and after the cuts:
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./sec15/combined_selection.png}
-\caption{Histograms showing the number of weighted events against missing transverse energy for the background processes $pp \rightarrow W$ + jets and $\rightarrow Z$ + jets. The upper panel shows the events before any cuts, and the lower panel shows the events after several cuts: jet $\pt > 100\GeV$, $\etmiss > 200\GeV$, $|\eta| < 2.5$, no $b$-quarks, and no leptons.}
+\caption{Histograms showing the number of weighted events against missing transverse energy for the background processes $\Pp\Pp \rightarrow W$ + jets and $\rightarrow Z$ + jets. The upper panel shows the events before any cuts, and the lower panel shows the events after several cuts: jet $\pt > 100\GeV$, $\etmiss > 200\GeV$, $\abseta < 2.5$, no \Pqb-quarks, and no leptons.}
 \end{figure}
 
-Whilst these results look better, the problems are that the weights are \emph{still} quite high and need to be $\mathcal{O}(1)$ , and that high MET (\etmiss) events are still under-populated even after running lots of \madgraph events (a problem with the law of large numbers -- we need to simulate a \textbf{large number} of events). So to help fix the latter issue, I will try running \madgraph with the same processes but including jet HT (\HT, the scalar sum of transverse momentum) cuts in 200 GeV intervals to produce these high MET events. So I need to produce sets of results with jet HTs of 200--400, 400--600, 600--800, and 800+ (GeV). In the \madgraph input file, I'll need to use the command \verb! set htjmax <value>! to get a minimum HT (default is 0), and \verb!set htjmax <value>! for a maximum HT (default is $-1.0$, meaning no maximum). And the syntax to plot/make cuts on HT in the \madanalysis input file is \verb!THT!. I can also check the list of variables/observables in \textbf{$<$MadAnalysis directory$>$/madanalysis/observable/observable\_list.py}.
+Whilst these results look better, the problems are that the weights are \emph{still} quite high and need to be $\order{1}$ , and that high MET (\etmiss) events are still under-populated even after running lots of \madgraph events (a problem with the law of large numbers -- we need to simulate a \textbf{large number} of events). So to help fix the latter issue, I will try running \madgraph with the same processes but including jet HT (\HT, the scalar sum of transverse momentum) cuts in 200 GeV intervals to produce these high MET events. So I need to produce sets of results with jet HTs of 200--400, 400--600, 600--800, and 800+ (GeV). In the \madgraph input file, I'll need to use the command \verb! set htjmax <value>! to get a minimum HT (default is 0), and \verb!set htjmax <value>! for a maximum HT (default is $-1.0$, meaning no maximum). And the syntax to plot/make cuts on HT in the \madanalysis input file is \verb!THT!. I can also check the list of variables/observables in \textbf{$<$MadAnalysis directory$>$/madanalysis/observable/observable\_list.py}.
 
 These results will need to be handled independently from the other processes (with different HT cuts). I'll need to document the cross sections and weights so I know how I need to include/combine everything. I'm using HT cuts rather than straight MET cuts in the \madgraph input files because HT is an easier variable to deal with than MET. When analysing output from implementing MET cuts -- instead of HT -- with the same ranges, the results were weird and overlapped when they shouldn't have.
 
@@ -267,7 +267,7 @@ So this is the procedure as a more compact list:
 & Copy the \madgraph output files (\textbf{tag\_1\_pythia\_events.hep.gz}) from \textbf{/storage/eb16003/submit\_mg/results/} to my \madanalysis directory -- renaming them to something more appropriate -- and consolidate them in the directory \textbf{/storage/eb16003/MadAnalysis/MA5\_v1\_4/Input/}.
 & Write an input file for \madanalysis to analyse the .hep.gz files, using Listing~\ref{listing:dmmonojinput} as a template. Pay attention to the files I'm importing, the cuts, and the histograms I want plotted. The cuts described in that file are applicable to this analysis because I'm still modelling the backgrounds from the dark matter search in~\cite{CMS:2016pod}.
 & Make sure I've sourced my \textbf{cms.sh} script to set up the necessary environments.
-& Run \madanalysis (with the \verb!-s -R! commands to ensure the creation of the .root file) with the input file.
+& Run \madanalysis (with the \texttt{-s -R} commands to ensure the creation of the .root file) with the input file.
 & Open the PDF in \textbf{/MA5\_v1\_4/$<$name of output directory$>$/PDF/main.pdf} to get information about the weight assigned to the events in each process, the histograms, and the cut flow. I can't open it on Soolin, so just \verb!scp! it to my local machine and use Adobe Reader.
 & My macros won't work on the version of \ROOT I have on Soolin for whatever reason, so \verb!scp! the \textbf{TheMouth.root} files to my local machine (renaming them to something appropriate to avoid confusion). Then modify my local copies of \textbf{MouthGlobal.h} (see Listing~\ref{listing:mouthglobalv1}) in \textbf{/Users/eb16003/PhD\_Software/MadAnalysis/MA5\_v1\_4/Macros\_TheMouth/} to point to the directory containing the renamed \textbf{TheMouth.root} file of the process I want to look at, change the variable \verb!weight! to the value given in the PDF, and make sure \verb!N_BINS!, \verb!X_MIN! and \verb!X_MAX! are the correct values for what I'm looking at.
 & Run \textbf{execMouth.C} to print the \emph{weighted} events in each MET bin for the \textbf{TheMouth.root} file I want to look at. Then document the results in a .txt file or an Excel spreadsheet.
@@ -278,7 +278,7 @@ The results from running \madgraph and \madanalysis with different HT ranges (as
 
 One of the \madgraph input files:
 
-\lstinputlisting[language=sh, caption={A \madgraph input file for the SM background process $pp \rightarrow W +$ jets with constrains of jet \HT. File name: ppWjetsHT200-400\_1.input.}]{./sec15/ppWjetsHT200-400_1.input}
+\lstinputlisting[language=sh, caption={A \madgraph input file for the SM background process $\Pp\Pp \rightarrow W +$ jets with constrains of jet \HT. File name: ppWjetsHT200-400\_1.input.}]{./sec15/ppWjetsHT200-400_1.input}
 
 The \madanalysis input file to analyse my output from \madgraph:
 
@@ -289,7 +289,7 @@ The histograms from \madanalysis showing the number of events vs. total hadronic
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./sec15/HT_HTranges.png}
-\caption{The number of weighted events vs. total hadronic \HT for the Standard Model background processes $pp \rightarrow W +$ jets and $Z +$ jets. These were generated by Monte Carlo with different ranges of \HT. The upper panel shows the events before any cuts, and the lower panel shows the events after several cuts: jet $\pt > 100\GeV$, $\etmiss > 200\GeV$, $|\eta| < 2.5$, no $b$-quarks, and no leptons.}
+\caption{The number of weighted events vs. total hadronic \HT for the Standard Model background processes $\Pp\Pp \rightarrow W +$ jets and $Z +$ jets. These were generated by Monte Carlo with different ranges of \HT. The upper panel shows the events before any cuts, and the lower panel shows the events after several cuts: jet $\pt > 100\GeV$, $\etmiss > 200\GeV$, $\abseta < 2.5$, no \Pqb-quarks, and no leptons.}
 \end{figure}
 
 The histograms from \madanalysis showing the number of events vs. \etmiss:
@@ -297,41 +297,41 @@ The histograms from \madanalysis showing the number of events vs. \etmiss:
 \begin{figure}[H]
 \centering
 \includegraphics[width=160mm]{./sec15/MET_HTranges.png}
-\caption{The number of weighted events vs. \etmiss for the Standard Model background processes $pp \rightarrow W +$ jets and $Z +$ jets. These were generated by Monte Carlo with different ranges of \HT. The upper panel shows the events before any cuts, and the lower panel shows the events after several cuts: jet $\pt > 100\GeV$, $\etmiss > 200\GeV$, $|\eta| < 2.5$, no $b$-quarks, and no leptons.}
+\caption{The number of weighted events vs. \etmiss for the Standard Model background processes $\Pp\Pp \rightarrow W +$ jets and $Z +$ jets. These were generated by Monte Carlo with different ranges of \HT. The upper panel shows the events before any cuts, and the lower panel shows the events after several cuts: jet $\pt > 100\GeV$, $\etmiss > 200\GeV$, $\abseta < 2.5$, no \Pqb-quarks, and no leptons.}
 \end{figure}
 
 Some numerical data are displayed in the tables below.
 
-$pp \rightarrow W +$ jets:
+$\Pp\Pp \rightarrow W +$ jets:
 
 \begin{table}[H]
 \centering
     \begin{tabular}{|l|l|l|l|}
     \hline
-    \HT range (GeV) & Generated events & Cross section (pb) & Weight ($\mathcal{L} = 12.9$ fb$^{-1}$) \\ \hline
+    \HT range (GeV) & Generated events & Cross section (pb) & Weight ($\lumi = 12.9$\fbinv) \\ \hline
     $0-200$    & 50,000           & 21381              & 5516                     \\
     $200-400$  & 50,000           & 72.2               & 18                       \\
     $400-600$ & 50,000           & 3.57               & 0.92                     \\
     $600-800$  & 50,000           & 0.461              & 0.12                     \\
     800+     & 50,000           & 0.124              & 0.032                    \\ \hline
     \end{tabular}
-\caption{Information from the SM background process $pp \rightarrow W +$ jets, generated by Monte Carlo with different \HT ranges.}
+\caption{Information from the SM background process $\Pp\Pp \rightarrow W +$ jets, generated by Monte Carlo with different \HT ranges.}
 \end{table}
 
-$pp \rightarrow Z +$ jets:
+$\Pp\Pp \rightarrow Z +$ jets:
 
 \begin{table}[H]
 \centering
     \begin{tabular}{|l|l|l|l|}
     \hline
-    \HT range (GeV) & Generated events & Cross section (pb) & Weight ($\mathcal{L} = 12.9$ fb$^{-1}$) \\ \hline
+    \HT range (GeV) & Generated events & Cross section (pb) & Weight ($\lumi = 12.9$\fbinv) \\ \hline
     $0-200$    & 50,000           & 11612              & 2995                     \\
     $200-400$  & 50,000           & 46.5               & 12                       \\
     $400-600$ & 50,000           & 2.24               & 0.58                     \\
     $600-800$  & 50,000           & 0.279              & 0.072                    \\
     800+     & 50,000           & 0.072              & 0.019                    \\ \hline
     \end{tabular}
-\caption{Information from the SM background process $pp \rightarrow Z +$ jets, generated by Monte Carlo with different \HT ranges.}
+\caption{Information from the SM background process $\Pp\Pp \rightarrow Z +$ jets, generated by Monte Carlo with different \HT ranges.}
 \end{table}
 
 I will be analysing these backgrounds in more detail (with more events) in the future. This subsection can be thought of as a guide and instructions on how to generate and analyse the Monte Carlo data, rather than a complete, comprehensive analysis in and of itself.

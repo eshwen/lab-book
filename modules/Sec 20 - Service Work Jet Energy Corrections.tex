@@ -106,10 +106,10 @@ Once all these jobs had succeeded, the final task was to produce nice looking pl
 python showoffPlots.py --checkcal <path to checked \ROOT file> --oDir <output directory>
 \end{lstlisting}
 
-where the folder containing all the "checked" \ROOT files would be one directory above the ntuples (and in /check/), and the output directory for this set of plots is \textbf{/storage/eb16003/JEC\_Plots/$<$date$>$/PU$<$pileup bin$>$}. Note that I needed to run this script on specific \ROOT files in that folder. Most of the files are called something like \textbf{check\_intialNtuples\_ak4\_ref10to5000\_l10to5000\_dr0p25\_$<$index of eta bin$>$\_etaBinsSel16\_PU$<$pileup bin$>$\_maxPt1022.root}. There are also files with the labels "central" and "forward" in their names, referring to different eta ranges (central = $|\eta| < 3$, forward = $|\eta| > 3$). But we wanted all of them, so we were looking for the \ROOT files with no index or central/forward label. And because we had three pileup bins, I only needed to run the script for the three matching files. The only problem I ran into was related to the eta ranges. In the script \textbf{showoffPlots.py}, the variables \texttt{eta\_min} and \texttt{eta\_max} were set to 0,3 for the central range and 3,5 for the forward range. But in the histograms that are extracted, the ranges are actually 0,2.964 and 2.964,5.191. So I just needed to change the variables at L1040, and also the folder names at L332--334. Then running the command to make plots should give me $\sim$600 files for each pileup bin. The plots (17-03-2017) are stored in \textbf{../Service Work - Jet Energy Corrections in the Level-1 Trigger/} relative to my lab book folder. The relevant identification is
+where the folder containing all the "checked" \ROOT files would be one directory above the ntuples (and in /check/), and the output directory for this set of plots is \textbf{/storage/eb16003/JEC\_Plots/$<$date$>$/PU$<$pileup bin$>$}. Note that I needed to run this script on specific \ROOT files in that folder. Most of the files are called something like \textbf{check\_intialNtuples\_ak4\_ref10to5000\_l10to5000\_dr0p25\_$<$index of eta bin$>$\_etaBinsSel16\_PU$<$pileup bin$>$\_maxPt1022.root}. There are also files with the labels "central" and "forward" in their names, referring to different eta ranges (central = $\abseta < 3$, forward = $\abseta > 3$). But we wanted all of them, so we were looking for the \ROOT files with no index or central/forward label. And because we had three pileup bins, I only needed to run the script for the three matching files. The only problem I ran into was related to the eta ranges. In the script \textbf{showoffPlots.py}, the variables \texttt{eta\_min} and \texttt{eta\_max} were set to 0,3 for the central range and 3,5 for the forward range. But in the histograms that are extracted, the ranges are actually 0,2.964 and 2.964,5.191. So I just needed to change the variables at L1040, and also the folder names at L332--334. Then running the command to make plots should give me $\sim$600 files for each pileup bin. The plots (17-03-2017) are stored in \textbf{../Service Work - Jet Energy Corrections in the Level-1 Trigger/} relative to my lab book folder. The relevant identification is
 
 \begin{easylist}
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & CMSSW version: 9.0.0.pre2
 & Integration tag: \texttt{l1t-integration-v91.16}
 & Dataset: /QCD\_Pt-15to3000\_TuneCUETP8M1\_Flat\_13TeV\_pythia8/RunIISpring16DR80-FlatPU20to70HcalNZSRAW\_withHLT\_80X\_mcRun2\_asymptotic\_v14-v1/GEN-SIM-RAW
@@ -132,7 +132,7 @@ and make sure that L76 in \textbf{L1Trigger/L1TCalorimeter/python/caloStage2Para
 2017\_v1\_4\_inconsistent\_cfi.py} -- \texttt{caloStage2Params.jetCalibrationType = cms.string("LUT")} -- was uncommented, and L74 was commented out. Then I followed the procedure in the previous subsection to conduct the rest of the closure tests: creating the ntuples with corrections, running the matcher, checking the calibrations, and making the plots. Like before, the plots are stored in \textbf{../Service Work - Jet Energy Corrections in the Level-1 Trigger/} relative to my lab book directory, with the (02-04/2017) tag. The identification for this round of JECs is
 
 \begin{easylist}
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & CMSSW version: 9.0.0.pre2
 & Integration tag: \texttt{l1t-integration-v92.7}
 & Dataset: /QCD\_Pt-15to3000\_TuneCUETP8M1\_Flat\_13TeV\_pythia8/RunIISpring
@@ -161,7 +161,7 @@ It's best to do this in a clean shell (but with a grid certificate proxy initial
 This round of JECs is important as the LHC restart is imminent (we have stable beams but not at a luminosity high enough that the detectors need to be fully operational quite yet), and we need the trigger calibrations and corrections completed swiftly. The identification for this round is
 
 \begin{easylist}
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & CMSSW version: 9.2.0
 & Integration tag: \texttt{l1t-integration-v95.13}
 & Dataset: /QCD\_Pt-15to3000\_TuneCUETP8M1\_Flat\_13TeV\_pythia8/PhaseISpring17DR-FlatPU0to70NZS\_90X\_upgrade2017\_realistic\_v20-v1/GEN-SIM-RAW
@@ -343,7 +343,7 @@ and uploading them to the L1 Jets \& Sums notebook on Evernote. I also have a co
 With the new Layer 1 corrections, I could conduct the JECs again. This time, the important information is
 
 \begin{easylist}
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & CMSSW version: 9.2.8
 & Integration tag: \texttt{l1t-integration-v96.49}
 & Dataset: /QCD\_Pt-15to3000\_TuneCUETP8M1\_Flat\_13TeV\_pythia8/RunIISummer17DRStdmix-NZSFlatPU28to62\_92X\_upgrade2017\_realistic\_v10-v1/GEN-SIM-RAW
@@ -363,7 +363,7 @@ Once the initial ntuples were created and transferred to \textbf{/hdfs/L1JEC/}, 
 TypeError: buffer is too small for requested array
 \end{lstlisting}
 
-Joe and I didn't figure out exactly what the problem was, but it was likely due to a Python/numpy problem in the 92X releases of CMSSW. So if, instead, I did \texttt{cmsenv} from my CMSSW\_9\_0\_0\_pre2 release, but then ran \textbf{runCalibration.py} from my 9\_2\_8 release, it would work. However, because of the few points in one of the \pt bins for $4.191 < |\eta| < 5.191$, we had to add a hack in the script:
+Joe and I didn't figure out exactly what the problem was, but it was likely due to a Python/numpy problem in the 92X releases of CMSSW. So if, instead, I did \texttt{cmsenv} from my CMSSW\_9\_0\_0\_pre2 release, but then ran \textbf{runCalibration.py} from my 9\_2\_8 release, it would work. However, because of the few points in one of the \pt bins for $4.191 < \abseta < 5.191$, we had to add a hack in the script:
 
 \begin{lstlisting}[belowskip=-0.7cm, language=python, numbers=none]
 if absetamin == 4.191:
@@ -390,7 +390,7 @@ and made sure to update \textbf{crab3\_stage2.py} to incorporate that and the ne
 
 I was asked by Aaron to present on the JECs at a L1 DPG meeting. The main touchstones I had to add were an outline of the method and datasets/repos involved, plots of the correction curves in different regions of the detector, turn-on curves comparing old vs. new calibrations, and scatter plots comparing jet energies before and after calibrations. My slides are here: \href{run:./sec20/20171113 L1 Jet Energy Corrections.pdf}{L1 Jet Energy Corrections (13-11-2017)}.
 
-I was also asked to redo the JECs, using the "mean" params file (\textbf{caloStage2Params\_2017\_v1\_10\_mean\_inconsistent.py}) that contained the Layer-1 calibrations, derived differently. Response curves, similar to the jet response curves we plot when deriving the JECs, are plotted for different objects in particular \pt and $|\eta|$ bins. Then, either the mean or mode response is used for the calibration of that object in the bin. The mean response had been used until fairly recently. But the potentially long tails in the plots can skew the values, and make the calibrations worse. So using the mode response instead gives the benefit of insensitivity to the tails. We could compare the performance of "mode" and "mean", relaying the better version to the DPG people so they know which to give us in the future. The workflow was the same as previously, just substituting the "mode" params for the "mean". The only other difference was that I added the LUTs to my CMSSW workspace myself. I had to put the \textbf{lut\_HR\_add\_mult.txt} file I made in \textbf{L1Trigger/L1TCalorimeter/data/}. Then, in the "mean" params file, add the path to this LUT in the variable \texttt{caloStage2Params.jetCalibrationLUTFile} ($\sim$L120). Then, I could make the CMSSW config, remake the ntuples, etc. to get the plots. From the results, it seems "mode" was better, and was what we requested for calibrations in 2018.
+I was also asked to redo the JECs, using the "mean" params file (\textbf{caloStage2Params\_2017\_v1\_10\_mean\_inconsistent.py}) that contained the Layer-1 calibrations, derived differently. Response curves, similar to the jet response curves we plot when deriving the JECs, are plotted for different objects in particular \pt and $\abseta$ bins. Then, either the mean or mode response is used for the calibration of that object in the bin. The mean response had been used until fairly recently. But the potentially long tails in the plots can skew the values, and make the calibrations worse. So using the mode response instead gives the benefit of insensitivity to the tails. We could compare the performance of "mode" and "mean", relaying the better version to the DPG people so they know which to give us in the future. The workflow was the same as previously, just substituting the "mode" params for the "mean". The only other difference was that I added the LUTs to my CMSSW workspace myself. I had to put the \textbf{lut\_HR\_add\_mult.txt} file I made in \textbf{L1Trigger/L1TCalorimeter/data/}. Then, in the "mean" params file, add the path to this LUT in the variable \texttt{caloStage2Params.jetCalibrationLUTFile} ($\sim$L120). Then, I could make the CMSSW config, remake the ntuples, etc. to get the plots. From the results, it seems "mode" was better, and was what we requested for calibrations in 2018.
 
 Olivier asked me to plot the "jet resolution" for the uncalibrated jets as a function of $|\eta^{\mathrm{Ref}}|$, and compare the old params (with old MC) and new params (most recent MC, both "mean" and "mode"). He defined the jet resolution as
 
@@ -421,7 +421,7 @@ I've been asked to give a presentation during CMS Week about the 2017 status and
 As we've recently started the 2018 run of the LHC, we need calibrations to be conducted promptly so that the LUTs with scale factors can be deployed to the firmware, and data can be swiftly reconstructed and validated. The components I need are as follows:
 
 \begin{easylist}
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & CMSSW version: 10.0.3
 & Integration tag: \texttt{add100XLayer1SF} (encompasses tags \texttt{v97.20} - \texttt{97.22} rebased from CMSSW\_10\_0\_0)
 & Dataset: /QCD\_Pt-15to3000\_TuneCP5\_Flat\_13TeV\_pythia8/RunIISpring18DR-NZSPU0to70\_100X\_upgrade2018\_realistic\_v10-v1/GEN-SIM-RAW
@@ -466,7 +466,7 @@ When tuning the fits for the curves made with the normal params, they were prett
 STAGE2_DEFAULT_PARAMS_JETMETERR = [1.86431, -1.34016e+06, -2.85506e-08, 20.2633, -6.40935e-07, -1.54, 1.06511]
 \end{lstlisting}
 
-Then, I reran \textbf{runCalibration.py} to get the root file with better fits I was able to tune. As with the CMSSW\_9\_2\_X JECs, I got the weird error \texttt{buffer is too small for requested array} when running \textbf{runCalibration.py}. Again, I had to source my CMSSW\_9\_0\_0\_pre2 release and run in that environment. I also had to apply another "Joe hack" for $2.964 < |\eta| < 3.489$.
+Then, I reran \textbf{runCalibration.py} to get the root file with better fits I was able to tune. As with the CMSSW\_9\_2\_X JECs, I got the weird error \texttt{buffer is too small for requested array} when running \textbf{runCalibration.py}. Again, I had to source my CMSSW\_9\_0\_0\_pre2 release and run in that environment. I also had to apply another "Joe hack" for $2.964 < \abseta < 3.489$.
 
 Once the calibrations were complete and the LUTs were made, I needed to perform the closure tests. To remake the ntuples with the calibrations, I needed to copy my \textbf{lut\_HR\_add\_mult.txt}, \textbf{lut\_HR\_pt.txt} and textbf{lut\_HR\_eta.txt} to \textbf{L1Trigger/L1TCalorimeter/data/} (giving the files some kind of unique marker to avoid confusion) and add the paths to those files in the calo params file. The variable \texttt{caloStage2Params.jetCalibrationLUTFile} requires the path to \textbf{lut\_HR\_add\_mult.txt}, then \texttt{jetCompressPtLUTFile} and \texttt{jetCompressEtaLUTFile} require the pt and eta LUTs, respectively. Then, I needed to change \texttt{jetCalibrationType} to turn the JECs on. The cmsDriver command was the same as when generating the config for the initial ntuples, just with a different \texttt{python\_filename}. The same recipe could be applied to JECs derived with the ECAL ZS params. I presented an update at the DPG meeting: \href{run:./sec20/20180423 L1 JEC comparison (2017 vs early 2018).pdf}{L1 JEC comparison (2017 vs early 2018).pdf}.
 

@@ -7,12 +7,12 @@ With Bjoern's help, I created some macros to compare and analyse histograms. To 
 
 Three types of files were created: the header file (.h) which contains the information and declarations, etc., pertaining to the tree in the root file; the source file (.C) in which most of the analysis commands are executed; the "daddy" macro, which is what is executed in \ROOT and ties the other source files and executes the necessary loops, etc.
 
-As an example, I'm analysing the $\eta$ component of a jet from a \madgraph analysis from the processes $pp \rightarrow t\bar{t}$, $pp \rightarrow W +$ jets, and $pp \rightarrow Z +$ jets. These are SM backgrounds for a hadronic search because the DM final state is usually large \etmiss\ and several jets. The \madgraph output is converted into a .root file using my \textbf{rootconverter.sh} script. Then \ROOT is launched and the analysis is done by executing the "daddy" macro (\textbf{execComparejets.C}) and I get a histogram out of it with three normalized plots of the respective Jet.Eta plots.
+As an example, I'm analysing the $\eta$ component of a jet from a \madgraph analysis from the processes $\Pp\Pp \rightarrow \ttbar$, $\Pp\Pp \rightarrow W +$ jets, and $\Pp\Pp \rightarrow Z +$ jets. These are SM backgrounds for a hadronic search because the DM final state is usually large \etmiss\ and several jets. The \madgraph output is converted into a .root file using my \textbf{rootconverter.sh} script. Then \ROOT is launched and the analysis is done by executing the "daddy" macro (\textbf{execComparejets.C}) and I get a histogram out of it with three normalized plots of the respective Jet.Eta plots.
 
 So in total I had 10 files used (daddy macro + $3\times3$ files for each analysis -- source file, header file, root file):
 
 \begin{easylist}
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & execComparejets.C
 & ppttbar.C \quad ppttbar.h \quad ppttbar.root
 & ppWjets.C \quad ppWjets.h \quad ppWjets.root
@@ -38,7 +38,7 @@ The output \textbf{comparejets.png}:
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./sec11/comparejetsv1.png}
-\caption{Multiple histograms showcasing the normalized entries versus pseudorapidity from three standard model processes: $pp \rightarrow t\bar{t}$ (blue); $pp \rightarrow W +$ jets (red); and $pp \rightarrow Z +$ jets (green).}
+\caption{Multiple histograms showcasing the normalized entries versus pseudorapidity from three standard model processes: $\Pp\Pp \rightarrow \ttbar$ (blue); $\Pp\Pp \rightarrow W +$ jets (red); and $\Pp\Pp \rightarrow Z +$ jets (green).}
 \end{figure}
 
 I should find a way to plot such that the histogram with the largest $y$-value is plotted first. So for the time being, until I can streamline it, the process for getting and analysing data is as follows:
@@ -59,7 +59,7 @@ I should find a way to plot such that the histogram with the largest $y$-value i
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./sec11/comparejetsv2.pdf}
-\cprotect\caption{Multiple histograms showcasing the normalized entries versus pseudorapidity from three standard model processes: $pp \rightarrow t\bar{t}$ (blue); $pp \rightarrow W +$ jets (red); and $pp \rightarrow Z +$ jets (green). These were plotted as a histogram stack. The left panel is from the base \texttt{Draw()} command in \ROOT, and the right panel displays the same stack as a "lego" plot.}
+\cprotect\caption{Multiple histograms showcasing the normalized entries versus pseudorapidity from three standard model processes: $\Pp\Pp \rightarrow \ttbar$ (blue); $\Pp\Pp \rightarrow W +$ jets (red); and $\Pp\Pp \rightarrow Z +$ jets (green). These were plotted as a histogram stack. The left panel is from the base \texttt{Draw()} command in \ROOT, and the right panel displays the same stack as a "lego" plot.}
 \end{figure}
 
 I've updated my macros slightly to divide the canvas and make a "lego" plot that's angled slightly to give a different perspective. Both plots were created using the \texttt{THStack} class so that the histograms can be added and then plotted as a stack so you don't get any weird overlap like you do when plotting them one-by-one. I haven't updated the code enough to justify sticking it in the lab book. Maybe I'll add it once I've figured out how to add the legend and added some other features.
@@ -102,22 +102,22 @@ In this version of the code, each histogram was normalized according to the lumi
 
 \begin{equation}
 \label{eq:lumiexpev}
-N = \sigma \mathcal{L}
+N = \sigma \lumi
 \end{equation}
 
-where $N$ is the number of events, $\sigma$ is the interaction cross section, and $\mathcal{L}$ is the luminosity. These values are detailed in Table~\ref{tab:comparison}. Then the scale factor is
+where $N$ is the number of events, $\sigma$ is the interaction cross section, and $\lumi$ is the luminosity. These values are detailed in Table~\ref{tab:comparison}. Then the scale factor is
 
 \begin{equation}
-s.f. = \sigma \mathcal{L} / N
+s.f. = \sigma \lumi / N
 \end{equation}
 
-and is dimensionless, since [$\sigma$] = pb and [$\mathcal{L}$] = pb$^{-1}$.
+and is dimensionless, since [$\sigma$] = pb and [$\lumi$] = pb$^{-1}$.
 
 \begin{table}[H]
 \centering
     \begin{tabular}{|l|l|l|l|}
     \hline
-    Property                                & $pp \rightarrow t\bar{t}$ & $pp \rightarrow W + \mathrm{jets}$ & $pp \rightarrow Z^0 + \mathrm{jets}$ \\ \hline
+    Property                                & $\Pp\Pp \rightarrow \ttbar$ & $\Pp\Pp \rightarrow W + \mathrm{jets}$ & $\Pp\Pp \rightarrow Z^0 + \mathrm{jets}$ \\ \hline
     Number of Events (MadGraph)             & 100 000 & 100 000 & 100 000 \\
     Cross section (pb)                      & 504.9   & $2.144\times10^4$ & $1.166\times10^4$ \\
     Assumed luminosity (pb$^{-1}$)		& 20 000	& 20 000 & 20 000 \\
@@ -129,7 +129,7 @@ and is dimensionless, since [$\sigma$] = pb and [$\mathcal{L}$] = pb$^{-1}$.
 \label{tab:comparison}
 \end{table}
 
-The luminosity from a process is given in the stream of output text during a \madgraph run, but I didn't realise until after I had made the plots. So I just assumed the luminosity was 20 fb$^{-1}$ (20,000 pb$^{-1}$). The luminosity would most likely be different for each decay and so would scale the histograms slightly differently, but the point of this exercise was to demonstrate the technique behind filling and plotting histograms rather than a rigorous analysis. The efficiency was just calculated from the number of events after the cut $\div$ number before the cut.
+The luminosity from a process is given in the stream of output text during a \madgraph run, but I didn't realise until after I had made the plots. So I just assumed the luminosity was 20\fbinv (20,000 pb$^{-1}$). The luminosity would most likely be different for each decay and so would scale the histograms slightly differently, but the point of this exercise was to demonstrate the technique behind filling and plotting histograms rather than a rigorous analysis. The efficiency was just calculated from the number of events after the cut $\div$ number before the cut.
 
 \section{Running \madgraph for benchmarks}
 

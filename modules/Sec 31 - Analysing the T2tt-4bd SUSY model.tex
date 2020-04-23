@@ -66,7 +66,7 @@ So that the directories were of the form \textbf{SMS-T2tt\_mStop-$<$\#$>$\_mLSP-
 There are several components that make up an analysis of any model. For this model, we need
 
 \begin{easylist}[itemize]
-\ListProperties(Style*=-- , FinalMark={)})
+\easylistprops
 & Feynman diagram
 & Limit plane
 & Uncertainties from systematic sources for benchmark models
@@ -147,7 +147,7 @@ which should give me nice limit plots. If I wanted to change anything aesthetica
 
 % UPDATE IF I MAKE CHANGES TO PLOT
 
-Rob asked whether there was any signal contamination from the $\mu +$ jets CR, and it turns out there wasn't. This was a bug that appeared in some of the other SMS models as well, more evident in T1tttt and T2tt as they're more leptonic than the other models. The signal contamination should be most evident for mass splittings of $\sim 80\GeV$, as the sparticle can decay with an off-shell $W$ boson that decays leptonically. The source of the bug was due to the trigger bit information not being in the trees (which I noticed previously when making the cut flow tables in Sec.~\ref{sec:cutflowtables2016paper}). However, we wouldn't need to regenerate the trees \emph{with} the trigger bits (as that would take ages), we'd just need to comment out \texttt{skimSequence.append(triggerSkimmer2016)} in \textbf{Sequences/Sequence2016.py} in AlphaTools. Then, I could just re-run the limits workflow from the StatsAnalyzer stage.
+Rob asked whether there was any signal contamination from the $\mu +$ jets CR, and it turns out there wasn't. This was a bug that appeared in some of the other SMS models as well, more evident in T1tttt and T2tt as they're more leptonic than the other models. The signal contamination should be most evident for mass splittings of $\sim 80\GeV$, as the sparticle can decay with an off-shell \PW boson that decays leptonically. The source of the bug was due to the trigger bit information not being in the trees (which I noticed previously when making the cut flow tables in Sec.~\ref{sec:cutflowtables2016paper}). However, we wouldn't need to regenerate the trees \emph{with} the trigger bits (as that would take ages), we'd just need to comment out \texttt{skimSequence.append(triggerSkimmer2016)} in \textbf{Sequences/Sequence2016.py} in AlphaTools. Then, I could just re-run the limits workflow from the StatsAnalyzer stage.
 
 
 \subsection{Feynman diagram}
@@ -190,7 +190,6 @@ A root file containing the systematic variations per njet, nb and HT bin is crea
 
 \begin{landscape}
 \begin{table}[H]
-    \label{tab:T2tt-4bdSUS16038systs}
     \centering
     \small
     \begin{tabular}{ ccccccccccccc }
@@ -201,6 +200,7 @@ A root file containing the systematic variations per njet, nb and HT bin is crea
         \hline \hline
         \end{tabular}
     \caption{T2tt-4bd: Representative range taken from the $16\%$ and $84\%$ percentiles of the uncertainty across the analysis bins for each source of signal systematic. One benchmark point is chosen for this model, corresponding to the ``compressed'' scenario, i.e. with small mass splitting between the mother particle and the LSP.}
+    \label{tab:T2tt-4bdSUS16038systs}
 \end{table}
 \end{landscape}
 
@@ -419,7 +419,7 @@ For the cut flows, I used the same workflow as in Section~\ref{sec:cutflowtables
    $\ptjone > 100\GeV$ & \phantom{1}41\phantom{.1} \\
    $\HT > 200\GeV$  & \phantom{1}37\phantom{.1} \\
   $\mht > 200\GeV$  & \phantom{1}26\phantom{.1}  \\
-  Event veto for forward jets ($|\eta| > 2.4$) & \phantom{1}22\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 2.4$) & \phantom{1}22\phantom{.1} \\
   $\mht / \etmiss < 1.25$ & \phantom{1}20\phantom{.1} \\
   \HT-dependent \alphat requirements ($\HT < 900\GeV$)  & \phantom{1}11\phantom{.1} \\
   $\biasedDPhi > 0.5$  & \phantom{10}8.3 \\
@@ -448,14 +448,14 @@ tdr --draft --style=an b AN-17-122
 
 Then the path to the pdf will be given.
 
-I gave a presentation to RA1 about the analysis for this model: \href{run:./sec31/T2tt-4bd analysis complete (16-11-2017).pdf}{T2tt-4bd analysis complete (16-11-2017)}. The main, interesting comments were about the limit per bin plot, the cut flow tables and the most sensitive \njet categories plot. Shane expected the $2b$ categories to drive the sensitivity in the limit per bin plot. But because the mass splitting is small, there's only a small amount of energy to be distributed among the $b$jets, making them soft. With the cut flow tables, the same effect of the efficiencies not agreeing with the signal acceptance $\times$ efficiency values, applies here. The plot gives an efficiency of 9.4\%, while the table gives it as 8.3\%. I think this is due to the plot calculating the post-fit efficiency, while my tables calculate the pre-fit (because I only re-weight the trees). Then, in the \njet categories plot, two mass points were missing. In the raw plot, those two mass points were present but the values associated to their most sensitive categories were low, and so weren't included in the final plot. I don't think this is an issue as only 1\% of the models are affected.
+I gave a presentation to RA1 about the analysis for this model: \href{run:./sec31/T2tt-4bd analysis complete (16-11-2017).pdf}{T2tt-4bd analysis complete (16-11-2017)}. The main, interesting comments were about the limit per bin plot, the cut flow tables and the most sensitive \njet categories plot. Shane expected the $2b$ categories to drive the sensitivity in the limit per bin plot. But because the mass splitting is small, there's only a small amount of energy to be distributed among the \Pqb-jets, making them soft. With the cut flow tables, the same effect of the efficiencies not agreeing with the signal acceptance $\times$ efficiency values, applies here. The plot gives an efficiency of 9.4\%, while the table gives it as 8.3\%. I think this is due to the plot calculating the post-fit efficiency, while my tables calculate the pre-fit (because I only re-weight the trees). Then, in the \njet categories plot, two mass points were missing. In the raw plot, those two mass points were present but the values associated to their most sensitive categories were low, and so weren't included in the final plot. I don't think this is an issue as only 1\% of the models are affected.
 
 I had to give an approval talk for the model at a SUSY inclusive meeting. The slides are here: \href{run:./sec31/T20180213 T2tt-4bd approval.pdf}{20180213 T2tt-4bd approval}.
 
 
 \section{Analysing the chargino-mediated model (T2bW\_X05, 03/04/2018)}
 
-At the approval talk, one of the suggestions was to instead analyse the chargino-mediated model (sometimes referred to as "T2bW" or "T2bW\_X05") rather than the prompt decay model. Finding the Higgs at 125 GeV gives this model a better chance of being found over the prompt decay. In this version, the stop decays into a chargino and $b$, with the chargino decaying into the LSP and $W$: $p \rightarrow \tilde{t} \bar{\tilde{t}}, \ \tilde{t} \rightarrow b\tilde{\chi}^{\pm}, \ \tilde{\chi}^{\pm} \rightarrow W^* \tilde{\chi}_1^0$.
+At the approval talk, one of the suggestions was to instead analyse the chargino-mediated model (sometimes referred to as "T2bW" or "T2bW\_X05") rather than the prompt decay model. Finding the Higgs at 125 GeV gives this model a better chance of being found over the prompt decay. In this version, the stop decays into a chargino and \Pqb, with the chargino decaying into the LSP and \PW: $p \rightarrow \tilde{t} \bar{\tilde{t}}, \ \tilde{t} \rightarrow b\tilde{\chi}^{\pm}, \ \tilde{\chi}^{\pm} \rightarrow W^* \tilde{\chi}_1^0$.
 
 I used CMSSW\_8\_0\_25 with my fork of \emph{cmgtools-lite-private}, the CMGTools branch \emph{80X-ra1-0.7.x-Moriond17Prod-EshSUSYcutflow2016} and added the dataset \textbf{/SMS-T2bW\_X05\_dM-10to80\_genHT-160\_genMET-80\_mWMin-0p1\_TuneCUETP8M1\_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16Fast\_80X\_mcRun2\_asymptotic\_2016\_miniAODv2\_v0-v1/MINIAODSIM} to the components. I ran AtLogicNoSelection to make the flat trees, storing them at \textbf{/vols/cms/RA1/80X/MC/20180329\_S01/} on Imperial and analysed them in virtually the same fashion as the prompt model.
 
@@ -481,7 +481,6 @@ We chose a benchmark model at (500, 460). Usually, when choosing benchmark point
 
 \begin{landscape}
 \begin{table}[H]
-    \label{tab:T2bWSUS16038systs}
     \centering
     \small
     \begin{tabular}{ ccccccccccccc }
@@ -492,6 +491,7 @@ We chose a benchmark model at (500, 460). Usually, when choosing benchmark point
         \hline \hline
         \end{tabular}
     \caption{T2bW\_X05: Representative range taken from the $16\%$ and $84\%$ percentiles of the uncertainty across the analysis bins for each source of signal systematic. One benchmark point is chosen for this model, corresponding to the ``compressed'' scenario, i.e. with small mass splitting between the mother particle and the LSP.}
+    \label{tab:T2bWSUS16038systs}
 \end{table}
 \end{landscape}
 
