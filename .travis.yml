@@ -1,0 +1,43 @@
+language: generic
+dist: bionic
+
+before_install:
+ - fc-cache -f -v
+
+install:
+  - source ./texlive/texlive_install.sh
+
+cache:
+  directories:
+    - /tmp/texlive
+    - $HOME/.texlive
+
+before_script:
+  - cp labbook.tex labbook_ci.tex
+  - cp labbook.tex labbook_ci_draft.tex
+
+script:
+  # Texliveonfly will download packages automatically
+  - texliveonfly --arguments="-synctex=1 -interaction=nonstopmode" labbook_ci.tex
+
+  # Fully compile normal version of pdf
+  - latexmk -synctex=1 -interaction=nonstopmode -pdf -file-line-error labbook_ci.tex
+
+  # Fully compile draft version of pdf with glossary
+  - texliveonfly --arguments="-synctex=1 -interaction=nonstopmode \"\PassOptionsToClass{draft}{memoir}\input{labbook}\"" labbook_ci_draft.tex
+  - latexmk -synctex=1 -interaction=nonstopmode -pdf -file-line-error "\PassOptionsToClass{draft}{memoir}\input{labbook_ci_draft}"
+
+  # Word count
+  - texcount -html -inc ./labbook.tex > word_count.html
+
+
+deploy:
+  provider: releases
+  token: $GITHUB_CI_TOKEN  # Secure variable for GitHub token. Set in settings page of repository (on Travis CI)
+  file:
+    - ./labbook_ci.pdf
+    - ./labbook_ci_draft.pdf
+    - ./word_count.html
+  skip_cleanup: true
+  on:
+    tags: true
