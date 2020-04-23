@@ -1,4 +1,4 @@
-\newpage
+
 \chapter{Evaluating backgrounds in a dark matter search from a CMS Physics Analysis Summary (17/11/2016)}
 
 So that I can begin doing some proper analysis, I will be using a CMS Physics Analysis Summary (PAS)~\cite{CMS:2016pod} as a template. The information in the paper will be used to create an analysis file to run in \madanalysis. The paper states that 90\% of the backgrounds in this type of dark matter search can be attributed to Standard Model decays into $W^{\pm} / Z$ + jet. So I've created an input file for \madanalysis to apply the cuts given for the monojet analysis in the paper: $|\eta| < 2.5$, leading jet $\pt > 100\GeV$, $\etmiss > 200\GeV$, no leptons, no $b$-quarks. This way I can plot the backgrounds that I generated previously for $pp \rightarrow W +$ jets and $pp \rightarrow Z +$ jets (with some minor changes: removing the lepton \pt cut, and generating more events). Then we get an estimate of these backgrounds for the DM search -- which will be enhanced with more events, etc., in the future -- and can then start thinking about implementing the other backgrounds for this search. Then we can look for a signal. At the LHC, monojets are used most prominently to look for dark matter particles. This because when the protons collide and produce dark matter, the incoming protons can emit gluons or jets before the collision and recoil from the dark matter, so you get a boosted jet because the DM particles are heavy.
@@ -247,7 +247,7 @@ I will also run \madgraph for the $pp \rightarrow Z$ + jets process with 1,000,0
 
 After simulating 1,000,000 \madgraph events with each process, I then analysed them with \madanalysis using the input file displayed below (under \textbf{1.1 Command history}). The weight for each event is still high (245 for $W$ + jets, and 150 for $Z$ + jets), but a factor of $\sim$5 lower than before (see Tables~\ref{tab:mybkgs200kevnt},~\ref{tab:diff-mine-cms}).
 
-The PDF from \madanalysis after analysing the processes: %\href{run:sec15/bkgtest_main.pdf}{bkgtest_main.pdf}.
+The PDF from \madanalysis after analysing the processes: \href{run:sec15/bkgtest_main.pdf}{bkgtest\_main.pdf}.
 
 The histograms before and after the cuts:
 

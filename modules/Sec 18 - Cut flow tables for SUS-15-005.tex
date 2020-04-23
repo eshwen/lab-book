@@ -1,4 +1,4 @@
-\newpage
+
 \chapter{Cut flow tables for SUS-15-005 (14/12/2016)}
 \label{sec:cutflowtablesSUS15005}
 
@@ -386,7 +386,7 @@ Below is the progress report I gave to the RA1 group regarding the progress we'v
 & Remember to credit the people who helped in the work/analysis, regardless of whether they helped to write the talk itself. Just follow the same rules as authorship in papers.
 \end{easylist}
 
-The link to the slides is %\href{run:sec18/Cut flow tables progress.pdf}{Cut flow tables progress}.
+The link to the slides is \href{run:sec18/Cut flow tables progress.pdf}{Cut flow tables progress}.
 
 \section{Configuring event selections using Tai's method}
 \label{subsec:taiscutflowirlcode}
@@ -487,8 +487,7 @@ The jet CHF variable is the charged hadron fraction of the jet. We've added supp
 
 I'll probably use Tai's method, as opposed to Dom's, to generate the cut flow tables for the benchmark models. With Tai's method, it could be possible to run over the MiniAOD files rather than the flat trees (which are created from MiniAODs), which might be better because tree production already applies some loose cuts which could then skew the results of the cut flow.  
 
-I wrote a short talk giving an update on the cut flows using Tai's method. The link to the slides is %\href{run:sec18/Cut flow tables progress II.pdf}{Cut flow tables progress II}.
-After presenting, the general consensus on how to proceed is to create flat trees from MiniAOD files in Heppy, applying no cuts. Then incorporate the code from Tai's cutflowirl repo into \textsc{AlphaTools} and rerun the procedure to generate cut flows, this time including every selection (as detailed in Sec.~\ref{subsubsec:currentprocedurecutflows}) regardless of whether they apply to these SMS models or not. Then we can discuss the order and grouping of the cuts and make nice, polished tables.
+I wrote a short talk giving an update on the cut flows using Tai's method. The link to the slides is \href{run:sec18/Cut flow tables progress II.pdf}{Cut flow tables progress II}. After presenting, the general consensus on how to proceed is to create flat trees from MiniAOD files in Heppy, applying no cuts. Then incorporate the code from Tai's cutflowirl repo into \textsc{AlphaTools} and rerun the procedure to generate cut flows, this time including every selection (as detailed in Sec.~\ref{subsubsec:currentprocedurecutflows}) regardless of whether they apply to these SMS models or not. Then we can discuss the order and grouping of the cuts and make nice, polished tables.
 
 \section{Creating the cut flow tables for the benchmark models}
 

@@ -1,11 +1,11 @@
-\newpage
+
 \chapter{Service Work: Jet and \texorpdfstring{\etmiss\ }{ETmiss} studies (22/11/2017)}
 
 To become more integrated in the Level-1 Trigger, as well as continuing with the JECs and taking on shifts, I've been asked to take over some of the MET studies Batool has previously done. This should all count towards the EPR I need for authorship, and I can check my progress at \url{https://icms.cern.ch/epr/showMine}.
 
 \section{Understanding high-MET events in Zero Bias}
 
-I've been asked to make various plots of events that are firing the \texttt{L1\_MET100} trigger to see if there are obvious issues with hot towers, ECAL spikes, PU mis-estimation, etc. Aaron wrote a macro that can make some plots needed. I modified it to add extra features, extra plots and tidied up some of the code. Then, I bunged everything into a new GitHub repository for version control and safeguarding -- \url{https://github.com/eshwen/High-MET-studies}. One of the revisions of the macro is located here: %\href{run:sec34/MET_studies_v6/doMetStudy.cxx}{doMetStudy.cxx (v6)}.
+I've been asked to make various plots of events that are firing the \texttt{L1\_MET100} trigger to see if there are obvious issues with hot towers, ECAL spikes, PU mis-estimation, etc. Aaron wrote a macro that can make some plots needed. I modified it to add extra features, extra plots and tidied up some of the code. Then, I bunged everything into a new GitHub repository for version control and safeguarding -- \url{https://github.com/eshwen/High-MET-studies}. One of the revisions of the macro is located here: \href{run:sec34/MET_studies_v6/doMetStudy.cxx}{doMetStudy.cxx (v6)}.
 
 If I source a CMSSW release that contains the L1Trigger packages (because I need some header files contained within them), i.e., the CMSSW I use for JECs, I can run the macro with
 

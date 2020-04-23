@@ -1,4 +1,4 @@
-\newpage
+
 \chapter{Filling, Comparing and Normalizing Histograms using Macros (02/11/2016)}
 
 With Python, it's quite easy to plot and slightly manipulate the contents of .root files. But once the analysis gets a bit more complicated (e.g., normalizing histograms), it's difficult to accomplish in Python because most of the stuff (like the classes and documentation) is written in/for C++. So for the time being, I'll be writing C++ macros rather than Python scripts for analysis.
@@ -31,10 +31,7 @@ The C source file \textbf{ppttbar.C}:
 
 \lstinputlisting[language=C++, caption={A C++ macro used to analyse the root file with the same name. A histogram is declared and filled with the Jet.Eta branch from the tree, then a histogram is drawn and normalised. File name: ppttbar.C (v1).}]{./sec11/ppttbarv1.C}
 
-The header file \textbf{pptbar.h}:
-
-%\href{run:./sec11/ppttbarv1.h}{ppttbar.h}:
-The header file for the macro with the same name (ppttbar). I didn't display the file itself because the code stretches over 10 pages. This file includes all the declarations, branch names and other information relating to the root file. File name: ppttbar.h (v1).
+The header file \href{run:./sec11/ppttbarv1.h}{ppttbar.h}: The header file for the macro with the same name (ppttbar). I didn't display the file itself because the code stretches over 10 pages. This file includes all the declarations, branch names and other information relating to the root file. File name: ppttbar.h (v1).
 
 The output \textbf{comparejets.png}:
 
