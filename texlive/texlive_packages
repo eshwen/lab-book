@@ -18,6 +18,8 @@ minted fvextra upquote lineno xstring framed caption
 # thesis-specific
 nag
 biber
+biblatex
 babel-spanish
 babel-english
 texcount
+textcase
