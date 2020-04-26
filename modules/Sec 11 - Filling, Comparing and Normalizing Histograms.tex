@@ -59,7 +59,7 @@ I should find a way to plot such that the histogram with the largest $y$-value i
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{./sec11/comparejetsv2.pdf}
-\cprotect\caption{Multiple histograms showcasing the normalized entries versus pseudorapidity from three standard model processes: $\Pp\Pp \rightarrow \ttbar$ (blue); $\Pp\Pp \rightarrow W +$ jets (red); and $\Pp\Pp \rightarrow Z +$ jets (green). These were plotted as a histogram stack. The left panel is from the base \texttt{Draw()} command in \ROOT, and the right panel displays the same stack as a "lego" plot.}
+\caption{Multiple histograms showcasing the normalized entries versus pseudorapidity from three standard model processes: $\Pp\Pp \rightarrow \ttbar$ (blue); $\Pp\Pp \rightarrow W +$ jets (red); and $\Pp\Pp \rightarrow Z +$ jets (green). These were plotted as a histogram stack. The left panel is from the base \texttt{Draw()} command in \ROOT, and the right panel displays the same stack as a "lego" plot.}
 \end{figure}
 
 I've updated my macros slightly to divide the canvas and make a "lego" plot that's angled slightly to give a different perspective. Both plots were created using the \texttt{THStack} class so that the histograms can be added and then plotted as a stack so you don't get any weird overlap like you do when plotting them one-by-one. I haven't updated the code enough to justify sticking it in the lab book. Maybe I'll add it once I've figured out how to add the legend and added some other features.

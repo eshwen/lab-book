@@ -152,7 +152,6 @@
 \usepackage{booktabs}                   % for table formatting macros. Other good formatting tips in the package manual
 
 \usepackage{texnames}
-\usepackage{cprotect} % so I can use \verb and other commands within captions
 \usepackage{spverbatim} % for linebreaks in the verbatim environment
 \usepackage[normalem]{ulem} % for underlining over multiple lines. Need "normalem" option otherwise \emph underlines
 \usepackage{pdflscape} % for landscape-oriented tables
@@ -295,9 +294,10 @@
 \addtocontents{lot}{\par\nobreak\textbf{{\scshape Table} \hfill Page}\par\nobreak}
 \clearpage
 
-%\lstlistoflistings
-%\addtocontents{lol}{\par\nobreak\textbf{{\scshape Listing} \hfill Page}\par\nobreak}
-%\clearpage
+\lstlistoflistings
+\addcontentsline{toc}{chapter}{List of Code Listings}
+\addtocontents{lol}{\par\nobreak\textbf{{\scshape Code Listing} \hfill Page}\par\nobreak}
+\clearpage
 
 \mainmatter
 
