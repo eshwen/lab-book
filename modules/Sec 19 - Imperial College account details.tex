@@ -25,7 +25,7 @@ I can ssh into both lx00 and lx01, they both take me to the same place. So I don
 qsub -q hep.q <submission script>
 \end{lstlisting}
 
-I can also specify a maximum time for a job by adding the option \texttt{-l h\_rt=<hours>:<minutes>:<seconds>}. The maximum, and also default, is 48 hours. Typing \verb!man qsub! and \verb!man sge_intro! displays the manual and other commands, respectively. I can check on jobs by typing
+I can also specify a maximum time for a job by adding the option \texttt{-l h\_rt=<hours>:<minutes>:<seconds>}. The maximum, and also default, is 48 hours. Typing \texttt{man qsub} and \texttt{man sge\_intro} displays the manual and other commands, respectively. I can check on jobs by typing
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 qstat
@@ -37,7 +37,7 @@ I can delete jobs by typing
 qdel <job ID>
 \end{lstlisting}
 
-where \verb!job ID! is the number in the first column of output when typing \verb!qstat!. Or I can type
+where \texttt{job ID} is the number in the first column of output when typing \texttt{qstat}. Or I can type
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 qdel -u ebhal

@@ -16,13 +16,13 @@ I've been instructed to make DMSimp dark matter trees. These are for scalar, pse
 
 \end{easylist}
 
-These are from the Summer16 batch, as can be inferred from the paths above. The number assigned to \verb!crossSection! is the one computed through the "genAnalyzer" on the sample itself.
+These are from the Summer16 batch, as can be inferred from the paths above. The number assigned to \texttt{crossSection} is the one computed through the "genAnalyzer" on the sample itself.
 
 Using CMSSW\_8\_0\_25, I went into \textbf{CMGTools/}, then created the branch \emph{80X-ra1-0.7.x-Moriond17ProdEshDevDMSimpProd20170516} to store my edits. Moving to \textbf{RA1/cfg/}, I created a config file called \textbf{run\_AtLogic\_MCSummer16\_DMSimp\_cfg.py}. This config uses \textbf{run\_AtLogic\_MCSummer16\_DM\_cfg.py} as a template, but is tailored to the samples I received for the models above. In \textbf{RA1/python/components/} I made a file to store the samples: \textbf{components\_MC\_DMSimp\_Summer16.py}.
 
 The config and component files are here: \href{run:sec24/run_AtLogic_MCSummer16_DMSimp_cfgv1.py}{run\_AtLogic\_MCSummer16\_DMSimp\_cfg.py (v1)}; \href{run:sec24/components_MC_DMSimp_Summer16v1.py}{components\_MC\_DMSimp\_Summer16.py (v1)}.
 
-I've been getting problems when testing. The error message being "Unknown string id in LHE weights". When opening the script that gives the message (\textbf{\$CMSSW\_BASE/python/PhysicsTools/Heppy/analyzers/gen/LHEWeightAnalyzer.py}), there's a comment stating that only certain formats pertaining to the weight are allowed. In the config, I've tried removing the LHE weight instances but the same error pops up. So I copied one of the root files used when testing -- by going to the DAS, typing in the dataset, finding the individual root files and then using the \verb!xrdcp! command within CMSSW to copy it -- to see if I could find the format used to define the weights.
+I've been getting problems when testing. The error message being "Unknown string id in LHE weights". When opening the script that gives the message (\textbf{\$CMSSW\_BASE/python/PhysicsTools/Heppy/analyzers/gen/LHEWeightAnalyzer.py}), there's a comment stating that only certain formats pertaining to the weight are allowed. In the config, I've tried removing the LHE weight instances but the same error pops up. So I copied one of the root files used when testing -- by going to the DAS, typing in the dataset, finding the individual root files and then using the \texttt{xrdcp} command within CMSSW to copy it -- to see if I could find the format used to define the weights.
 
 % What does DMSimp mean? and what makes it different from other dark matter models?
 

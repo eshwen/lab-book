@@ -46,7 +46,7 @@ cd $CMSSW_BASE/src
 scram b -j 9
 \end{lstlisting}
  
-Then I should have all the code necessary for tree production. The default branch I'll be on in \textbf{\$CMSSW\_BASE/src/} will be \verb!heppy_80X_ra1-0.7.x!. In \textbf{./CMGTools/} there are two branches: \verb!80X-ra1-0.7.x! and \verb!80X-ra1-0.7.x-Moriond17Prod!. The former contains lists of the SMS and DM samples from Spring16, but need to be updated to Summer16 where applicable. The latter has been used to produce the DM samples from Summer16 (see \textbf{CMGTools/RA1/python/components/components\_MC\_DM\_Summer16.py}).
+Then I should have all the code necessary for tree production. The default branch I'll be on in \textbf{\$CMSSW\_BASE/src/} will be \texttt{heppy\_80X\_ra1-0.7.x}. In \textbf{./CMGTools/} there are two branches: \texttt{80X-ra1-0.7.x} and \texttt{80X-ra1-0.7.x-Moriond17Prod}. The former contains lists of the SMS and DM samples from Spring16, but need to be updated to Summer16 where applicable. The latter has been used to produce the DM samples from Summer16 (see \textbf{CMGTools/RA1/python/components/components\_MC\_DM\_Summer16.py}).
 
 I also cloned a fresh copy of AlphaTools for analysing the trees:
 
@@ -78,7 +78,7 @@ At IC, the path \textbf{/vols/cms/RA1/80X/MC/20170210\_SUSY\_DM\_PreAppr/} conta
 & \textbf{AtLogicNoSelection\_MCMiniAODv2\_SUSY\_SMS\_FastSim/}: SUSY SMS T1bbbb, T2cc, and T2tt models (Spring16, OBSELETE).
 \end{easylist}
 
-For now, I just need to produce the trees for the T2bb SMS model from Spring16. For the paper, we would (in theory) need all the models to be from Summer16, but the SUSY model makers decided it wasn't worth updating the Spring16 models because the changes wouldn't be significant. Making the trees for T2bb was fairly simple. In the cfg file I just had to comment out everything except \verb!componentList.append(cmps.SMS_T2bb_madgraphMLM)! in the function \texttt{componentList = [ ]}. Then I recompiled, committed everything and tagged the code (which is \textbf{80X\_MC\_20170426\_S01} for the T2bb Spring16 trees). To submit the jobs, the command was
+For now, I just need to produce the trees for the T2bb SMS model from Spring16. For the paper, we would (in theory) need all the models to be from Summer16, but the SUSY model makers decided it wasn't worth updating the Spring16 models because the changes wouldn't be significant. Making the trees for T2bb was fairly simple. In the cfg file I just had to comment out everything except \texttt{componentList.append(cmps.SMS\_T2bb\_madgraphMLM)} in the function \texttt{componentList = [ ]}. Then I recompiled, committed everything and tagged the code (which is \textbf{80X\_MC\_20170426\_S01} for the T2bb Spring16 trees). To submit the jobs, the command was
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 heppyBatchAlphaT.py -o $OUTDIR -c AtLogicNoSelection_MCMiniAODv2_SUSY_SMS_FastSim
@@ -115,7 +115,7 @@ The mass points were still merged into one tree per model for production, so the
 
 \section{Getting the StatsInput for the SMS models (Spring16 datasets)}
 
-I've set up AlphaTools (v1.10.x branch) on Imperial's remote server (lx00/lx01). The main code is located in \textbf{$\sim$/CMScmg\_imperial/AlphaTools/analysis/}, which also has the alias \textbf{\$ALPHATOOLSDIR}. Using this, I can find the systematic uncertainties for the SMS models. First I need to change some stuff in \textbf{Configuration/config\_cfi\_2016.py}. At L23 (the dict \verb!basedirSignalModelsDict!), for each SMS model I needed to add its name as the dictionary key, with path to the trees as its value. The variable \texttt{basedir = "/vols/cms/RA1/80X/"}, so I can set the key-value pair for, e.g., T1bbbb as
+I've set up AlphaTools (v1.10.x branch) on Imperial's remote server (lx00/lx01). The main code is located in \textbf{$\sim$/CMScmg\_imperial/AlphaTools/analysis/}, which also has the alias \textbf{\$ALPHATOOLSDIR}. Using this, I can find the systematic uncertainties for the SMS models. First I need to change some stuff in \textbf{Configuration/config\_cfi\_2016.py}. At L23 (the dict \texttt{basedirSignalModelsDict}), for each SMS model I needed to add its name as the dictionary key, with path to the trees as its value. The variable \texttt{basedir = "/vols/cms/RA1/80X/"}, so I can set the key-value pair for, e.g., T1bbbb as
 
 \begin{lstlisting}[belowskip=-0.7cm, language=python, numbers=none]
 "T1bbbb":basedir+"MC/20170510_SMS-Spring16_DM-Summer16/AtLogicNoSelection_MCMiniAODv2_SUSY_SMS_FastSim/SMS_splitMasses/",
@@ -153,7 +153,7 @@ git submodule update
 git submodule init
 \end{lstlisting}
 
-To initialise it I just need to source the setup script, which also creates the alias directory \textbf{\$ALPHASTATS=/home/hep/ebhal/CMScmg\_imperial/AlphaStats}. I'm using the branch \emph{v1.6.x-eshDev20170601}, based off v1.6.x. The output of StatsAnalyzer from AlphaTools is needed to get the efficiencies. If I edit \textbf{configStat.py}, I need to change \verb!inputDirSignal! to the path of the output from StatsAnalyzer (i.e., the folder that contains all of the systematics for a given model), and make sure the model(s) are specified in the \verb!signalModels! list (i.e, \emph{only} the model(s) I want to run over for this run). Also, make sure I have \texttt{dmModels = [ ]}, everything but \verb!"Signal"! in the \texttt{inputArguments.signalFiles[signalModel]} dict commented out (as I only have the signal component from StatsAnalyzer), and the only \texttt{sigHists} that's uncommented is \texttt{inputArguments.sigHists = "*"}. Running, via batch,
+To initialise it I just need to source the setup script, which also creates the alias directory \textbf{\$ALPHASTATS=/home/hep/ebhal/CMScmg\_imperial/AlphaStats}. I'm using the branch \emph{v1.6.x-eshDev20170601}, based off v1.6.x. The output of StatsAnalyzer from AlphaTools is needed to get the efficiencies. If I edit \textbf{configStat.py}, I need to change \texttt{inputDirSignal} to the path of the output from StatsAnalyzer (i.e., the folder that contains all of the systematics for a given model), and make sure the model(s) are specified in the \texttt{signalModels} list (i.e, \emph{only} the model(s) I want to run over for this run). Also, make sure I have \texttt{dmModels = [ ]}, everything but \texttt{"Signal"} in the \texttt{inputArguments.signalFiles[signalModel]} dict commented out (as I only have the signal component from StatsAnalyzer), and the only \texttt{sigHists} that's uncommented is \texttt{inputArguments.sigHists = "*"}. Running, via batch,
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 python batchSubmitOptimise.py -o <output directory> -f --options "-d --getDataLumi --greenBand --signalMCStat" --submit
@@ -165,7 +165,7 @@ should give me Higgs datacards and shape root files for each sample, separated b
 python makeCardsAndWs.py -i <output directory from optimiseBinning> -c "nB"
 \end{lstlisting}
 
-making sure the \verb!-c "nB"! flag is used to combine the \HT bins and \Pqb-categories, but not the jet categories. Next, I call \textbf{runCombineTask.py} to sort the categories by sensitivity with the command
+making sure the \texttt{-c "nB"} flag is used to combine the \HT bins and \Pqb-categories, but not the jet categories. Next, I call \textbf{runCombineTask.py} to sort the categories by sensitivity with the command
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 python runCombineTask.py -i <output directory from optimiseBinning> -t ASCLS_UL_PRIOR --what expected
@@ -177,7 +177,7 @@ Once that has run, I need to sort the \njet categories by sensitivity. This is d
 python sortCategories.py -i <output directory from optimiseBinning> -m ul -c "nB"
 \end{lstlisting}
 
-This should give me a file for each sample called \textbf{datacards\_for\_combination\_$<$sample$>$\_mht\_sorted.txt}, which contains a list of the combined Higgs datacard files, sorted by sensitivity in the \njet dimension. These files are then used as input for a version of the script \textbf{makeJetRankingPlot.py}, which I then modified and stripped down to include only the signal stuff, and reflect the changes between the 2015 and 2016 analyses (such as updating the \njet categories). This script, \textbf{makeJetRankingPlot\_2016\_SMS.py}. makes efficiency plots for the SMS models (and can be built upon to include DM models). I just need to set the path for \verb!inputFileStatsAnalyzer! to the \textbf{Signal\_SignalModels.root} file in the output from StatsAnalyzer. Then I can just type
+This should give me a file for each sample called \textbf{datacards\_for\_combination\_$<$sample$>$\_mht\_sorted.txt}, which contains a list of the combined Higgs datacard files, sorted by sensitivity in the \njet dimension. These files are then used as input for a version of the script \textbf{makeJetRankingPlot.py}, which I then modified and stripped down to include only the signal stuff, and reflect the changes between the 2015 and 2016 analyses (such as updating the \njet categories). This script, \textbf{makeJetRankingPlot\_2016\_SMS.py}. makes efficiency plots for the SMS models (and can be built upon to include DM models). I just need to set the path for \texttt{inputFileStatsAnalyzer} to the \textbf{Signal\_SignalModels.root} file in the output from StatsAnalyzer. Then I can just type
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 python makeJetRankingPlot_2016_SMS.py -i <output directory from optimiseBinning> -o <output directory for efficiency plots>
@@ -188,18 +188,18 @@ A link to the file is here: \href{run:sec23/makeJetRankingPlot_2016_SMSv1.py}{ma
 
 \section{Getting the StatsInput for the DM models (Summer16 datasets)}
 
-Finding the systematics for the HF DM models were very similar to the procedure for the SMS models. I needed to add the locations of the trees to \verb!basedirSignalModelsDict! in \textbf{Configuration/config\_cfi\_2016.py}. The keys for the models were "DMttP" and "DMttS", in accordance with the definitions in L159 of \textbf{Core/Process/makeProcess.py}. I could then run StatsAnalyzer with the command 
+Finding the systematics for the HF DM models were very similar to the procedure for the SMS models. I needed to add the locations of the trees to \texttt{basedirSignalModelsDict} in \textbf{Configuration/config\_cfi\_2016.py}. The keys for the models were "DMttP" and "DMttS", in accordance with the definitions in L159 of \textbf{Core/Process/makeProcess.py}. I could then run StatsAnalyzer with the command 
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 python StatsAnalyzer_cfg.py --outDir <output directory> --pset signalmodel --signalModel <key from config_cfi_2016, no other prefix/suffix> --nCores <number of cores> --dataMC mc
 \end{lstlisting}
 
-I did get an error when trying this. In \textbf{StatsAnalyzer\_cfg.py}, the systematics are defined in a list called \verb!systematics! at L39. At L58, if the model is DM, some of the systematics are supposed to be removed. However, they were already commented out in the \verb!systematics! list, so I could just comment out the removal commands at L59-60. Once that was fixed, I could run and then hadd the output without any problems.
+I did get an error when trying this. In \textbf{StatsAnalyzer\_cfg.py}, the systematics are defined in a list called \texttt{systematics} at L39. At L58, if the model is DM, some of the systematics are supposed to be removed. However, they were already commented out in the \texttt{systematics} list, so I could just comment out the removal commands at L59-60. Once that was fixed, I could run and then hadd the output without any problems.
 
 
 \section{Determining the efficiencies for the DM models (Summer16 datasets)}
 
-As with the systematics, running making the efficiency plots was quite similar to the procedure for the SMS models. In \textbf{configStat.py}, I had to include the paths to the StatsAnalyzer output for the DM models (this time assigning them to \verb!inputDirDM! instead of \verb!inputDirSignal!), make sure I had the correct models in the list \verb!dmModels!, and that \texttt{inputArguments.sigHists = "*"}. One extra edit was changing the dictionary \texttt{inputArguments.signalFiles[dmModel]}. One of the key-value pairs pointed to "Signal\_MC.root", which is the StatsAnalyzer output for SM MC, so I just had to change it to "Signal\_SignalModels.root" and uncomment the other lines in the dictionary.
+As with the systematics, running making the efficiency plots was quite similar to the procedure for the SMS models. In \textbf{configStat.py}, I had to include the paths to the StatsAnalyzer output for the DM models (this time assigning them to \texttt{inputDirDM} instead of \texttt{inputDirSignal}), make sure I had the correct models in the list \texttt{dmModels}, and that \texttt{inputArguments.sigHists = "*"}. One extra edit was changing the dictionary \texttt{inputArguments.signalFiles[dmModel]}. One of the key-value pairs pointed to "Signal\_MC.root", which is the StatsAnalyzer output for SM MC, so I just had to change it to "Signal\_SignalModels.root" and uncomment the other lines in the dictionary.
 
 After those edits, I could just follow the procedure like normal: optimiseBinning $\rightarrow$ makeCardsAndWs $\rightarrow$ runCombineTask $\rightarrow$ sortCategories $\rightarrow$ makeJetRankingPlot\_2016.
 
