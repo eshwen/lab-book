@@ -1,0 +1,206 @@
+
+\chapter{Signal model analyses for SUS-16-038 (21/04/2017)}
+
+My next task is to learn about the signal models used in RA1's 2016 paper (SUS-16-038 -- reinterpretation of SUS-16-016 analysis with full 2016 dataset), which encompasses the SUSY SMS models, and HF DM (heavy flavour dark matter) models. The HF DM models are so called because the final state includes a heavy quark, i.e., a $t$ or \Pqb. They're usually labelled in the fashion "DMttP" for a $\ttbar$ final state and pseudoscalar mediator. For private samples (not needed for this), there will be a "p" prefix, e.g., "pDMttP". I need to make a list of all of these models, whether there are trees already -- and where they are -- and which trees haven't been made yet. Then I can create the trees (I'll need to know what cuts, etc. to apply) for the remaining models and conduct some analysis; for the moment this will comprise checking the acceptance, systematics, efficiencies, etc. Beyond that I'll need to derive some results, but the above is a lot of work for the immediate future, so I can worry about that later on.
+
+The paper is currently being written, so isn't available yet. From my perspective, I can use information from the SUS-16-016 Analysis Note (AN-16-161, \url{http://cms.cern.ch/iCMS/jsp/db_notes/noteInfo.jsp?cmsnoteid=CMS\%20AN-2016/161}) to learn about how the analysis is actually completed. The relevant information is in sections 16 "Interpretation in Simplified SUSY models" and 17 "Interpretation in Dark Matter models". These indicate the models and samples used, as well as technicalities and the context surrounding the signal we're analysing. The Analysis Note for SUS-16-038, being written in tandem with the paper, is here: \url{http://cms.cern.ch/iCMS/jsp/db_notes/noteInfo.jsp?cmsnoteid=CMS\%20AN-2017/122}. 
+
+I can start by initialising a CMSSW environment and fetching the relevant repos:
+
+% "belowskip" changes the amount of vertical spacing after the listing
+\begin{lstlisting}[belowskip=-0.7cm, language=sh]
+source /cvmfs/cms.cern.ch/cmsset_default.sh
+cd /storage/eb16003/CMScmg
+cmsrel CMSSW_8_0_25
+cd CMSSW_8_0_25/src
+cmsenv
+export CMSSW_GIT_REFERENCE=/software/SUSY/RA1/cmg-cmssw-bare
+git cms-init
+git remote add ra1-private git@github.com:CMSRA1/cmg-cmssw-private.git
+git remote add cmg-central https://github.com/CERN-PH-CMG/cmg-cmssw.git
+git fetch ra1-private
+echo .gitignore >> .git/info/sparse-checkout
+echo PhysicsTools/Heppy/ >> .git/info/sparse-checkout
+echo PhysicsTools/HeppyCore/ >> .git/info/sparse-checkout
+echo EgammaAnalysis/ElectronTools/ >> .git/info/sparse-checkout
+echo RecoEgamma/ElectronIdentification/ >> .git/info/sparse-checkout
+echo RecoEgamma/PhotonIdentification/ >> .git/info/sparse-checkout
+# The following echoes are specific to SMS tree production
+echo RecoBTag/Configuration/ >> .git/info/sparse-checkout
+echo RecoBTag/DeepFlavour/ >> .git/info/sparse-checkout
+echo RecoBTag/LWTNN/ >> .git/info/sparse-checkout
+echo RecoBTag/SecondaryVertex/ >> .git/info/sparse-checkout
+echo PhysicsTools/PatAlgos/ >> .git/info/sparse-checkout
+echo DataFormats/BTauReco/ >> .git/info/sparse-checkout
+git config core.sparsecheckout true
+git checkout heppy_80X_ra1-0.7.x-Moriond17Prod
+echo CMGTools/ >> .git/info/exclude
+git clone -o ra1-private git@github.com:CMSRA1/cmgtools-lite-private.git CMGTools
+cd CMGTools
+git remote add cmg-central git@github.com:CERN-PH-CMG/cmgtools-lite.git
+git checkout 80X-ra1-0.7.x
+git submodule init
+git submodule update
+git checkout 80X-ra1-0.7.x-Moriond17Prod
+cd $CMSSW_BASE/src
+scram b -j 9
+\end{lstlisting}
+ 
+Then I should have all the code necessary for tree production. The default branch I'll be on in \textbf{\$CMSSW\_BASE/src/} will be \texttt{heppy\_80X\_ra1-0.7.x}. In \textbf{./CMGTools/} there are two branches: \texttt{80X-ra1-0.7.x} and \texttt{80X-ra1-0.7.x-Moriond17Prod}. The former contains lists of the SMS and DM samples from Spring16, but need to be updated to Summer16 where applicable. The latter has been used to produce the DM samples from Summer16 (see \textbf{CMGTools/RA1/python/components/components\_MC\_DM\_Summer16.py}).
+
+I also cloned a fresh copy of AlphaTools for analysing the trees:
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+cd /storage/eb16003/CMScmg
+git clone -o alphatools git@github.com:CMSRA1/AlphaTools.git --recursive
+cd AlphaTools/analysis
+source setup.sh
+cd ..
+git pull alphatools v1.10.x
+git submodule update
+git submodule init
+\end{lstlisting}
+
+and just need to source \textbf{setup.sh} in \textbf{AlphaTools/analysis} to start using it. In parallel, I created the same set up on IC's lx00. The commands are basically the same as above, but L6 is instead \texttt{export CMSSW\_GIT\_REFERENCE=/vols/cms/RA1/cmg-cmssw-bare} The equivalent of /storage/eb16003/CMScmg/ on Soolin is \textbf{/home/hep/ebhal/CMScmg\_imperial/} on lx00. I also had to set up my grid certificate on this server.
+
+I've made scripts that source and initialise everything: \textbf{$\sim$/cmssw\_2016signalmodels.sh} on Soolin; and \textbf{$\sim$/cmssw\_2016signalmodels\_imperial.sh} at Imperial. However, I shouldn't initialise everything together because each framework uses different environments and environment variables, which can screw up whatever I'm doing. I've only collected the commands in a single script for reference purposes. In practice, I'll just comment out the lines for the software I don't want to load.
+
+
+\section{Making the DM and SUSY SMS trees}
+
+For making SMS model trees I'll need the config file \textbf{run\_AtLogicNoSelection\_MCMiniAODv2\_SUSY\_SMS\_FastSim\_cfg.py}, and for DM trees I'll need \textbf{run\_AtLogic\_MCSummer16\_DM\_cfg.py}, both located in \textbf{CMGTools/RA1/cfg}. So I just need to update the components/models to the latest versions, make the component lists to be read by the configs, and then run the tree production for the remaining models.
+
+At IC, the path \textbf{/vols/cms/RA1/80X/MC/20170210\_SUSY\_DM\_PreAppr/} contains the trees of the currently-produced signal models. The following models are contained in these subdirectories:
+
+\begin{easylist}
+\easylistprops
+& \textbf{AtLogic\_MCSummer16\_DM/}: HF DM scalar and psuedoscalar models (Summer16, OBSELETE).
+& \textbf{AtLogicNoSelection\_MCMiniAODv2\_SUSY\_SMS\_FastSim/}: SUSY SMS T1bbbb, T2cc, and T2tt models (Spring16, OBSELETE).
+\end{easylist}
+
+For now, I just need to produce the trees for the T2bb SMS model from Spring16. For the paper, we would (in theory) need all the models to be from Summer16, but the SUSY model makers decided it wasn't worth updating the Spring16 models because the changes wouldn't be significant. Making the trees for T2bb was fairly simple. In the cfg file I just had to comment out everything except \texttt{componentList.append(cmps.SMS\_T2bb\_madgraphMLM)} in the function \texttt{componentList = [ ]}. Then I recompiled, committed everything and tagged the code (which is \textbf{80X\_MC\_20170426\_S01} for the T2bb Spring16 trees). To submit the jobs, the command was
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+heppyBatchAlphaT.py -o $OUTDIR -c AtLogicNoSelection_MCMiniAODv2_SUSY_SMS_FastSim
+\end{lstlisting}
+
+Then I extracted the output, resubmitted failed jobs, then combined them when everything succeeded. At Bristol, the trees are located at
+
+\begin{easylist}
+\easylistprops
+& Bristol: \textbf{/hdfs/SUSY/RA1/80X/MC/20170426\_S01} (T2bb Spring16, OBSELETE).
+& Imperial: \textbf{/vols/cms/RA1/80X/MC/20170426\_S01} (T2bb Spring16, OBSELETE).
+\end{easylist}
+
+
+\section{Remaking the SMS and DM trees}
+
+However, there was a problem with the trees that I encountered when trying to analyse them. In the SMS trees, all of the SUSY particle masses were "lumped" together, and so the mass points weren't saved in the trees (like $m_{\mathrm{SUSY}}$ and $m_{\mathrm{LSP}}$ for events). So Shane submitted a \textcolor{ForestGreen}{"pull request" on GitHub -- basically committing changes, but allowing them to be reviewed before being merged into a branch/repo, which is generally good practice, especially when modifying code in important branches} -- which includes the SUSY particle masses and isolated track variables. Then I just needed to merge it, and in my workspace on Soolin/lx00, I just needed to do \texttt{git pull ra1-private 80X-ra1-0.7.x-Moriond17Prod} to get the updated code. After that, I needed to remake all the SMS trees with these inclusions. In the config file, I just had to make sure all of the components were uncommented, then I could submit jobs and combine the output, etc. to make the trees. After another pull request from Shane to fix the DM tree production, I could submit the DM jobs as well. A few DM jobs were consistently failing due to an empty \textbf{pycfg.py} file. As with tree production for the cut flow tables, I could copy the filled \textbf{pycfg.py} from a successful job into the directory of a failed one (as long as it is from the same sample), and then resubmit them. The tag of the code for both SMS and DM tree production is \textbf{80X\_MC\_20170510\_S01}. The new trees are located at
+
+\begin{easylist}
+\easylistprops
+& Bristol (SUSY SMS): \textbf{/hdfs//SUSY/RA1/80X/MC/20170510\_SMS-Spring16\_DM-Summer16/AtLogicNoSelection\_MCMiniAODv2\_SUSY\_SMS\_FastSim/} (T1bbbb, T2bb, T2cc, T2tt; Spring16).
+& Bristol (DM): \textbf{/hdfs/SUSY/RA1/80X/MC/20170510\_SMS-Spring16\_DM-Summer16/AtLogic\_MCSummer16\_DM/} (DMttP, DMttS; Summer16).
+& Imperial (SUSY SMS): \textbf{/vols/cms/RA1/80X/MC/20170510\_SMS-Spring16\_DM-Summer16/AtLogicNoSelection\_MCMiniAODv2\_SUSY\_SMS\_FastSim/} (T1bbbb, T2bb, T2cc, T2tt; Spring16).
+& Imperial (DM): \textbf{/vols/cms/RA1/80X/MC/20170510\_SMS-Spring16\_DM-Summer16/AtLogic\_MCSummer16\_DM/} (DMttP, DMttS; Summer16).
+\end{easylist}
+
+The mass points were still merged into one tree per model for production, so they needed to be split such that there was a tree for each mass point. This was done using the TreeSplitterSusy macro in AlphaTools. For whatever reason, this wasn't working with my set up so Shane split the trees. These new "split" trees are stored in
+
+\begin{easylist}
+\easylistprops
+& \textbf{/vols/cms/RA1/80X/MC/20170510\_SMS-Spring16\_DM-Summer16/AtLogicNoSelection\_MCMiniAODv2\_SUSY\_SMS\_FastSim/SMS\_splitMasses/} (T1bbbb, T2bb, T2cc, T2tt Spring16 split trees).
+\end{easylist}
+
+
+\section{Getting the StatsInput for the SMS models (Spring16 datasets)}
+
+I've set up AlphaTools (v1.10.x branch) on Imperial's remote server (lx00/lx01). The main code is located in \textbf{$\sim$/CMScmg\_imperial/AlphaTools/analysis/}, which also has the alias \textbf{\$ALPHATOOLSDIR}. Using this, I can find the systematic uncertainties for the SMS models. First I need to change some stuff in \textbf{Configuration/config\_cfi\_2016.py}. At L23 (the dict \texttt{basedirSignalModelsDict}), for each SMS model I needed to add its name as the dictionary key, with path to the trees as its value. The variable \texttt{basedir = "/vols/cms/RA1/80X/"}, so I can set the key-value pair for, e.g., T1bbbb as
+
+\begin{lstlisting}[belowskip=-0.7cm, language=python, numbers=none]
+"T1bbbb":basedir+"MC/20170510_SMS-Spring16_DM-Summer16/AtLogicNoSelection_MCMiniAODv2_SUSY_SMS_FastSim/SMS_splitMasses/",
+\end{lstlisting}
+
+Because all of the split trees are in the same directory, the dictionary value for each model is the same. After that was done, going to \textbf{Analyzers/StatsInput/}, the file \textbf{StatsAnalyzer\_cfg.py} is the config that makes histograms of the yields under all systematic variations (btag SFs, JECs, etc.). It is these variations that are taken as the systematic uncertainties. I shouldn't need to mess with the config, so I could just type
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+python StatsAnalyzer_cfg.py --outDir <output directory> --pset signalmodel --signalModel SMS_<name of model> --nCores <number of cores to use> --dataMC mc
+\end{lstlisting}
+
+As some of these models can take ages to run over, I can comment out L232 and L266 in \textbf{Core/Process/makeProcess.py} so the control regions aren't run over, speeding everything up.
+
+After running over all of the processes, I may get several output root files. The file of interest is \textbf{Signal\_SignalModels.root}, which contains histograms of the yields (nominal and with systematic variations) for each process. I need to make sure I run over \emph{all} the samples for a given model so they are all in the same directory. This is important for the efficiencies. Although, sometimes the outputs don't combine properly (or take ages to do so), so I'll get individual root files for each sample in each category but they didn't combine into the $<$blah$>$\_SignalModels.root. To fix this, I could just source \textbf{hadd.sh} in the base output directory and comment out the files that have already combined successfully. Or I can do it via batch in \textbf{StatsInput/} with
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+python haddSignalModel.py -i <output directory from StatsAnalyzer> -f
+\end{lstlisting}
+
+And I should make sure all the output is on /vols so I don't clog up my allocated space in my user's directory. This is now stored in \textbf{/vols/cms/RA1/80X/MC/20170510\_SMS-Spring16\_DM-Summer16/AtLogicNoSelection\_MCMiniAODv2\_SUSY\_SMS\_FastSim/SMS\_StatsAnalyzer/}.
+
+
+\section{Determining the efficiencies for the SMS models (Spring16 datasets)}
+
+The efficiencies for the SMS models are defined as the signal acceptance $\times$ efficiency ($\mathcal{A} \varepsilon$), as shown in Table 5 of~\cite{CMS-PAPER-SUS-15-005-arXiv}. In the auxiliary material for the paper, Figure 2 right shows a plane for the T1qqqq model with different colours representing the efficiency. So the mass of the parent SUSY particle is displayed against the LSP mass, and the colour gradient shows the efficiency for the mass parameter space. I will need to reproduce this type of plot for each of the Spring16 SMS models.
+
+There's a framework called AlphaStats that formats datacards and runs statistical results for SUSY and DM models. I cloned the repo (\url{https://github.com/CMSRA1/AlphaStats}) on lx00 in \textbf{$\sim$/CMScmg\_imperial/} with the commands
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+git clone -o alphastats git@github.com:CMSRA1/AlphaStats.git --recursive
+cd AlphaStats
+source setup.sh 
+git pull alphastats v1.6.x
+git submodule update
+git submodule init
+\end{lstlisting}
+
+To initialise it I just need to source the setup script, which also creates the alias directory \textbf{\$ALPHASTATS=/home/hep/ebhal/CMScmg\_imperial/AlphaStats}. I'm using the branch \emph{v1.6.x-eshDev20170601}, based off v1.6.x. The output of StatsAnalyzer from AlphaTools is needed to get the efficiencies. If I edit \textbf{configStat.py}, I need to change \texttt{inputDirSignal} to the path of the output from StatsAnalyzer (i.e., the folder that contains all of the systematics for a given model), and make sure the model(s) are specified in the \texttt{signalModels} list (i.e, \emph{only} the model(s) I want to run over for this run). Also, make sure I have \texttt{dmModels = [ ]}, everything but \texttt{"Signal"} in the \texttt{inputArguments.signalFiles[signalModel]} dict commented out (as I only have the signal component from StatsAnalyzer), and the only \texttt{sigHists} that's uncommented is \texttt{inputArguments.sigHists = "*"}. Running, via batch,
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+python batchSubmitOptimise.py -o <output directory> -f --options "-d --getDataLumi --greenBand --signalMCStat" --submit
+\end{lstlisting}
+
+should give me Higgs datacards and shape root files for each sample, separated by \HT, \Pqb-categories, and jet categories. I then need to combine them using the script \textbf{makeCardsAndWs.py}. There's no need to edit anything so I can just type
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+python makeCardsAndWs.py -i <output directory from optimiseBinning> -c "nB"
+\end{lstlisting}
+
+making sure the \texttt{-c "nB"} flag is used to combine the \HT bins and \Pqb-categories, but not the jet categories. Next, I call \textbf{runCombineTask.py} to sort the categories by sensitivity with the command
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+python runCombineTask.py -i <output directory from optimiseBinning> -t ASCLS_UL_PRIOR --what expected
+\end{lstlisting}
+
+Once that has run, I need to sort the \njet categories by sensitivity. This is done with
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+python sortCategories.py -i <output directory from optimiseBinning> -m ul -c "nB"
+\end{lstlisting}
+
+This should give me a file for each sample called \textbf{datacards\_for\_combination\_$<$sample$>$\_mht\_sorted.txt}, which contains a list of the combined Higgs datacard files, sorted by sensitivity in the \njet dimension. These files are then used as input for a version of the script \textbf{makeJetRankingPlot.py}, which I then modified and stripped down to include only the signal stuff, and reflect the changes between the 2015 and 2016 analyses (such as updating the \njet categories). This script, \textbf{makeJetRankingPlot\_2016\_SMS.py}. makes efficiency plots for the SMS models (and can be built upon to include DM models). I just need to set the path for \texttt{inputFileStatsAnalyzer} to the \textbf{Signal\_SignalModels.root} file in the output from StatsAnalyzer. Then I can just type
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+python makeJetRankingPlot_2016_SMS.py -i <output directory from optimiseBinning> -o <output directory for efficiency plots>
+\end{lstlisting}
+
+A link to the file is here: \href{run:modules/Sec 23 - Signal model analyses for SUS-16-038listings//makeJetRankingPlot_2016_SMSv1.py}{makeJetRankingPlot\_2016\_SMS.py (v1)}. I made a pull request so the script is now part of the 1.6.x branch in AlphaStats. \uline{Shane and the other guys finished the efficiencies and systematics whilst I was away at Glastonbury, and the plots are now in the paper.}
+
+
+\section{Getting the StatsInput for the DM models (Summer16 datasets)}
+
+Finding the systematics for the HF DM models were very similar to the procedure for the SMS models. I needed to add the locations of the trees to \texttt{basedirSignalModelsDict} in \textbf{Configuration/config\_cfi\_2016.py}. The keys for the models were "DMttP" and "DMttS", in accordance with the definitions in L159 of \textbf{Core/Process/makeProcess.py}. I could then run StatsAnalyzer with the command 
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+python StatsAnalyzer_cfg.py --outDir <output directory> --pset signalmodel --signalModel <key from config_cfi_2016, no other prefix/suffix> --nCores <number of cores> --dataMC mc
+\end{lstlisting}
+
+I did get an error when trying this. In \textbf{StatsAnalyzer\_cfg.py}, the systematics are defined in a list called \texttt{systematics} at L39. At L58, if the model is DM, some of the systematics are supposed to be removed. However, they were already commented out in the \texttt{systematics} list, so I could just comment out the removal commands at L59-60. Once that was fixed, I could run and then hadd the output without any problems.
+
+
+\section{Determining the efficiencies for the DM models (Summer16 datasets)}
+
+As with the systematics, running making the efficiency plots was quite similar to the procedure for the SMS models. In \textbf{configStat.py}, I had to include the paths to the StatsAnalyzer output for the DM models (this time assigning them to \texttt{inputDirDM} instead of \texttt{inputDirSignal}), make sure I had the correct models in the list \texttt{dmModels}, and that \texttt{inputArguments.sigHists = "*"}. One extra edit was changing the dictionary \texttt{inputArguments.signalFiles[dmModel]}. One of the key-value pairs pointed to "Signal\_MC.root", which is the StatsAnalyzer output for SM MC, so I just had to change it to "Signal\_SignalModels.root" and uncomment the other lines in the dictionary.
+
+After those edits, I could just follow the procedure like normal: optimiseBinning $\rightarrow$ makeCardsAndWs $\rightarrow$ runCombineTask $\rightarrow$ sortCategories $\rightarrow$ makeJetRankingPlot\_2016.
+
+The only changes were that I needed the DM cross sections for each sample, which Shane provided as a Python dict in a script (\textbf{xsectionDM.py}). So I just had to import that in makeJetRankingPlot\_2016 and make sure that the variables read it in correctly, in the format required to implement it properly. I made sure to add the DM support properly, and as such renamed it to \textbf{makeJetRankingPlot\_2016\_SMS\_DM.py} .The new version of the script is here: \href{run:modules/Sec 23 - Signal model analyses for SUS-16-038listings//makeJetRankingPlot_2016_SMS_DMv2.py}{makeJetRankingPlot\_2016\_SMS\_DM.py (v2)}.

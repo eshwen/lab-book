@@ -1,0 +1,721 @@
+
+\chapter{Cut flow tables for SUS-15-005 (14/12/2016)}
+\label{sec:cutflowtablesSUS15005}
+
+I've been asked by the CMS SUSY RA1 (Reference Analysis 1) team to produce cut flow tables to help them in their analyses. The cut flow efficiencies for some example benchmarks signals for their Run 1 paper~\cite{CMS-SUS-14-006} are detailed in Table 6 of the Additional Material at \url{https://twiki.cern.ch/twiki/pub/CMS/SUS14006/SUS-14-006_aux.pdf}. The team want this replicated for for their first Run 2 paper~\cite{CMS-PAPER-SUS-15-005-arXiv} (note that this is the \emph{paper} CMS-SUS-15-005, not the \emph{PAS} CMS-PAS-SUS-15-005). Details of the various benchmark models they consider are in Table 5 of the paper. My task is to produce cut flow tables for each of these benchmark models. They are useful in a number of ways: firstly, they are a requirement for all SUSY analyses; they help you understand the data better (if there are unexplained efficiencies from a cut, etc.); they help to optimise the data (you can see what cuts are removing lots of signal, etc., \textbf{and the main goal is to find a group of cuts that maximise the amount of signal you keep and minimise the background}). 
+
+I'll need to use \textsc{Heppy} (Python framework to run over EDM files, such as miniAODs), \textsc{CMGTools} (the "tree production code" that utilises Heppy), and \textsc{AlphaTools} (the "analysis code") in some capacity to produce these.
+
+\section{Configuring GitHub and CMSSW for \textsc{CMGTools}}
+
+For \textsc{CMGTools} I first need to subscribe to GitHub (\url{https://github.com}) and set it up for CMSSW. I deleted my old GitHub profile and made a new one for my uni account. My details are
+
+\begin{easylist}[itemize]
+\easylistprops
+& Name: Eshwen Bhal
+& Username: eshwen
+& Password: $<$normal password, normal numbers$>$
+& User email: eshwen.bhal@bristol.ac.uk
+& GitHub profile: \url{https://github.com/eshwen}
+\end{easylist}
+
+Then I can "fork" the following repositories by clicking the links and pressing "fork":
+
+\begin{easylist}
+\ListProperties(Style*=$\bullet$ , FinalMark={)})
+& \textbf{cmg-cmssw} -- \url{https://github.com/CERN-PH-CMG/cmg-cmssw}
+& \textbf{cmgtools-lite} -- \url{https://github.com/CERN-PH-CMG/cmgtools-lite}
+& \textbf{CMSSW} -- \url{https://github.com/cms-sw/cmssw}
+& \textbf{cmgtools-lite-private} -- \url{https://github.com/CMSRA1/cmgtools-lite-private}
+\end{easylist}
+
+I've been added to the CMSRA1 organisation on GitHub (\url{https://github.com/CMSRA1}), which contains all the software I'll need. The repo cmgtools-lite-private is RA1's fork of CMGTools from CERN's repository.
+
+The first time I set up CMSSW and git, there's quite a lot I need to do. I need to open the Terminal and type the following:
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+ssh soolin
+source /cvmfs/cms.cern.ch/cmsset_default.sh
+cd /storage/eb16003/CMScmg
+export SCRAM_ARCH=slc6_amd64_gcc493
+cmsrel CMSSW_8_0_20
+cd CMSSW_8_0_20/src
+cmsenv
+\end{lstlisting}
+
+give a reference to the relevant git repository on Soolin:
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+export CMSSW_GIT_REFERENCE=/software/SUSY/RA1/cmg-cmssw-bare
+\end{lstlisting}
+
+then add my git details and initialise for CMS:
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+git config --global user.name Eshwen Bhal
+git config --global user.email eshwen.bhal@bristol.ac.uk
+git config --global user.github eshwen
+git cms-init
+\end{lstlisting}
+
+generate an ssh key to allow the machine access (also found at \url{https://help.github.com/articles/generating-an-ssh-key/}):
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+ssh-keygen -t rsa -b 4096 -C "eshwen.bhal@bristol.ac.uk"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+cat ~/.ssh/id_rsa.pub
+# Highlight and copy the key, then go to \url{https://github.com/settings/keys} to add it.
+\end{lstlisting}
+
+The rest of the installation instructions are found at \url{https://github.com/CMSRA1/RA1OPS/wiki/1.-Flat-Tree-Production-(80X)}, mainly adding the relevant repos in the right directories and compiling the code. The "80X" is a reference to CMSSW\_8\_0\_X, so there are different data sets that were analysed by different versions of CMSSW. After following to the end of the heading "Set up and enter an environment (in the first session)", I need to type the following commands to compile the software I've checked out, and push my version to my repository (so that if I edit files and cause some errors, they are contained and don't affect everyone else's version):
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+cd $CMSSW_BASE/src # the directory $CMSSW_BASE is "/storage/eb16003/CMScmg/CMSSW_8_0_20/" and is initialised at the command "cmsenv"
+scram b -j 9 # the code compiles at this point
+cd CMGTools
+git remote add origin https://github.com/eshwen/cmgtools-lite-private/tree/80X-ra1-0.6.x/RA1
+git remote add origin https://github.com/eshwen/cmgtools-lite-private.git
+git remote set-url origin git@github.com:eshwen/cmgtools-lite-private.git
+git checkout -b 80X-ra1-0.6.x_<some extension with date>
+git push origin <branch>
+\end{lstlisting}
+
+Remember that the version numbers of CMSSW and those of the branches can change. I'll need to know which branch(es) to use for a specific analysis, especially if I'm using old data/Monte Carlo.
+
+\section{Flat tree production with \textsc{CMGTools}}
+\label{subsec:flattreeprodCMG}
+
+To initialise CMSSW and git, and check out the branches I need \emph{after} I've set everything up the first time, I need to do the following:
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+ssh -X soolin
+source /cvmfs/cms.cern.ch/cmsset_default.sh
+cd /storage/eb16003/CMScmg/CMSSW_8_0_20/src
+cmsenv
+cd CMGTools
+git checkout <branch I've created for my analysis>
+OUTDIR=/storage/eb16003/SUSY_RA1/<output path>
+\end{lstlisting}
+
+I've included these commands (except the first one, obviously) in a shell script \textbf{cmssw\_git.sh}, which resides in my home folder on Soolin.
+
+The \textbf{\$CMSSW\_BASE/src} directory contains CMSSW code which doesn't really need to be touched/edited. Then the \textbf{CMGTools/} directory is where the code I need is stored. Within it, the \textbf{RA1/} directory contains the analysis code, where trees/flat trees/ntuples are generated. This includes what variables will be contained in the trees, and the event selection. In the \textbf{cfg/} folder, there are several python files ending in \textbf{\_cfg.py}. In any analysis searching for new physics there are 3 core collections of flat trees that need to be produced: data, Standard Model Monte Carlo, and Monte Carlo of new physics. So running, for example, \textbf{run\_AtLogic\_MC\_SM\_cfg.py} will produce the flat trees for Standard Model MC, and \textbf{run\_AtLogic\_MC\_SUSY\_SMS\_cfg.py} will produce the flat trees for signal MC, etc. The "AtLogic" part of the file name means "alphat-logic", i.e., using the \alphat\ variable.
+
+Once I've sourced the script above, I need to continue following the tutorial using the link in the previous subsection, from the heading "Decide the output path". Under the heading "Start a proxy of a grid certificate", I had to set up my grid certificate(s) on Soolin. To do this, I could follow the instructions in~\ref{subsec:gridcertificates}. After that, to the directory \textbf{\$CMSSW\_BASE/src/CMGTools/RA1/cfg/} and carry on with the tutorial from where I left off.
+
+\fcolorbox{red}{pink}{\begin{minipage}{\textwidth}
+When I check out my own branch, call it something like "eshAnalysis$<$date$>$". To see a list of available branches type \texttt{git branch}. To switch to a branch type \texttt{git checkout $<$branch name$>$}, and to create a branch to then checkout type \texttt{git checkout -b $<$new branch$>$}. If I am developing and make loads of mistakes, etc., I can delete all those changes and revert to the last commit by going to the top directory of the branch and typing \texttt{git checkout -- *} Or I can undo the changes I've made to specific files by typing \texttt{git checkout -- <path to file>}.
+\end{minipage}}
+
+So now my complete bash script \textbf{cmssw\_git.sh} looks like this:
+
+\lstinputlisting[language=sh, caption={My bash script for initialising CMSSW and navigating to the correct git branch, and starting a proxy of a grid certificate. The branch I checkout and the path OUTDIR don't have to be fixed and can be changed depending on what I'm doing. File name: cmssw\_git.sh (v2).}]{listings/cmssw_gitv2.sh}
+
+\fcolorbox{red}{pink}{\begin{minipage}{\textwidth}
+If I want today's date in the terminal, I just need to use the syntax \texttt{\$(date "+\%Y\%m\%d")} which prints the date in the format YYYYMMDD (i.e., the preferred format for dating trees and other stuff in the RA1 group). So if, for example, I wanted to include the current date in \textbf{\$OUTDIR}, I just need to type
+\end{minipage}}
+
+\begin{easylist}
+\ListProperties(Style*=, FinalMark={)})
+& \texttt{OUTDIR=/storage/eb16003/SUSY\_RA1/data/80X/Data/\$(date "+\%Y\%m\%d")\_S01/}
+\end{easylist}
+
+\subsection{Running a test and tagging the code}
+
+To run a test, do
+
+\begin{easylist}
+\ListProperties(Style*=, FinalMark={)})
+& \texttt{cd \$CMSSW\_BASE/src/CMGTools/RA1/cfg}
+& \texttt{heppy TEST\_01 run\_AtLogic\_Data\_cfg.py -N 100 -o test=1} $\leftarrow$ runs the configuration for \emph{data} on \emph{100} events in one MiniAOD file. The output is in \textbf{./TEST\_01/}.
+\end{easylist}
+
+A flat tree is created in the directory \textbf{TEST\_01/HTMHT\_Run2016H\_PromptReco\_v3\_
+DCSONLY/treeProducerSusyAlphaT/tree.root} (although the path up to the folder \textbf{/treeProducer...} can be different). I can then check the contents of the tree with \ROOT. If successful, I can remove the \textbf{TEST\_01} folder. Then I can tag the code in CMGTools and Heppy with:
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+git status # to check I don't have anything else to commit
+echo $OUTDIR
+TAG=$(echo $OUTDIR | rev | cut -d "/" -f 1-3 | rev | tr "/" "_")
+git tag $TAG -m "$TAG"
+git push ra1-private $TAG
+pushd $CMSSW_BASE/src
+git tag $TAG -m "$TAG"
+git push ra1-private $TAG
+popd
+\end{lstlisting}
+
+I can probably include these commands in a shell script as well if needed.
+
+\subsection{Submitting jobs and creating flat trees}
+
+To submit jobs to DICE using Soolin, I'll still need to be in the \textbf{\$CMSSW\_BASE/src/CMGTools/RA1/cfg/} directory. Then type
+
+\begin{easylist}
+\ListProperties(Style*=, FinalMark={)})
+& \texttt{heppyBatchAlphaT.py -o \$OUTDIR -c AtLogic\_Data}
+\end{easylist}
+
+for data. If I'm running over Standard Model Monte Carlo or Signal Monte Carlo, I can just replace the final argument with the relevant extension (\texttt{AtLogic\_MC\_SM}, etc.). These jobs are submitted via Condor so I can monitor and assess them like normal batch jobs. Once they have been prepared and run, I need to extract the output files with
+
+\begin{easylist}
+\ListProperties(Style*=, FinalMark={)})
+& \texttt{heppy\_untarcfg.py \$OUTDIR}
+\end{easylist}
+
+I can also check to see whether all the jobs have run correctly with
+
+\begin{easylist}
+\ListProperties(Style*=, FinalMark={)})
+& \texttt{for dir in \$OUTDIR/*; do (cd \$dir; heppy\_check.py *; cd -;) done}
+\end{easylist}
+
+Information about resubmitting jobs is detailed in the flat tree production tutorial linked earlier in this section. Note that it is normal for some jobs to fail on the first attempt. I just need to keep resubmitting the failed jobs until they've all succeeded. To combine the output files, type
+
+\begin{easylist}
+\ListProperties(Style*=, FinalMark={)})
+& \texttt{for dir in \$OUTDIR/*; do (cd \$dir; heppy\_hadd.py . -c; cd -;) done}
+\end{easylist}
+
+and then check if the \ROOT files can be opened successfully:
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+shopt -s extglob
+find $OUTDIR/*/!(Chunks) -name \*.root | xargs -L 1000 -t root -b -l
+shopt -u extglob
+\end{lstlisting}
+
+Now the flat trees have been produced! The next step is to calculate the integrated luminosity by continuing to follow the tutorial. I don't need to do this if I'm creating trees for signal Monte Carlo, but do if it's data or SM MC. A tool called "BRILcalc" (\textbf{B}eam \textbf{R}adiation \textbf{I}nstrumentation and \textbf{L}uminosity \textbf{calc}ulator) is used to calculate the luminosity, but it only works on CERN's lxplus. So I would need to transfer files back and forth between that server and Soolin.
+
+Finally, I need to copy the flat trees to \textbf{/hdfs} and Imperial (College London), delete the temporary files in \textbf{/storage} and inform Tai Sakuma/the RA1 group of the location of the new flat trees. The commands for these steps are
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+hadoop fs -copyFromLocal $OUTDIR /SUSY/RA1/80X/Data # for data
+hadoop fs -copyFromLocal $OUTDIR /SUSY/RA1/80X/MC # for MC
+rsync --exclude=cmgdataset.tar.gz --exclude=cmssw.tar.gz --exclude=cmsswPreProcessing.root --exclude=Chunks --exclude=failed --exclude=*~ -vuz -rltoD  --compress-level=9 ${OUTDIR%/}/ ebhal@lx01.hep.ph.ic.ac.uk:"/vols/cms/RA1/$(echo ${OUTDIR%/} | sed -e 's#^.*/\(.*/.*/.*\)$#\1#')"
+nice -n19 rm -rf $OUTDIR
+\end{lstlisting}
+
+which is the same as on the Flat Tree Production primer, but without the \texttt{-n} option.
+
+Once I've finished the tutorial, I should have enough information to produce flat trees. The list of analysers that are used in selecting events for a flat tree can be found in \textbf{CMGTools/RA1/python/buildSequence.py}. It is recommended to look at each analyser to understand what it does. In the file various things are imported. If I look on GitHub (or Soolin assuming I've cloned the correct repositories), the path to these files are as follows:
+
+\begin{easylist}
+\easylistprops
+& \texttt{CMGTools.RootTools.RootTools}: \\ \textbf{CMSRA1}/\emph{cmgtools-lite-private}/RootTools/python/RootTools.py
+& \texttt{CMGTools.TTHAnalysis.analyzers.susyCore\_modules\_cff}: \\ \textbf{CERN-PH-CMG}/\emph{cmgtools-lite}/TTHAnalysis/python/analyzers/susyCore\_\\modules\_cff.py
+& \texttt{PhysicsTools.Heppy.analyzers.<etc.>}: \\ \textbf{CMSRA1}/\emph{cmg-cmssw-central}/PhysicsTools/Heppy/python/analyzers/$<$etc.$>$
+\end{easylist}
+
+The organisation is in \textbf{bold} and the repository is in \emph{italics}. So entering a subdirectory is represented by a ".", with other Python scripts that are imported being assumed to reside in the \textbf{/python} folder. Hopefully these examples will allow me to easily find other imported files in the future.
+
+\section{\textsc{AlphaTools}}
+
+During the flat tree production, I should set up the main analysis framework \textsc{AlphaTools}. There's a README at \url{https://github.com/cmsra1/alphatools} that I can follow to accomplish this. There is more event selection in this stage of the workflow so an additional cut flow table implementation is needed. I've cloned the repository to \textbf{/storage/eb16003/CMScmg/AlphaTools/} because it was suggested to install \textsc{AlphaTools} \emph{outside} of my CMSSW release. I've included the initialisation procedure in my \textbf{cmssw\_git.sh} script so I don't have to do it manually; it's basically checking out my own branch for my analysis (v1.9.x-eshDevs), and sourcing \textbf{setup.sh} in the directory \textbf{AlphaTools/analysis/}. The README that I should be following is slightly out of date as it references the branch "v1.6.x", when it should be "v1.\textbf{9}.x". 
+
+The 1.6.x branch was used in the 2015 analysis so that will be the branch I need. \textsc{CMGTools}/Heppy produce the flat trees, and then \textsc{AlphaTools} is used for further analysis and will be needed to create the cut flow tables.
+
+\section{One method of creating the cut flow efficiencies}
+
+\subsection{Relevant files and functions}
+
+It is possible to find the tags (on GitHub) that were used for the production of the trees used in the SUS-15-005 analysis -- this is detailed in the following subsubsection. Then I can check out these tags which will allow me to make the cut flow tables without remaking the trees. To produce trees, any of the files in \textbf{\$CMSSW\_BASE/src/CMGTools/RA1/cfg/} can be run, e.g., \textbf{run\_AtLogic\_Data\_cfg.py} for data. The event selections in this config file are specified at line 66, i.e., the function \texttt{buildEventSelection\_options}. This calls the function \texttt{event\_selection\_path\_cfg\_tree\_production} constructed in \textbf{eventSelectionPathCfgDicts.py}, L52--109. (This and the following files are located in \textbf{\$CMSSW\_BASE/src/CMGTools/RA1/python/atlogic/}.) It is a nested combination of conditions combined with \texttt{All} and \texttt{Any}. If specified by \texttt{All}, the events need to satisfy all the conditions. If specified by \texttt{Any}, then at least one of the conditions must be met. The aliases (shorthands) for these conditions are stored in \textbf{eventSelectionAliasDict.py}.
+
+The \texttt{dict} constructor that's used is detailed at \url{https://docs.python.org/2/tutorial/datastructures.html#dictionaries}. All the cuts are stored in a dictionary, like in \textbf{eventSelectionAliasDict.py}. Each cut is in the format \texttt{'<name>': "<cut>"} -- like \texttt{'ht40': "ev : ev.ht40[0] >= 200"} -- where \texttt{<name>} is the shorthand you would type when calling the dictionary, e.g., \texttt{eventSelectionAliasDict['ht40']} would return \texttt{ev : ev.ht40[0] >= 200}. So the function \texttt{eventSelectionAliasDict} in the Python file acts as a database (like a .bib file containing loads of references) and you call specific entries for the cuts you want to apply (like doing \verb!\cite{<reference>}! in a \LaTeX\ document).
+
+This Python dictionary -- \texttt{event\_selection\_path\_cfg\_tree\_production} -- is given to the function \texttt{buildEventSelection} defined in \textbf{buildEventSelection.py}, L16--25. This function parses the dictionary and builds a module for event selection. For example, say
+
+\begin{lstlisting}[belowskip=-0.7cm, language=python, numbers=none]
+module = buildEventSelection(path_cfg = event_selection_path_cfg_tree_production)
+\end{lstlisting}
+
+then \texttt{module} is built by the function. In each iteration of the event loop, the event object can be given to \texttt{module}, i.e., \texttt{module(event)}. If this returns \texttt{True}, the event passes the condition. If \texttt{False}, it doesn't pass.
+
+The default \texttt{All} class is defined in \textbf{./EventSelectionModules/EventSelectionAll.py}, with an equivalent file for the \texttt{Any} class. Looking at L19--22:
+
+\begin{lstlisting}[belowskip=-0.7cm, language=python, numbers=none]
+def event(self, event):
+	for s in self.selections:
+		if not s(event): return False
+	return True
+\end{lstlisting}
+
+it loops over the selections, giving the event object to each selection. It returns \texttt{False} if \emph{any} selection returns \texttt{False}, and returns \texttt{True} if \emph{all} selections return \texttt{True}. A user can develop an alternative version of this class and give it to \texttt{buildEventSelection()}. If this alternative version counts the number of events that pass and fail each selection, that will give the cut flow efficiencies. We will only need the \texttt{All} class and won't need a nested dictionary like the one found in \textbf{eventSelectionPathCfgDicts.py}; ours will be much simpler than that.
+
+\fcolorbox{red}{pink}{\begin{minipage}{\textwidth}
+To push my edits to my remote repository, first go to \textbf{\$CMSSW\_BASE/src/CMGTools/} because that's where I've initialised my branch (called something along the lines of "eshAnalysis$<$date$>$") in my \textbf{cmssw\_git.sh} script. Then add the necessary files using \texttt{git add <file(s)>}. The \texttt{*} character is valid to add all modified files.
+
+\
+
+Then commit them with \texttt{git commit} to commit the files I've edited \emph{and} added. I'll be prompted to enter a commit message in Vim (so I'll need to type \texttt{i}, then write the message). When done type \texttt{<esc>:wq} to write, then quit. Or, instead use \texttt{git commit -m "<message>"}. This commits the files to the HEAD (i.e., the current branch), but they're not in my remote repository yet. I can also add the \texttt{-a} option in the command to commit all modified files such that the \texttt{git add} command isn't needed.
+
+\
+
+Finally, I can use \texttt{git push} to push those changes to the current branch, or \texttt{git push <remote> <branch>} to specify further. To get an updated version of a branch, first type \texttt{git fetch} which updates the metadata and changes made for everything in the repository and allows for new branches to be pulled. Then type \texttt{git pull <remote> <branch>}, which actually pulls the changes. A simple, good primer for git is \url{http://rogerdudler.github.io/git-guide/}.
+\end{minipage} }
+
+\subsection{Tagged code and tree locations}
+
+For a proper cut flow table, each selection needs to have some kind of ID, otherwise we cannot distinguish between different selections in the table. The selections used in the analysis for SUS-15-005 would be specified (in a particular order) in a dictionary. I just need to find the tags of the code used in the analysis, then I can find the dictionary used in it. These tags are written in a text file in the directory containing a tree. The trees used in the analysis are from 2015 and would be in \textbf{/hdfs/SUSY/RA1/74X/} on Soolin. The next step is to find the code with that tag and check it out. This would allow me to find the dictionary -- and therefore the selections -- used to produce the trees, giving me the cut flow. The analysis was conducted before cmgtools-lite became the tool the RA1 group uses, so the relevant files would still be part of the regular CMGTools. The Heppy tags are as follows:
+
+\begin{easylist}
+\easylistprops
+& SUSY Signal models: 74X\_MC\_20151207\_D01 
+& DM Signal models: 74X\_MC\_20151112\_B01
+& SM background MC: RA1cmg\_SCF\_v4.0\_7414\_01 (has the bdphi problem) (\url{https://github.com/CMSRA1/cmg-cmssw-private/tree/RA1cmg_SCF_v4.0_7414_01})
+& Data: 74X\_Data\_20151202\_D01 (\url{https://github.com/CMSRA1/cmg-cmssw-private/tree/74X_Data_20151202_D01})
+& AlphaStats tag: v1.2.2\_approval
+& AlphaTools tag: v1.6.12\_Approval\_151210
+\end{easylist}
+
+To check out the tags for Data (as a test, as the cut flow efficiencies we need are for Monte Carlo), just follow the commands at \url{https://gist.github.com/dsmiff/7cfe5821573ada85311319bc7c334eef}. I've sourced the necessary commands in a shell script \textbf{load\_tagged\_data\_cutflow.sh}, in my home folder on Soolin.
+
+Because we're creating these cut flows for "benchmark models", they correspond to Simplified Model Spectrum (SMS) models. These correspond to SUSY particles decaying into specific particles with a 100\% branching fraction, hence "simplified". So taking a look at Table 5 in the SUS-15-005 paper, the benchmark models are listed along with their properties. So, for example, the label \texttt{T1qqqq} is the pair production of gluinos with each gluino decaying into two quarks and a neutralino. So the \texttt{T1} is the ID of the parent SUSY particle, and the \texttt{qqqq} are the Standard Model particles that are detected. Note that a neutralino -- which is being classified as the LSP in this model -- is always produced at the end of the decay chain and will be a source of MET. The numbers in brackets correspond to ($m_{\mathrm{SUSY}}$, $m_{\mathrm{LSP}}$) which are the mass of the parent SUSY particle (a gluino in this model) and the mass of the LSP. So flat trees were produced for these SMS models.
+
+The simplest example of a cut flow is something like this:
+
+\begin{lstlisting}[belowskip=-0.7cm, language=python, numbers=none]
+buildEventSelection_options = dict(
+	path_cfg = dict(All = (
+		'ev : -2.5 < ev.jet_eta[0] < 2.5',
+		'ev : ev.nJet40[0] >= 2',
+)))
+\end{lstlisting}
+
+where the \texttt{'ev : -2.5 < ev.jet\_eta[0] < 2.5'} is a selection. So I just need to find the variables that correspond to other selections (might be in \textbf{eventSelectionAliasDict.py}). Then implement the necessary selections in the right order to create the cut flow. I need to find out where these would be documented. I'll then also need to include some sort of counting variable to get the number of events that pass each cut (and then get a cumulative efficiency \emph{after} each selection when all events are taken into account). Then this information would be used to construct the cut flow table.
+
+The directories containing the trees used in the 2015 analysis are located (on Soolin) at:
+
+\begin{easylist}
+\easylistprops
+& MC Trees: \textbf{/hdfs/SUSY/RA1/74X/MC/20151014\_B01/20151014\_SixCutflows\_MC\\\_25ns/}
+& Data Trees: \textbf{/hdfs/SUSY/RA1/74X/Data/20151202\_D01/20151202\_run\\\_susyAlphaT\_AtLogic\_Data\_25ns\_cfg/}
+\end{easylist}
+
+\subsection{Dom's method to generate cut flow tables}
+\label{subsubsec:currentprocedurecutflows}
+
+I've pulled several repositories from Dom to get the code he's written that allow me to generate cut flow efficiencies. The necessary information is detailed in the shell script \textbf{load\_doms\_alphatools.sh} in my home folder on Soolin. The branch I'm performing the analysis on is "v1.6.12\_Approval\_151210\_cutflow" or "v1.6.12\_Approval\_151210\_cutflow\_eshDev" in the AlphaTools repo. If I get an error when loading the script try \texttt{grep -r HEAD} to find conflicts, then resolve them before committing. If that fails or there are too many conflicts, delete everything and just do a fresh install by following this script:
+
+\lstinputlisting[language=sh, caption={A shell script to download and install AlphaTools with Dom's branch needed to generate the cut flow tables for the 2015 analysis. File name: load\_doms\_alphatools\_setup.sh.}]{listings/load_doms_alphatools_setup.sh}
+
+Every relevant file from here is in \textbf{\$ALPHATOOLSDIR/}, whose path is \textbf{/users/eb16003/DomsAlphaTools/CMSSW\_7\_4\_3/AlphaTools/analysis/}. Some minor tweaking was needed, which is detailed in my script. Now I just need to go to \textbf{/SkimTreeProducer} and type
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+python SkimTreeProducer_PSet_cfg.py --data --pset=Signal --outDir ./
+\end{lstlisting}
+
+to produce the trees and cut flows for signal data (as a test), the output being stored in \textbf{SkimTreeProduction/Signal/$<$YYYY\_MM\_DD$>$\_REV\_1/Signal\_Data/}. The cuts in \textbf{Sequences/NewDataSequence.py} are applied to produce a "skimmed" tree. The skimming procedure is defined in the config file \textbf{SkimTreeProducer/SkimTreeProducer\_PSet\_cfg.py}. In L38, the flag \texttt{makeCutFlowTable} is added which calls the relevant code to produce a cut flow table. We need to skim over the benchmark models which are located at Imperial College (so I need my IC account). The branch has been updated so it will, by default, skim over the T1bbbb benchmarks ($m_{\mathrm{SUSY}}$, $m_{\mathrm{LSP}}$) = (1500, 100) and (1000, 800). The "T1" is the label for gluino pair production, and \url{https://twiki.cern.ch/twiki/bin/view/LHCPhysics/SUSYCrossSections13TeVgluglu} give the cross sections for this process at different masses. So I can use the table to get the cross sections for the T1bbbb benchmark processes. With the luminosity (defined in \textbf{Configuration/config\_cfi\_6CF.py}, L54) and this cross section, I can compare the expected number of events -- using eq.~\ref{eq:lumiexpev} -- to those in the cut flow table. More details about the models, variables, and the analysis in general for the paper can be found at \url{https://github.com/CMSRA1/AlphaTDR2}. See the wiki for details and instructions on how to compile the analysis note AN-15-004.
+
+There are individual cut flow tables for each sample in a benchmark model, so I first need to combine them into one table. There's a script in \textbf{/Utils} called \textbf{makeCutFlowTable.py}. The arguments that need to be supplied are something like
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+python makeCutFlowTable.py --inputDir $ALPHATOOLSDIR/SkimTreeProducer/SkimTreeProduction/Signal/2017_01_25_REV_1/Signal_Data/ --process Signal_Run2015D_25ns -l -pdf
+\end{lstlisting}
+
+with the \texttt{-l} flag converting the .txt file into a \LaTeX\ file, and the \texttt{-pdf} flag converting the \LaTeX\ file into a PDF. For each event category, only the number of events that pass each cut is given. So to get efficiencies I need the total number of events. When I'm running the command to produce the raw cut flow tables, the number of events for each event category is given, so make sure I note them down. The order of the cuts are given in \textbf{Sequences/NewDataSequence.py}, so can be modified if need be.
+
+Once I've got my IC account I should be able to run over all of the SMS models and generate the cut flow tables for all of them. It's a bit more complicated, but the gist of it is detailed here. The file \textbf{config\_cfi\_6CF.py} in \textbf{/Configuration/} contains the directories to all of the trees. L33 -- \texttt{basedirSignalModels = "/vols/cms/RA1/74X/MC/T1bbbb\_approvalReprise"} -- is the path to the T1bbbb trees at IC. This assigns the path to the variable \texttt{psetSignalModels25ns}. So when running over samples, it will search for the samples under the given directory. The samples can be defined in \textbf{SkimTreeProducer/SkimTreeProduction.py}, L44 (the function \texttt{sampleSelection}). So if I want to run over, say, T1qqqq, I would need to point \texttt{basedirSignalModels} in \textbf{config\_cfi\_6CF.py} to the location of the trees for that model, \emph{and} also define the samples in the \texttt{sampleSelection} function in \textbf{SkimTreeProduction.py}. I can then run \textbf{SkimTreeProducer\_PSet\_cfg.py} with a different pset argument: instead of \texttt{--pset=Signal}, use \texttt{--pset=SignalModels} to run over the samples I've targeted.
+
+Once I'm on the IC remote server and have set up the necessary repos and branches, navigate to \textbf{\$ALPHATOOLSDIR/SkimTreeProducer} and run
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+python SkimTreeProducer_PSet_cfg.py --mc --pset=SignalModels --outDir ./
+\end{lstlisting}
+
+to get the raw cut flow tables for the SMS model I'm targeting. I can then run \textbf{makeCutFlowTable.py}, making sure the arguments are correct, to produce the condensed cut flow table. I'll need to translate the skimmers into something more meaningful. By default, they'll be named bDPhiSkim and objectSkimmer, etc. But they are defined in the \textbf{Skimmers/} folder so I can figure out what actual cuts are and write them in. If there isn't a corresponding .py file for a particular skimmer, it might be defined in \textbf{HeppySkimmers.py}.
+
+Step-by-step instructions:
+
+\begin{easylist}[enumerate]
+& Get my Imperial College account and log in to their remote server.
+& Set up \textsc{AlphaTools} using the \textbf{load\_doms\_alphatools.sh} script I have on Soolin, and pull the necessary repos and branches.
+& Edit L33 (the function \texttt{basedirSignalModels}) in \textbf{\$ALPHATOOLS/Configuration/config\_cfi\_6CF.py} to give the path of the benchmark model I'm targeting.
+& Define the samples in L44 (\texttt{psetSignalModels25ns.sampleSelection}) of \textbf{\$ALPHATOOLS/SkimTreeProducer/SkimTreeProduction.py}.
+& Produce the raw cut flow tables by staying in the same directory and typing \texttt{python SkimTreeProducer\_PSet\_cfg.py --mc --pset=SignalModels --outDir ./}. Note down the total number of events in each sample during the skimming so that I can create efficiencies.
+& Condense the cut flow tables for each sample by typing \texttt{python makeCutFlowTable.py --inputDir \$ALPHATOOLSDIR/SkimTreeProducer/SkimTreeProduction/$<$location of cut flows$>$ --process $<$name of sample$>$ -l -pdf} (where $<$name of sample$>$ is what I've defined in step 4).
+& Find the file corresponding to each skimmer by looking in \textbf{\$ALPHATOOLS/Skimmers/}. Figure out what the actual cut is and then replace the default name of the skimmer with that.
+& \LaTeX\ the table to make it look presentable and display it in the correct format (the models are defined in the paper SUS-15-005, and the symbols for the particles are \emph{not} italicised). Use the total number of events for each event category to put all values in terms of percentages. By default, the efficiencies should be inclusive (cumulative). Also include a column for exclusive (cut-by-cut) efficiencies.
+& Repeat steps 6--8 for each sample in the benchmark model, then repeat steps 3--8 for each benchmark model.
+\end{easylist}
+
+Rob has asked whether the preliminary tables (for signal data) contain \emph{all} the cuts applied in the analysis, i.e., those applied in Heppy, the skims, and AlphaTools. I think they do. There's a file called \textbf{HeppySkimmers.py} in \textbf{/Skimmers/} which contains a few classes that are translated to cuts. And all of the skims are in AlphaTools so I think \emph{every} cut used in the analysis is present in the tables. All of these selections are detailed below -- with translations if possible -- and whether they're required for cut flows in the signal Monte Carlo (benchmark) models.
+
+\begin{easylist}[itemize]
+\ListProperties(Style*=$\bullet$ , FinalMark={)})
+& $<$Skimmer name, as detailed in Dom's AlphaTools branch$>$ | $<$event selection$>$ | $<$necessary for benchmark model cut flows?$>$
+& defaultSkim | \alphat\ \HT-dependent cuts; \htmiss $> 130$ (for jets with $\pt > 40$); $\HT \geq 200$ (for jets with $\pt > 40$); $n_{\mathrm{jets}}$ with $\pt > 40$ is $> 1$; $n_{\mathrm{jets}}$ with $\pt > 100$ is $\geq 1$ | Y
+& bDPhiSkim | $\biasedDPhi > 0.5$ | Y
+& objectSkimmer | Lepton and photon vetoes, depends on data type (signal MC, single mu, double mu, etc.) | N
+& primaryDatasetSkimmer | no cut, specifies parent sample if data | N
+& cutFlowSkimmer | determine type of data for cut flows (data, control region MC, signal region MC) | Y
+& mllSkimmer | $66.2 < m_{\ell\ell} < 116.2$ | N
+& minDRJetSkimmer | $\Delta R > 0.5$ | N
+& JSONSkimmer | Checks if sample is MC, or if run/lumi pair is in JSON file if data | N
+& badMCEventSkimmer | Returns True if sample is data. If MC, checks for "bad" events | Y
+& relIsoSkimmer | Cut on relative isolation of leptons | N
+& eleEtaSkimmer | asserts that $\abseta$ for ALL electrons $< 1.479$ | N
+& promptPhotonSkimmer | if sample is data, return True (no cut). If not data, want 0 photons | N
+& ttJetsSkimmer | if sample is data, return True. If parent sample is not TTJets, return True. Else, lots of conditions | N
+& photonPtSkimmer | cut on photon momentum | N
+& triggerSkimmer | Trigger cuts (only affects data and control region MC) | N
+& filterSkimmer | If signal (benchmark model), return True | N
+& fwdJetSkimmer | Forward jet veto | Y
+& tighterJetIdSkimmer | jet\_chHEF $\geq$ 0.1 | Y
+& leadJetEtaSkimmer | $|\eta^{\mathrm{j}_1}| < 2.5$ | Y
+& mhtDivMetSkimmer | \htmiss/\etmiss $< 1.25$ | Y
+& OddJetSkimmer | if inclusiveJet.newId == 0 and inclusiveJet.pt $> 40$ : return False  | N
+& mtSkimmer | $30 < M_{\mathrm{T}} < 125$ | N
+& IsoTrackSkimmer | Isolated track veto | Y
+\end{easylist}
+
+For clarification: j$_1$ describes the leading jet; all values are assumed to be in GeV unless stated otherwise; some cuts are not needed because they apply only to data or to control regions. All of these variables and terms should be defined in~\cite{CMS-PAPER-SUS-15-005-arXiv}.
+
+\section{Presentation/talk on cut flow tables progress}
+
+Below is the progress report I gave to the RA1 group regarding the progress we've made with creating the cut flow tables. For this, and future, talks, it is important to remember the following:
+
+\begin{easylist}[itemize]
+\easylistprops
+& Include name, email address, University of Bristol logo, CMS logo, and slide numbers in every slide.
+& At the very least, include the date that I'm giving the presentation on the title slide. I can also include it in each slide as part of the footer.
+& For consistency, create a "Slide Master" in PowerPoint when I'm creating the presentation (taking into account the first point in this list), and give it some name. Then each new slide can use that template.
+& Don't have a "busy" background. It needs to be relatively plain so that the reader can focus on the information and won't get distracted by the background.
+& Consider making the slides in the 4:3 aspect ratio rather than the default 16:9 as (some) projectors still use 4:3.
+& Remember to credit the people who helped in the work/analysis, regardless of whether they helped to write the talk itself. Just follow the same rules as authorship in papers.
+\end{easylist}
+
+The link to the slides is \href{run:modules/Sec 18 - Cut flow tables for SUS-15-005/figures/Cut flow tables progress.pdf}{Cut flow tables progress}.
+
+\section{Configuring event selections using Tai's method}
+\label{subsec:taiscutflowirlcode}
+
+Tai has created another method that implements cut flows which could be used in future analyses, and possibly also the 2015 analysis if it can be perfected and streamlined quickly. The code, with an example of how to run it, is located at \url{https://github.com/TaiSakuma/cutflowirl}. The command, using an example SMS model, is
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+./cutflowirl/twirl_mktbl.py --components SMS_T1tttt_madgraphMLM --max-events-per-process 500000 --logging-level INFO --parallel-mode htcondor
+\end{lstlisting}
+
+where \texttt{components} requires the sample(s) being run over, \texttt{max-events-per-process} is only required if using batch submission, and if \texttt{htcondor} doesn't work, I can set \texttt{--parallel-mode multiprocessing} instead). This yields a raw table in \textbf{./tbl/out/} in the following format:
+
+\begin{table}[htbp]
+\centering
+    \begin{tabular}{|l|l|l|l|l|l|}
+    \hline
+    component   & depth  & class           & name 					      & pass       & total         \\ \hline
+    $*$ 		& 1         & +AllCount   & All                           		      & 39074    & 30799443 \\
+    $*$		& 2         & LambdaStr & "ev : ev.smsmass1[0] == 1300" & 768345  & 30799443 \\
+    $*$		& 2         & LambdaStr & "ev : ev.smsmass2[0] == 1050" & 39074    & 768345     \\
+    $*$		& 1         & LambdaStr & "ev : ev.nJet40[0] $>$= 3"         & 34486    & 39074        \\
+    $*$ 		& 1         & LambdaStr & ht40                        	              & 31061    & 34486        \\
+    $*$		& 1         & LambdaStr & nJet100                 	              & 22984    & 31061        \\
+    $*$		& 1         & +AnyCount & Any                                            & 22984    & 22984        \\
+    $*$ 		& 2         & LambdaStr & ht40                                           & 22984    & 22984        \\
+    $*$		& 2         & LambdaStr & nJet100                                     & 0            & 0                \\
+    $*$		& 1         & +NotCount & Not                                             & 0            & 22984        \\
+    $*$ 		& 2         & LambdaStr & ht40                                           & 22984    & 22984         \\ \hline
+    \end{tabular}
+    \caption{The output from Tai's example cut flow table generator. Symbols: $*$ = SMS\_T1tttt\_madgraphMLM; + = EventSelection.}
+    \label{tab:taisexamplecutflowraw}
+\end{table}
+
+The first column displays the model that's being run over (T1tttt $\rightarrow$ gluino pair production decaying into four $t$ quarks and two neutralinos). The "depth" refers to the nesting of some event selections, discussed below. The "name" column gives the names of the cuts. These are the conditions as expressed in the function that configures the event selections (\texttt{path\_cfg}); some of these are actual Python code for the cuts, whilst others are aliases that are shorthand for the cuts described in the file \textbf{eventSelectionAliasDict.py}. Then the "pass" column shows the number of events that pass the condition, and the "total" column shows the total number of events left to iterate over (i.e., the events that have passed all of the previous cuts).
+
+To conjure the table above, the \texttt{path\_cfg} function at L81 of \textbf{twirl\_mktbl.py} looked like this:
+
+\begin{lstlisting}[belowskip=-0.7cm, language=python, numbers=none]
+path_cfg = dict(All = (
+	dict(All = ('ev : ev.smsmass1[0] == 1300', 'ev : ev.smsmass2[0] == 1050')),
+	'ev : ev.nJet40[0] >= 3',
+	'ht40',
+	'nJet100',
+	dict(Any = ('ht40', 'nJet100')),
+	dict(Not = 'ht40'),
+))
+\end{lstlisting}
+
+where the dictionary contains \emph{one} element, whose key is \texttt{All} (discussed earlier) and value is encompassing everything from the second line (and is a tuple). Each line from the second to the penultimate line is a specific condition, i.e., an event selection/cut. So the first condition uses the \texttt{All} class -- meaning that all of the conditions within it need to be satisfied to pass -- and has two nested selections. Referring to the "depth" column in Table~\ref{tab:taisexamplecutflowraw}, it is clear now that the depth is 2 for these selections because there are two selections in this \texttt{All} class. The row above (EventSelectionAllCount) shows the number of events that pass \emph{both} conditions, and the two rows below give a breakdown of the cut. This first cut actually refers to the target sample: the variables \texttt{smsmass1} and \texttt{smsmass2} are the masses of the parent SUSY particle ($m_{\mathrm{SUSY}}$) and the LSP ($m_{\mathrm{LSP}}$), respectively. So you're making sure you iterate over the correct model and sample before proceeding with the other cuts. For the EventSelectionAnyCount row the \texttt{Any} class is used, so any of the (two, in this case) conditions needs to be met. Notice that the nJet100 row shows 0 in the "pass" and "total" columns. This is because in the previous condition (ht40), all events pass (because the condition was called previously in the cut flow) so no events need to be passed to the next condition contained within the \texttt{Any} selection.
+
+Using the \texttt{path\_cfg} function above, I can construct the cut flow for a particular model and sample from the 2015 analysis by including the cuts Dom pointed me to (the skimmers in his AlphaTools branch), using \textbf{eventSelectionAliasDict.py} for the syntax of the cuts. I also have to make sure that I'm pointing to the correct model and sample I'm interested in each time I run the code. The absolute path to the model is defined in \texttt{default\_heppydir}, at L17 of \textbf{twirl\_mktbl.py}. Then I would just need to set \texttt{smsmass1[0]} and \texttt{smsmass2[0]} to the values pertaining to the sample I want to run over.
+
+After including the skimmers applicable to the 2015 analysis (then removing the unnecessary skimmers and translating the remaining ones that are applicable to signal Monte Carlo, i.e., the benchmark models), the (more-or-less) finished cut flow table for the example model is below. Note that, for SUSY papers, the standard symbols for particles are from the package \texttt{hepnicenames}. The documentation can be consulted for clarifications on syntax.
+
+\begin{table}[htbp]
+\centering
+    \begin{tabularx}{\textwidth}{lXXX}
+    \hline
+     \multirow{2}{*}{Event Selection}    &    \multicolumn{3}{M{9.2cm}}{Model (sample)}    \\ \cline{2-4}
+     
+     &    \multicolumn{3}{M{9.2cm}}{\PSgluino\PSgluino $\rightarrow$ \Ptop\Ptop\APtop\APtop\PSneutralinoOne\PSneutralinoOne ($m_{\mathrm{SUSY}} = 1300$, $m_{\mathrm{LSP}} = 1050$)}    \\ \cline{2-4}
+     
+    ~  & Events passed & Inclusive efficiency (\%) & Exclusive efficiency (\%) \\ \hline
+    
+    --    &    39074    & 100    &    100    \\
+    
+    $\njet \geq 2 \ (\pt^{\ \mathrm{j}} > 40\GeV$)    &    39074    & 100    &    100    \\
+    
+    Forward jet veto    &   35488    &  90.82   &    90.82   \\
+    
+    Jet failed ID check    &    35488    &    90.82    &    100    \\
+    
+    jet CHF $\geq$ 0.1    &    34605    &    88.56   &    97.51    \\
+    
+    $|\eta^{\ \mathrm{j_1}}| < 2.5$    &    34457    &    88.18   &    99.57    \\
+    
+    Isolated track veto    &    12017    &    30.75    &    34.88    \\
+    
+    $\njet \geq 1 \ (\pt > 100\GeV$)    &    7971    &    20.40    &    66.33    \\
+    
+    $\HT \geq 200\GeV$ ($\pt^{\ \mathrm{j}} > 40\GeV$)   &   7837    &    20.06    &    98.32    \\
+    
+    \htmiss $\geq 130\GeV$ ($\pt^{\ \mathrm{j}} > 40\GeV$)    &    4818    &    12.33    &    61.48    \\
+    
+    \htmiss/\etmiss $< 1.25$    &    4050    &    10.36    &    84.06    \\
+    
+    \alphat\ \HT-dependent cuts    &    2863    &    7.33    &    70.69    \\
+    
+    $\biasedDPhi > 0.5$    &    859    &    2.20    &    30.00    \\ \hline
+    
+    \end{tabularx}
+    \caption{The preliminary version of the cut flow table for the example 2016 dataset SMS\_T1tttt\_madgraphMLM (30799443 events, reduced to 39074 \emph{unweighted} events when selections on $m_{\mathrm{SUSY}}$ and $m_{\mathrm{LSP}}$ were applied). The cuts included comprise all of the relevant selections that were implemented for the benchmark models in the 2015 analysis. The \emph{final} tables will only contain the inclusive/cumulative efficiencies, and the column headers will be replaced by the sample parameters (equivalent to the cut flow table in SUS-14-006\_aux).}
+\end{table}
+
+The jet CHF variable is the charged hadron fraction of the jet. We've added support for including multiple samples. So for a particular model, we can include all the samples (i.e., the different combinations of $m_{\mathrm{SUSY}}$ and $m_{\mathrm{LSP}}$) and create cut flow tables for each one in a single run of the code. This was achieved by relocating the standard cut flow to new function (one I called \texttt{std\_cutflow}) and then adding the sample selection criteria to \texttt{path\_cfg}. So the relevant code now looks like this:
+
+\lstinputlisting[language=Python, linerange={86-114}, caption={The relevant functions that need to be edited to produce cut flow tables. The first function specifies the standard cut flow for a sample, and the second specifies the selection criteria for the samples themselves. File name: twirl\_mktbl.py (v1, lines 86--114).}]{listings/twirl_mktblv1.py}
+
+I'll probably use Tai's method, as opposed to Dom's, to generate the cut flow tables for the benchmark models. With Tai's method, it could be possible to run over the MiniAOD files rather than the flat trees (which are created from MiniAODs), which might be better because tree production already applies some loose cuts which could then skew the results of the cut flow.  
+
+I wrote a short talk giving an update on the cut flows using Tai's method. The link to the slides is \href{run:modules/Sec 18 - Cut flow tables for SUS-15-005/figures/Cut flow tables progress II.pdf}{Cut flow tables progress II}. After presenting, the general consensus on how to proceed is to create flat trees from MiniAOD files in Heppy, applying no cuts. Then incorporate the code from Tai's cutflowirl repo into \textsc{AlphaTools} and rerun the procedure to generate cut flows, this time including every selection (as detailed in Sec.~\ref{subsubsec:currentprocedurecutflows}) regardless of whether they apply to these SMS models or not. Then we can discuss the order and grouping of the cuts and make nice, polished tables.
+
+\section{Creating the cut flow tables for the benchmark models}
+
+\subsection{Making the flat trees (with no cuts) for the models}
+
+Using the information detailed in the previous subsections, I should be able to start generating the cut flow tables for the SMS models in the 2015 analysis. The first task is to produce the flat trees for the models in Heppy without any cuts (except the mass points from the different samples). To remain consistent between the production of these trees and the original ones, I'll need to use the same version of CMSSW and the same tag of the code in Heppy/CMGTools. They used CMSSW\_7\_4\_X at the time so I'm using 7\_4\_14. Stefano gave me the tag for the SMS models (74X\_MC\_20151207\_D01). So I can follow the instructions at \url{https://github.com/CMSRA1/RA1OPS/wiki/B1.-Flat-Tree-Production-(74X)} and just check out that tag. Although the original trees would have been produced at different times, they should have been so with consistent settings (otherwise the results in the paper would be wrong), so using the tag above should be fine. Once I was on that tag I checked out my own branch \emph{eshMCtreeprod20170221}. I will now need to add a skimmer for the sparticle masses. I can take inspiration from \url{https://github.com/CMSRA1/cmgtools-lite-private/blob/80X-ra1-0.7.x/TTHAnalysis/python/analyzers/susyParameterScanAnalyzer.py} to get the variables corresponding to the masses and then add some \verb!if! statements to match the sample(s).
+
+However, after some trial and error, and nosing around the files in Heppy and CMGTools, I realised I didn't even need to include mass cuts in the sequence for tree production. The configuration file I would be using to create the flat trees would be \textbf{run\_susyAlphaT\_AtLogic\_MC\_SUSY\_SMS\_25ns\_cfg.py} in the directory \textbf{\$CMSSW\_BASE/src/CMGTools/TTHAnalysis/cfg/}. At L12, the variable \texttt{componentArgsList} lists the components (i.e., the models) that are run over during tree production. These components, along with the samples that make up the components (i.e., the miniAOD files), are defined in \textbf{TTHAnalysis/python/components/components\_alphaT\_13TeV\_MC\_signal\_74X.py}. By default, these lists contain \emph{all} of the samples for each model. So I can simply comment out that list and replace it with my own that includes the sample(s) which contain the mass points I'm interested in. So, for example, I want to look at the $m_{\mathrm{SUSY}} = 1300$, $m_{\mathrm{LSP}} = 100$ mass points for the T1tttt model. I can look through all the samples defined in the file, and then write my own list:
+
+\begin{lstlisting}[belowskip=-0.7cm, language=python, numbers=none]
+componentArgsList_T1tttt_25ns = [SMS_T1tttt_mGluino_1300_mLSP_1to1075_25ns,]
+\end{lstlisting}
+
+Then when I run the flat tree production, only that sample would be included, meaning that tree production is \emph{much} faster and I don't have to apply mass cuts in the sequence (because that gave me problems before). In the file, samples for only three of the benchmark models were included. The others weren't pushed to the tag I based my analysis on. So Stefano uploaded the component files containing all of these other samples. I called them \textbf{components\_alphaT\_13TeV\_MC\_signal\_74X\_extra.py} and \textbf{components\_alphaT\_13TeV\_MC\_signal\_74X\_extra\_MiniAODv2.py}. Now I had available all of the samples I would need to produce the trees needed for the cut flows.
+
+The next step was removing the other loose cuts applied when making the flat trees. After trudging through the event selection modules, I just commented out the selections in the dictionary \texttt{buildEventSelection\_options} in \textbf{run\_susyAlphaT\_AtLogic\_MC\_SUSY\_SMS\_25ns\_cfg.py}. Throughout these phases I was recompiling the code and then testing each modification to see if it worked.
+
+Once these changes had been implemented, I was almost ready to submit jobs for tree production. Whilst attempting this I ran in to errors, namely one that caused the batch script associated with each job to remain empty. This was due to the fact that the tag I had based my edits on was out of date. Since that tag had been created, the computing architecture at Bristol had changed. We are using a new hostname (soolin.dice.priv instead of soolin.phy.bris.ac.uk), so that had to be updated in \textbf{\$CMSSW\_BASE/src/PhysicsTools/HeppyCore/python/utils/batchmanager.py} L302, as well as in any other file that still contained the old hostname. I could just navigate to \textbf{\$CMSSW\_BASE/} and type \texttt{grep -ir soolin.phy.bris.ac.uk}, then update the files containing that string.
+
+I could now finally submit jobs to Condor -- preferably from \textbf{\$CMSSW\_BASE/src/}, because everything in the submission directory is re-tarred and sent to the worker nodes that run the jobs -- with the command
+
+\begin{easylist}[itemize]
+\ListProperties(Style*=, FinalMark={)})
+& \texttt{heppyBatchAlphaT.py -o \$OUTDIR -c AtLogic\_MC\_SUSY\_SMS\_25ns}
+\end{easylist}
+
+where \textbf{\$OUTDIR = /storage/eb16003/Cutflow2015Storage/74X/MC/20170221\_S01}. If any jobs fail and then need to be resubmitted, errors can be encountered at this step. If the error references the file \textbf{\$CMSSW\_BASE/bin/slc6\_amd64\_gcc491/cmgResubChunk}, check to see if the hostname is correct. That might solve the problem. Another problem I faced was when specific jobs quit as soon as they started running. This was due to the file \textbf{pycfg.py} being empty in the failed chunks. This file is the same for each chunk in a specific sample, so if faced with that error, I can just copy the file from a successful chunk in that sample into the directory of the failed one.
+
+Once the jobs have finished, I can extract and check the output files, and resubmit any failed jobs, using the commands in the flat tree production tutorial. Once \emph{all} of the jobs have succeeded, I can combine the output files so that I get a single flat tree for each sample (stored in \textbf{$<$sample$>$/treeProducerSusyAlphaT/}). I should double-check that everything is in order by opening the root file and looking at the histograms. A quick cross check would be to compare the number of events in the tree to that of the corresponding miniAOD file (which I can do using Tai's cut flow code); these should be the same (which they were when I tested it on a T1tttt sample), indicating that everything wrote to the root file properly and that no loose cuts were applied during tree production. Another would be to take a look at the histograms of the sparticle masses. These should effectively be delta functions where the different masses are, and also gives an insight into how many events you should expect when running over specific mass points. The final task is to copy all the trees to \textbf{/hdfs} because I shouldn't have $\sim 600$ GB of stuff clogging up \textbf{/storage}. The locations are as follows:
+
+\begin{easylist}
+\easylistprops
+& /hdfs/SUSY/RA1/74X/MC/20170302\_S01
+& /hdfs/SUSY/RA1/74X/MC/20170303\_S02
+& /hdfs/SUSY/RA1/74X/MC/20170304\_S02
+& /hdfs/SUSY/RA1/74X/MC/20170306\_S01
+\end{easylist}
+
+\subsection{Making the cut flow tables themselves}
+
+Now Tai's cut flow code -- see Sec.~\ref{subsec:taiscutflowirlcode} -- comes into play. As some of the samples used in tree production contain mass \emph{ranges}, I can make mass \emph{point} cuts on $m_{\mathrm{SUSY}}$ and $m_{\mathrm{LSP}}$ here. At the moment, the repo containing the code is in \textbf{/storage/eb16003/TEMPCUTFLOW/} on Soolin. In this directory, I need to edit the files \textbf{cutflowirl/twirl\_mktbl.py} to point to the directory containing my flat trees, and \textbf{cutflowirl/FrameworkHeppy.py}, changing all mentions of \texttt{'roctree'} to \texttt{'treeProducerSusyAlphaT'}. Then I can run the command
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+./cutflowirl/twirl_mktbl.py --components <sample(s)> --logging-level INFO --parallel-mode multiprocessing
+\end{lstlisting}
+
+to get the raw cut flow table. The argument \texttt{<sample>} should be the name of the sample that contains the tree we're interested in, e.g., \texttt{SMS-T1tttt\_mGluino-1300\_mLSP-1to1075\_25ns}. The output folder \textbf{./tbl/out/} contains several files, including the cut flow table and the actual event selections as programmed. There's also a file which details the number of events in the miniAOD for the sample, so the cross-checking between it and the tree can be done.
+
+If there are more selections that are needed for the cut flow table, or I want the syntax for a particular selection, I can just look at the leaves of the tree (either with TBrowser or by creating the class files -- see Sec.~\ref{sec:rootlinlinuxvm}). Then the syntax I would include in \textbf{twirl\_mktbl.py} would be \texttt{"ev : ev.<leaf> <cut>"}. Most importantly, for the mass points, the syntaxes would be
+
+\begin{lstlisting}[belowskip=-0.7cm, language=python, numbers=none]
+"ev : ev.GenSusyMGluino[0] == 1300",
+"ev : ev.GenSusyMNeutralino[0] == 100",
+\end{lstlisting}
+
+for the T1tttt example I used above.
+
+If I look at Table 5 of the paper, showcasing the benchmark models and their samples, there's a column called "Most sensitive \njet categories". These show the four most sensitive categories. Some of them contain an "a" following the number, which stands for "asymmetric". Asymmetric jets refer to the \pt of the two hardest jets. In the cut flow, it is required that at least two jets have $\pt^{\mathrm{j}} > 40\GeV$, and the leading jet (j$_1$) has $\ptjone > 100\GeV$. If the second-hardest jet (j$_2$) also has $\pt^{\mathrm{j_2}} > 100\GeV$, the topology is "symmetric". But, if it instead is $40 < \pt^{\mathrm{j_2}} < 100\GeV$, the topology is asymmetric. In the rare case of $\pt^{\mathrm{j_2}} < 40\GeV$, we have the "monojet" regime. I need to account for these \njet categories in the cut flow. Essentially, I have a standard cut flow that is executed for each sample. Then at the end of that cut flow, I specify the sample-specific selections (i.e., the \njet categories).
+
+When making the cut flow tables for a sample I need to make sure that (in \textbf{twirl\_mktbl.py}) I've specified the correct path in \texttt{default\_heppydir}, the sparticles and their masses are correct, the \njet categories are correct, and that I'm including the correct \texttt{--components} argument when executing the command in the terminal.
+
+After I made a few cut flow tables, I compared the end-of-cut-flow efficiencies with those listed in Table 5 of the paper. In the comparisons for all of the models I had tested, there was a discrepancy between the efficiencies. My values were consistently $\sim 2.0-2.5$x those in the paper. My initial reaction was that I had made a mistake somewhere. But on closer inspection, Matt and Rob discovered that the values in the paper were actually incorrect because they hadn't been scaled by the luminosity (2.3\fbinv). So I inadvertently found a mistake in the paper (which I'm proud of). And it's good that this was found now rather than after publication. After generating the rest of the tables, I found another mistake. My efficiencies for the T2bb samples were a factor of more than 20 greater than in the paper. This was due to the values in the paper using the squark cross section as opposed to the sbottom. When corrected, the efficiencies were more consistent. For my contributions to the cut flows, I've also been added to the internal authors list. Because I'm not a CMS author and the public author list for the paper was finalised ages ago, I'm not an author on the \emph{public} paper but I am on the \emph{internal} paper (i.e., the draft versions) and the accompanying analysis note CMS AN-15-004. This is a huge step because it shows that I've made a significant enough contribution to the analysis that the rest of the group recognise it, and I know how much work and effort is needed to earn authorship.
+
+\subsection{The cut flow}
+
+I've sent Rob Bainbridge the list of skimmers used in the 2015 analysis, the leaves in the flat trees and the event selection dictionary from Tai so he could decide what cuts we should use and in what order. After some deliberation, the cut flow for these benchmark models is as follows:
+
+\lstinputlisting[language=Python, linerange={86-119}, caption={The final cut flow to generate raw cut flow tables for the benchmark models used in the 2015 analysis. The mass points are specified in the function \texttt{path\_cfg} and the rest of the selections are in \texttt{std\_cutflow}. File name: twirl\_mktbl.py (v2, L86--119).}]{listings/twirl_mktblv2.py}
+
+
+\section{The final cut flow tables}
+
+After the months of slogging away, I have finally generated the cut flow tables for SUS-15-005. The tables are linked from the auxiliary material, located here: \url{https://twiki.cern.ch/twiki/pub/CMS/PhysicsResultsSUS15005/SUS-15-005_aux_temp.pdf}. They can also be viewed on the public webpage here: \url{http://cms-results.web.cern.ch/cms-results/public-results/publications/SUS-15-005/index.html}. The raw tables were generated by me, which I then passed to Rob for formatting in \LaTeX\ so the final versions were consistent with the style of the paper.
+
+All of the cut flow tables, taken directly from the auxiliary material (\url{https://github.com/CMSRA1/AlphaTDR2/blob/master/papers/SUS-15-005/trunk/SUS-15-005_aux.tex}) are here:
+
+\begin{table}[htbp]
+\caption{A summary of the cumulative signal acceptance times efficiency, $\mathcal{A}\,\varepsilon$ [\%], for various benchmark models with both compressed and uncompressed mass spectra, following the application of the event selection criteria used to define the signal region. Values for $\mathcal{A}\,\varepsilon$ are also shown following the application of additional requirements that define the four most sensitive \njet event categories, as defined in Table 5 of the paper. Scale factor corrections to simulated signal events that account for the mismodelling of theoretical and experimental parameters are not applied, and so the values for $\mathcal{A}\,\varepsilon$ differ with respect to those in Table 5 by up to 15\%. }
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lcccccc}
+  \hline
+  Event selection & \multicolumn{6}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP}$)} \\
+  \cline{2-7}
+   & T1qqqq & T1qqqq & T2qq\_8fold & T2qq\_8fold & T2qq\_1fold & T2qq\_1fold \\
+   & (1300,\,100) & (900,\,700) & (1050,\,100) & (650,\,550) & (600,\,50) & (400,\,250) \\
+  \hline
+  Before selection & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} \\
+  Event veto for muons and electrons & \phantom{1}99\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} \\
+  Event veto for single isolated tracks & \phantom{1}94\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} \\
+  Event veto for photons & \phantom{1}92\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}95\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 3.0$) & \phantom{1}81\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}82\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}80\phantom{.1} & \phantom{1}80\phantom{.1} \\
+  $\njet \geq 2$ & \phantom{1}81\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}80\phantom{.1} & \phantom{1}75\phantom{.1} \\
+  $\ptjone > 100\GeV$ & \phantom{1}81\phantom{.1} & \phantom{1}71\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}57\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}66\phantom{.1} \\
+  $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}81\phantom{.1} & \phantom{1}70\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}55\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}65\phantom{.1} \\
+  $\HT > 200\GeV$ & \phantom{1}81\phantom{.1} & \phantom{1}69\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}60\phantom{.1} \\
+  $\mht > 130\GeV$ & \phantom{1}77\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}33\phantom{.1} & \phantom{1}71\phantom{.1} & \phantom{1}40\phantom{.1} \\
+  $\mht / \etmiss < 1.25$ & \phantom{1}74\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}75\phantom{.1} & \phantom{1}28\phantom{.1} & \phantom{1}65\phantom{.1} & \phantom{1}33\phantom{.1} \\
+  \HT-dependent \alphat requirements ($\HT < 800\GeV$) & \phantom{1}74\phantom{.1} & \phantom{1}30\phantom{.1} & \phantom{1}71\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}17\phantom{.1} \\
+  $\biasedDPhi > 0.5$ & \phantom{1}22\phantom{.1} & \phantom{1}18\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}10\phantom{.1} & \phantom{1}33\phantom{.1} & \phantom{1}13\phantom{.1} \\
+  \hline
+  Four most sensitive \njet event categories & \phantom{1}22\phantom{.1} & \phantom{1}13\phantom{.1} & \phantom{1}43\phantom{.1} & \phantom{10}5.5 & \phantom{1}31\phantom{.1} & \phantom{10}6.1 \\
+  \hline
+\end{tabular}
+}
+\end{table}
+
+
+\begin{table}[htbp]
+\caption{A summary of the cumulative signal acceptance times efficiency, $\mathcal{A}\,\varepsilon$ [\%], for various benchmark models with both compressed and uncompressed mass spectra, following the application of the event selection criteria used to define the signal region. Values for $\mathcal{A}\,\varepsilon$ are also shown following the application of additional requirements that define the four most sensitive \njet event categories, as defined in Table 5 of the paper. Scale factor corrections to simulated signal events that account for the mismodelling of theoretical and experimental parameters are not applied, and so the values for $\mathcal{A}\,\varepsilon$ differ with respect to those in Table 5 by up to 15\%. }
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lcccccc}
+  \hline
+  Event selection & \multicolumn{6}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP}$)} \\
+  \cline{2-7}
+   & T1bbbb & T1bbbb & T1tttt & T1tttt & T1ttbb & T1ttbb \\
+   & (1500,\,100) & (1000,\,800) & (1300,\,100) & (800,\,400) & (1300,\,100) & (1000,\,700) \\
+  \hline
+  Before selection & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} \\
+  Event veto for muons and electrons & \phantom{1}99\phantom{.1} & \phantom{1}98\phantom{.1} & \phantom{1}41\phantom{.1} & \phantom{1}42\phantom{.1} & \phantom{1}61\phantom{.1} & \phantom{1}64\phantom{.1} \\
+  Event veto for single isolated tracks & \phantom{1}94\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}31\phantom{.1} & \phantom{1}32\phantom{.1} & \phantom{1}51\phantom{.1} & \phantom{1}54\phantom{.1} \\
+  Event veto for photons & \phantom{1}93\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}30\phantom{.1} & \phantom{1}32\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}54\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 3.0$) & \phantom{1}82\phantom{.1} & \phantom{1}79\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}47\phantom{.1} \\
+  $\njet \geq 2$ & \phantom{1}82\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}47\phantom{.1} \\
+  $\ptjone > 100\GeV$ & \phantom{1}82\phantom{.1} & \phantom{1}69\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}43\phantom{.1} \\
+  $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}82\phantom{.1} & \phantom{1}68\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}42\phantom{.1} \\
+  $\HT > 200\GeV$ & \phantom{1}82\phantom{.1} & \phantom{1}66\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}42\phantom{.1} \\
+  $\mht > 130\GeV$ & \phantom{1}79\phantom{.1} & \phantom{1}48\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}41\phantom{.1} & \phantom{1}32\phantom{.1} \\
+  $\mht / \etmiss < 1.25$ & \phantom{1}77\phantom{.1} & \phantom{1}43\phantom{.1} & \phantom{1}24\phantom{.1} & \phantom{1}11\phantom{.1} & \phantom{1}38\phantom{.1} & \phantom{1}26\phantom{.1} \\
+  \HT-dependent \alphat requirements ($\HT < 800\GeV$) & \phantom{1}77\phantom{.1} & \phantom{1}29\phantom{.1} & \phantom{1}24\phantom{.1} & \phantom{10}8.3 & \phantom{1}38\phantom{.1} & \phantom{1}19\phantom{.1} \\
+  $\biasedDPhi > 0.5$ & \phantom{1}23\phantom{.1} & \phantom{1}17\phantom{.1} & \phantom{10}5.6 & \phantom{10}1.3 & \phantom{10}9.5 & \phantom{10}8.8 \\
+  \hline
+  Four most sensitive \njet event categories & \phantom{1}23\phantom{.1} & \phantom{1}12\phantom{.1} & \phantom{10}5.6 & \phantom{10}1.3 & \phantom{10}9.5 & \phantom{10}7.4 \\
+  \hline
+\end{tabular}
+}
+\end{table}
+
+
+\begin{table}[htbp]
+\caption{A summary of the cumulative signal acceptance times efficiency, $\mathcal{A}\,\varepsilon$ [\%], for various benchmark models with both compressed and uncompressed mass spectra, following the application of the event selection criteria used to define the signal region. Values for $\mathcal{A}\,\varepsilon$ are also shown following the application of additional requirements that define the four most sensitive \njet event categories, as defined in Table 5 of the paper. Scale factor corrections to simulated signal events that account for the mismodelling of theoretical and experimental parameters are not applied, and so the values for $\mathcal{A}\,\varepsilon$ differ with respect to those in Table 5 by up to 15\%. }
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lcccc}
+  \hline
+  Event selection & \multicolumn{4}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP}$)} \\
+  \cline{2-5}
+   & T5tttt\_DM175 & T5tttt\_DM175 & T5ttcc & T5ttcc \\
+   & (800,\,100) & (700,\,400) & (1200,\,200) & (750,\,600) \\
+  \hline
+  Before selection & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} \\
+  Event veto for muons and electrons & \phantom{1}41\phantom{.1} & \phantom{1}42\phantom{.1} & \phantom{1}63\phantom{.1} & \phantom{1}63\phantom{.1} \\
+  Event veto for single isolated tracks & \phantom{1}30\phantom{.1} & \phantom{1}32\phantom{.1} & \phantom{1}53\phantom{.1} & \phantom{1}53\phantom{.1} \\
+  Event veto for photons & \phantom{1}30\phantom{.1} & \phantom{1}31\phantom{.1} & \phantom{1}53\phantom{.1} & \phantom{1}52\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 3.0$) & \phantom{1}25\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}45\phantom{.1} \\
+  $\njet \geq 2$ & \phantom{1}25\phantom{.1} & \phantom{1}27\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}41\phantom{.1} \\
+  $\ptjone > 100\GeV$ & \phantom{1}25\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}25\phantom{.1} \\
+  $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}25\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}24\phantom{.1} \\
+  $\HT > 200\GeV$ & \phantom{1}25\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}46\phantom{.1} & \phantom{1}23\phantom{.1} \\
+  $\mht > 130\GeV$ & \phantom{1}17\phantom{.1} & \phantom{10}9.4 & \phantom{1}44\phantom{.1} & \phantom{1}15\phantom{.1} \\
+  $\mht / \etmiss < 1.25$ & \phantom{1}11\phantom{.1} & \phantom{10}5.6 & \phantom{1}42\phantom{.1} & \phantom{1}12\phantom{.1} \\
+  \HT-dependent \alphat requirements ($\HT < 800\GeV$) & \phantom{1}11\phantom{.1} & \phantom{10}3.9 & \phantom{1}41\phantom{.1} & \phantom{10}7.5 \\
+  $\biasedDPhi > 0.5$ & \phantom{10}0.4 & \phantom{10}0.5 & \phantom{1}13\phantom{.1} & \phantom{10}3.2 \\
+  \hline
+  Four most sensitive \njet event categories & \phantom{10}0.4 & \phantom{10}0.4 & \phantom{1}13\phantom{.1} & \phantom{10}2.3 \\
+  \hline
+\end{tabular}
+}
+\end{table}
+
+
+\begin{table}[htbp]
+\caption{A summary of the cumulative signal acceptance times efficiency, $\mathcal{A}\,\varepsilon$ [\%], for various benchmark models with both compressed and uncompressed mass spectra, following the application of the event selection criteria used to define the signal region. Values for $\mathcal{A}\,\varepsilon$ are also shown following the application of additional requirements that define the four most sensitive \njet event categories, as defined in Table 5 of the paper. Scale factor corrections to simulated signal events that account for the mismodelling of theoretical and experimental parameters are not applied, and so the values for $\mathcal{A}\,\varepsilon$ differ with respect to those in Table 5 by up to 15\%. }
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lcccccc}
+  \hline
+  Event selection & \multicolumn{6}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP}$)} \\
+  \cline{2-7}
+   & T2bb & T2bb & T2tb & T2tb & T2tt & T2tt \\
+   & (800,\,50) & (375,\,300) & (600,\,50) & (350,\,225) & (700,\,50) & (350,\,100) \\
+  \hline
+  Before selection & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} \\
+  Event veto for muons and electrons & \phantom{1}99\phantom{.1} & \phantom{1}99\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}80\phantom{.1} & \phantom{1}63\phantom{.1} & \phantom{1}63\phantom{.1} \\
+  Event veto for single isolated tracks & \phantom{1}96\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}61\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}53\phantom{.1} & \phantom{1}53\phantom{.1} \\
+  Event veto for photons & \phantom{1}95\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}60\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}52\phantom{.1} & \phantom{1}52\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 3.0$) & \phantom{1}81\phantom{.1} & \phantom{1}81\phantom{.1} & \phantom{1}51\phantom{.1} & \phantom{1}62\phantom{.1} & \phantom{1}45\phantom{.1} & \phantom{1}45\phantom{.1} \\
+  $\njet \geq 2$ & \phantom{1}80\phantom{.1} & \phantom{1}61\phantom{.1} & \phantom{1}51\phantom{.1} & \phantom{1}53\phantom{.1} & \phantom{1}45\phantom{.1} & \phantom{1}44\phantom{.1} \\
+  $\ptjone > 100\GeV$ & \phantom{1}80\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}35\phantom{.1} \\
+  $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}80\phantom{.1} & \phantom{1}34\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}34\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}34\phantom{.1} \\
+  $\HT > 200\GeV$ & \phantom{1}80\phantom{.1} & \phantom{1}30\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{1}30\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}33\phantom{.1} \\
+  $\mht > 130\GeV$ & \phantom{1}75\phantom{.1} & \phantom{1}18\phantom{.1} & \phantom{1}44\phantom{.1} & \phantom{1}17\phantom{.1} & \phantom{1}40\phantom{.1} & \phantom{1}20\phantom{.1} \\
+  $\mht / \etmiss < 1.25$ & \phantom{1}72\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}38\phantom{.1} & \phantom{1}12\phantom{.1} & \phantom{1}38\phantom{.1} & \phantom{1}15\phantom{.1} \\
+  \HT-dependent \alphat requirements ($\HT < 800\GeV$) & \phantom{1}62\phantom{.1} & \phantom{10}7.2 & \phantom{1}30\phantom{.1} & \phantom{10}5.5 & \phantom{1}34\phantom{.1} & \phantom{10}8.8 \\
+  $\biasedDPhi > 0.5$ & \phantom{1}39\phantom{.1} & \phantom{10}4.5 & \phantom{1}17\phantom{.1} & \phantom{10}3.2 & \phantom{1}21\phantom{.1} & \phantom{10}4.0 \\
+  \hline
+  Four most sensitive \njet event categories & \phantom{1}37\phantom{.1} & \phantom{10}2.9 & \phantom{1}14\phantom{.1} & \phantom{10}2.1 & \phantom{1}19\phantom{.1} & \phantom{10}3.0 \\
+  \hline
+\end{tabular}
+}
+\end{table}
+
+
+\begin{table}[htbp]
+\caption{A summary of the cumulative signal acceptance times efficiency, $\mathcal{A}\,\varepsilon$ [\%], for various benchmark models with both compressed and uncompressed mass spectra, following the application of the event selection criteria used to define the signal region. Values for $\mathcal{A}\,\varepsilon$ are also shown following the application of additional requirements that define the four most sensitive \njet event categories, as defined in Table 5 of the paper. Scale factor corrections to simulated signal events that account for the mismodelling of theoretical and experimental parameters are not applied, and so the values for $\mathcal{A}\,\varepsilon$ differ with respect to those in Table 5 by up to 15\%. }
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lccc}
+  \hline
+  Event selection & \multicolumn{3}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP}$)} \\
+  \cline{2-4}
+   & T2cc & T2tt\_degen & T2tt\_mixed \\
+   & (325,\,305) & (300,\,290) & (300,\,250) \\
+  \hline
+  Before selection & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} \\
+  Event veto for muons and electrons & 100\phantom{.1} & 100\phantom{.1} & \phantom{1}89\phantom{.1} \\
+  Event veto for single isolated tracks & \phantom{1}97\phantom{.1} & \phantom{1}98\phantom{.1} & \phantom{1}83\phantom{.1} \\
+  Event veto for photons & \phantom{1}97\phantom{.1} & \phantom{1}97\phantom{.1} & \phantom{1}83\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 3.0$) & \phantom{1}83\phantom{.1} & \phantom{1}84\phantom{.1} & \phantom{1}72\phantom{.1} \\
+  $\njet \geq 2$ & \phantom{1}26\phantom{.1} & \phantom{1}21\phantom{.1} & \phantom{1}36\phantom{.1} \\
+  $\ptjone > 100\GeV$ & \phantom{1}16\phantom{.1} & \phantom{1}14\phantom{.1} & \phantom{1}19\phantom{.1} \\
+  $|\eta^{\mathrm{j_1}}| < 2.5$ & \phantom{1}15\phantom{.1} & \phantom{1}13\phantom{.1} & \phantom{1}18\phantom{.1} \\
+  $\HT > 200\GeV$ & \phantom{1}13\phantom{.1} & \phantom{1}11\phantom{.1} & \phantom{1}15\phantom{.1} \\
+  $\mht > 130\GeV$ & \phantom{1}11\phantom{.1} & \phantom{10}9.2 & \phantom{1}10\phantom{.1} \\
+  $\mht / \etmiss < 1.25$ & \phantom{10}9.2 & \phantom{10}7.5 & \phantom{10}8.4 \\
+  \HT-dependent \alphat requirements ($\HT < 800\GeV$) & \phantom{10}4.8 & \phantom{10}4.3 & \phantom{10}3.7 \\
+  $\biasedDPhi > 0.5$ & \phantom{10}3.7 & \phantom{10}3.7 & \phantom{10}2.3 \\
+  \hline
+  Four most sensitive \njet event categories & \phantom{10}1.9 & \phantom{10}1.9 & \phantom{10}0.9 \\
+  \hline
+\end{tabular}
+}
+\end{table}
+
+The paper was finally published in the European Physical Journal in May 2017~\cite{CMS-PAPER-SUS-15-005-published}.

@@ -1,0 +1,394 @@
+
+\chapter{Cut flow tables for SUS-16-038 (20/09/2017)}
+\label{sec:cutflowtables2016paper}
+
+As with SUS-15-005, I've been tasked with making the cut flow tables for the SUSY benchmark models, this time to add to the Analysis Note for SUS-16-038 (AN-17-122). The cut flow is
+
+\begin{lstlisting}[belowskip=-0.7cm, language=python]
+# Mass point cuts
+dict(All = ("ev : ev.nElectronsVeto[0] == 0",
+                "ev : ev.nMuonsVeto[0] == 0",
+                )), # Lepton vetoes                                                                                                                        
+    "ev : ev.nIsoTracksVeto[0] <= 0",
+    "ev : ev.nPhotonsVeto[0] == 0",
+    "ev : ev.jetNewID[0] != 0", # Odd jet veto 
+    "ev : ev.nJet40[0] >= 2",
+    "ev : 0.1 <= ev.jet_chHEF[0] <= 0.95",
+    "ev : ev.jet_pt[0] > 100",
+    "ev : ev.ht40[0] > 200",
+    "ev : ev.mht40_pt[0] > 200",
+    "ev : ev.nJet40Fwd[0] == 0",
+    "ev : ev.MhtOverMet[0] < 1.25",
+    dict(Any = (dict(All = ('htbin_200', ('alphaT', dict(v = 0.65)))),
+                dict(All = ('htbin_250', ('alphaT', dict(v = 0.60)))),
+                dict(All = ('htbin_300', ('alphaT', dict(v = 0.55)))),
+                dict(All = ('htbin_350', ('alphaT', dict(v = 0.53)))),
+                dict(All = ('htbin_400', ('alphaT', dict(v = 0.52)))),
+                dict(All = ('htbin_600', ('alphaT', dict(v = 0.52)))),
+                dict(All = ('htbin_900',))
+                )
+         ), # HT-dependent AlphaT cuts                                                                                                                     
+    "ev : ev.biasedDPhi[0] > 0.5",
+    # Most sensitive simplified njet, nb category
+    dict(Any = ("ev : ev.HLT_PFHT800[0] == 1",
+                "ev : ev.HLT_PFHT900[0] == 1",
+                "ev : ev.HLT_PFMETNoMu90_PFMHTNoMu90_IDTight[0] == 1",
+                "ev : ev.HLT_PFMETNoMu120_PFMHTNoMu120_IDTight[0] == 1")), # HLTs, needed only for LLP models
+\end{lstlisting}
+
+and the models are listed in the subsections below. The "simplified" categories group several \njet, $n_b$ categories together, e.g., \texttt{eq01b\_eq45j}. Then, in the cut flow I could cut on \texttt{"eq0b or eq1b" and "eq4j or eq5j"}. So the cut would look like
+
+\begin{lstlisting}[belowskip=-0.7cm, language=python]
+dict(All = ( dict(Any = ("ev : ev.nBJet40[0] == 0", "ev : ev.nBJet40[0] == 1")),
+             dict(Any = ("ev : ev.nJet100[0] == 4", "ev : ev.nJet100[0] == 5")),
+)),
+\end{lstlisting}
+
+although, the ones we use are usually simpler (e.g., \texttt{ge6j\_le1b}). The first step is to reproduce the trees of these samples from miniAODs without any cuts applied. Then, I can use Tai's cutflowirl repo as before to make the raw cut flow tables. As the format of the trees is the same as in 2015, I don't need to change much within the code; mainly update the event selections and the path to the trees. As some of the trees are stored at Imperial, I can easily set up the repo there. I made a directory called \textbf{CutFlowCode/}, set up CMSSW\_8\_0\_26 and then cloned my fork of cutflowirl.
+
+
+\section{Long-lived particles}
+
+The most pressing models that need the cut flow tables -- because we're presenting on them -- are for the SUSY SMS long-lived particles (LLP). These are particles that can decay far into (or outside of) the detector. Their long-lived-ness is usually expressed as a decay length $c\tau$ (in mm), where $\tau$ is the mean lifetime of the particle and the $c$ factor is because they are obviously highly-relativistic. Our LLP samples have $c\tau$ values of anywhere between $10^{-3}$ to $10^5$ mm. The theoretical motivation for this is that Supersymmetry is "split". In this model, the gluino and LSP are the only sparticles light enough to be accessible at the the LHC energy. The rest of the sparticles are decoupled to a much higher energy scale and so can't be produced in the Collider.
+
+Christian produced the trees for these models and confirmed there are no pre-selections, meaning I can use the cutflowirl code to make the cut flow tables immediately. I switched to a new branch "SUSY\_LLP\_2016" so the code for the previous tables wasn't overwritten. The samples are
+
+\begin{easylist}[itemize]
+\easylistprops
+& SMS-T1qqqqLL\_ctau\_0p001\_mGluino-1800\_mLSP-200\_25ns
+& SMS-T1qqqqLL\_ctau\_0p001\_mGluino-1000\_mLSP-900\_25ns
+& SMS-T1qqqqLL\_ctau\_1\_mGluino-1800\_mLSP-200\_25ns
+& SMS-T1qqqqLL\_ctau\_1\_mGluino-1000\_mLSP-900\_25ns
+& SMS-T1qqqqLL\_ctau\_100000\_mGluino-1000\_mLSP-200\_25ns
+& SMS-T1qqqqLL\_ctau\_100000\_mGluino-1000\_mLSP-900\_25ns
+\end{easylist}
+
+and the cut flow is described above. I could then run the script as normal with
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+./cutflowirl/twirl_mktbl.py -c <sample>
+\end{lstlisting}
+
+
+\subsection{Problems encountered and re-weighting the trees}
+
+Originally, I tried to run over the split trees as they were already separated by mass point, which would make everything quicker. However, I ran into weird errors when attempting it. The problem was that the root file for each split tree actually contained two identical trees, each called "tree". The one with the higher index is the latest revision of the tree. But as the tree name is hardcoded into a variable in the cutflowirl workflow, it may have been confused when it came across two trees with the same name. So I decided to run over the original, unsplit trees instead, located at \textbf{/vols/cms/RA1/80X/MC/LongLived/20170904/AtLogic\_MC\_LL}.
+
+Another problem I ran into was that the end-of-cut-flow efficiencies for my tables were noticeably lower than in the efficiency maps produced by Christian and Lucien. After some debugging and jigging the \alphat\ cuts in the cut flow, many of the events that failed were in the $800 < \HT < 900$ region and weren't being run over properly. It turned out to be some outdated information in Tai's atlogic submodule. In \textbf{atlogic/Scribblers/htbin.py}, L7 gives the bin boundaries. I had to update the "800" to 900 because there was no $\HT = 800$ boundary any more. This fixed the low-efficiency issue. I then made a PR to include the change whenever the submodule was used in the future.
+
+But even after all that, the efficiencies were still different. This was because the trees I was running over were not weighted, but the events in the efficiency maps were. So I had to use AlphaTools ("v1.10.x\_LLValidation" branch) to re-weight the events but not apply any selections. In \textbf{Configuration/config\_cfi\_2016.py}, I had to set the directory of \texttt{basedirMC} to the location of the \emph{split} trees (running over them removes one of the two identical trees so cutflowirl can run over the output). Then I could add the following line to \textbf{Configuration/Samples/samples\_13TeV\_80X\_T1qqqqLL.py}:
+
+\begin{lstlisting}[belowskip=-0.7cm, language=python, numbers=none]
+sampleList80X_T1qqqqLL.addCollection("SMS_T1qqqqLL_Esh", [
+    "SMS-T1qqqqLL_ctau_0p001*1800*-200*",
+    "SMS-T1qqqqLL_ctau_0p001*1000*900*",
+    "SMS-T1qqqqLL_ctau_1_*1800*-200*",
+    "SMS-T1qqqqLL_ctau_1_*1000*900*",
+    "SMS-T1qqqqLL_ctau_100000_*1000*200*",
+    "SMS-T1qqqqLL_ctau_100000_*1000*900*"],
+    mergeFiles=mergeMasses) 
+\end{lstlisting}
+
+In \textbf{config\_cfi\_6CF.py}, I had to set the relevant cuts in the functions \texttt{makeParameterSet} and \texttt{makeSignalParameterSet} to zero and comment out L74-75 (the \texttt{topPtAnalyzer} stuff) in in \textbf{Skimmers/TreeSkimmer.py}. The config I used was \textbf{SkimTreeProducer/SkimTreeProducer\_PSet\_cfg.py}. I had to edit the sequence in that file, commenting out all of the sequence modules except the following:
+
+\begin{lstlisting}[belowskip=-0.7cm, language=python, numbers=none]
+process.sequence = producerSequence
+process.sequence.extend( weightSequence )
+process.sequence.append( treeSkimmer )
+process.endSequence = defaultEndSequence
+\end{lstlisting}
+
+\emph{and putting them in that order}. The final things were replacing the \texttt{return False} in L58 of \textbf{Producers/WeightTriggerSignalBin2016.py} with \texttt{return True} so that module didn't remove events from the re-weighted trees, and commenting out \texttt{weightLeptonSFEtaPtCRMuons2016} from \textbf{weightSequence} in \textbf{Sequences/Sequence2016.py} as it gave weird errors. Then I could run it with
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+python SkimTreeProducer_PSet_cfg.py --mc --era 2016 --pset=Signal --customSamples SMS_T1qqqqLL_Esh --outDir <blah>
+\end{lstlisting}
+
+and use the output trees as input for cutflowirl.
+
+\subsection{Developing cutflowirl}
+
+By default, cutflowirl just counts the number of events that pass/fail selections and doesn't include support for weights. I rectified this by making some new classes in atlogic -- that are modified versions of \textbf{EventSelectionXXXCount.py} -- that pass the event information to a modified version of \textbf{Count.py}. Then the variables that keep track of number of successful and total events could just be incremented by the value in the weight branch of the tree, rather than 1, i.e., \texttt{r[IDX\_TOTAL] += 1} would be replaced by \texttt{r[IDX\_TOTAL] += event.w[0]} to track the total number of events at each stage of the cut flow. But when running, I got errors that the leaf containing the weights didn't exist. After some debugging, I realised that the leaf type for \texttt{w} was \texttt{Float\_t}, which was not supported in the version of AlphaTwirl contained within cutflowirl. So I had to add the line \texttt{Float\_t = 'f',} to the dict \texttt{typedic} in \textbf{AlphaTwirl/AlphaTwirl/Events/BranchAddressManager.py}. I also added a \texttt{-w}/\texttt{--weights} parser option to \textbf{twirl\_mktbl.py}. The default is set to \texttt{False}, in which case it doesn't use the weight-storing classes. Now, if I want weighted cut flow tables, I can run with
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+./cutflowirl/twirl_mktbl.py -c <component(s)> -w
+\end{lstlisting}
+
+For the AN, we also wanted the jet ID efficiency vs $c\tau$ for each benchmark model. The trees were remade to include this branch, so I had to reweight those and run over them. To implement support, I had to create a new scribbler: \textbf{atlogic/Scribblers/jetNewID.py}. As most of the branches for our trees only store one number per event, using the \texttt{[0]} element for each branch was fine. But as there are multiple jets in most events, the branch \texttt{jet\_newId} is an array with multiple elements for each event. As cutflowirl doesn't have support for this, my scribbler loops over each entry in the \texttt{jet\_newId} array. If any of the entries equal zero (i.e., the jet failed the ID requirements), the whole event fails the cut so doesn't progress in the cut flow. If all the entries pass, a single-element list called `jetNewID` is created that has a value of 1. Then I can just include it as a normal lambda string in the cut flow, i.e., \texttt{"ev : ev.jetNewID[0] != 0"}. Once written, I added the scribbler to \textbf{twirl\_mktbl.py} in the same way as the other scribblers.
+
+\uline{So my fork of cutflowirl is now able to handle weighted events, which is useful for future cut flow tables and efficiencies.} The important modified files are \href{run:modules/Sec 30 - Cut flow tables for SUS-16-038listings/cutflowirl/twirl_mktbl.py}{twirl\_mktbl.py} L38 and 123--132, \href{run:modules/Sec 30 - Cut flow tables for SUS-16-038listings/cutflowirl/atlogic/EventSelectionModules/CountWeight.py}{CountWeight.py} L28--31, \href{run:modules/Sec 30 - Cut flow tables for SUS-16-038listings/cutflowirl/atlogic/EventSelectionModules/WeightedEventSelectionAllCount.py}{WeightedEventSelectionAllCount.py} L48, \href{run:modules/Sec 30 - Cut flow tables for SUS-16-038listings/cutflowirl/atlogic/EventSelectionModules/WeightedEventSelectionAnyCount.py}{WeightedEventSelectionAnyCount.py} L48, \href{run:modules/Sec 30 - Cut flow tables for SUS-16-038listings/cutflowirl/atlogic/EventSelectionModules/WeightedEventSelectionNotCount.py}{WeightedEventSelectionNotCount.py} L38, \href{run:modules/Sec 30 - Cut flow tables for SUS-16-038listings/cutflowirl/atlogic/Scribblers/jetNewID.py}{jetNewID.py}.
+
+
+\subsection{LLP cut flow tables}
+
+The cut flow tables are listed below.
+
+For $c\tau = 0.001$ mm:
+
+\begin{table}[htbp]
+\caption{Cut flow table for \texttt{T1qqqqLL} models with $c\tau = 10^{-3}$ mm.}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lcc}
+  \hline
+  Event selection & \multicolumn{2}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP},\,c\tau$)} \\
+  \cline{2-3}
+   & T1qqqqLL & T1qqqqLL \\
+   & (1800,\,200,\,$10^{-3}$) & (1000,\,900,\,$10^{-3}$) \\
+  \hline
+  Before selection & 100\phantom{.1} & 100\phantom{.1} \\
+  Event veto for muons and electrons & \phantom{1}99\phantom{.1} & 100\phantom{.1} \\
+  Event veto for single isolated tracks & \phantom{1}91\phantom{.1} & \phantom{1}89\phantom{.1}  \\
+  Event veto for photons & \phantom{1}90\phantom{.1} & \phantom{1}89\phantom{.1} \\
+  Event veto for jets failing ID & \phantom{1}90\phantom{.1} & \phantom{1}88\phantom{.1} \\
+   $\njet \geq 2$ & \phantom{1}90\phantom{.1} & \phantom{1}76\phantom{.1}  \\
+   $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}87\phantom{.1} & \phantom{1}72\phantom{.1} \\
+   $\ptjone > 100\GeV$ & \phantom{1}87\phantom{.1} & \phantom{1}44\phantom{.1} \\
+   $\HT > 200\GeV$ & \phantom{1}87\phantom{.1} & \phantom{1}39\phantom{.1}  \\
+  $\mht > 200\GeV$ & \phantom{1}82\phantom{.1} & \phantom{1}22\phantom{.1}  \\
+  Event veto for forward jets ($\abseta > 2.4$) & \phantom{1}77\phantom{.1} & \phantom{1}20\phantom{.1}  \\
+  $\mht / \etmiss < 1.25$ & \phantom{1}76\phantom{.1} & \phantom{1}19\phantom{.1}  \\
+  \HT-dependent \alphat requirements ($\HT < 900\GeV$) & \phantom{1}76\phantom{.1} & \phantom{1}12\phantom{.1} \\
+  $\biasedDPhi > 0.5$ & \phantom{1}24\phantom{.1} & \phantom{10}7.9  \\
+  Trigger efficiency & \phantom{1}24\phantom{.1} & \phantom{10}7.8 \\
+  \hline
+\end{tabular}
+}
+\end{table}
+
+For $c\tau = 1$ mm:
+
+\begin{table}[htbp]
+\caption{Cut flow table for \texttt{T1qqqqLL} models with $c\tau = 1$ mm.}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lcc}
+  \hline
+  Event selection & \multicolumn{2}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP},\,c\tau$)} \\
+  \cline{2-3}
+   & T1qqqqLL & T1qqqqLL \\
+    & (1800,\,200,\,1) & (1000,\,900,\,1) \\
+  \hline
+  Before selection  & 100\phantom{.1} & 100\phantom{.1} \\
+  Event veto for muons and electrons & \phantom{1}99\phantom{.1} & 100\phantom{.1} \\
+  Event veto for single isolated tracks & \phantom{1}80\phantom{.1} & \phantom{1}90\phantom{.1} \\
+  Event veto for photons & \phantom{1}79\phantom{.1} & \phantom{1}89\phantom{.1} \\
+  Event veto for jets failing ID & \phantom{1}79\phantom{.1} & \phantom{1}89\phantom{.1} \\
+   $\njet \geq 2$  & \phantom{1}79\phantom{.1} & \phantom{1}70\phantom{.1} \\
+   $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}74\phantom{.1} & \phantom{1}66\phantom{.1} \\
+   $\ptjone > 100\GeV$ & \phantom{1}74\phantom{.1} & \phantom{1}36\phantom{.1} \\
+   $\HT > 200\GeV$  & \phantom{1}74\phantom{.1} & \phantom{1}31\phantom{.1} \\
+  $\mht > 200\GeV$  & \phantom{1}68\phantom{.1} & \phantom{1}15\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 2.4$) & \phantom{1}65\phantom{.1} & \phantom{1}14\phantom{.1} \\
+  $\mht / \etmiss < 1.25$ & \phantom{1}58\phantom{.1} & \phantom{1}13\phantom{.1} \\
+  \HT-dependent \alphat requirements ($\HT < 900\GeV$)  & \phantom{1}58\phantom{.1} & \phantom{10}8.7 \\
+  $\biasedDPhi > 0.5$  & \phantom{1}22\phantom{.1} & \phantom{10}5.8 \\
+  Trigger efficiency & \phantom{1}22\phantom{.1} & \phantom{10}5.8  \\
+  \hline
+\end{tabular}
+}
+\end{table}
+
+For $c\tau = 10^5$ mm:
+
+\begin{table}[htbp]
+\caption{Cut flow table for \texttt{T1qqqqLL} models with $c\tau = 10^5$ mm.}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lcc}
+  \hline
+  Event selection & \multicolumn{2}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP},\,c\tau$)} \\
+  \cline{2-3}
+   & T1qqqqLL & T1qqqqLL \\
+    & (1000,\,200,\,10$^5$) & (1000,\,900,\,10$^5$) \\
+  \hline
+  Before selection  & 100\phantom{.1} & 100\phantom{.1} \\
+  Event veto for muons and electrons & 100\phantom{.1} & 100\phantom{.1} \\
+  Event veto for single isolated tracks & \phantom{1}97\phantom{.1} & \phantom{1}97\phantom{.1} \\
+  Event veto for photons & \phantom{1}97\phantom{.1} & \phantom{1}97\phantom{.1} \\
+  Event veto for jets failing ID & \phantom{1}95\phantom{.1} & \phantom{1}96\phantom{.1} \\
+   $\njet \geq 2$  & \phantom{1}35\phantom{.1} & \phantom{1}33\phantom{.1} \\
+   $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}29\phantom{.1} & \phantom{1}30\phantom{.1} \\
+   $\ptjone > 100\GeV$ & \phantom{1}23\phantom{.1} & \phantom{1}23\phantom{.1} \\
+   $\HT > 200\GeV$  & \phantom{1}21\phantom{.1} & \phantom{1}21\phantom{.1} \\
+  $\mht > 200\GeV$  & \phantom{1}16\phantom{.1} & \phantom{1}16\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 2.4$) & \phantom{1}15\phantom{.1} & \phantom{1}14\phantom{.1} \\
+  $\mht / \etmiss < 1.25$ & \phantom{1}14\phantom{.1} & \phantom{1}14\phantom{.1} \\
+  \HT-dependent \alphat requirements ($\HT < 900\GeV$)  &  \phantom{10}9.7 & \phantom{10}9.4 \\
+  $\biasedDPhi > 0.5$  & \phantom{10}8.2 & \phantom{10}8.2 \\
+  Trigger efficiency &  \phantom{10}8.2 &  \phantom{10}8.2 \\
+  \hline
+\end{tabular}
+}
+\end{table}
+
+I added these to \textbf{136\_LLP.tex} in AN-17-122 in the AlphaTDR2 repo and then made a PR to merge it into the master branch.
+
+
+\section{HLT studies}
+
+In addition to the cut flow tables, I've been doing some studies with the HLT, i.e., finding its efficiency for different LLP models and lifetimes, and looking at the luminosity collected by each trigger so that the acceptance $\times$ efficiency values we quote account for them. The main triggers of interest are the \HT triggers: \texttt{HLT\_PFHT800} (low threshold), \texttt{HLT\_PFHT900} (high threshold); and monojet triggers: \texttt{HLT\_PFMETNoMu90\_PFMHTNoMu90\_IDTight} (low),  \texttt{HLT\_PFMETNoMu120\_PFMHTNoMu120\_IDTight} (high). In signal selection, an OR (like Tai's \texttt{Any} class in Python) of these triggers are taken. Early in the 2016 run \texttt{HLT\_PFHT900} became the low threshold for the \HT trigger. Below is some information about the luminosity collected by the different triggers.
+
+\begin{table}[htbp]
+\caption{The luminosity collected by each HLT, or combination of Triggers, from the entire 2016 run. Over the course of the run, the threshold for the lowest unprescaled trigger in each category rose. The fraction of luminosity collected by each Trigger whilst it was lowest threshold is included.}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lp{0.25\linewidth}p{0.33\linewidth}}
+  \hline
+  Trigger & Luminosity collected (fb$^{-1}$) & Fraction collected as lowest unprescaled trigger \\
+  \hline
+  \texttt{HLT\_IsoMu22 or HLT\_IsoTkMu22} & 28.6 & 0.80 \\
+  \texttt{HLT\_IsoMu24 or HLT\_IsoTkMu24} & 35.9 & 0.20 \\
+  \hline
+  \texttt{HLT\_PFHT800} & 27.3 & 0.76 \\
+  \texttt{HLT\_PFHT900} & 35.9 & 0.24 \\
+  \hline
+  \texttt{HLT\_PFMETNoMu90\_PFMHTNoMu90\_IDTight} & 13.9 & 0.39 \\
+  \texttt{HLT\_PFMETNoMu100\_PFMHTNoMu100\_IDTight} & 17.6 & 0.10 \\
+  \texttt{HLT\_PFMETNoMu110\_PFMHTNoMu110\_IDTight} & 35.3 & 0.49 \\
+  \texttt{HLT\_PFMETNoMu120\_PFMHTNoMu120\_IDTight} & 35.9 & 0.02 \\
+  \hline
+\end{tabular}
+}
+\end{table}
+
+
+\section{Tables for the remaining benchmark models}
+
+The remaining SUSY models are
+
+\begin{easylist}[itemize]
+\easylistprops
+& T1bbbb (1900, 100) and (1300, 1100)
+& T1qqqq (1700, 100) and (1000, 850)
+& T1tttt (1700, 100) and (950, 600)
+& T2bb (1000, 100) and (550, 450)
+& T2tt (1000, 50), (450, 200) and (250, 150)
+& T2cc (500, 480)
+& T2qq\_8fold (1250, 100) and (700, 600)
+& T2qq\_1fold (700, 100) and (400, 300)
+\end{easylist}
+
+These trees needed to be remade without any cuts. I'm working on Soolin with CMSSW\_8\_0\_25, with the CMGTools branch "80X-ra1-0.7.x-Moriond17Prod-EshSUSYcutflow2016" and CMSSW branch "heppy\_80X\_ra1-0.7.x-Moriond17Prod". In \textbf{CMGTools/RA1/cfg/}, I edited \href{run:modules/Sec 30 - Cut flow tables for SUS-16-038listings/CMGTools/run_AtLogic_MCMiniAODv2_SUSY_SMS_FastSim_cfg.py}{run\_AtLogic\_MCMiniAODv2\_SUSY\_SMS\_FastSim\_cfg.py} and commented out all the conditions in \texttt{buildEventSelection\_options}. To store the miniAOD samples, I made a components file \href{run:modules/Sec 30 - Cut flow tables for SUS-16-038listings/CMGTools/components_EshSUSYbenchmarks.py}{components\_EshSUSYbenchmarks.py} and made sure the config called it.
+
+Once the trees were made, I had to transfer them to Imperial so I could split and then reweight them with AlphaTools. I just needed to follow the instructions for the tree splitting, then update the base directory in the config script to point to the split trees, and add them to the script containing the samples. Then I could use cutflowirl to get the cut flow tables.
+
+\begin{table}[htbp]
+\caption{Cut flow table for \texttt{T1bbbb} and \texttt{T1qqqq} benchmark models.}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lcccc}
+  \hline
+  Event selection & \multicolumn{4}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP}$)} \\
+  \cline{2-5}
+  & T1bbbb & T1bbbb & T1qqqq & T1qqqq \\
+  & (1900,\,100) & (1300,\,1100) & (1700,\,100) & (1000,\,850) \\
+  \hline
+   Before selection  & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1}  \\
+   Event veto for muons and electrons & \phantom{1}99\phantom{.1} & \phantom{1}98\phantom{.1} & 100\phantom{.1} & 100\phantom{.1}  \\
+   Event veto for single isolated tracks & \phantom{1}96\phantom{.1} & \phantom{1}93\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}92\phantom{.1} \\
+   Event veto for photons & \phantom{1}95\phantom{.1} & \phantom{1}92\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}92\phantom{.1} \\
+   Event veto for jets failing ID & \phantom{1}95\phantom{.1} & \phantom{1}92\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}91\phantom{.1} \\
+   $\njet \geq 2$  & \phantom{1}95\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}88\phantom{.1} \\
+   $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}90\phantom{.1} & \phantom{1}87\phantom{.1} & \phantom{1}89\phantom{.1} & \phantom{1}83\phantom{.1} \\
+   $\ptjone > 100\GeV$ & \phantom{1}90\phantom{.1} & \phantom{1}75\phantom{.1} & \phantom{1}89\phantom{.1} & \phantom{1}64\phantom{.1} \\
+   $\HT > 200\GeV$  & \phantom{1}90\phantom{.1} & \phantom{1}73\phantom{.1} & \phantom{1}89\phantom{.1} & \phantom{1}60\phantom{.1} \\
+   $\mht > 200\GeV$  & \phantom{1}84\phantom{.1} & \phantom{1}37\phantom{.1} & \phantom{1}83\phantom{.1} & \phantom{1}27\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 2.4$) & \phantom{1}76\phantom{.1} & \phantom{1}33\phantom{.1} & \phantom{1}73\phantom{.1} & \phantom{1}24\phantom{.1} \\
+  $\mht / \etmiss < 1.25$ & \phantom{1}75\phantom{.1} & \phantom{1}31\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}23\phantom{.1} \\
+  \HT-dependent \alphat requirements ($\HT < 900\GeV$)  &  \phantom{1}75\phantom{.1} & \phantom{1}25\phantom{.1} & \phantom{1}72\phantom{.1} & \phantom{1}17\phantom{.1} \\
+  $\biasedDPhi > 0.5$  & \phantom{1}23\phantom{.1} & \phantom{1}17\phantom{.1} & \phantom{1}22\phantom{.1} & \phantom{1}11\phantom{.1} \\
+  \hline
+\end{tabular}
+}
+\end{table}
+
+\begin{table}[htbp]
+\caption{Cut flow table for \texttt{T1tttt} and \texttt{T2bb} benchmark models.}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lcccc}
+  \hline
+  Event selection & \multicolumn{4}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP}$)} \\
+  \cline{2-5}
+  & T1tttt & T1tttt & T2bb & T2bb \\
+  & (1700,\,100) & (950,\,600) & (1000,\,100) & (550,\,450) \\
+  \hline
+   Before selection  & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1}  \\
+   Event veto for muons and electrons & \phantom{1}43\phantom{.1} & \phantom{1}47\phantom{.1} & 100\phantom{.1} & \phantom{1}99\phantom{.1}  \\
+   Event veto for single isolated tracks & \phantom{1}34\phantom{.1} & \phantom{1}37\phantom{.1} & \phantom{1}97\phantom{.1} & \phantom{1}95\phantom{.1} \\
+   Event veto for photons & \phantom{1}34\phantom{.1} & \phantom{1}37\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} \\
+   Event veto for jets failing ID & \phantom{1}34\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} \\
+   $\njet \geq 2$  & \phantom{1}34\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}79\phantom{.1} \\
+   $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}33\phantom{.1} & \phantom{1}35\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}75\phantom{.1} \\
+   $\ptjone > 100\GeV$ & \phantom{1}33\phantom{.1} & \phantom{1}29\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}52\phantom{.1} \\
+   $\HT > 200\GeV$  & \phantom{1}33\phantom{.1} & \phantom{1}29\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}45\phantom{.1} \\
+   $\mht > 200\GeV$  & \phantom{1}31\phantom{.1} & \phantom{10}6.7 & \phantom{1}82\phantom{.1} & \phantom{1}18\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 2.4$) & \phantom{1}27\phantom{.1} & \phantom{10}5.7 & \phantom{1}70\phantom{.1} & \phantom{1}15\phantom{.1} \\
+  $\mht / \etmiss < 1.25$ & \phantom{1}27\phantom{.1} & \phantom{10}4.9 & \phantom{1}70\phantom{.1} & \phantom{1}14\phantom{.1} \\
+  \HT-dependent \alphat requirements ($\HT < 900\GeV$)  &  \phantom{1}27\phantom{.1} & \phantom{10}4.3 & \phantom{1}62\phantom{.1} & \phantom{10}9.0 \\
+  $\biasedDPhi > 0.5$  & \phantom{10}7.3 & \phantom{10}0.4 & \phantom{1}40\phantom{.1} & \phantom{10}6.3 \\
+  \hline
+\end{tabular}
+}
+\end{table}
+
+\begin{table}[htbp]
+\caption{Cut flow table for \texttt{T2tt} and \texttt{T2cc} benchmark models.}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lcccc}
+  \hline
+  Event selection & \multicolumn{4}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP}$)} \\
+  \cline{2-5}
+  & T2tt & T2tt & T2tt & T2cc \\
+  & (1000,\,50) & (450,\,200) & (250,\,150) & (500,\,480) \\
+  \hline
+   Before selection  & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1}  \\
+   Event veto for muons and electrons & \phantom{1}65\phantom{.1} & \phantom{1}65\phantom{.1} & \phantom{1}68\phantom{.1} & 100\phantom{.1}  \\
+   Event veto for single isolated tracks & \phantom{1}58\phantom{.1} & \phantom{1}56\phantom{.1} & \phantom{1}59\phantom{.1} & \phantom{1}96\phantom{.1} \\
+   Event veto for photons & \phantom{1}57\phantom{.1} & \phantom{1}55\phantom{.1} & \phantom{1}59\phantom{.1} & \phantom{1}96\phantom{.1} \\
+   Event veto for jets failing ID & \phantom{1}57\phantom{.1} & \phantom{1}55\phantom{.1} & \phantom{1}59\phantom{.1} & \phantom{1}96\phantom{.1} \\
+   $\njet \geq 2$  & \phantom{1}57\phantom{.1} & \phantom{1}55\phantom{.1} & \phantom{1}40\phantom{.1} & \phantom{1}70\phantom{.1} \\
+   $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}55\phantom{.1} & \phantom{1}52\phantom{.1} & \phantom{1}37\phantom{.1} & \phantom{1}64\phantom{.1} \\
+   $\ptjone > 100\GeV$ & \phantom{1}55\phantom{.1} & \phantom{1}43\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}55\phantom{.1} \\
+   $\HT > 200\GeV$  & \phantom{1}55\phantom{.1} & \phantom{1}42\phantom{.1} & \phantom{1}13\phantom{.1} & \phantom{1}49\phantom{.1} \\
+   $\mht > 200\GeV$  & \phantom{1}50\phantom{.1} & \phantom{1}16\phantom{.1} & \phantom{10}2.4 & \phantom{1}36\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 2.4$) & \phantom{1}43\phantom{.1} & \phantom{1}14\phantom{.1} & \phantom{10}2.0 & \phantom{1}31\phantom{.1} \\
+  $\mht / \etmiss < 1.25$ & \phantom{1}42\phantom{.1} & \phantom{1}12\phantom{.1} & \phantom{10}1.6 & \phantom{1}30\phantom{.1} \\
+  \HT-dependent \alphat requirements ($\HT < 900\GeV$)  &  \phantom{1}40\phantom{.1} & \phantom{10}9.9 & \phantom{10}0.8 & \phantom{1}18\phantom{.1} \\
+  $\biasedDPhi > 0.5$  & \phantom{1}25\phantom{.1} & \phantom{10}5.5 & \phantom{10}0.3 & \phantom{1}15\phantom{.1} \\
+  \hline
+\end{tabular}
+}
+\end{table}
+
+\begin{table}[htbp]
+\caption{Cut flow table for \texttt{T2qq\_8fold} and \texttt{T2qq\_1fold} benchmark models.}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lcccc}
+  \hline
+  Event selection & \multicolumn{4}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP}$)} \\
+  \cline{2-5}
+  & T2qq\_8fold & T2qq\_8fold & T2qq\_1fold & T2qq\_1fold \\
+  & (1250,\,100) & (700,\,600) & (700,\,100) & (400,\,300) \\
+  \hline
+   Before selection  & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1}  \\
+   Event veto for muons and electrons & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} & 100\phantom{.1} \\
+   Event veto for single isolated tracks & \phantom{1}97\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}97\phantom{.1} & \phantom{1}96\phantom{.1} \\
+   Event veto for photons & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} \\
+   Event veto for jets failing ID & \phantom{1}95\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} \\
+   $\njet \geq 2$  & \phantom{1}95\phantom{.1} & \phantom{1}83\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}80\phantom{.1} \\
+   $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}89\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}75\phantom{.1} \\
+   $\ptjone > 100\GeV$ & \phantom{1}89\phantom{.1} & \phantom{1}59\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}51\phantom{.1} \\
+   $\HT > 200\GeV$  & \phantom{1}89\phantom{.1} & \phantom{1}52\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}43\phantom{.1} \\
+   $\mht > 200\GeV$  & \phantom{1}84\phantom{.1} & \phantom{1}22\phantom{.1} & \phantom{1}76\phantom{.1} & \phantom{1}14\phantom{.1} \\
+  Event veto for forward jets ($\abseta > 2.4$) & \phantom{1}73\phantom{.1} & \phantom{1}19\phantom{.1} & \phantom{1}65\phantom{.1} & \phantom{1}12\phantom{.1} \\
+  $\mht / \etmiss < 1.25$ & \phantom{1}73\phantom{.1} & \phantom{1}18\phantom{.1} & \phantom{1}63\phantom{.1} & \phantom{1}11\phantom{.1} \\
+  \HT-dependent \alphat requirements ($\HT < 900\GeV$)  &  \phantom{1}69\phantom{.1} & \phantom{1}12\phantom{.1} & \phantom{1}50\phantom{.1} & \phantom{10}6.9 \\
+  $\biasedDPhi > 0.5$  & \phantom{1}44\phantom{.1} & \phantom{10}8.6 & \phantom{1}35\phantom{.1} & \phantom{10}4.9 \\
+  \hline
+\end{tabular}
+}
+\end{table}
+
+As with the LLP models, I added them to the AN and made a PR to include them in the master branch. For the work I've done on SUS-16-038, I've been added to the authors list for the paper, which is quite nice. Note that at the time of writing, I'm not a member of the Collaboration authors list. But an exception was made for Ben and me so that we could be included in the list for the paper.
+
+
+\section{Discrepancies between the signal acceptance \texorpdfstring{$\times$}{x} efficiency and the cut flows}
+
+Soon after making the cut flow tables, we realised that the end-of-cut-flow efficiencies didn't match the signal acceptance $\times$ efficiency values in the AN. This is a repeat of 2015, but then we attributed it to weights and scale factors. This time, I ran the cut flows with weights so they should have matched. I conducted various studies trying to debug this. Eventually, I used FAST-RA1 (see Sec.~\ref{sec:fast-ra1}) with AlphaTools integrated within to try and further debug what was going on. By removing \texttt{skimSequence} from \texttt{sequence2016}, the weighted cut flow efficiencies agreed better than before. However, they were still out of our acceptance. Ben managed to check the efficiencies of the skimmers in FAST-RA1 and synchronise the skimmer cut flow with the one Rob and I agreed on for the tables. Whilst the new efficiencies didn't agree \emph{exactly}, they were very close for several models. We didn't end up showing the tables for every benchmark model, just a few for re-interpreters.
+They are displayed on the public webpage at \url{http://cms-results.web.cern.ch/cms-results/public-results/publications/SUS-16-038/}. As of May 2018, the paper had also been published in JHEP:~\cite{SUS16038published}, and \textbf{I am on the authors list for it}.

@@ -1,0 +1,36 @@
+
+\chapter{Making DMSimp dark matter trees (16/05/2017)} % Change title depending on what I do after the trees are made. If I do, make sure I change the file name and \include line in labbook.tex
+
+I've been instructed to make DMSimp dark matter trees. These are for scalar, pseudoscalar, vector, and axial vector models. I've been sent Python scripts with the lists of the samples in each model. From these, I need to convert them into a format suitable for CMGTools to read and then make the trees. The original models are defined at
+
+\begin{easylist}
+\easylistprops
+
+& Axial vector: \url{https://github.com/rgerosa/AnalysisCode/blob/Raffaele_8024_X/MonoXAnalysis/test/makeAnalysisTrees/crab/SampleList_MC_80X_Summer16/SampleList_MC_Axial_DMSimp.py}
+
+& Vector: \url{https://github.com/rgerosa/AnalysisCode/blob/Raffaele_8024_X/MonoXAnalysis/test/makeAnalysisTrees/crab/SampleList_MC_80X_Summer16/SampleList_MC_Vector_DMSimp.py}
+
+& Pseudoscalar: \url{https://github.com/rgerosa/AnalysisCode/blob/Raffaele_8024_X/MonoXAnalysis/test/makeAnalysisTrees/crab/SampleList_MC_80X_Summer16/SampleList_MC_PseudoScalar_DMSimp.py}
+
+& Scalar: \url{https://github.com/rgerosa/AnalysisCode/blob/Raffaele_8024_X/MonoXAnalysis/test/makeAnalysisTrees/crab/SampleList_MC_80X_Summer16/SampleList_MC_Scalar_DMSimp.py}
+
+\end{easylist}
+
+These are from the Summer16 batch, as can be inferred from the paths above. The number assigned to \texttt{crossSection} is the one computed through the "genAnalyzer" on the sample itself.
+
+Using CMSSW\_8\_0\_25, I went into \textbf{CMGTools/}, then created the branch \emph{80X-ra1-0.7.x-Moriond17ProdEshDevDMSimpProd20170516} to store my edits. Moving to \textbf{RA1/cfg/}, I created a config file called \textbf{run\_AtLogic\_MCSummer16\_DMSimp\_cfg.py}. This config uses \textbf{run\_AtLogic\_MCSummer16\_DM\_cfg.py} as a template, but is tailored to the samples I received for the models above. In \textbf{RA1/python/components/} I made a file to store the samples: \textbf{components\_MC\_DMSimp\_Summer16.py}.
+
+The config and component files are here: \href{run:modules/Sec 24 - Making DMSimp dark matter treeslistings/run_AtLogic_MCSummer16_DMSimp_cfgv1.py}{run\_AtLogic\_MCSummer16\_DMSimp\_cfg.py (v1)}; \href{run:modules/Sec 24 - Making DMSimp dark matter treeslistings/components_MC_DMSimp_Summer16v1.py}{components\_MC\_DMSimp\_Summer16.py (v1)}.
+
+I've been getting problems when testing. The error message being "Unknown string id in LHE weights". When opening the script that gives the message (\textbf{\$CMSSW\_BASE/python/PhysicsTools/Heppy/analyzers/gen/LHEWeightAnalyzer.py}), there's a comment stating that only certain formats pertaining to the weight are allowed. In the config, I've tried removing the LHE weight instances but the same error pops up. So I copied one of the root files used when testing -- by going to the DAS, typing in the dataset, finding the individual root files and then using the \texttt{xrdcp} command within CMSSW to copy it -- to see if I could find the format used to define the weights.
+
+% What does DMSimp mean? and what makes it different from other dark matter models?
+
+% ONCE COMPLETED, ADD UPDATED CONFIG FILE AND COMPONENTS FILE HERE
+
+
+\section{Making private dark Higgs trees (08/08/2017)}
+
+In addition to the DMSimp trees, I've been asked to run over some privately-produced dark Higgs miniAODs made by Sam Baxter at DESY. The first step is to make the flat trees with Heppy/CMGTools and then run over those within the RA1 framework. I can use a similar procedure to previous tree productions: make a config file that DICE can use to produce the trees, and make a components file that stores the miniAOD information. I used the same branch as the DMSimp production. The config file I made is \textbf{run\_AtLogic\_MC\_DarkHiggs\_SamBaxter\_cfg.py} and the components file is \textbf{components\_MC\_DarkHiggs.py}. The issue is that the samples are private, so can't be run over in the same way as public samples. Shane has a function \texttt{makeMyPrivateMCComponentFromIC} which can run over private samples produced at Imperial by using an xrootd "mapping" that's site-specific. As the samples are stored at DESY, I either need the mapping for DESY, or request that a copy of the samples be stored at Bristol/Imperial so that I can run over them. After talking to Sam, I've found that, for DESY, it's \texttt{root://dcache-cms-rootd.desy.de/pnfs/desy.de/cms/tier2/}.
+
+% ONCE COMPLETED, ADD CONFIG FILE AND COMPONENTS FILE HERE

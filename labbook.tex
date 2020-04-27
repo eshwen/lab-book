@@ -169,8 +169,8 @@
     ]{biblatex}                         % Calls bibliography commands.
 \addbibresource{backmatter/mybib.bib}   % Location of bib file
 
-\usepackage{hyperref}                   % to hyperlink references, contents, etc. Change colours if required
-\hypersetup{
+\usepackage[pdfnewwindow=true]{hyperref}% to hyperlink references, contents, etc. pdfnewwindow=true opens pdfs linked with \href{run:...} in a new window
+\hypersetup{                            % Change colours
     colorlinks=true,
     linkcolor=black,                    % Colour of internal links
     filecolor=Fuchsia,
@@ -185,7 +185,7 @@
 \input{macros}
 % ----------------------------------------
 
-
+% ----------------------------------------
 \usepackage{listings} % for displaying code
 \lstset{ %
   backgroundcolor=\color{white},   % choose the background color
@@ -216,6 +216,7 @@
   tabsize=2,	                   % sets default tabsize to 2 spaces
   title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 }
+% ----------------------------------------
 
 % ----------------------------------------                            
 % Reduce widows (the last line of a paragraph at the start of a page) and orphans (the first line of paragraph at the end of a page)
@@ -223,6 +224,7 @@
 \clubpenalty=1000
 % ----------------------------------------
 
+% ----------------------------------------
 \begin{document}
 
 \frontmatter
@@ -256,46 +258,44 @@
 \mainmatter
 % Include all modules for lab book. Remember that path names to figures and other files will be relative to this directory of *this* file, not the directory where the module is located. I can also comment out the other modules If I want to test the current stuff I'm writing, just so it compiles quicker.
 
-\import{modules/}{Sec 1 - Introduction}
-\import{modules/}{Sec 2 - Introduction, software hardware needs, stuff to remember}
-\import{modules/}{Sec 3 - Useful introductory papers for Supersymmetry and dark matter}
-\import{modules/}{Sec 4 - Using Pythia with Cygwin}
-\import{modules/}{Sec 5 - Interesting thoughts and interpretations of dark matter}
-\import{modules/}{Sec 6 - Running ROOT in a Linux VM}
-\import{modules/}{Sec 7 - Using Soolin and DICE}
-\import{modules/}{Sec 8 - Using MadGraph first steps}
-\import{modules/}{Sec 9 - CERN account}
-\import{modules/}{Sec 10 - Scripting for MadGraph and ROOT}
-\import{modules/}{Sec 11 - Filling, Comparing and Normalizing Histograms}
-\import{modules/}{Sec 12 - CMSSW and Fireworks}
-\import{modules/}{Sec 13 - Using MadAnalysis and searching for dark matter}
-\import{modules/}{Sec 14 - Concepts, nomenclature and definitions}
-\import{modules/}{Sec 15 - Evaluating backgrounds in a dark matter search}
-\import{modules/}{Sec 16 - Rivet}
-\import{modules/}{Sec 17 - Searching for dark matter by identifying invisible jets}
-\import{modules/}{Sec 18 - Cut flow tables for SUS-15-005}
-\import{modules/}{Sec 19 - Imperial College account details}
-\import{modules/}{Sec 20 - Service Work Jet Energy Corrections}
-\import{modules/}{Sec 21 - Using SSHFS to mount remote servers}
-\import{modules/}{Sec 22 - Physics PGR conference and Annual Progress Monitoring}
-\import{modules/}{Sec 23 - Signal model analyses for SUS-16-038}
-\import{modules/}{Sec 24 - Making DMSimp dark matter trees}
-\import{modules/}{Sec 25 - LTA at CERN}
-\import{modules/}{Sec 26 - Using HEPData to archive published material}
-\import{modules/}{Sec 27 - Checking HTmiss tails for data in the event display}
-\import{modules/}{Sec 28 - Using NumPy and root_numpy}
-\import{modules/}{Sec 29 - Tree production for common analysis and 2017 data}
-\import{modules/}{Sec 30 - Cut flow tables for SUS-16-038}
-\import{modules/}{Sec 31 - Analysing the T2tt-4bd SUSY model}
-\import{modules/}{Sec 32 - An introduction to the dark Higgs}
-\import{modules/}{Sec 33 - Service Work Trigger Shifts at P5}
-\import{modules/}{Sec 34 - Service Work - ETmiss studies}
-\import{modules/}{Sec 35 - Semi-visible jets analysis}
-\import{modules/}{Sec 36 - FAST-RA1}
-\import{modules/}{Sec 37 - Combined Higgs to invisible analysis}
-\import{modules/}{Sec 38 - Annual Progress Monitoring (second year)}
-
-%------------------------------------------------------------------------------------------------------------------------
+\import{modules/Sec 1 - Introduction}{introduction}
+\import{modules/Sec 2 - Introduction, software hardware needs, stuff to remember}{intro_software_hardware}
+\import{modules/Sec 3 - Useful introductory papers for Supersymmetry and dark matter}{intro_papers_susy_dm}
+\import{modules/Sec 4 - Using Pythia with Cygwin}{pythia_cygwin}
+\import{modules/Sec 5 - Interesting thoughts and interpretations of dark matter}{thoughts_dm}
+\import{modules/Sec 6 - Running ROOT in a Linux VM}{root_in_vm}
+\import{modules/Sec 7 - Using Soolin and DICE}{soolin_dice}
+\import{modules/Sec 8 - Using MadGraph first steps}{madgraph}
+\import{modules/Sec 9 - CERN account}{cern_account}
+\import{modules/Sec 10 - Scripting for MadGraph and ROOT}{scripting_mg_root}
+\import{modules/Sec 11 - Filling, Comparing and Normalizing Histograms}{histograms}
+\import{modules/Sec 12 - CMSSW and Fireworks}{cmssw_fireworks}
+\import{modules/Sec 13 - Using MadAnalysis and searching for dark matter}{madanalysis}
+\import{modules/Sec 14 - Concepts, nomenclature and definitions}{concepts_nomenclature}
+\import{modules/Sec 15 - Evaluating backgrounds in a dark matter search}{backgrounds_dm_search}
+\import{modules/Sec 16 - Rivet}{rivet}
+\import{modules/Sec 17 - Searching for dark matter by identifying invisible jets}{dm_search_svjs}
+\import{modules/Sec 18 - Cut flow tables for SUS-15-005}{cut_flow_tables_sus_15_005}
+\import{modules/Sec 19 - Imperial College account details}{IC_details}
+\import{modules/Sec 20 - Service Work Jet Energy Corrections}{JECs}
+\import{modules/Sec 21 - Using SSHFS to mount remote servers}{sshfs}
+\import{modules/Sec 22 - Physics PGR conference and Annual Progress Monitoring}{PGR_conference_apm}
+\import{modules/Sec 23 - Signal model analyses for SUS-16-038}{signal_models_sus_16_038}
+\import{modules/Sec 24 - Making DMSimp dark matter trees}{dmsimp_trees}
+\import{modules/Sec 25 - LTA at CERN}{LTA}
+\import{modules/Sec 26 - Using HEPData to archive published material}{HEPData}
+\import{modules/Sec 27 - Checking HTmiss tails for data in the event display}{mht_tails}
+\import{modules/Sec 28 - Using NumPy and root_numpy}{numpy}
+\import{modules/Sec 29 - Tree production for common analysis and 2017 data}{tree_production_common_analysis}
+\import{modules/Sec 30 - Cut flow tables for SUS-16-038}{cut_flow_tables_sus_16_038}
+\import{modules/Sec 31 - Analysing the T2tt-4bd SUSY model}{t2tt_4bd}
+\import{modules/Sec 32 - An introduction to the dark Higgs}{dark_higgs}
+\import{modules/Sec 33 - Service Work Trigger Shifts at P5}{trigger_shifts}
+\import{modules/Sec 34 - Service Work - ETmiss studies}{met_studies}
+\import{modules/Sec 35 - Semi-visible jets analysis}{svj}
+\import{modules/Sec 36 - FAST-RA1}{fast_ra1}
+\import{modules/Sec 37 - Combined Higgs to invisible analysis}{combined_higgs_invisible}
+\import{modules/Sec 38 - Annual Progress Monitoring (second year)}{apm_second_year}
 
 \newpage
 \backmatter
@@ -303,3 +303,4 @@
 \printbibliography
 \refstepcounter{chapter}
 \end{document}
+% ----------------------------------------

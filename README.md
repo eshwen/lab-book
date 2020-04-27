@@ -102,7 +102,6 @@ Badges are pretty useful to highlight the important aspects of a repo to any pot
 
 ## To do list
 
-- Organise the files better:
-  - Move everything into the `modules` directory. Then have one subdirectory for each section of the lab book, with further subdirectories for figures, etc.
-  - Go through lab book and modernise things where possible, reducing the need for additional, unnecessary packages
-  - Replace additional repeated commands with macros
+- Go through lab book and modernise things where possible, reducing the need for additional, unnecessary packages
+- Replace additional repeated commands with macros
+- Consider going through whole lab book and tidying up (rewording and restructuring things better, etc.)

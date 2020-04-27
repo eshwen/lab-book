@@ -1,0 +1,31 @@
+
+\chapter{Using HEPData to archive published material (14/06/2017)}
+
+A recent requirement for CMS analyses is for plots and tables from published papers to be uploaded to HEPData, \url{https://hepdata.net/}. The main purpose of this is for archiving and long-term data preservation. The UI on the website stores all data in a table, which can then be visualised on a plot. This means that actual tables from papers can be visualised, and people can see the numerical values associated with plots. (It's a little confusing because on HEPData, all data is regarded as a table, whether it comes from a table or figure in the associated paper.) In this format, tables and plots are described by individual YAML files, and are then collated along with captions and relevant metadata in a \textbf{submission.yaml} file.
+
+It was left to me and Ben to convert all the tables and plots from the SUS-15-005 paper into YAML files and then upload it to HEPData. An entry had been created for the paper: \url{https://www.hepdata.net/record/77606}. An overview of the submission process could be found here, along with some examples: \url{https://github.com/HEPData/hepdata-submission}.
+
+For RA1, we use GitHub to manage the source code of our papers. The repo is AlphaTDR2. So the first step was cloning it, and the branch we used to complete this, to a directory on Soolin (I just used \textbf{/storage/eb16003/CMScmg/}). The branch was called "AN-15-005\_hepData", and we developed the code in \textbf{AlphaTDR2/papers/SUS-15-005/trunk/HepData}. As the examples weren't super helpful so we found some entries for similar papers on HEPData and could download the YAML files to see how the code translated to the final tables. Another helpful piece of documentation was \href{run:modules/Sec 26 - Using HEPData to archive published materiallistings/Jae_HepData_SUSYWorkshop_11Apr2017.pdf}{Jae\_HepData\_SUSYWorkshop\_11Apr2017}. When we wrote stuff, we could test it using the instructions at \url{https://github.com/HEPData/hepdata-validator}. Instead of using the command prompt every time, I just used those commands to make scripts that test the submission file and each data file, respectively. Ben and I have made a wiki page on GitHub for instructions: \url{https://github.com/CMSRA1/RA1OPS/wiki/HepData-Submission}.
+
+Some important syntax subtleties to note:
+
+\begin{easylist}
+\easylistprops
+& Always include a space after a colon operator, e.g., \texttt{name: '<blah>'}
+& Always use single quotes to enclose a string, never double quotes
+& If the number of entries in each column of a table don't match, it won't be flagged as an error in the validator tool. But when uploading the submission to the sandbox, the screen will just say "Loading Data" forever.
+\end{easylist}
+
+There's a "sandbox" area (\url{https://www.hepdata.net/record/sandbox}) where anyone can upload and preview files, which is useful for testing and seeing whether everything is laid out properly before the final submission.
+
+For some of the figures, where there are several thousand values, the public page for SUS-15-005 linked a root file that contained these. As the values would be a pain to extract directly from the root file, I tried using the "root\_numpy" Python package to port the TTree to a NumPy array. But because the values weren't stored in a tree -- they were in a TH2D within a TDirectory -- it made things difficult. So Tai sent me a script, which I then modified, that could pull the values out of a TH2D. I used it for the covariance matrix (Additional Figure 22). Then I could use the following formula to calculate the values for the correlation matrix (Additional Figure 23):
+
+\begin{equation}
+\mathrm{corr}_{\mathrm{ij}} = \frac{ \mathrm{cov}_{\mathrm{ij}} }{ \sqrt{ \mathrm{cov}_{\mathrm{ii}} \times \mathrm{cov}_{\mathrm{jj}} } }
+\end{equation}
+
+The script (for future reference) is here:
+
+\lstinputlisting[language=Python, caption={A script to extract values from a 2D \ROOT histogram (TH2D) and output the values into a text file. File name: convert\_TH2D.py.}]{listings/convert_TH2D.py}
+
+After Ben and I iterated several times, the submission was finally approved. It can be accessed at \url{https://www.hepdata.net/record/77606}.
