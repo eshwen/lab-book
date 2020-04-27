@@ -104,7 +104,5 @@ Badges are pretty useful to highlight the important aspects of a repo to any pot
 
 - Organise the files better:
   - Move everything into the `modules` directory. Then have one subdirectory for each section of the lab book, with further subdirectories for figures, etc.
-  - Move title and abstract into separate files and put in a `frontmatter` folder
-  - Put my `mybib.bib` file in a `backmatter` folder
   - Go through lab book and modernise things where possible, reducing the need for additional, unnecessary packages
   - Replace additional repeated commands with macros

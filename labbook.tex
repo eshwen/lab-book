@@ -167,7 +167,7 @@
     block=space,                        % Separate each block/component of a bibliography entry by a space
     url=false,                          % Disable display of URL in bibliography
     ]{biblatex}                         % Calls bibliography commands.
-\addbibresource{mybib.bib}              % Location of bib file
+\addbibresource{backmatter/mybib.bib}   % Location of bib file
 
 \usepackage{hyperref}                   % to hyperlink references, contents, etc. Change colours if required
 \hypersetup{
@@ -228,56 +228,10 @@
 \frontmatter
 \pagenumbering{roman}
 
-\begin{titlingpage}
-  \begin{SingleSpace}
-  \calccentering{\unitlength} 
-  \begin{adjustwidth*}{\unitlength}{-\unitlength}
-  \vspace*{13mm}
-  \begin{center}
-  \rule[0.5ex]{\linewidth}{2pt}\vspace*{-\baselineskip}\vspace*{3.2pt}
-  \rule[0.5ex]{\linewidth}{1pt}\\[\baselineskip]
-  {\HUGE Dark Matter Searches at CMS at \comruntwo}\\[4mm] % title
-  {\Large \textit{Searches for invisibly decaying Higgs bosons and semi-visible jets}}\\ % subtitle
-  \rule[0.5ex]{\linewidth}{1pt}\vspace*{-\baselineskip}\vspace{3.2pt}
-  \rule[0.5ex]{\linewidth}{2pt}\\
-  \vspace{6.5mm}
-  {\large By}\\
-  \vspace{6.5mm}
-  {\large\textsc{Eshwen Bhal}$^{\text{1}}$}\\
-  \vspace{6.5mm}
-  {\large under the supervision of}\\
-  \vspace{6.5mm}
-  {\large\textsc{Henning Fl\"{a}cher}$^{\text{2}}$}\\  % name
-  \vspace{11mm}
-  \includegraphics[scale=0.6]{headers/bristolcrest_colour}\\  % logo/university crest
-  \vspace{6mm}
-  {\large School of Physics\\  % school/department
-  \textsc{University of Bristol}}\\  % university
-  \vspace{11mm}
-  \begin{minipage}{10cm}
-    \centering
-    A lab book to keep track of the research undertaken during my PhD.
-  
-    \
+\import{frontmatter}{title}
+\clearpage
 
-    $^{\text{1}}$ University of Bristol, United Kingdom. Mail to \href{mailto:eshwen.bhal@bristol.ac.uk}{eshwen.bhal@bristol.ac.uk}/\href{mailto:eshwen.bhal@cern.ch}{eshwen.bhal@cern.ch}.
-
-    \
-
-    $^{\text{2}}$ University of Bristol, United Kingdom. Mail to \href{mailto:Henning.Flaecher@bristol.ac.uk}{Henning.Flaecher@bristol.ac.uk}/\href{mailto:Henning.Flacher@cern.ch}{Henning.Flacher@cern.ch}.
-  \end{minipage}\\
-  \vspace{9mm}
-  {\large\textsc{\today}}  % date of submission
-  \vspace{12mm}
-  \end{center}
-  \end{adjustwidth*}
-  \end{SingleSpace}
-\end{titlingpage}
-
-\chapter*{Abstract}
-\begin{SingleSpace}
-\initial{T}his document is an electronic copy of the lab book I'll be keeping during my PhD. It was initially intended both as a backup in case something happens to my physical lab book, and as a searchable document if I want to find a reference, etc., quickly. But now it has assumed the role of my primary lab book for various reasons. This contains everything I have worked on since the start of my PhD including all analysis, research, service work, and also code, commands and reminders of things I may forget. It is also date-logged (in part), fully searchable and hyper-referenced.
-\end{SingleSpace}
+\import{frontmatter}{abstract}
 \clearpage
 
 \renewcommand{\contentsname}{Table of Contents}
@@ -300,7 +254,6 @@
 \clearpage
 
 \mainmatter
-
 % Include all modules for lab book. Remember that path names to figures and other files will be relative to this directory of *this* file, not the directory where the module is located. I can also comment out the other modules If I want to test the current stuff I'm writing, just so it compiles quicker.
 
 \import{modules/}{Sec 1 - Introduction}
