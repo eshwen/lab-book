@@ -55,7 +55,8 @@
 % Particles are typeset using the 'hepnames' package. If given the option 'italic', it will render the particles in italics. So if I want to change style, only need to edit the line that imports the package, not the macros.
 
 % Higgs to inv. modes
-\newcommand{\ttH}{\ensuremath{\Pqt\Pqt\PH}\xspace}
+\renewcommand{\ttbar}{\ensuremath{\Ptop\APtop}\xspace}
+\newcommand{\ttH}{\ensuremath{\ttbar\PH}\xspace}
 \newcommand{\ggF}{\ensuremath{\cPg\cPg\mathrm{F}}\xspace}
 \newcommand{\ggH}{\ensuremath{\cPg\cPg\PH}\xspace}
 \newcommand{\VH}{\ensuremath{\PVec\PH}\xspace}
@@ -158,7 +159,6 @@
 \newcommand{\ztomumu}{\ensuremath{\HepProcess{\PZ \to \Pgm\Pgm}}\xspace}
 \newcommand{\ztonunupjets}{\ensuremath{\PZ(\to \Pgn\Pagn) \plusjets}\xspace}
 \newcommand{\wtolnupjets}{\ensuremath{\PW(\to \ell\Pgn) \plusjets}\xspace}
-\renewcommand{\ttbar}{\ensuremath{\Ptop\APtop}\xspace}
 \newcommand{\ttbarpjets}{\ensuremath{\ttbar \plusjets}\xspace}
 
 % Software
@@ -169,6 +169,11 @@
 \newcommand{\rivet}{\textsc{Rivet}\xspace}
 \newcommand{\ROOT}{\textsc{root}\xspace}
 \newcommand{\nanoAODtools}{\textsc{nanoAOD-tools}\xspace}
+\newcommand{\deepakeight}{\textsc{DeepAK8}\xspace}
+\newcommand{\fastcarpenter}{\textsc{fast-carpenter}\xspace}
+\newcommand{\fastcurator}{\textsc{fast-curator}\xspace}
+\newcommand{\fastplotter}{\textsc{fast-plotter}\xspace}
+
 
 % Other (physics-related)
 \newcommand{\intlumi}{\ensuremath{\lumi_{\mathrm{int.}}}\xspace}
