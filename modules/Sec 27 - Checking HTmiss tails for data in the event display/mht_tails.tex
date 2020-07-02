@@ -12,9 +12,9 @@ For pre-approval for SUS-16-038, I've been asked to look at the \htmiss tails in
 
 % CAN REPLACE WITH FINAL MOUNTAIN RANGE PLOT ONCE IT'S IN PAPER, AND PAPER'S PUBLISHED
 
-The above plot is taken from \url{http://www.hep.ph.ic.ac.uk/~klo2/RA1/BTagFormula/FullFit/Log/20170630/Unblinding36fb2017_v14_formulaSyst/postFitNorm/summaryPlot_Symmetric_prefit_overlay_fit_b.pdf}. I can apply cuts to select these bins and print out the run, lumi and event numbers. I can then use Lucien's script (\url{https://github.com/lucien1011/LittleFWLite/blob/master/SkimEDM/skimMiniAOD_EvtListAndPD_cfg.py}) to skim over the miniAOD, consolidate those events in a new root file, and then analyse them with Fireworks.
+The above plot is taken from \sloppy\url{http://www.hep.ph.ic.ac.uk/~klo2/RA1/BTagFormula/FullFit/Log/20170630/Unblinding36fb2017_v14_formulaSyst/postFitNorm/summaryPlot_Symmetric_prefit_overlay_fit_b.pdf}. I can apply cuts to select these bins and print out the run, lumi and event numbers. I can then use Lucien's script (\sloppy\url{https://github.com/lucien1011/LittleFWLite/blob/master/SkimEDM/skimMiniAOD_EvtListAndPD_cfg.py}) to skim over the miniAOD, consolidate those events in a new root file, and then analyse them with Fireworks.
 
-If I clone the repository (\url{https://github.com/lucien1011/LittleFWLite}, master branch) I can skim over the miniAOD, provided I supply the right input. The script \textbf{Utils/TextFileHandler.py} handles that. I need to add the run, lumi and event numbers (in that order) for each event to a text file, with one event per row. The config details the location of this text file. Because of the nature of the code, I need to clone at Imperial. I've forked it so I can do my own development and not mess up the original, so the command to clone it is
+If I clone the repository (\sloppy\url{https://github.com/lucien1011/LittleFWLite}, master branch) I can skim over the miniAOD, provided I supply the right input. The script \textbf{Utils/TextFileHandler.py} handles that. I need to add the run, lumi and event numbers (in that order) for each event to a text file, with one event per row. The config details the location of this text file. Because of the nature of the code, I need to clone at Imperial. I've forked it so I can do my own development and not mess up the original, so the command to clone it is
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 git clone git@github.com:eshwen/LittleFWLite.git
@@ -34,7 +34,7 @@ The RA1 displays are quite helpful. Fireworks doesn't distinguish between regula
 
 Now I can use LittleFWLite to skim over the miniAODs in the data set, and output the selected events into a new root file. If I go to the directory (\textbf{$\sim$/LittleFWLite/}), I need to \texttt{source setup.sh} and also do \texttt{cmsenv} in a recent CMSSW release -- I used 8.0.26 -- to source the main FWLite and FWCore modules.
 
-\fcolorbox{Violet}{Dandelion}{\begin{minipage}{\textwidth}
+\fcolorbox{Violet}{Dandelion}{\begin{minipage}{0.9\textwidth}
 If I go to the CMSSW GitHub repo (\url{https://github.com/cms-sw/cmssw}), there are lots of modules in different directories. If I follow the Flat Tree Production instructions, there's a line with \texttt{cat >> .git/info/sparse-checkout <<EOF}, and different modules below. I could add FWCore in that list of modules, then escape the list by typing \texttt{EOF}. Then I can continue with the instructions and compile, etc., so the modules I listed are included in the CMSSW directory I'm using. This is handy if I ever need specific CMSSW modules that aren't part of the standard workflow.
 \end{minipage}}
 

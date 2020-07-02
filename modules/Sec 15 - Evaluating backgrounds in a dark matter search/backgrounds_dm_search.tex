@@ -137,7 +137,7 @@ As I mentioned earlier, with my \madgraph results I have to multiply the events 
 
 \section{Submitting jobs to Condor}
 
-HTCondor (sometimes called Condor, as is the case on Soolin and in the Bristol wiki documentation) is a framework used to run computing-intensive jobs. See \url{https://en.wikipedia.org/wiki/HTCondor} for more information. For us in Bristol, Condor can be thought of as the software on Soolin that executes and manages jobs that are submitted to DICE. So I must be \texttt{ssh}'d into Soolin and have the jobs I want to submit be there before I can submit them with Condor. At the moment, I will be using Condor to submit \madgraph runs with lots of events so that I can get reliable Monte Carlo backgrounds. To run a simple, single job, I need Bjoern's Python script \textbf{run\_mg.py} (which can be found within the \textbf{submit\_mg.tar.gz} attachment at \sloppy\url{https://wikis.bris.ac.uk/pages/viewpage.action?title=Phenomenological+Tools&spaceKey=pprg#PhenomenologicalTools-Batchsubmission}). The code is displayed below:
+HTCondor (sometimes called Condor, as is the case on Soolin and in the Bristol wiki documentation) is a framework used to run computing-intensive jobs. See \sloppy\url{https://en.wikipedia.org/wiki/HTCondor} for more information. For us in Bristol, Condor can be thought of as the software on Soolin that executes and manages jobs that are submitted to DICE. So I must be \texttt{ssh}'d into Soolin and have the jobs I want to submit be there before I can submit them with Condor. At the moment, I will be using Condor to submit \madgraph runs with lots of events so that I can get reliable Monte Carlo backgrounds. To run a simple, single job, I need Bjoern's Python script \textbf{run\_mg.py} (which can be found within the \textbf{submit\_mg.tar.gz} attachment at \sloppy\url{https://wikis.bris.ac.uk/pages/viewpage.action?title=Phenomenological+Tools&spaceKey=pprg#PhenomenologicalTools-Batchsubmission}). The code is displayed below:
 
 \lstinputlisting[language=Python, caption={Bjoern's script to submit \madgraph runs to the cluster using Condor. File name: run\_mg\_bjoern.py.}]{listings/run_mg_bjoern.py}
 
@@ -218,9 +218,9 @@ Then to copy the \textbf{tag\_1\_pythia\_events.hep.gz} files, I just navigate t
 cp submit_mg/results/ppWjets<index>/ppWjets<index>/Events/run_01/tag_1_pythia_events.hep.gz MadAnalysis/MA5_v1_4/Input/ppWjets<index>.hep.gz
 \end{lstlisting}
 
-where my \madanalysis set up is in the directory \textbf{/storage/eb16003/MadAnalysis/MA5\_v1\_4}, and the destination of the file is \textbf{MadAnalysis/MA5\_v1\_4/Input/}. This action renames the file to \textbf{ppWjets$<$index$>$.hep.gz} as well so I don't have to do it after copying. And, obviously, I replace \texttt{<index>} with the respective numbers 1, 2,\ldots, N\_JOBS. But, I do have to manually copy over the files for the time being, unless I can make a bash/Python script to use a \texttt{for} loop to copy them all over.
+where my \madanalysis set up is in the directory \textbf{/storage/eb16003/MadAnalysis/MA5\_\-v1\_\-4}, and the destination of the file is \textbf{MadAnalysis/MA5\_\-v1\_\-4/Input/}. This action renames the file to \textbf{ppWjets$<$index$>$.hep.gz} as well so I don't have to do it after copying. And, obviously, I replace \texttt{<index>} with the respective numbers 1, 2,\ldots, N\_JOBS. But, I do have to manually copy over the files for the time being, unless I can make a bash/Python script to use a \texttt{for} loop to copy them all over.
 
-\fcolorbox{red}{pink}{\begin{minipage}{\textwidth}
+\fcolorbox{red}{pink}{\begin{minipage}{0.9\textwidth}
 % This environment doesn't like \verb, so use \texttt every time
 If \madanalysis isn't working properly on my Soolin directory, I'll have to copy the necessary files over to my local machine and do it locally. It's not too much trouble; I first need to make sure I'm in my local home directory in the terminal (\emph{not} on Soolin), and then \texttt{scp} the files over from Soolin. The command is
 
@@ -234,7 +234,7 @@ to save the files in my home directory. Or I could be lazy and copy \emph{everyt
 
 \
 
-\texttt{scp -r eb16003@soolin.dice.priv:/storage/eb16003/submit\_mg/\\results ./}
+\texttt{scp -r eb16003@soolin.dice.priv:/storage/eb16003/submit\_mg/results ./}
 
 \
 
@@ -264,12 +264,12 @@ These results will need to be handled independently from the other processes (wi
 So this is the procedure as a more compact list:
 
 \begin{easylist}[enumerate]
-& Copy the \madgraph output files (\textbf{tag\_1\_pythia\_events.hep.gz}) from \textbf{/storage/eb16003/submit\_mg/results/} to my \madanalysis directory -- renaming them to something more appropriate -- and consolidate them in the directory \textbf{/storage/eb16003/MadAnalysis/MA5\_v1\_4/Input/}.
+& Copy the \madgraph output files (\textbf{tag\_\-1\_\-pythia\_\-events.hep.gz}) from \textbf{/storage/eb16003/submit\_\-mg/results/} to my \madanalysis directory -- renaming them to something more appropriate -- and consolidate them in the directory \textbf{/storage/eb16003/MadAnalysis/MA5\_\-v1\_\-4/Input/}.
 & Write an input file for \madanalysis to analyse the .hep.gz files, using Listing~\ref{listing:dmmonojinput} as a template. Pay attention to the files I'm importing, the cuts, and the histograms I want plotted. The cuts described in that file are applicable to this analysis because I'm still modelling the backgrounds from the dark matter search in~\cite{CMS:2016pod}.
 & Make sure I've sourced my \textbf{cms.sh} script to set up the necessary environments.
 & Run \madanalysis (with the \texttt{-s -R} commands to ensure the creation of the .root file) with the input file.
 & Open the PDF in \textbf{/MA5\_v1\_4/$<$name of output directory$>$/PDF/main.pdf} to get information about the weight assigned to the events in each process, the histograms, and the cut flow. I can't open it on Soolin, so just \texttt{scp} it to my local machine and use Adobe Reader.
-& My macros won't work on the version of \ROOT I have on Soolin for whatever reason, so \texttt{scp} the \textbf{TheMouth.root} files to my local machine (renaming them to something appropriate to avoid confusion). Then modify my local copies of \textbf{MouthGlobal.h} (see Listing~\ref{listing:mouthglobalv1}) in \textbf{/Users/eb16003/PhD\_Software/MadAnalysis/MA5\_v1\_4/Macros\_TheMouth/} to point to the directory containing the renamed \textbf{TheMouth.root} file of the process I want to look at, change the variable \texttt{weight} to the value given in the PDF, and make sure \texttt{N\_BINS}, \texttt{X\_MIN} and \texttt{X\_MAX} are the correct values for what I'm looking at.
+& My macros won't work on the version of \ROOT I have on Soolin for whatever reason, so \texttt{scp} the \textbf{TheMouth.root} files to my local machine (renaming them to something appropriate to avoid confusion). Then modify my local copies of \textbf{MouthGlobal.h} (see Listing~\ref{listing:mouthglobalv1}) in \textbf{/Users/eb16003/PhD\_\-Software/MadAnalysis/MA5\_\-v1\_\-4/Macros\_\-TheMouth/} to point to the directory containing the renamed \textbf{TheMouth.root} file of the process I want to look at, change the variable \texttt{weight} to the value given in the PDF, and make sure \texttt{N\_BINS}, \texttt{X\_MIN} and \texttt{X\_MAX} are the correct values for what I'm looking at.
 & Run \textbf{execMouth.C} to print the \emph{weighted} events in each MET bin for the \textbf{TheMouth.root} file I want to look at. Then document the results in a .txt file or an Excel spreadsheet.
 % CAN ADD THESE TO THE EXISTING BACKGROUNDS I'VE GOT OR COMPARE THEM WITH THE PAPER.
 \end{easylist}
@@ -296,7 +296,7 @@ The histograms from \madanalysis showing the number of events vs. \etmiss:
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=160mm]{figures/MET_HTranges.png}
+\includegraphics[width=\textwidth]{figures/MET_HTranges.png}
 \caption{The number of weighted events vs. \etmiss for the Standard Model background processes $\Pp\Pp \rightarrow W +$ jets and $Z +$ jets. These were generated by Monte Carlo with different ranges of \HT. The upper panel shows the events before any cuts, and the lower panel shows the events after several cuts: jet $\pt > 100\GeV$, $\etmiss > 200\GeV$, $\abseta < 2.5$, no \Pqb-quarks, and no leptons.}
 \end{figure}
 

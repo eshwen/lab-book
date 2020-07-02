@@ -6,7 +6,7 @@
 \begin{easylist}[itemize]
 \easylistprops
 
-& Jet: when a quark is produced in a collision, it hadronizes (to become colour-neutral). So another quark is created to pair with the lone quark. But because the particle typically has a lot of energy, more quark-antiquark pairs are produced (the same as when a quark pair is pulled apart, the stored energy in the flux tube between them allows the pair production of quarks, such that there are now two pairs of quarks). This cascades and several quark pairs are produced rapidly, turning into a jet (as each new pair produced travels in the same direction as the original quark(s)).
+& Jet: when a quark is produced in a collision, it hadronises (to become colour-neutral). So another quark is created to pair with the lone quark. But because the particle typically has a lot of energy, more quark-antiquark pairs are produced (the same as when a quark pair is pulled apart, the stored energy in the flux tube between them allows the pair production of quarks, such that there are now two pairs of quarks). This cascades and several quark pairs are produced rapidly, turning into a jet (as each new pair produced travels in the same direction as the original quark(s)).
 
 & \Pqb-tagging: when bottom (\Pqb) quarks are produced in accelerator collisions, they hadronize and form jets. The hadrons composed of \Pqb-quarks have a relatively long lifetime and decay in the detector (or decay between the primary vertex -- initial interaction point -- and the detector to create a second jet and a secondary vertex). Because \Pqb-quarks have a large mass, their decay products tend to have a high \pt. This leads to high-multiplicity, wide jets. These properties allow the jets to be "tagged" and identified, which can be useful when studying specific decays that would likely produce \Pqb-quarks.
 
@@ -15,19 +15,19 @@
 & \alphat: the kinematic variable \alphat is used in analyses to suppress QCD backgrounds, and to suppress multijet production and mis-reconstructed \pt. It is defined in~\cite{Randall:2008rw}, and further described in~\cite{PhysRevLett.107.221804}. Another form is
 
 \begin{equation}
-\alphat = \frac{ \sum_{i \in \mathrm{jets}} E_{\mathrm{T}}^i - \Delta E_{\mathrm{T}} } {2 \sqrt{ \left( \sum_{i \in \mathrm{jets}} E_{\mathrm{T}}^i \right)^2 - (\mht)^2 } }
+\alphat = \frac{ \sum_{i \in \mathrm{jets}} \ET^i - \Delta \ET } {2 \sqrt{ \left( \sum_{i \in \mathrm{jets}} \ET^i \right)^2 - (\mht)^2 } }
 \label{eq:alphaT}
 \end{equation}
 
-"where $E_{\mathrm{T}}^i (\equiv E^i \sin\theta^i)$ is the jet transverse energy, and $\Delta E_{\mathrm{T}}$ is the difference in $E_{\mathrm{T}}$ of the two \emph{pseudo-jets}, two sets of jets into which the jets in the event are combined so as to minimize $\Delta E_{\mathrm{T}}$"~\cite{Sakuma:2016nxo}.
+"where $\ET^i (\equiv E^i \sin\theta^i)$ is the jet transverse energy, and $\Delta \ET$ is the difference in $\ET$ of the two \emph{pseudo-jets}, two sets of jets into which the jets in the event are combined so as to minimize $\Delta \ET$"~\cite{Sakuma:2016nxo}.
 
-& Parton Distribution Function (PDF): a parton distribution function details the momentum distribution of the partons (quarks and gluons) within a proton. There exist many PDFs, that depend on factors such as the energy and the processes that are occurring. See \url{http://www.scholarpedia.org/article/Introduction_to_Parton_Distribution_Functions} and~\cite{Placakyte:2011az}.
+& Parton Distribution Function (PDF): a parton distribution function details the momentum distribution of the partons (quarks and gluons) within a proton. There exist many PDFs, that depend on factors such as the energy and the processes that are occurring. See \sloppy\url{http://www.scholarpedia.org/article/Introduction_to_Parton_Distribution_Functions} and~\cite{Placakyte:2011az}.
 
 & MiniAOD: mini-analysis object data (miniAOD) is a data format used to store data for CMS analyses, and so called because it dramatically reduced the size of the data files. This meant that computing resources and disk space became less strained. See~\cite{1742-6596-664-7-072052} for more information.
 
 & LHE: The Le Houches Accords was an agreement between particle physicists that standardised the interface between the matrix element programs (e.g., \madgraph) and the event generators (e.g., \PYTHIA) used to calculate different quantities. Events that conform to the formats described in the Les Houches Accords are said to be in the Les Houches Event (LHE) format.
 
-& Loose/medium/tight lepton: this type of identification of a lepton refers to the "working points" (cuts) that are applied. The "tighter" the particle, the more (numerous and/or restrictive) cuts are applied. This leads to a lower cut flow efficiency but more accuracy. Usually, the more problems that backgrounds pose, the tighter the cuts are made in order to suppress them. See \url{https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideMuonIdRun2#Muon_Identification} and \url{https://twiki.cern.ch/twiki/bin/viewauth/CMS/CutBasedElectronIdentificationRun2#Electron_ID_Working_Points_WP_de} for more information.
+& Loose/medium/tight lepton: this type of identification of a lepton refers to the "working points" (cuts) that are applied. The "tighter" the particle, the more (numerous and/or restrictive) cuts are applied. This leads to a lower cut flow efficiency but more accuracy. Usually, the more problems that backgrounds pose, the tighter the cuts are made in order to suppress them. See \sloppy\url{https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideMuonIdRun2#Muon_Identification} and \sloppy\url{https://twiki.cern.ch/twiki/bin/viewauth/CMS/CutBasedElectronIdentificationRun2#Electron_ID_Working_Points_WP_de} for more information.
 
 & Control region: orthogonal to the signal region, so no signal is expected. Control regions are used to see if backgrounds are well understood. So you form a "background-only" hypothesis (i.e., no signal -- in the case of Higgs boson searches, the hypothesis would be that $\Pp\Pp$ collisions would produce everything we've seen previously in colliders with no hint of a Higgs, because we hadn't detected the Higgs yet) and predict what your data \emph{should} look like in the regions that aren't the signal region. Then if your data in the control regions agree with your background-only hypothesis, you can build confidence that you're estimating the backgrounds correctly and not introducing any unexpected bias.
 
@@ -42,17 +42,17 @@
 
 A value of $\Delta R = 0.4$ is commonly used for lepton (namely muon) isolation. Whilst most people say that it isn't a "cone", it's more like a cone in 3D space but a circle in the $\phi-\eta$ plane (which is how the trigger crystals and towers are arranged).
 
-& Isolation/isolated lepton: particle isolation is defined by the fractional momentum contribution of other particles "near" the particle you're interested in. First the track of the target particle is identified. Then a cone of radius $\Delta R$ is constructed (with $\Delta R = 0.4$ being a common choice for muons) around a point in the track with its apex at the primary vertex, and the sums of the \pt and $E_{\mathrm{T}}$ of all the particles within this cone are calculated. Then by dividing by the target particle's \pt you can calculate the fraction of the momentum that other particles are contributing to the total momentum inside the cone, which is also called the value of the particle's "relative isolation". Then you can impose cuts on these values, depending on how isolated you want a certain particle to be.
+& Isolation/isolated lepton: particle isolation is defined by the fractional momentum contribution of other particles "near" the particle you're interested in. First the track of the target particle is identified. Then a cone of radius $\Delta R$ is constructed (with $\Delta R = 0.4$ being a common choice for muons) around a point in the track with its apex at the primary vertex, and the sums of the \pt and $\ET$ of all the particles within this cone are calculated. Then by dividing by the target particle's \pt you can calculate the fraction of the momentum that other particles are contributing to the total momentum inside the cone, which is also called the value of the particle's "relative isolation". Then you can impose cuts on these values, depending on how isolated you want a certain particle to be.
 
 & Drell-Yan processes: in the LHC, the Drell-Yan (DY) process is when a quark from one proton annihilates with an antiquark from an oncoming proton. This normally produces one of the electroweak bosons, which decays into a lepton-antilepton pair. Looking at invariant mass plots from DY can show clear peaks at the masses of different particles, like the $\phi$. $J/\psi$, $\upsilon$ hadrons and the \PZ boson. However, as protons contain many quarks, antiquarks and gluons, DY is normally messy and the final states can include several jets.
 
-& \biasedDPhi: the variable \biasedDPhi, known as "biased delta phi", is used in making event selections in signal/data, similar to \alphat~\cite{CMS-PAPER-SUS-15-005-arXiv}. It is based on the minimum azimuthal separation between a jet and the negative vector $\vec{p}_{\mathrm{T}}$ sum of all of the other jets in the event. So it is essentially the minimal separation between the jet and the \htmiss vector. It is calculated with the formula
+& \biasedDPhi: the variable \biasedDPhi, known as "biased delta phi", is used in making event selections in signal/data, similar to \alphat~\cite{CMS-PAPER-SUS-15-005-arXiv}. It is based on the minimum azimuthal separation between a jet and the negative vector $\ptvec$ sum of all of the other jets in the event. So it is essentially the minimal separation between the jet and the \htmiss vector. It is calculated with the formula
 
 \begin{equation}
-  \Delta\phi^*_{\mathrm{min}} = \min_{\,\forall\, \mathrm{j}_k\,\in\, [1,\njet]}
-  \Delta\phi \Bigl( \vec{p}_{\mathrm{T}}^{\ \mathrm{j}_k}, \,
+  \biasedDPhi = \min_{\,\forall\, \mathrm{j}_k\,\in\, [1,\njet]}
+  \Delta\phi \Bigl( \ptvec^{\ \mathrm{j}_k}, \,
     -\hspace{-0.5em}\sum_{\substack{\mathrm{j}_i= 1 \\ \mathrm{j}_i \ne \mathrm{j}_k}}^{\njet}
-\vec{p}_{\mathrm{T}}^{\ \mathrm{j}_i} \Bigr).
+\ptvec^{\ \mathrm{j}_i} \Bigr).
 \label{eq:biasedDPhi}
 \end{equation}
 
@@ -70,7 +70,7 @@ A value of $\Delta R = 0.4$ is commonly used for lepton (namely muon) isolation.
 
 & Trigger menu: the collection of trigger algorithms available in firmware at a given time.
 
-& AK4 and AK8: the "AK" stands for "anti-$k_{\mathrm{T}}$", which is a jet clustering algorithm widely used in data analysis from hadron-hadron collisions~\cite{Cacciari:2008gp}. The 4 and 8 give the size of the jet ($R = 0.4$ and $R = 0.8$, respectively). In analyses, people sometimes refer to "AK4" or "AK8" jets, which are essentially jets clustered using the anti-$k_{\mathrm{T}}$ algorithm with the respective $R$ value. So a larger $R$ jet would be more inclusive if you have, say, a fat jet, but the isolation would be worse. This algorithm is used to cluster offline jets (Calo/PF/Gen).
+& AK4 and AK8: the "AK" stands for "anti-$\kt$", which is a jet clustering algorithm widely used in data analysis from hadron-hadron collisions~\cite{Cacciari:2008gp}. The 4 and 8 give the size of the jet ($R = 0.4$ and $R = 0.8$, respectively). In analyses, people sometimes refer to "AK4" or "AK8" jets, which are essentially jets clustered using the anti-$\kt$ algorithm with the respective $R$ value. So a larger $R$ jet would be more inclusive if you have, say, a fat jet, but the isolation would be worse. This algorithm is used to cluster offline jets (Calo/PF/Gen).
 
 & \etmiss vs. \htmiss: \etmiss (or MET) is the missing transverse energy, i.e., the negative vector sum of the transverse energies of \emph{all} particles in an event. \htmiss (or MHT) is the negative vector sum of the transverse energies (or momenta) of \emph{only the jets} in an event. An easy way to distinguish is to think of the "H" in MHT standing for "hadronic".
 

@@ -1,5 +1,5 @@
 
-\chapter{Combined \texorpdfstring{$H \rightarrow \mathrm{inv.}$}{Higgs to invisible} analysis (25/05/2018)}
+\chapter{Combined \texorpdfstring{$\higgstoinv$}{Higgs to invisible} analysis (25/05/2018)}
 
 \section{Motivation}
 
@@ -12,9 +12,9 @@ In the SM, the Higgs can only decay to neutrinos via $H \rightarrow ZZ \rightarr
 
 \section{Models and sample production}
 
-A subset of the Higgs production modes we are considering are gluon-gluon fusion ($gg$F), top pair production with a Higgs ($ttH$), Higgs production in association with a vector boson ($VH$), and vector boson fusion (VBF). Our first step is to analyse samples from each of these processes and attempt to construct orthogonal signal regions to cover the largest phase space possible. An analysis will then be performed to extract the limit on the invisible (neutrino) branching fraction. As these processes are Standard Model and not BSM, this is a simpler undertaking in the sense it does not involve parameter scans or any other nuisances that arises from those models.
+A subset of the Higgs production modes we are considering are gluon-gluon fusion (\ggF), top pair production with a Higgs ($\ttH$), Higgs production in association with a vector boson ($\VH$), and vector boson fusion (VBF). Our first step is to analyse samples from each of these processes and attempt to construct orthogonal signal regions to cover the largest phase space possible. An analysis will then be performed to extract the limit on the invisible (neutrino) branching fraction. As these processes are Standard Model and not BSM, this is a simpler undertaking in the sense it does not involve parameter scans or any other nuisances that arises from those models.
 
-My current task is to investigate $ttH$ sample production, binning it, and exploring an event selection and discriminating variables. In the future, it may develop into analysing dark matter models in this context, if we decide on pursuing BSM physics. For all of the modes above, we plan to use the centrally-produced nanoAOD MC However, for $ttH$, they haven't been produced yet as of 30/05/2018 (but the request has gone in, so it should be available soon). The dataset entry is on McM though, so I could see the CMSSW version and cmsDriver command required to produce my own samples from the miniAODs for the time being. So, I made some nanoAOD files which I could run through FAST-RA1. (A few people on this analysis are actively involved in developing FAST, and this framework will very likely be what we use in the analysis.)
+My current task is to investigate $\ttH$ sample production, binning it, and exploring an event selection and discriminating variables. In the future, it may develop into analysing dark matter models in this context, if we decide on pursuing BSM physics. For all of the modes above, we plan to use the centrally-produced nanoAOD MC However, for $\ttH$, they haven't been produced yet as of 30/05/2018 (but the request has gone in, so it should be available soon). The dataset entry is on McM though, so I could see the CMSSW version and cmsDriver command required to produce my own samples from the miniAODs for the time being. So, I made some nanoAOD files which I could run through FAST-RA1. (A few people on this analysis are actively involved in developing FAST, and this framework will very likely be what we use in the analysis.)
 
 
 \subsection{Building the dataframe of files to run over}
@@ -138,7 +138,7 @@ git checkout -b overleaf_to_gitlab_v1
 git pull overleaf master --allow-unrelated-histories
 \end{lstlisting}
 
-Whenever edits/updates are made to the project on Overleaf (\url{https://www.overleaf.com/project/5cd2a70d3d57d07d68fa386a}), it automatically updates the branch \texttt{overleaf/master}. By pulling the latest changes at a certain point in time, a merge request can then be made to the main GitLab repo above.
+Whenever edits/updates are made to the project on Overleaf (\sloppy\url{https://www.overleaf.com/project/5cd2a70d3d57d07d68fa386a}), it automatically updates the branch \texttt{overleaf/master}. By pulling the latest changes at a certain point in time, a merge request can then be made to the main GitLab repo above.
 
 \section{IOP 2019 (25/01/2019)}
 
@@ -146,9 +146,9 @@ As I'm in my third year, I've been asked to present at the Joint APP and HEPP An
 
 The leading upper limit on the Higgs boson to invisible state branching ratio (BR) is 24\%, while the Standard Model prediction sits far below at 0.1\%. The observed value was measured using pp data collected by the CMS experiment between 2011 and 2015. Our analysis targets a better limit by using 13 TeV data from 2016-2018 -- an integrated luminosity of over 130\fbinv -- in addition to performing the combination over all Higgs production modes from the outset rather than in a posthoc fashion. The hadronic channels we include are gluon-gluon fusion, ttH, vector boson fusion (VBF) and Higgs production in association with a vector boson (VH). Analysing each production mode in an orthogonal search region gives a high degree of sensitivity compared to previous attempts. In this talk, the finalised event selection, signal categorisation, data-driven background estimation and systematic uncertainties for the non-VBF production modes will be presented. A sufficiently accurate limit on the BR that is still above the Standard Model prediction may be interpreted in a beyond-Standard Model context. Constraints can be placed on theories that posit exotic particles or dark matter that couple to the Higgs, enhancing the invisible state BR.
 
-My finished slides are here: \href{run:modules/Sec 37 - Combined Higgs to invisible analysis/figures/20190410 Combined Search for an Invisibly Decaying Higgs (final, 16x9).pdf}{20190410 Combined Search for an Invisibly Decaying Higgs (final, 16x9).pdf}. They include a very recent result for $ttH (H \rightarrow \mathrm{inv.})$:~\cite{CMS-PAS-HIG-18-008}, and also a combination from ATLAS (plots taken from conference note, paper uploaded soon after talk):~\cite{Aaboud:2019rtt}.
+My finished slides are here: \href{run:modules/Sec 37 - Combined Higgs to invisible analysis/figures/20190410 Combined Search for an Invisibly Decaying Higgs (final, 16x9).pdf}{20190410 Combined Search for an Invisibly Decaying Higgs (final, 16x9).pdf}. They include a very recent result for $\ttH (\higgstoinv)$:~\cite{CMS-PAS-HIG-18-008}, and also a combination from ATLAS (plots taken from conference note, paper uploaded soon after talk):~\cite{Aaboud:2019rtt}.
 
 
 % --------------------------------- OTHER ---------------------------------
-An interesting new publication from CMS about $ttH$, which may prove useful, is in Ref.~\cite{PhysRevLett.120.231801}.
+An interesting new publication from CMS about $\ttH$, which may prove useful, is in Ref.~\cite{PhysRevLett.120.231801}.
 When looking into 2016 and 2017 data in nanoAOD, I found a good overview into how data is recorded and managed in CMS: %\url{https://indico.cern.ch/event/455071/contributions/1123140/attachments/1229600/1801901/2016-02-17-cmsDasTaipei-franzoni-DataPreparation.pdf}. This is useful in general.

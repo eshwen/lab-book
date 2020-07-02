@@ -130,7 +130,7 @@ For $c\tau = 0.001$ mm:
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcc}
   \hline
-  Event selection & \multicolumn{2}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP},\,c\tau$)} \\
+  Event selection & \multicolumn{2}{c}{Benchmark model ($\mSUSY,\,\mLSP,\,c\tau$)} \\
   \cline{2-3}
    & T1qqqqLL & T1qqqqLL \\
    & (1800,\,200,\,$10^{-3}$) & (1000,\,900,\,$10^{-3}$) \\
@@ -141,7 +141,7 @@ For $c\tau = 0.001$ mm:
   Event veto for photons & \phantom{1}90\phantom{.1} & \phantom{1}89\phantom{.1} \\
   Event veto for jets failing ID & \phantom{1}90\phantom{.1} & \phantom{1}88\phantom{.1} \\
    $\njet \geq 2$ & \phantom{1}90\phantom{.1} & \phantom{1}76\phantom{.1}  \\
-   $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}87\phantom{.1} & \phantom{1}72\phantom{.1} \\
+   $0.1 <$ CHF$^{\jone} < 0.95$ & \phantom{1}87\phantom{.1} & \phantom{1}72\phantom{.1} \\
    $\ptjone > 100\GeV$ & \phantom{1}87\phantom{.1} & \phantom{1}44\phantom{.1} \\
    $\HT > 200\GeV$ & \phantom{1}87\phantom{.1} & \phantom{1}39\phantom{.1}  \\
   $\mht > 200\GeV$ & \phantom{1}82\phantom{.1} & \phantom{1}22\phantom{.1}  \\
@@ -162,7 +162,7 @@ For $c\tau = 1$ mm:
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcc}
   \hline
-  Event selection & \multicolumn{2}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP},\,c\tau$)} \\
+  Event selection & \multicolumn{2}{c}{Benchmark model ($\mSUSY,\,\mLSP,\,c\tau$)} \\
   \cline{2-3}
    & T1qqqqLL & T1qqqqLL \\
     & (1800,\,200,\,1) & (1000,\,900,\,1) \\
@@ -173,7 +173,7 @@ For $c\tau = 1$ mm:
   Event veto for photons & \phantom{1}79\phantom{.1} & \phantom{1}89\phantom{.1} \\
   Event veto for jets failing ID & \phantom{1}79\phantom{.1} & \phantom{1}89\phantom{.1} \\
    $\njet \geq 2$  & \phantom{1}79\phantom{.1} & \phantom{1}70\phantom{.1} \\
-   $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}74\phantom{.1} & \phantom{1}66\phantom{.1} \\
+   $0.1 <$ CHF$^{\jone} < 0.95$ & \phantom{1}74\phantom{.1} & \phantom{1}66\phantom{.1} \\
    $\ptjone > 100\GeV$ & \phantom{1}74\phantom{.1} & \phantom{1}36\phantom{.1} \\
    $\HT > 200\GeV$  & \phantom{1}74\phantom{.1} & \phantom{1}31\phantom{.1} \\
   $\mht > 200\GeV$  & \phantom{1}68\phantom{.1} & \phantom{1}15\phantom{.1} \\
@@ -194,7 +194,7 @@ For $c\tau = 10^5$ mm:
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcc}
   \hline
-  Event selection & \multicolumn{2}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP},\,c\tau$)} \\
+  Event selection & \multicolumn{2}{c}{Benchmark model ($\mSUSY,\,\mLSP,\,c\tau$)} \\
   \cline{2-3}
    & T1qqqqLL & T1qqqqLL \\
     & (1000,\,200,\,10$^5$) & (1000,\,900,\,10$^5$) \\
@@ -205,7 +205,7 @@ For $c\tau = 10^5$ mm:
   Event veto for photons & \phantom{1}97\phantom{.1} & \phantom{1}97\phantom{.1} \\
   Event veto for jets failing ID & \phantom{1}95\phantom{.1} & \phantom{1}96\phantom{.1} \\
    $\njet \geq 2$  & \phantom{1}35\phantom{.1} & \phantom{1}33\phantom{.1} \\
-   $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}29\phantom{.1} & \phantom{1}30\phantom{.1} \\
+   $0.1 <$ CHF$^{\jone} < 0.95$ & \phantom{1}29\phantom{.1} & \phantom{1}30\phantom{.1} \\
    $\ptjone > 100\GeV$ & \phantom{1}23\phantom{.1} & \phantom{1}23\phantom{.1} \\
    $\HT > 200\GeV$  & \phantom{1}21\phantom{.1} & \phantom{1}21\phantom{.1} \\
   $\mht > 200\GeV$  & \phantom{1}16\phantom{.1} & \phantom{1}16\phantom{.1} \\
@@ -265,7 +265,7 @@ The remaining SUSY models are
 & T2qq\_1fold (700, 100) and (400, 300)
 \end{easylist}
 
-These trees needed to be remade without any cuts. I'm working on Soolin with CMSSW\_8\_0\_25, with the CMGTools branch "80X-ra1-0.7.x-Moriond17Prod-EshSUSYcutflow2016" and CMSSW branch "heppy\_80X\_ra1-0.7.x-Moriond17Prod". In \textbf{CMGTools/RA1/cfg/}, I edited \href{run:modules/Sec 30 - Cut flow tables for SUS-16-038listings/CMGTools/run_AtLogic_MCMiniAODv2_SUSY_SMS_FastSim_cfg.py}{run\_AtLogic\_MCMiniAODv2\_SUSY\_SMS\_FastSim\_cfg.py} and commented out all the conditions in \texttt{buildEventSelection\_options}. To store the miniAOD samples, I made a components file \href{run:modules/Sec 30 - Cut flow tables for SUS-16-038listings/CMGTools/components_EshSUSYbenchmarks.py}{components\_EshSUSYbenchmarks.py} and made sure the config called it.
+These trees needed to be remade without any cuts. I'm working on Soolin with CMSSW\_8\_0\_25, with the CMGTools branch "80X-ra1-0.7.x-Moriond17Prod-EshSUSYcutflow2016" and CMSSW branch "heppy\_\-80X\_\-ra1-0.7.x-Moriond17Prod". In \textbf{CMGTools/RA1/cfg/}, I edited \href{run:modules/Sec 30 - Cut flow tables for SUS-16-038listings/CMGTools/run_AtLogic_MCMiniAODv2_SUSY_SMS_FastSim_cfg.py}{run\_\-AtLogic\_\-MCMiniAODv2\_\-SUSY\_\-SMS\_\-FastSim\_\-cfg.py} and commented out all the conditions in \texttt{buildEventSelection\_\-options}. To store the miniAOD samples, I made a components file \href{run:modules/Sec 30 - Cut flow tables for SUS-16-038listings/CMGTools/components_EshSUSYbenchmarks.py}{components\_\-EshSUSYbenchmarks.py} and made sure the config called it.
 
 Once the trees were made, I had to transfer them to Imperial so I could split and then reweight them with AlphaTools. I just needed to follow the instructions for the tree splitting, then update the base directory in the config script to point to the split trees, and add them to the script containing the samples. Then I could use cutflowirl to get the cut flow tables.
 
@@ -274,7 +274,7 @@ Once the trees were made, I had to transfer them to Imperial so I could split an
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcccc}
   \hline
-  Event selection & \multicolumn{4}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP}$)} \\
+  Event selection & \multicolumn{4}{c}{Benchmark model ($\mSUSY,\,\mLSP$)} \\
   \cline{2-5}
   & T1bbbb & T1bbbb & T1qqqq & T1qqqq \\
   & (1900,\,100) & (1300,\,1100) & (1700,\,100) & (1000,\,850) \\
@@ -285,7 +285,7 @@ Once the trees were made, I had to transfer them to Imperial so I could split an
    Event veto for photons & \phantom{1}95\phantom{.1} & \phantom{1}92\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}92\phantom{.1} \\
    Event veto for jets failing ID & \phantom{1}95\phantom{.1} & \phantom{1}92\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}91\phantom{.1} \\
    $\njet \geq 2$  & \phantom{1}95\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}94\phantom{.1} & \phantom{1}88\phantom{.1} \\
-   $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}90\phantom{.1} & \phantom{1}87\phantom{.1} & \phantom{1}89\phantom{.1} & \phantom{1}83\phantom{.1} \\
+   $0.1 <$ CHF$^{\jone} < 0.95$ & \phantom{1}90\phantom{.1} & \phantom{1}87\phantom{.1} & \phantom{1}89\phantom{.1} & \phantom{1}83\phantom{.1} \\
    $\ptjone > 100\GeV$ & \phantom{1}90\phantom{.1} & \phantom{1}75\phantom{.1} & \phantom{1}89\phantom{.1} & \phantom{1}64\phantom{.1} \\
    $\HT > 200\GeV$  & \phantom{1}90\phantom{.1} & \phantom{1}73\phantom{.1} & \phantom{1}89\phantom{.1} & \phantom{1}60\phantom{.1} \\
    $\mht > 200\GeV$  & \phantom{1}84\phantom{.1} & \phantom{1}37\phantom{.1} & \phantom{1}83\phantom{.1} & \phantom{1}27\phantom{.1} \\
@@ -303,7 +303,7 @@ Once the trees were made, I had to transfer them to Imperial so I could split an
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcccc}
   \hline
-  Event selection & \multicolumn{4}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP}$)} \\
+  Event selection & \multicolumn{4}{c}{Benchmark model ($\mSUSY,\,\mLSP$)} \\
   \cline{2-5}
   & T1tttt & T1tttt & T2bb & T2bb \\
   & (1700,\,100) & (950,\,600) & (1000,\,100) & (550,\,450) \\
@@ -314,7 +314,7 @@ Once the trees were made, I had to transfer them to Imperial so I could split an
    Event veto for photons & \phantom{1}34\phantom{.1} & \phantom{1}37\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} \\
    Event veto for jets failing ID & \phantom{1}34\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} \\
    $\njet \geq 2$  & \phantom{1}34\phantom{.1} & \phantom{1}36\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}79\phantom{.1} \\
-   $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}33\phantom{.1} & \phantom{1}35\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}75\phantom{.1} \\
+   $0.1 <$ CHF$^{\jone} < 0.95$ & \phantom{1}33\phantom{.1} & \phantom{1}35\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}75\phantom{.1} \\
    $\ptjone > 100\GeV$ & \phantom{1}33\phantom{.1} & \phantom{1}29\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}52\phantom{.1} \\
    $\HT > 200\GeV$  & \phantom{1}33\phantom{.1} & \phantom{1}29\phantom{.1} & \phantom{1}91\phantom{.1} & \phantom{1}45\phantom{.1} \\
    $\mht > 200\GeV$  & \phantom{1}31\phantom{.1} & \phantom{10}6.7 & \phantom{1}82\phantom{.1} & \phantom{1}18\phantom{.1} \\
@@ -332,7 +332,7 @@ Once the trees were made, I had to transfer them to Imperial so I could split an
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcccc}
   \hline
-  Event selection & \multicolumn{4}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP}$)} \\
+  Event selection & \multicolumn{4}{c}{Benchmark model ($\mSUSY,\,\mLSP$)} \\
   \cline{2-5}
   & T2tt & T2tt & T2tt & T2cc \\
   & (1000,\,50) & (450,\,200) & (250,\,150) & (500,\,480) \\
@@ -343,7 +343,7 @@ Once the trees were made, I had to transfer them to Imperial so I could split an
    Event veto for photons & \phantom{1}57\phantom{.1} & \phantom{1}55\phantom{.1} & \phantom{1}59\phantom{.1} & \phantom{1}96\phantom{.1} \\
    Event veto for jets failing ID & \phantom{1}57\phantom{.1} & \phantom{1}55\phantom{.1} & \phantom{1}59\phantom{.1} & \phantom{1}96\phantom{.1} \\
    $\njet \geq 2$  & \phantom{1}57\phantom{.1} & \phantom{1}55\phantom{.1} & \phantom{1}40\phantom{.1} & \phantom{1}70\phantom{.1} \\
-   $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}55\phantom{.1} & \phantom{1}52\phantom{.1} & \phantom{1}37\phantom{.1} & \phantom{1}64\phantom{.1} \\
+   $0.1 <$ CHF$^{\jone} < 0.95$ & \phantom{1}55\phantom{.1} & \phantom{1}52\phantom{.1} & \phantom{1}37\phantom{.1} & \phantom{1}64\phantom{.1} \\
    $\ptjone > 100\GeV$ & \phantom{1}55\phantom{.1} & \phantom{1}43\phantom{.1} & \phantom{1}15\phantom{.1} & \phantom{1}55\phantom{.1} \\
    $\HT > 200\GeV$  & \phantom{1}55\phantom{.1} & \phantom{1}42\phantom{.1} & \phantom{1}13\phantom{.1} & \phantom{1}49\phantom{.1} \\
    $\mht > 200\GeV$  & \phantom{1}50\phantom{.1} & \phantom{1}16\phantom{.1} & \phantom{10}2.4 & \phantom{1}36\phantom{.1} \\
@@ -361,7 +361,7 @@ Once the trees were made, I had to transfer them to Imperial so I could split an
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lcccc}
   \hline
-  Event selection & \multicolumn{4}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP}$)} \\
+  Event selection & \multicolumn{4}{c}{Benchmark model ($\mSUSY,\,\mLSP$)} \\
   \cline{2-5}
   & T2qq\_8fold & T2qq\_8fold & T2qq\_1fold & T2qq\_1fold \\
   & (1250,\,100) & (700,\,600) & (700,\,100) & (400,\,300) \\
@@ -372,7 +372,7 @@ Once the trees were made, I had to transfer them to Imperial so I could split an
    Event veto for photons & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} \\
    Event veto for jets failing ID & \phantom{1}95\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}96\phantom{.1} & \phantom{1}95\phantom{.1} \\
    $\njet \geq 2$  & \phantom{1}95\phantom{.1} & \phantom{1}83\phantom{.1} & \phantom{1}95\phantom{.1} & \phantom{1}80\phantom{.1} \\
-   $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}89\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}75\phantom{.1} \\
+   $0.1 <$ CHF$^{\jone} < 0.95$ & \phantom{1}89\phantom{.1} & \phantom{1}78\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}75\phantom{.1} \\
    $\ptjone > 100\GeV$ & \phantom{1}89\phantom{.1} & \phantom{1}59\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}51\phantom{.1} \\
    $\HT > 200\GeV$  & \phantom{1}89\phantom{.1} & \phantom{1}52\phantom{.1} & \phantom{1}90\phantom{.1} & \phantom{1}43\phantom{.1} \\
    $\mht > 200\GeV$  & \phantom{1}84\phantom{.1} & \phantom{1}22\phantom{.1} & \phantom{1}76\phantom{.1} & \phantom{1}14\phantom{.1} \\

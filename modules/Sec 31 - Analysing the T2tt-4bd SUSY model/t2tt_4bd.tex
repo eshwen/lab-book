@@ -3,7 +3,7 @@
 
 I've been tasked with making trees for, and analysing the T2tt-4bd SUSY model. This includes running the limits, systematics and cut flow tables. The model is a bit different because it's a four-body decay mode rather than two-body as with the other models.
 
-The dataset is \textbf{/SMS-T2tt\_dM-10to80\_genHT-160\_genMET-80\_mWMin-0p1\_TuneCUETP8M1\_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16Fast\_80X\_mcRun2\_asymptotic\_2016\_miniAODv2\_v0-v1/MINIAODSIM}. The mass points are generated with $m_{\mathrm{Stop}}$ between 250 and 800 GeV and mass splittings ($m_{\mathrm{SUSY}} - m_{\mathrm{LSP}}$) between 10 and 80 GeV for each $m_{\mathrm{Stop}}$ point.
+The dataset is \textbf{/SMS-T2tt\_\-dM-10to80\_\-genHT-160\_\-genMET-80\_\-mWMin-0p1\_\-TuneCUETP8M1\_\-13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16Fast\_\-80X\_\-mcRun2\_\-asymptotic\_\-2016\_\-miniAODv2\_\-v0-v1/MINIAODSIM}. The mass points are generated with $m_{\PStop}$ between 250 and 800 GeV and mass splittings ($\mSUSY - \mLSP$) between 10 and 80 GeV for each $m_{\PStop}$ point.
 
 
 \section{Tree production}
@@ -194,7 +194,7 @@ A root file containing the systematic variations per njet, nb and HT bin is crea
     \small
     \begin{tabular}{ ccccccccccccc }
         \hline \hline
-        Model & ($m_{\mathrm{Susy}},m_{\mathrm{LSP}}$) & Luminosity & ISR & JEC & PU & b-tag & Mistag & b-tag & c-tag & light-tag & Trigger & MC stat. \\
+        Model & ($\mSusy,\mLSP$) & Luminosity & ISR & JEC & PU & b-tag & Mistag & b-tag & c-tag & light-tag & Trigger & MC stat. \\
         & & & & & & (Fullsim) & (Fullsim) & (Fastsim) & (Fastsim) & (Fastsim) & & \\ \hline
         T2tt-4bd & (450, 400) & 2.6\% & 4-20\% & 5-12\% & 7-12\% & 2-4\% & 2-3\% & 2-5\% & 2-5\% & 1-7\% & 2-3\% & 6-21\% \\
         \hline \hline
@@ -224,7 +224,7 @@ For simplified, I need to re-run optimiseBinning, makeCardsAndWs and runCombineT
                                             & \multicolumn{2}{c}{Simplified}             \\ [0.3ex]
     \cline{3-4}
     \cline{6-7}
-    \multicolumn{2}{c}{$(m_{\text{SUSY}}, m_{\mathrm{LSP}})$ [GeV]}
+    \multicolumn{2}{c}{$(m_{\text{SUSY}}, \mLSP)$ [GeV]}
                                             & $\mu_{\text{exp}}$
                                             & $\mu_{\text{obs}}$
                                             &
@@ -240,7 +240,7 @@ For simplified, I need to re-run optimiseBinning, makeCardsAndWs and runCombineT
     
 \subsection{Signal acceptance \texorpdfstring{$\times$}{x} efficiency}
 
-This plot can be obtained in relatively few steps. I can run optimiseBinning in the same way as was used to calculate the limits, making sure the variables in \textbf{configStatFormula.py} were also the same (as I might have changed it when running other things). Then, I could run the following steps, referring to the output directory as \texttt{OUTDIR} as I did previously. I had to run makeCardsAndWs, combining \HT and $n_{\mathrm{b}}$ with
+This plot can be obtained in relatively few steps. I can run optimiseBinning in the same way as was used to calculate the limits, making sure the variables in \textbf{configStatFormula.py} were also the same (as I might have changed it when running other things). Then, I could run the following steps, referring to the output directory as \texttt{OUTDIR} as I did previously. I had to run makeCardsAndWs, combining \HT and $\nbjet$ with
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 python makeCardsAndWs.py -i $OUTDIR -c "nB"
@@ -289,7 +289,7 @@ which gives me \textbf{0.0935877} for the benchmark model. In a nicer format:
     \centering
     \begin{tabular}{ ccc }
         \hline \hline
-        Model & $(m_{\mathrm{Susy}},m_{\mathrm{LSP}})$ & Efficiency (total) \\
+        Model & $(\mSusy,\mLSP)$ & Efficiency (total) \\
         \hline
         T2tt-4bd & (450, 400) & 9.4\% \\
         \hline \hline
@@ -316,7 +316,7 @@ For the significance scan, I want to re-run optimiseBinning and makeCardsAndWs w
 python runCombineTask.py -i $OUTDIR -t SIGNIF --what both
 \end{lstlisting}
 
-making sure \texttt{inputArguments.sigHists = "*"} in \textbf{configStatFormula.py} (as I might have changed it when running other things). In \textbf{PlotScripts/makeFinalPlane.py}, I had to comment out lines 272 (\texttt{wMassLine.Draw("same")}) and 274 (\texttt{tt.Draw("same")}) so the plot didn't show the dashed line with $m_{\mathrm{SUSY}} - m_{\mathrm{LSP}} = m_{\mathrm{t}}$.  Finally, I can run
+making sure \texttt{inputArguments.sigHists = "*"} in \textbf{configStatFormula.py} (as I might have changed it when running other things). In \textbf{PlotScripts/makeFinalPlane.py}, I had to comment out lines 272 (\texttt{wMassLine.Draw("same")}) and 274 (\texttt{tt.Draw("same")}) so the plot didn't show the dashed line with $\mSUSY - \mLSP = m_{\Ptop}$.  Finally, I can run
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 python PlotScripts/makeFinalPlane.py --scenario observed --model "T2tt" -i $OUTDIR -o <output dir for plots> --mode pv --doubleTranspose --remake --remakePickle --smooth --task SIGNIF
@@ -335,7 +335,7 @@ I just had to change the text near the top left from "T2tt" to "T2tt-4bd".
 
 \subsection{\texorpdfstring{$\sigma / \sigma_{\mathrm{theory}}$}{Sigma/sigma\_theory} (limits per bin) plots for benchmarks}
 
-This is probably the most confusing part of the analysis. First, I had to edit \texttt{inputArguments.sigHists} in \textbf{configStatFormula.py} to include only the benchmark models (only one in this case). The rest of the environment should be set up as if I'm running limits (i.e., no \texttt{doSuperSignal}, etc.). Then, I had to run optimiseBinning on that model twice: once with the standard arguments when running limits; and once with the standard arguments plus the option \texttt{--gbForZinvExtrap}, which uses the greenband prediction for the $Z \rightarrow$ inv. $n_{\mathrm{b}}$ extrapolation. The datacards generated must be in different directories, so I had to set the \texttt{-o} option to different paths. The commands would look like this:
+This is probably the most confusing part of the analysis. First, I had to edit \texttt{inputArguments.sigHists} in \textbf{configStatFormula.py} to include only the benchmark models (only one in this case). The rest of the environment should be set up as if I'm running limits (i.e., no \texttt{doSuperSignal}, etc.). Then, I had to run optimiseBinning on that model twice: once with the standard arguments when running limits; and once with the standard arguments plus the option \texttt{--gbForZinvExtrap}, which uses the greenband prediction for the $Z \rightarrow$ inv. $\nbjet$ extrapolation. The datacards generated must be in different directories, so I had to set the \texttt{-o} option to different paths. The commands would look like this:
 
 \begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
 python batchSubmitOptimise.py -o <output dir without gb label> -f --options "--shapeSystFromFile --getDataLumi --runFormula --extrapolateZinv --greenBand" --submit
@@ -380,7 +380,7 @@ which gives me the following plot for the benchmark model:
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=120mm]{figures/SMS-T2tt_mStop-450_mLSP-400_25ns_limits_nj_nb_ht.pdf}
-\caption{95\% CL upper limits on $\sigma / \sigma_{\mathrm{theory}}$ for the (450, 400) T2tt-4bd benchmark model are shown for four different bin combinations: no bins, \HT-only, ($n_{\mathrm{b}}$, \HT) and all bins overlaid in ascending order. The expected limit, along with the $\pm 1 \sigma$ and $\pm 2 \sigma$ bands, and the observed limit are displayed for each bin.}
+\caption{95\% CL upper limits on $\sigma / \sigma_{\mathrm{theory}}$ for the (450, 400) T2tt-4bd benchmark model are shown for four different bin combinations: no bins, \HT-only, ($\nbjet$, \HT) and all bins overlaid in ascending order. The expected limit, along with the $\pm 1 \sigma$ and $\pm 2 \sigma$ bands, and the observed limit are displayed for each bin.}
 \end{figure}
 
 
@@ -404,7 +404,7 @@ For the cut flows, I used the same workflow as in Section~\ref{sec:cutflowtables
 \resizebox{\textwidth}{!}{
 \begin{tabular}{lc}
   \hline
-  Event selection & \multicolumn{1}{c}{Benchmark model ($m_\mathrm{SUSY},\,m_\mathrm{LSP}$)} \\
+  Event selection & \multicolumn{1}{c}{Benchmark model ($\mSUSY,\,\mLSP$)} \\
   \cline{2-2}
    & T2tt-4bd \\
     & (450,\,400) \\
@@ -415,7 +415,7 @@ For the cut flows, I used the same workflow as in Section~\ref{sec:cutflowtables
   Event veto for photons & \phantom{1}71\phantom{.1}  \\
   Event veto for jets failing ID & \phantom{1}71\phantom{.1}  \\
    $\njet \geq 2$  & \phantom{1}55\phantom{.1}  \\
-   $0.1 <$ CHF$^{\mathrm{j_1}} < 0.95$ & \phantom{1}50\phantom{.1}  \\
+   $0.1 <$ CHF$^{\jone} < 0.95$ & \phantom{1}50\phantom{.1}  \\
    $\ptjone > 100\GeV$ & \phantom{1}41\phantom{.1} \\
    $\HT > 200\GeV$  & \phantom{1}37\phantom{.1} \\
   $\mht > 200\GeV$  & \phantom{1}26\phantom{.1}  \\
@@ -457,9 +457,9 @@ I had to give an approval talk for the model at a SUSY inclusive meeting. The sl
 
 At the approval talk, one of the suggestions was to instead analyse the chargino-mediated model (sometimes referred to as "T2bW" or "T2bW\_X05") rather than the prompt decay model. Finding the Higgs at 125 GeV gives this model a better chance of being found over the prompt decay. In this version, the stop decays into a chargino and \Pqb, with the chargino decaying into the LSP and \PW: $p \rightarrow \tilde{t} \bar{\tilde{t}}, \ \tilde{t} \rightarrow b\tilde{\chi}^{\pm}, \ \tilde{\chi}^{\pm} \rightarrow W^* \tilde{\chi}_1^0$.
 
-I used CMSSW\_8\_0\_25 with my fork of \emph{cmgtools-lite-private}, the CMGTools branch \emph{80X-ra1-0.7.x-Moriond17Prod-EshSUSYcutflow2016} and added the dataset \textbf{/SMS-T2bW\_X05\_dM-10to80\_genHT-160\_genMET-80\_mWMin-0p1\_TuneCUETP8M1\_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16Fast\_80X\_mcRun2\_asymptotic\_2016\_miniAODv2\_v0-v1/MINIAODSIM} to the components. I ran AtLogicNoSelection to make the flat trees, storing them at \textbf{/vols/cms/RA1/80X/MC/20180329\_S01/} on Imperial and analysed them in virtually the same fashion as the prompt model.
+I used CMSSW\_8\_0\_25 with my fork of \emph{cmgtools-lite-private}, the CMGTools branch \emph{80X-ra1-0.7.x-Moriond17Prod-EshSUSYcutflow2016} and added the dataset \textbf{/SMS-T2bW\_\-X05\_\-dM-10to80\_\-genHT-160\_\-genMET-80\_\-mWMin-0p1\_\-TuneCUETP8M1\_\-13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16Fast\_\-80X\_\-mcRun2\_\-asymptotic\_\-2016\_\-miniAODv2\_\-v0-v1/MINIAODSIM} to the components. I ran AtLogicNoSelection to make the flat trees, storing them at \textbf{/vols/cms/RA1/80X/MC/20180329\_\-S01/} on Imperial and analysed them in virtually the same fashion as the prompt model.
 
-When I split the trees, I had to rename the directories to "SMS-T2bW\_X05\_$<$blah$>$" and make sure the model name "T2bW\_X05" was uncommented in the various files in AlphaTools I needed to use. I then had to \emph{manually} make a sample file containing all the directory names because of how the splitting works and the troublesome underscore in the model name. I could import that file in the scripts \textbf{samples\_13TeV\_80X.py} (where I also had to add the line \texttt{sampleList80X.addSampleHandler("<collection name>")}) and \textbf{Analyzers/StatsInput/produceShellScript.py}. Then, I could add the name of the collection to \texttt{psetSignalModels2016.sampleSelection} in \textbf{Analyzers/NIsrAnalyzer/NIsrAnalyzer\_cfg.py} and run the script to get the ISR weights in a root file. I then had to change the signal model in \textbf{compileSignalNormPickle.py} and run that to get the pickle file. Once completed, I had to add the model and collection name to \texttt{sampleListDict} in \textbf{produceShellScript.py} and could then run the StatsAnalyzer steps as normal. The subsequent AlphaStats steps were also the same, bearing in mind the model name.
+When I split the trees, I had to rename the directories to "SMS-T2bW\_\-X05\_\-$<$blah$>$" and make sure the model name "T2bW\_\-X05" was uncommented in the various files in AlphaTools I needed to use. I then had to \emph{manually} make a sample file containing all the directory names because of how the splitting works and the troublesome underscore in the model name. I could import that file in the scripts \textbf{samples\_\-13TeV\_\-80X.py} (where I also had to add the line \texttt{sampleList80X.addSampleHandler("<collection name>")}) and \textbf{Analyzers/StatsInput/produceShellScript.py}. Then, I could add the name of the collection to \texttt{psetSignalModels2016.sampleSelection} in \textbf{Analyzers/NIsrAnalyzer/NIsrAnalyzer\_cfg.py} and run the script to get the ISR weights in a root file. I then had to change the signal model in \textbf{compileSignalNormPickle.py} and run that to get the pickle file. Once completed, I had to add the model and collection name to \texttt{sampleListDict} in \textbf{produceShellScript.py} and could then run the StatsAnalyzer steps as normal. The subsequent AlphaStats steps were also the same, bearing in mind the model name.
 
 The plots and tables for the analysis are below.
 
@@ -485,7 +485,7 @@ We chose a benchmark model at (500, 460). Usually, when choosing benchmark point
     \small
     \begin{tabular}{ ccccccccccccc }
         \hline \hline
-        Model & ($m_{\mathrm{Susy}},m_{\mathrm{LSP}}$) & Luminosity & ISR & JEC & PU & b-tag & Mistag & b-tag & c-tag & light-tag & Trigger & MC stat. \\
+        Model & ($\mSusy,\mLSP$) & Luminosity & ISR & JEC & PU & b-tag & Mistag & b-tag & c-tag & light-tag & Trigger & MC stat. \\
         & & & & & & (Fullsim) & (Fullsim) & (Fastsim) & (Fastsim) & (Fastsim) & & \\ \hline
         T2bW\_X05 & (500, 460) & 2.6\% & 4-22\% & 4-13\% & 8-12\% & 2-4\% & 1-2\% & 2-5\% & 3-7\% & 1-8\% & 2-2\% & 7-21\% \\
         \hline \hline
@@ -504,7 +504,7 @@ We chose a benchmark model at (500, 460). Usually, when choosing benchmark point
                                             & \multicolumn{2}{c}{Simplified}             \\ [0.3ex]
     \cline{3-4}
     \cline{6-7}
-    \multicolumn{2}{c}{$(m_{\text{SUSY}}, m_{\mathrm{LSP}})$ [GeV]}
+    \multicolumn{2}{c}{$(m_{\text{SUSY}}, \mLSP)$ [GeV]}
                                             & $\mu_{\text{exp}}$
                                             & $\mu_{\text{obs}}$
                                             &
@@ -540,7 +540,7 @@ We chose a benchmark model at (500, 460). Usually, when choosing benchmark point
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=120mm]{figures/T2bW/SMS-T2bW_X05_mStop-500_mLSP-460_25ns_limits_nj_nb_ht.pdf}
-\caption{95\% CL upper limits on $\sigma / \sigma_{\mathrm{theory}}$ for the (500, 460) T2bW\_X05 benchmark model are shown for four different bin combinations: no bins, \HT-only, ($n_{\mathrm{b}}$, \HT) and all bins overlaid in ascending order. The expected limit, along with the $\pm 1 \sigma$ and $\pm 2 \sigma$ bands, and the observed limit are displayed for each bin.}
+\caption{95\% CL upper limits on $\sigma / \sigma_{\mathrm{theory}}$ for the (500, 460) T2bW\_X05 benchmark model are shown for four different bin combinations: no bins, \HT-only, ($\nbjet$, \HT) and all bins overlaid in ascending order. The expected limit, along with the $\pm 1 \sigma$ and $\pm 2 \sigma$ bands, and the observed limit are displayed for each bin.}
 \end{figure}
 
 

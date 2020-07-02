@@ -15,22 +15,22 @@ root -l -b -q doMETStudy.cxx
 
 I initially ran on Soolin as that's where the JEC code was. But if I moved the macro to lxplus and set up the environment, I could use the fact that the ntuples were stored locally on AFS to access and run over them much quicker (hence the local file paths in the macro). I also realised I could fill histograms with a weight, rather than just incrementing a bin by 1:
 
-\fcolorbox{red}{pink}{\begin{minipage}{\textwidth}
-Using \texttt{h->Fill(quantity, weight)}, I can fill histograms instead of making arrays of different quantities and populating a TGraph. For example, if I wanted to plot the HCAL TP $E_{\mathrm{T}}$ against iPhi, I could do \texttt{h->Fill(hcaliPhi, hcalTPET)} to increment the iPhi bin by the TP $E_{\mathrm{T}}$.
+\fcolorbox{red}{pink}{\begin{minipage}{0.9\textwidth}
+Using \texttt{h->Fill(quantity, weight)}, I can fill histograms instead of making arrays of different quantities and populating a TGraph. For example, if I wanted to plot the HCAL TP $\ET$ against iPhi, I could do \texttt{h->Fill(hcaliPhi, hcalTPET)} to increment the iPhi bin by the TP $\ET$.
 \end{minipage}}
 
-I made various plots of TP $E_{\mathrm{T}}$ against iEta and iPhi for the ECAL, HCAL, towers (sum) and trigger tower (TT) 28. I've made similar plots with $E_{\mathrm{T}}^{\mathrm{T}}$ and \etmiss, as well as plots for individual events to see if the \etmiss came from large spikes or broad PU jets. I included some plots of the "average" TP $E_{\mathrm{T}}$ as well: the total $E_{\mathrm{T}}$ in an iEta/iPhi bin divided by its occupancy, as well as the total $E_{\mathrm{T}}$ divided by the number of events. These could help identify hot towers, inhomogeneous responses or calibrations, etc. Some of the plots are below, the rest are located in \textbf{modules/Sec 34 - Service Work - ETmiss studies/figures/}.
+I made various plots of TP $\ET$ against iEta and iPhi for the ECAL, HCAL, towers (sum) and trigger tower (TT) 28. I've made similar plots with $\ET^{\mathrm{T}}$ and \etmiss, as well as plots for individual events to see if the \etmiss came from large spikes or broad PU jets. I included some plots of the "average" TP $\ET$ as well: the total $\ET$ in an iEta/iPhi bin divided by its occupancy, as well as the total $\ET$ divided by the number of events. These could help identify hot towers, inhomogeneous responses or calibrations, etc. Some of the plots are below, the rest are located in \textbf{modules/Sec 34 - Service Work - ETmiss studies/figures/}.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=110mm]{figures/MET_studies_v6/Plots/ECAL/ECALTPETEta.pdf}
-\caption{The average TP $E_{\mathrm{T}}$ (total TP $E_{\mathrm{T}}$ in a bin divided by its occupancy) against iEta in the ECAL.}
+\caption{The average TP $\ET$ (total TP $\ET$ in a bin divided by its occupancy) against iEta in the ECAL.}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=110mm]{figures/MET_studies_v6/Plots/HCAL/HCALavgTPETEtaPhi.pdf}
-\caption{The average TP $E_{\mathrm{T}}$ against iEta and iPhi in the HCAL.}
+\caption{The average TP $\ET$ against iEta and iPhi in the HCAL.}
 \end{figure}
 
 \begin{figure}[htbp]
@@ -39,7 +39,7 @@ I made various plots of TP $E_{\mathrm{T}}$ against iEta and iPhi for the ECAL, 
 \caption{The \etmiss scalar in the HCAL vs the tower (sum).}
 \end{figure}
 
-Some of the plots have been shown in TPG meetings, one of which is here: \url{https://indico.cern.ch/event/698504/contributions/2864568/attachments/1587832/2511546/2018_01_23_L1T_MET_TPs_Esh.pdf}.
+Some of the plots have been shown in TPG meetings, one of which is here: \sloppy\url{https://indico.cern.ch/event/698504/contributions/2864568/attachments/1587832/2511546/2018_01_23_L1T_MET_TPs_Esh.pdf}.
 
 
 
