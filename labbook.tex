@@ -1,3 +1,5 @@
+% !TeX TS-program = latexmk
+% !TeX options = -synctex=1 -interaction=nonstopmode -pdf %DOCFILE%
 % ----------------------------------------
 \RequirePackage[l2tabu]{nag}        % Warns for incorrect (obsolete) LaTeX usage
 % ----------------------------------------
@@ -124,7 +126,7 @@
 
 % ----------------------------------------
 % Add other packages needed for chapters here. For example:
-\usepackage{ptdr-definitions} % CMS definitions and styles. Needs to come first so definitions from other packages don't cause conflicts
+\usepackage{ptdr-definitions}           % CMS definitions and styles. Needs to come first so definitions from other packages don't cause conflicts
 
 \usepackage{mathtools}                  % Loads the "amsmath" package, and contains other mathematical symbols and environments
 \usepackage{amssymb}                    % Loads the "amsfonts" package for proper rendering of math, and contains additional math symbols
@@ -152,13 +154,13 @@
 \usepackage{booktabs}                   % for table formatting macros. Other good formatting tips in the package manual
 
 \usepackage{texnames}
-\usepackage{spverbatim} % for linebreaks in the verbatim environment
-\usepackage[normalem]{ulem} % for underlining over multiple lines. Need "normalem" option otherwise \emph underlines
-\usepackage{pdflscape} % for landscape-oriented tables
+\usepackage{spverbatim}                 % for line breaks in the verbatim environment
+\usepackage[normalem]{ulem}             % for underlining over multiple lines. Need "normalem" option otherwise \emph underlines
+\usepackage{pdflscape}                  % for landscape-oriented tables
 
-\usepackage{array} % for more flexibility with tables
+\usepackage{array}                      % for more flexibility with tables
 \newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}} % for text in table cells to be centred
-\renewcommand{\arraystretch}{1.2} % increase vertical space between rows in a table
+\renewcommand{\arraystretch}{1.2}       % increase vertical space between rows in a table
 
 \usepackage[
     backend=biber,
