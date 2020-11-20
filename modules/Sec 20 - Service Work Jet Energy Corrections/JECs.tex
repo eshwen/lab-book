@@ -139,6 +139,12 @@ and make sure that L76 in \textbf{L1Trigger/L1TCalorimeter/python/caloStage2Para
 16DR80-FlatPU20to70HcalNZSRAW\_withHLT\_80X\_mcRun2\_asymptotic\_v14-v1/GEN-SIM-RAW
 \end{easylist}
 
+If I ever need to move my CMSSW directory somewhere else (e.g, if my \textbf{/users} area becomes full), I can do so like I move any other file/directory. But I then need to recompile the code so symlinks and such can be updated. Go to \textbf{\$CMSSW\_BASE/src/} and do
+
+\begin{lstlisting}[belowskip=-0.7cm, language=sh, numbers=none]
+scramv1 b ProjectRename
+scram b -j 8
+\end{lstlisting}
 
 \section{Useful commands for hdfs}
 
